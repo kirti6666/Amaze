@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Defaults mirror DEFAULT_SETTINGS.theme so the site renders correctly on the
+   very first paint, before the admin-configured values are injected by
+   app/layout.tsx. Never hardcode these hexes anywhere else — read the token. */
+:root {
+  --background: #0a0a0b;
+  --surface: #141416;
+  --foreground: #fafaf8;
+  --muted: #8a8a92;
+  --border: #26262a;
+  --primary: #d91f2a;
+  --primary-foreground: #ffffff;
+  --accent: #d91f2a;
+
+  /* Status colours, tuned for a dark canvas: a bright foreground paired with a
+     low-alpha wash of itself, so badges read clearly without light-on-light. */
+  --success: #34d399;
+  --success-bg: rgba(52, 211, 153, 0.12);
+  --warning: #fbbf24;
+  --warning-bg: rgba(251, 191, 36, 0.12);
+  --danger: #f87171;
+  --danger-bg: rgba(248, 113, 113, 0.12);
+  --info: #60a5fa;
+  --info-bg: rgba(96, 165, 250, 0.12);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-feature-settings: "cv02", "cv03", "cv04";
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Form controls read the theme tokens rather than browser defaults, which
+   would otherwise render white-on-white inputs against the dark storefront.
+   Because the admin shell resets these variables to a light palette, the same
+   rules keep admin inputs looking exactly as they did. */
+input:not([type="checkbox"]):not([type="radio"]):not([type="color"]),
+select,
+textarea {
+  background-color: var(--surface);
+  color: var(--foreground);
+  border-color: var(--border);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+
+select option {
+  background-color: var(--surface);
+  color: var(--foreground);
+}
+
+/* Dose figures, batch numbers, SKUs — anything that should read as measured
+   data rather than prose. This is the brand's signature type treatment. */
+.dose {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* Announcement marquee. The track is duplicated in the component, so sliding
+   the pair by exactly -50% lands the second copy where the first began and the
+   loop reads as continuous. Duration scales with content via --marquee-duration
+   so longer text doesn't race past. */
+.marquee {
+  --marquee-duration: 26s;
+}
+.marquee-track {
+  animation: marquee-scroll var(--marquee-duration) linear infinite;
+  will-change: transform;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+  .marquee {
+    justify-content: center;
+  }
+  .marquee > [aria-hidden="true"] {
+    display: none;
+  }
+}
+
+/* Horizontal product rails: snap to card edges, hide the scrollbar chrome
+   but keep the scroller fully keyboard- and touch-accessible. */
+.rail {
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior-x: contain;
+}
+.rail::-webkit-scrollbar {
+  display: none;
+}
+.rail > * {
+  scroll-snap-align: start;
+}
+
+/* Visible keyboard focus everywhere, matched to the accent. */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

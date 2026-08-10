@@ -1,0 +1,47 @@
+{
+  "name": "ecommerce-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "seed": "tsx scripts/seed.ts",
+    "seed:reviews": "tsx scripts/seed-reviews.ts"
+  },
+  "dependencies": {
+    "next": "14.2.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "mongoose": "^8.5.1",
+    "next-auth": "^4.24.7",
+    "bcryptjs": "^2.4.3",
+    "jose": "^5.6.3",
+    "zod": "^3.23.8",
+    "zustand": "^4.5.4",
+    "cloudinary": "^2.3.0",
+    "razorpay": "^2.9.4",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.4.0",
+    "lucide-react": "^0.417.0",
+    "class-variance-authority": "^0.7.0",
+    "nodemailer": "^7.0.7"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4",
+    "@types/node": "^20.14.13",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/nodemailer": "^6.4.17",
+    "tailwindcss": "^3.4.7",
+    "postcss": "^8.4.40",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "14.2.5",
+    "tsx": "^4.16.3",
+    "dotenv": "^16.4.5"
+  }
+}

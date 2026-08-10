@@ -1,0 +1,67 @@
+DEPLOYING TO VERCEL
+================================================================
+
+.env.local is NOT read by Vercel — it's gitignored and local-only.
+Every variable must be added in the Vercel dashboard:
+Settings -> Environment Variables.
+
+----------------------------------------------------------------
+REQUIRED — the build FAILS without these
+----------------------------------------------------------------
+  MONGODB_URI            lib/db.ts throws at module load
+  JWT_ACCESS_SECRET      lib/auth.ts + lib/guestSession.ts throw
+  JWT_REFRESH_SECRET     lib/auth.ts throws
+  NEXTAUTH_SECRET
+  NEXTAUTH_URL           <- your Vercel URL, NOT localhost:3000
+                            (leaving this as localhost breaks login)
+
+----------------------------------------------------------------
+REQUIRED for checkout to work at all
+----------------------------------------------------------------
+  EMAIL_SERVER_HOST      smtp.gmail.com
+  EMAIL_SERVER_PORT      587
+  EMAIL_SERVER_USER      your gmail address
+  EMAIL_SERVER_PASSWORD  16-char app password (NOT your login password)
+  EMAIL_FROM             Tiger <youraddress@gmail.com>
+  OTP_CHANNEL            email
+
+  Without SMTP no guest can verify, so no one can check out.
+
+----------------------------------------------------------------
+OPTIONAL — build succeeds without them
+----------------------------------------------------------------
+  RAZORPAY_KEY_ID              \
+  RAZORPAY_KEY_SECRET           > no payment until these exist
+  NEXT_PUBLIC_RAZORPAY_KEY_ID  /
+  CLOUDINARY_CLOUD_NAME / API_KEY / API_SECRET   (image uploads)
+
+  Razorpay is initialised lazily on purpose, so missing keys do NOT
+  break the build. Checkout simply stops at "Online payment is
+  unavailable" until the keys are added.
+
+----------------------------------------------------------------
+ALSO DO THIS
+----------------------------------------------------------------
+  1. Atlas -> Network Access -> allow 0.0.0.0/0
+     Vercel function IPs are not fixed.
+
+  2. Rotate the MongoDB password and Cloudinary secret — they were
+     shared in a chat and should be treated as compromised.
+
+  3. Razorpay webhook (once keys exist):
+     Razorpay Dashboard -> Webhooks ->
+     https://YOURDOMAIN.vercel.app/api/payments/razorpay/webhook
+     This saves the order if the customer's browser dies after paying.
+
+  4. Clear the sample reviews before real customers arrive:
+     npm run seed:reviews -- --purge
+
+----------------------------------------------------------------
+WHAT THE DEPLOYED SITE WILL DO TODAY
+----------------------------------------------------------------
+  Works:      browsing, cart, wishlist, email OTP, address entry,
+              admin panel, invoices
+  Stops at:   payment — "Online payment is unavailable"
+
+  That is expected until Razorpay KYC clears. Nothing else is
+  blocking you.

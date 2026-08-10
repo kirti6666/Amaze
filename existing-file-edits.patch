@@ -1,0 +1,134 @@
+diff --git a/app/(storefront)/account/orders/[id]/page.tsx b/app/(storefront)/account/orders/[id]/page.tsx
+index 8ae4922..1763a28 100644
+--- a/app/(storefront)/account/orders/[id]/page.tsx
++++ b/app/(storefront)/account/orders/[id]/page.tsx
+@@ -1,5 +1,6 @@
+ import { notFound, redirect } from "next/navigation";
+ import Link from "next/link";
++import { Download } from "lucide-react";
+ import { connectDB } from "@/lib/db";
+ import { Order } from "@/models";
+ import { getServerUser } from "@/lib/middleware/getServerUser";
+@@ -27,8 +28,20 @@ export default async function OrderDetailPage({ params }: { params: { id: string
+         ← Back to orders
+       </Link>
+ 
+-      <h1 className="text-2xl font-bold mt-4 mb-1">Order Details</h1>
+-      <p className="text-gray-400 text-sm mb-6 font-mono">#{String(o._id)}</p>
++      <div className="flex flex-wrap items-start justify-between gap-3 mt-4 mb-6">
++        <div>
++          <h1 className="text-2xl font-bold mb-1">Order Details</h1>
++          <p className="text-gray-400 text-sm font-mono">#{String(o._id)}</p>
++        </div>
++        {/* Issues the tax invoice on first open, then always serves the same
++            numbered document. Opens in a new tab so the order page is kept. */}
++        <a
++          href={`/api/invoices/${String(o._id)}?download=1`}
++          className="inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm hover:bg-gray-50"
++        >
++          <Download size={15} /> Download Invoice
++        </a>
++      </div>
+ 
+       {isCancelled ? (
+         <div className="bg-red-50 text-red-700 rounded-md p-3 text-sm mb-6">
+diff --git a/app/admin/layout.tsx b/app/admin/layout.tsx
+index 8dd99cc..f864146 100644
+--- a/app/admin/layout.tsx
++++ b/app/admin/layout.tsx
+@@ -36,6 +36,9 @@ export default async function AdminLayout({
+             <a href="/admin/orders" className="block px-4 py-2 bg-[#111827] hover:bg-[#1F2937] text-white rounded-xl">
+               Orders
+             </a>
++            <a href="/admin/invoices" className="block px-4 py-2 bg-[#111827] hover:bg-[#1F2937] text-white rounded-xl">
++              Invoicing
++            </a>
+             <a href="/admin/analytics" className="block px-4 py-2 bg-[#111827] hover:bg-[#1F2937] text-white rounded-xl">
+               Analytics
+             </a>
+diff --git a/app/admin/orders/page.tsx b/app/admin/orders/page.tsx
+index 705b0d8..b523060 100644
+--- a/app/admin/orders/page.tsx
++++ b/app/admin/orders/page.tsx
+@@ -108,6 +108,14 @@ export default function AdminOrdersPage() {
+                   <p className="text-gray-400 text-xs">
+                     {order.paymentMethod === "razorpay" ? "Razorpay" : "COD"}
+                   </p>
++                  <a
++                    href={`/api/invoices/${order._id}`}
++                    target="_blank"
++                    rel="noreferrer"
++                    className="text-xs text-primary underline mt-1 inline-block"
++                  >
++                    Invoice
++                  </a>
+                 </div>
+               </div>
+ 
+diff --git a/app/admin/page.tsx b/app/admin/page.tsx
+index da06f70..f04275a 100644
+--- a/app/admin/page.tsx
++++ b/app/admin/page.tsx
+@@ -13,6 +13,7 @@ import {
+   ArrowRight,
+   Wallet,
+   Ticket,
++  FileText,
+ } from "lucide-react";
+ import { getServerUser } from "@/lib/middleware/getServerUser";
+ import { connectDB } from "@/lib/db";
+@@ -139,6 +140,7 @@ export default async function AdminDashboard() {
+     { href: "/admin/categories", label: "Categories", icon: <FolderTree size={18} /> },
+     { href: "/admin/coupons", label: "Coupons", icon: <Ticket size={18} /> },
+     { href: "/admin/orders", label: "Orders", icon: <ShoppingBag size={18} /> },
++    { href: "/admin/invoices", label: "Invoicing", icon: <FileText size={18} /> },
+     { href: "/admin/reviews", label: "Reviews", icon: <Star size={18} /> },
+     { href: "/admin/analytics", label: "Analytics", icon: <BarChart3 size={18} /> },
+     { href: "/admin/activity-log", label: "Activity Log", icon: <ScrollText size={18} /> },
+diff --git a/app/api/orders/route.ts b/app/api/orders/route.ts
+index f0acc55..a71ffe5 100644
+--- a/app/api/orders/route.ts
++++ b/app/api/orders/route.ts
+@@ -4,6 +4,7 @@ import { Order, Product, Address, Coupon } from "@/models";
+ import { requireAuth } from "@/lib/middleware/requireAuth";
+ import { SHIPPING_FEE, FREE_SHIPPING_THRESHOLD } from "@/lib/constants";
+ import { sendEmail } from "@/lib/email";
++import { sendOrderEmailWithInvoice } from "@/lib/invoice/email";
+ import { orderConfirmationEmail } from "@/lib/emailTemplates";
+ 
+ interface CheckoutItemInput {
+@@ -214,7 +215,11 @@ export async function POST(req: NextRequest) {
+     // Awaited so the send completes before this serverless function returns —
+     // an un-awaited send can be dropped when the lambda freezes. sendEmail
+     // catches its own errors, so a mail failure still never fails the order.
+-    await sendEmail({
++    // Sends the confirmation with the tax invoice PDF attached (and issues the
++    // invoice number in the process). Falls back to a plain email if invoicing
++    // is disabled or the PDF can't be built.
++    await sendOrderEmailWithInvoice({
++      orderId: order._id.toString(),
+       to: user.email,
+       subject: `Order Confirmed — #${order._id.toString().slice(-8)}`,
+       html: orderConfirmationEmail(order),
+diff --git a/lib/confirmRazorpayPayment.ts b/lib/confirmRazorpayPayment.ts
+index 96080f0..4443e17 100644
+--- a/lib/confirmRazorpayPayment.ts
++++ b/lib/confirmRazorpayPayment.ts
+@@ -1,6 +1,7 @@
+ import { connectDB } from "@/lib/db";
+ import { Order, Product, Coupon, User } from "@/models";
+ import { sendEmail } from "@/lib/email";
++import { sendOrderEmailWithInvoice } from "@/lib/invoice/email";
+ import { orderConfirmationEmail } from "@/lib/emailTemplates";
+ 
+ /**
+@@ -64,7 +65,8 @@ export async function confirmRazorpayPayment(orderId: string, razorpayPaymentId:
+   try {
+     const customer = await User.findById(order.user);
+     if (customer?.email) {
+-      await sendEmail({
++      await sendOrderEmailWithInvoice({
++        orderId: order._id.toString(),
+         to: customer.email,
+         subject: `Order Confirmed — #${order._id.toString().slice(-8)}`,
+         html: orderConfirmationEmail(order as any),
