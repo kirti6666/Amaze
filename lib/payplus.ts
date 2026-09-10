@@ -1,6 +1,12 @@
 import crypto from "node:crypto";
 
 const BASE_URL = "https://payplus.live";
+export class PayplusGatewayError extends Error {
+  constructor(public code: string, public publicMessage: string, public status: number) {
+    super(code);
+    this.name = "PayplusGatewayError";
+  }
+}
 export function isPayplusConfigured() {
   return Boolean(process.env.PAYPLUS_API_KEY?.trim());
 }
@@ -23,9 +29,21 @@ export async function payplusRequest(endpoint: "create" | "status", body: Record
     cache: "no-store",
     signal: AbortSignal.timeout(20000),
   });
-  const result = await response.json();
+  let result;
+  try { result = await response.json(); } catch {
+    throw new PayplusGatewayError("INVALID_RESPONSE", "The payment provider is temporarily unavailable. Please try again shortly.", 502);
+  }
   if (!response.ok || result.success !== true || !result.data) {
-    throw new Error("PayPlus request failed");
+    // Map known provider failures to safe messages. Never expose raw provider
+    // responses, which may contain account details, to the customer's browser.
+    const reason = typeof result.message === "string" ? result.message : "";
+    if (response.status === 422 && /amount outside merchant pay-in limits/i.test(reason)) {
+      throw new PayplusGatewayError("AMOUNT_OUTSIDE_LIMITS", "This order amount is outside the payment limits set by PayPlus for this store. Please contact the store to confirm the allowed amount.", 422);
+    }
+    if (response.status === 401 || response.status === 403) {
+      throw new PayplusGatewayError("GATEWAY_ACCESS_DENIED", "The store's payment provider is not available. Please contact the store.", 503);
+    }
+    throw new PayplusGatewayError("GATEWAY_REQUEST_FAILED", "The payment provider could not start this payment. Please try again shortly.", 502);
   }
   return result.data;
 }

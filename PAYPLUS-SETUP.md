@@ -47,6 +47,13 @@ Open http://localhost:3000. Production MongoDB must support transactions (MongoD
 
 ## Validation
 
+The merchant's PayPlus pay-in limits also apply to test purchases made with live
+keys. A ₹1 order was rejected with `Amount outside merchant pay-in limits`.
+Confirm the minimum allowed amount with PayPlus or ask PayPlus to enable ₹1
+payments for your merchant account; changing the product price cannot override
+gateway limits. Checkout now displays this specific failure instead of a generic
+payment-start error.
+
 With the preview database running:
 
 ```sh

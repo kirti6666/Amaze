@@ -1,7 +1,23 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
-import { verifyPayplusSignature, validPayplusUrl, matchesPayplusPayment } from "../lib/payplus";
+import { verifyPayplusSignature, validPayplusUrl, matchesPayplusPayment, payplusRequest, PayplusGatewayError } from "../lib/payplus";
+
+test("PayPlus amount limits and credential failures produce safe, specific errors", async () => {
+  const originalFetch = globalThis.fetch;
+  const originalKey = process.env.PAYPLUS_API_KEY;
+  process.env.PAYPLUS_API_KEY = "test-only-key";
+  try {
+    globalThis.fetch = (async () => new Response(JSON.stringify({ success: false, message: "Amount outside merchant pay-in limits" }), { status: 422 })) as typeof fetch;
+    await assert.rejects(payplusRequest("create", { amount: 1, merchantOrderId: "test" }), (error: unknown) => error instanceof PayplusGatewayError && error.code === "AMOUNT_OUTSIDE_LIMITS" && error.status === 422 && /payment limits/.test(error.publicMessage));
+    globalThis.fetch = (async () => new Response(JSON.stringify({ success: false, message: "Private account details" }), { status: 401 })) as typeof fetch;
+    await assert.rejects(payplusRequest("create", { amount: 1, merchantOrderId: "test" }), (error: unknown) => error instanceof PayplusGatewayError && error.code === "GATEWAY_ACCESS_DENIED" && !error.publicMessage.includes("Private account"));
+  } finally {
+    globalThis.fetch = originalFetch;
+    if (originalKey === undefined) delete process.env.PAYPLUS_API_KEY;
+    else process.env.PAYPLUS_API_KEY = originalKey;
+  }
+});
 
 test("webhooks require an exact valid HMAC of the original bytes", () => {
   const body = '{"event":"payin.success"}';

@@ -4,7 +4,7 @@ import { connectDB } from "@/lib/db";
 import { Order, Product, Coupon } from "@/models";
 import { resolveCheckoutIdentity, resolveShippingAddress, orderOwnerFields } from "@/lib/checkoutIdentity";
 import { getSiteSettings } from "@/lib/site-settings";
-import { isPayplusConfigured, payplusRequest, validPayplusUrl } from "@/lib/payplus";
+import { isPayplusConfigured, payplusRequest, validPayplusUrl, PayplusGatewayError } from "@/lib/payplus";
 
 const cartSchema = z.object({
   items: z.array(z.object({
@@ -87,6 +87,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ orderId: String(order._id) });
   } catch (error) {
     console.error("PayPlus create-order failed:", error instanceof Error ? error.message : "Unknown error");
+    if (error instanceof PayplusGatewayError) {
+      return NextResponse.json({ error: error.publicMessage, code: error.code }, { status: error.status });
+    }
     return NextResponse.json({ error: "Unable to start payment. Please try again shortly." }, { status: 502 });
   }
 }
