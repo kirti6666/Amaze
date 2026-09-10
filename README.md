@@ -1,5 +1,9 @@
 # E-Commerce App — Development Log
 
+## PayPlus checkout and local preview
+
+The active checkout now uses PayPlus. See [PAYPLUS-SETUP.md](PAYPLUS-SETUP.md) for credentials, webhook configuration, payment tests, and the Docker-free local preview. The phase notes below describe the earlier Razorpay implementation and remain as development history.
+
 Built from `BLUEPRINT.md` phase by phase: Next.js (App Router) + TypeScript + Tailwind + MongoDB + Cloudinary + Razorpay. No separate Node/Express server — API routes live in `app/api/**` and act as the backend.
 
 ## Setup (run these on your own machine)

@@ -4,6 +4,7 @@ import { SiteSettings } from "@/models";
 import { settingsSchema } from "@/lib/validations/settings";
 import { requireAdmin } from "@/lib/middleware/requireAdmin";
 import { logAdminAction, getClientIp } from "@/lib/middleware/logAdminAction";
+import { isPayplusConfigured } from "@/lib/payplus";
 import { getSiteSettings } from "@/lib/site-settings";
 
 /**
@@ -23,7 +24,7 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   try {
     const settings = await getSiteSettings();
-    return NextResponse.json({ settings });
+    return NextResponse.json({ settings, payments: { payplusAvailable: settings.commerce.payplusEnabled && settings.commerce.currencyCode === "INR" && isPayplusConfigured() } });
   } catch (err) {
     console.error("Get settings error:", err);
     return NextResponse.json({ error: "Something went wrong" }, { status: 500 });

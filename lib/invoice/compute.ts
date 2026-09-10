@@ -384,11 +384,11 @@ export function computeInvoiceSnapshot(
       id: String(order._id),
       shortId: String(order._id).slice(-8).toUpperCase(),
       placedAt: new Date(order.createdAt ?? Date.now()).toISOString(),
-      paymentMethod: order.paymentMethod === "razorpay" ? "Prepaid (Razorpay)" : "Cash on Delivery",
+      paymentMethod: order.paymentMethod === "payplus" ? "Prepaid (PayPlus)" : order.paymentMethod === "razorpay" ? "Prepaid (Razorpay)" : "Cash on Delivery",
       paymentStatus: String(order.paymentStatus ?? ""),
       orderStatus: String(order.orderStatus ?? ""),
       couponCode: String(order.couponCode ?? ""),
-      razorpayPaymentId: String(order.razorpayPaymentId ?? ""),
+      razorpayPaymentId: String(order.payplusReference ?? order.razorpayPaymentId ?? ""),
     },
 
     placeOfSupply: addr.state ? `${addr.state}${buyerStateCode ? ` (${buyerStateCode})` : ""}` : "",

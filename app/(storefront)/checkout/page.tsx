@@ -24,41 +24,16 @@ interface Address {
   isDefault: boolean;
 }
 
-declare global {
-  interface Window {
-    Razorpay: any;
-  }
-}
-
-function loadRazorpayScript(): Promise<boolean> {
-  return new Promise((resolve) => {
-    if (document.getElementById("razorpay-checkout-js")) {
-      resolve(true);
-      return;
-    }
-    const script = document.createElement("script");
-    script.id = "razorpay-checkout-js";
-    script.src = "https://checkout.razorpay.com/v1/checkout.js";
-    script.onload = () => resolve(true);
-    script.onerror = () => resolve(false);
-    document.body.appendChild(script);
-  });
-}
-
 export default function CheckoutPage() {
   const router = useRouter();
   const items = useCartStore((s) => s.items);
-  const clearCart = useCartStore((s) => s.clearCart);
 
   const [mounted, setMounted] = useState(false);
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [selectedAddressId, setSelectedAddressId] = useState("");
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [addressLoading, setAddressLoading] = useState(true);
-  // COD has been removed — the store is prepaid only, so there is no payment
-  // method to choose between. Kept as a constant rather than deleted so the
-  // create-order payload and the summary copy still read explicitly.
-  const paymentMethod = "razorpay" as const;
+
 
   // Guest checkout. `isGuest` is decided by whether /api/addresses answers 401:
   // an account holder keeps the saved-address picker, everyone else verifies a
@@ -72,10 +47,10 @@ export default function CheckoutPage() {
   // methods are enabled). Falls back to sensible defaults until it loads.
   const [commerce, setCommerce] = useState({
     currencySymbol: "₹",
-    shippingFee: 49,
-    freeShippingThreshold: 999,
+    shippingFee: 0,
+    freeShippingThreshold: 0,
     codEnabled: true,
-    razorpayEnabled: true,
+    payplusEnabled: false,
   });
 
   const [couponInput, setCouponInput] = useState("");
@@ -117,7 +92,7 @@ export default function CheckoutPage() {
       .then((d) => {
         if (d.settings?.commerce) {
           const c = d.settings.commerce;
-          setCommerce(c);
+          setCommerce({ ...c, payplusEnabled: Boolean(d.payments?.payplusAvailable) });
         }
       })
       .catch(() => { });
@@ -168,6 +143,7 @@ export default function CheckoutPage() {
   }
 
   async function handlePlaceOrder() {
+    if (placing || !commerce.payplusEnabled) return;
     setOrderError("");
 
     if (isGuest) {
@@ -190,97 +166,21 @@ export default function CheckoutPage() {
       variant: i.variant,
     }));
 
-    // Razorpay flow
     setPlacing(true);
     try {
-      const scriptLoaded = await loadRazorpayScript();
-      if (!scriptLoaded) {
-        setOrderError("Failed to load the payment gateway. Please check your connection.");
-        setPlacing(false);
-        return;
-      }
-
-      const createRes = await fetch("/api/payments/razorpay/create-order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          items: checkoutItems,
-          // Account holders send a saved address id; guests send the fields
-          // themselves. The server accepts exactly one of the two.
-          ...(isGuest
-            ? { shippingAddress: guestAddress, contact: guestContact }
-            : { addressId: selectedAddressId }),
+      const res = await fetch('/api/payments/payplus/create-order', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: checkoutItems,
+          ...(isGuest ? { shippingAddress: guestAddress, contact: guestContact } : { addressId: selectedAddressId }),
           couponCode: couponCode ?? undefined,
         }),
       });
-      const createData = await createRes.json();
-
-      if (!createRes.ok) {
-        setOrderError(createData.error || "Failed to start payment");
-        setPlacing(false);
-        return;
-      }
-
-      const options = {
-        key: createData.keyId,
-        amount: createData.amount,
-        currency: createData.currency,
-        name: "Store",
-        description: "Order Payment",
-        order_id: createData.razorpayOrderId,
-        prefill: createData.prefill,
-        theme: { color: "#111827" },
-        handler: async function (response: {
-          razorpay_order_id: string;
-          razorpay_payment_id: string;
-          razorpay_signature: string;
-        }) {
-          try {
-            const verifyRes = await fetch("/api/payments/razorpay/verify", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                orderId: createData.orderId,
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-              }),
-            });
-            const verifyData = await verifyRes.json();
-
-            if (!verifyRes.ok) {
-              setOrderError(
-                verifyData.error ||
-                "Payment verification failed. If money was deducted, please contact support."
-              );
-              setPlacing(false);
-              return;
-            }
-
-            clearCart();
-            router.push(`/order-success/${createData.orderId}`);
-          } catch {
-            setOrderError(
-              "Payment verification failed. If money was deducted, please contact support."
-            );
-            setPlacing(false);
-          }
-        },
-        modal: {
-          ondismiss: function () {
-            setPlacing(false);
-          },
-        },
-      };
-
-      const rzp = new window.Razorpay(options);
-      rzp.on("payment.failed", function () {
-        setOrderError("Payment failed. Please try again.");
-        setPlacing(false);
-      });
-      rzp.open();
-    } catch {
-      setOrderError("Something went wrong. Please try again.");
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Unable to start payment.');
+      try { sessionStorage.setItem(`payplus-cart:${data.orderId}`, JSON.stringify(items)); } catch { /* Checkout still works when browser storage is disabled. */ }
+      router.push('/payment/' + data.orderId);
+    } catch (error) {
+      setOrderError(error instanceof Error ? error.message : 'Unable to start payment.');
       setPlacing(false);
     }
   }
@@ -375,11 +275,11 @@ export default function CheckoutPage() {
           {/* Prepaid only — COD was removed, so there's nothing to choose.
               Showing a single locked radio would imply a choice that isn't
               there; this states the method and the methods inside it. */}
-          {commerce.razorpayEnabled ? (
+          {commerce.payplusEnabled ? (
             <div className="rounded-md border border-hairline p-4 text-sm">
               <p className="font-medium">Pay securely online</p>
               <p className="mt-1 text-muted">
-                UPI, cards, netbanking and wallets — via Razorpay. Your order is
+                Complete payment on PayPlus’s secure payment page. Your order is
                 confirmed the moment payment succeeds.
               </p>
             </div>
@@ -472,16 +372,10 @@ export default function CheckoutPage() {
 
         <button
           onClick={handlePlaceOrder}
-          disabled={placing || addressLoading}
+          disabled={placing || addressLoading || !commerce.payplusEnabled}
           className="w-full rounded-md bg-primary text-primary-foreground py-3 font-medium disabled:opacity-50"
         >
-          {placing
-            ? paymentMethod === "razorpay"
-              ? "Opening payment..."
-              : "Placing order..."
-            : paymentMethod === "razorpay"
-              ? "Proceed to Pay"
-              : "Place Order"}
+          {placing ? "Preparing payment..." : "Continue to PayPlus"}
         </button>
       </div>
     </main>

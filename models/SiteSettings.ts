@@ -93,12 +93,13 @@ const CommerceSchema = new Schema(
   {
     currencySymbol: { type: String, default: "₹" },
     currencyCode: { type: String, default: "INR" },
-    shippingFee: { type: Number, default: 49 },
-    freeShippingThreshold: { type: Number, default: 999 },
+    shippingFee: { type: Number, default: 0 },
+    freeShippingThreshold: { type: Number, default: 0 },
     // COD removed — the store is prepaid only. Left in the schema (rather than
     // dropped) so existing documents keep validating and the decision stays
     // reversible from Admin → Settings → Commerce if that ever changes.
     codEnabled: { type: Boolean, default: false },
+    payplusEnabled: { type: Boolean, default: true },
     razorpayEnabled: { type: Boolean, default: true },
   },
   { _id: false }

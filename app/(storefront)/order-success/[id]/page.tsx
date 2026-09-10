@@ -31,6 +31,7 @@ export default async function OrderSuccessPage({ params }: { params: { id: strin
   if (!isOwner && user?.role !== "admin") notFound();
 
   const o = order as any;
+  if (o.paymentMethod === "payplus" && o.paymentStatus === "pending") redirect(`/payment/${params.id}`);
 
   return (
     <main className="max-w-2xl mx-auto px-6 py-16 text-center">
@@ -93,7 +94,7 @@ export default async function OrderSuccessPage({ params }: { params: { id: strin
 
         <div className="border-t pt-3 text-sm">
           <span className="inline-block px-2 py-1 rounded-full bg-surface text-muted text-xs">
-            Payment: {o.paymentMethod === "razorpay" ? "Paid Online (Razorpay)" : "Cash on Delivery"}
+            Payment: {o.paymentMethod === "payplus" ? "Online (PayPlus)" : o.paymentMethod === "razorpay" ? "Online (Razorpay)" : "Cash on Delivery"}
           </span>
           <span className="inline-block px-2 py-1 rounded-full bg-success-bg text-success text-xs ml-2">
             {o.paymentStatus === "paid" ? "Payment Confirmed" : "Payment Pending"}

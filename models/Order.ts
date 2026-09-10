@@ -39,7 +39,10 @@ export interface IOrder {
   couponCode?: string;
   shippingFee: number;
   total: number;
-  paymentMethod: "razorpay" | "cod";
+  paymentMethod: "razorpay" | "payplus" | "cod";
+  payplusOrderId?: string;
+  payplusPaymentUrl?: string;
+  payplusReference?: string;
   paymentStatus: "pending" | "paid" | "failed" | "refunded";
   razorpayOrderId?: string;
   razorpayPaymentId?: string;
@@ -97,7 +100,10 @@ const OrderSchema = new Schema<IOrder>(
     couponCode: { type: String },
     shippingFee: { type: Number, default: 0 },
     total: { type: Number, required: true },
-    paymentMethod: { type: String, enum: ["razorpay", "cod"], required: true },
+    paymentMethod: { type: String, enum: ["razorpay", "payplus", "cod"], required: true },
+    payplusOrderId: { type: String },
+    payplusPaymentUrl: { type: String },
+    payplusReference: { type: String },
     paymentStatus: {
       type: String,
       enum: ["pending", "paid", "failed", "refunded"],

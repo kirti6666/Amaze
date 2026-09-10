@@ -127,7 +127,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
         <div className="border-t pt-3 text-sm">
           <span className="inline-block px-2 py-1 rounded-full bg-surface text-muted text-xs">
-            {o.paymentMethod === "razorpay" ? "Paid Online (Razorpay)" : "Cash on Delivery"}
+            {o.paymentMethod === "payplus" ? "Online (PayPlus)" : o.paymentMethod === "razorpay" ? "Online (Razorpay)" : "Cash on Delivery"}
           </span>
           <span className="inline-block px-2 py-1 rounded-full bg-success-bg text-success text-xs ml-2">
             {o.paymentStatus === "paid" ? "Payment Confirmed" : `Payment ${o.paymentStatus}`}

@@ -67,9 +67,10 @@ export const settingsSchema = z.object({
     .object({
       currencySymbol: z.string().default("₹"),
       currencyCode: z.string().default("INR"),
-      shippingFee: z.coerce.number().min(0).default(49),
-      freeShippingThreshold: z.coerce.number().min(0).default(999),
+      shippingFee: z.coerce.number().transform(() => 0).default(0),
+      freeShippingThreshold: z.coerce.number().transform(() => 0).default(0),
       codEnabled: z.boolean().default(true),
+      payplusEnabled: z.boolean().default(true),
       razorpayEnabled: z.boolean().default(true),
     })
     .default({}),

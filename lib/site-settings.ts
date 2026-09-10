@@ -58,6 +58,7 @@ export interface SiteSettingsData {
     shippingFee: number;
     freeShippingThreshold: number;
     codEnabled: boolean;
+    payplusEnabled: boolean;
     razorpayEnabled: boolean;
   };
   announcement: {
@@ -133,9 +134,10 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
   commerce: {
     currencySymbol: "₹",
     currencyCode: "INR",
-    shippingFee: 49,
-    freeShippingThreshold: 1999,
+    shippingFee: 0,
+    freeShippingThreshold: 0,
     codEnabled: false,
+    payplusEnabled: true,
     razorpayEnabled: true,
   },
   announcement: {
@@ -157,7 +159,7 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
       { icon: "FlaskConical", title: "Lab Tested", subtitle: "NABL-accredited labs" },
       { icon: "Scale", title: "Clinical Doses", subtitle: "Printed on the front" },
       { icon: "PackageOpen", title: "Plain Packaging", subtitle: "Discreet, unmarked" },
-      { icon: "Truck", title: "Free Delivery", subtitle: "Above ₹1999" },
+      { icon: "Truck", title: "Free Delivery", subtitle: "On all orders" },
     ],
     banners: [],
     combos: {
@@ -247,6 +249,22 @@ export function mergeSettings<T>(defaults: T, stored: unknown): T {
  * merged under whatever is stored). Safe to call from any Server Component,
  * layout, or route handler.
  */
+export function applyFreeShipping(settings: SiteSettingsData): SiteSettingsData {
+  return {
+    ...settings,
+    commerce: { ...settings.commerce, shippingFee: 0, freeShippingThreshold: 0 },
+    announcement: {
+      ...settings.announcement,
+      text: settings.announcement.text.replace(/free delivery above ₹[\d,]+/gi, "Free delivery on all orders"),
+    },
+    home: {
+      ...settings.home,
+      highlights: settings.home.highlights.map((item) => item.icon === "Truck" && /free delivery/i.test(item.title)
+        ? { ...item, subtitle: "On all orders" } : item),
+    },
+  };
+}
+
 export async function getSiteSettings(): Promise<SiteSettingsData> {
   try {
     await connectDB();
@@ -255,11 +273,11 @@ export async function getSiteSettings(): Promise<SiteSettingsData> {
       const created = await SiteSettings.create({ singletonKey: "site", ...DEFAULT_SETTINGS });
       doc = created.toObject();
     }
-    return mergeSettings(DEFAULT_SETTINGS, doc as unknown);
+    return applyFreeShipping(mergeSettings(DEFAULT_SETTINGS, doc as unknown));
   } catch (err) {
     // Never let a settings/DB hiccup take down a page — fall back to defaults.
     console.error("getSiteSettings failed, using defaults:", err);
-    return DEFAULT_SETTINGS;
+    return applyFreeShipping(DEFAULT_SETTINGS);
   }
 }
 

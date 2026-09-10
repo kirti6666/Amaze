@@ -39,12 +39,20 @@ export async function POST(req: NextRequest) {
     // the store hasn't set up online payments yet. COD is unaffected.
     if (!isRazorpayConfigured()) {
       return NextResponse.json(
-        { error: "Online payment is not available right now. Please choose Cash on Delivery." },
+        { error: "Online payment is not available right now. Please try again shortly." },
         { status: 503 }
       );
     }
 
     await connectDB();
+
+    const { commerce, brand } = await getSiteSettings();
+    if (!commerce.razorpayEnabled) {
+      return NextResponse.json({ error: "Online payment is currently disabled." }, { status: 503 });
+    }
+    if (commerce.currencyCode !== "INR") {
+      return NextResponse.json({ error: "Online payment is unavailable for this store currency." }, { status: 503 });
+    }
 
     // Saved address for account holders, inline fields for guests.
     const resolved = await resolveShippingAddress(identity, body);
@@ -62,6 +70,9 @@ export async function POST(req: NextRequest) {
     let subtotal = 0;
 
     for (const item of items) {
+      if (!Number.isSafeInteger(item.quantity) || item.quantity < 1) {
+        return NextResponse.json({ error: "Please enter a valid item quantity." }, { status: 400 });
+      }
       const product = await Product.findById(item.productId);
       if (!product || !product.isActive) {
         return NextResponse.json(
@@ -135,7 +146,6 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const { commerce } = await getSiteSettings();
     const shippingFee =
       subtotal - discount >= commerce.freeShippingThreshold ? 0 : commerce.shippingFee;
     const total = Math.max(0, subtotal - discount + shippingFee);
@@ -168,7 +178,8 @@ export async function POST(req: NextRequest) {
       razorpayOrderId: razorpayOrder.id,
       amount: razorpayOrder.amount,
       currency: razorpayOrder.currency,
-      keyId: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+      keyId: process.env.RAZORPAY_KEY_ID,
+      storeName: brand.storeName,
       prefill: {
         name: address.fullName,
         // Razorpay uses these to pre-fill its modal. For guests the email is

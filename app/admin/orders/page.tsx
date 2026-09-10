@@ -118,7 +118,7 @@ export default function AdminOrdersPage() {
                 <div className="text-right">
                   <p className="font-bold">{currency}{order.total}</p>
                   <p className="text-gray-400 text-xs">
-                    {order.paymentMethod === "razorpay" ? "Razorpay" : "COD"}
+                    {order.paymentMethod === "payplus" ? "PayPlus" : order.paymentMethod === "razorpay" ? "Razorpay" : "COD"}
                   </p>
                   <a
                     href={`/api/invoices/${order._id}`}

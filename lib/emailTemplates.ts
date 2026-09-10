@@ -70,7 +70,7 @@ export function orderConfirmationEmail(order: EmailOrder): string {
       ${itemsTable(order.items)}
       <p><strong>Total: ₹${order.total}</strong></p>
       <p style="color:#666;">
-        Payment method: ${order.paymentMethod === "razorpay" ? "Paid online" : "Cash on Delivery"}
+        Payment method: ${order.paymentMethod !== "cod" ? "Paid online" : "Cash on Delivery"}
       </p>
       <p style="color:#666;">
         Shipping to: ${order.shippingAddress.fullName}, ${order.shippingAddress.line1},

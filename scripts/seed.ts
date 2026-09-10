@@ -114,14 +114,14 @@ async function seed() {
     commerce: {
       currencySymbol: "₹",
       currencyCode: "INR",
-      shippingFee: 49,
-      freeShippingThreshold: 1999,
+      shippingFee: 0,
+      freeShippingThreshold: 0,
       codEnabled: false,
       razorpayEnabled: true,
     },
     announcement: {
       enabled: true,
-      text: "Delivery across India · Free delivery above ₹1999 · Plain, unmarked packaging",
+      text: "Delivery across India · Free delivery on all orders · Plain, unmarked packaging",
       link: "/shop",
     },
     home: {
@@ -139,7 +139,7 @@ async function seed() {
         { icon: "FlaskConical", title: "Lab Tested", subtitle: "NABL-accredited labs" },
         { icon: "Scale", title: "Clinical Doses", subtitle: "Printed on the front" },
         { icon: "PackageOpen", title: "Plain Packaging", subtitle: "Discreet, unmarked" },
-        { icon: "Truck", title: "Free Delivery", subtitle: "Above ₹1999" },
+        { icon: "Truck", title: "Free Delivery", subtitle: "On all orders" },
       ],
       banners: [],
       combos: {

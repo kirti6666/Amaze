@@ -528,19 +528,7 @@ export default function AdminSettingsPage() {
               onChange={(v) => set("commerce.currencyCode", v)}
             />
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            <NumberField
-              label="Shipping fee"
-              value={s.commerce.shippingFee}
-              onChange={(v) => set("commerce.shippingFee", v)}
-            />
-            <NumberField
-              label="Free shipping over"
-              value={s.commerce.freeShippingThreshold}
-              onChange={(v) => set("commerce.freeShippingThreshold", v)}
-              hint="Orders at/above this subtotal ship free."
-            />
-          </div>
+          <p className="rounded-md border p-4 text-sm">Free shipping on all products. No minimum order value.</p>
           <Toggle
             label="Cash on Delivery"
             hint="Allow customers to place COD orders."
@@ -548,10 +536,10 @@ export default function AdminSettingsPage() {
             onChange={(v) => set("commerce.codEnabled", v)}
           />
           <Toggle
-            label="Razorpay (online payments)"
+            label="PayPlus (online payments)"
             hint="Show the Pay Online option at checkout."
-            value={s.commerce.razorpayEnabled}
-            onChange={(v) => set("commerce.razorpayEnabled", v)}
+            value={s.commerce.payplusEnabled}
+            onChange={(v) => set("commerce.payplusEnabled", v)}
           />
         </div>
       )}
