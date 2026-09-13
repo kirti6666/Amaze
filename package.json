@@ -11,7 +11,8 @@
     "lint": "next lint",
     "seed": "tsx scripts/seed.ts",
     "seed:reviews": "tsx scripts/seed-reviews.ts",
-    "migrate:theme": "tsx scripts/migrate-theme-light.ts"
+    "migrate:theme": "tsx scripts/migrate-theme-light.ts",
+    "check:cloudinary": "tsx scripts/check-cloudinary.ts"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
