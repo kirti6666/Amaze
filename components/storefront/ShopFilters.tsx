@@ -44,9 +44,10 @@ export function ShopFilters({
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-4">
+    <div className="shop-filters flex flex-wrap items-center gap-4">
       <form onSubmit={handleSearchSubmit} className="flex gap-2">
         <input
+          aria-label="Search products"
           placeholder="Search products..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
@@ -58,6 +59,7 @@ export function ShopFilters({
       </form>
 
       <select
+        aria-label="Category"
         value={currentCategory ?? ""}
         onChange={(e) => updateParam("category", e.target.value)}
         className="rounded-md border px-3 py-2 text-sm"
@@ -71,6 +73,7 @@ export function ShopFilters({
       </select>
 
       <select
+        aria-label="Sort products"
         value={currentSort ?? "newest"}
         onChange={(e) => updateParam("sort", e.target.value)}
         className="rounded-md border px-3 py-2 text-sm"

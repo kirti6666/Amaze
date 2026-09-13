@@ -6,6 +6,7 @@ import { Header } from "@/components/storefront/Header";
 import { Footer } from "@/components/storefront/Footer";
 import { AnnouncementBar } from "@/components/storefront/AnnouncementBar";
 import { getSiteSettings } from "@/lib/site-settings";
+import { storefrontAppearance } from "@/components/storefront/appearance";
 // import { getServerUser } from "@/lib/middleware/getServerUser";
 
 // Three type roles: Archivo for headlines (industrial, tightens well at scale),
@@ -58,7 +59,7 @@ const mono = localFont({
 // Metadata is now generated from the admin-editable Site Settings (SEO tab +
 // branding favicon) instead of being hardcoded.
 export async function generateMetadata(): Promise<Metadata> {
-  const settings = await getSiteSettings();
+  const settings = storefrontAppearance(await getSiteSettings());
   
   return {
     title: settings.seo.metaTitle || settings.brand.storeName,
@@ -72,7 +73,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const settings = await getSiteSettings();
+  const settings = storefrontAppearance(await getSiteSettings());
   // const user =await getServerUser()
   // console.log(user,"from Main Layout")
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, ShoppingBag, User, LogIn } from "lucide-react";
@@ -35,6 +35,8 @@ export function MobileNav({
   user: { role?: string } | null;
 }) {
   const [open, setOpen] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
 
   // Cart count needs the same mount guard as CartLink — the persisted cart
@@ -52,20 +54,30 @@ export function MobileNav({
   // Lock scroll + wire up Escape only while open.
   useEffect(() => {
     if (!open) return;
+    const trigger = triggerRef.current;
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    panelRef.current?.querySelector<HTMLButtonElement>("button")?.focus();
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
+      if (e.key === "Tab") {
+        const items = panelRef.current?.querySelectorAll<HTMLElement>('a[href], button:not([disabled])');
+        if (!items?.length) return;
+        const first = items[0], last = items[items.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = previous;
       window.removeEventListener("keydown", onKey);
+      trigger?.focus();
     };
   }, [open]);
 
   return (
-    <div className="flex items-center gap-1 md:hidden">
+    <div className="flex items-center gap-1 lg:hidden">
       {/* Cart stays in the bar — the one action worth a permanent slot. */}
       <Link
         href="/cart"
@@ -83,6 +95,7 @@ export function MobileNav({
       <button
         type="button"
         onClick={() => setOpen(true)}
+        ref={triggerRef}
         aria-label="Open menu"
         aria-expanded={open}
         aria-controls="mobile-nav-panel"
@@ -102,10 +115,12 @@ export function MobileNav({
 
       {/* Panel */}
       <div
+        ref={panelRef}
         id="mobile-nav-panel"
         role="dialog"
         aria-modal="true"
         aria-label="Menu"
+        hidden={!open}
         className={`fixed right-0 top-0 z-50 flex h-[100dvh] w-[82%] max-w-[320px] flex-col border-l border-hairline bg-background transition-transform duration-300 ease-out ${
           open ? "translate-x-0" : "translate-x-full"
         }`}
@@ -124,7 +139,7 @@ export function MobileNav({
           </button>
         </div>
 
-        <nav className="flex-1 overflow-y-auto px-2 py-3">
+        <nav className="flex-1 overflow-y-auto px-2 py-3" onClick={(e) => { if ((e.target as HTMLElement).closest("a")) setOpen(false); }}>
           {navLinks.map((l, i) => (
             <Link
               key={i}
@@ -172,9 +187,10 @@ export function MobileNav({
         <div className="border-t border-hairline px-5 py-4">
           <Link
             href="/shop"
+            onClick={() => setOpen(false)}
             className="flex w-full items-center justify-center bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground"
           >
-            Shop the range
+            Shop all products
           </Link>
         </div>
       </div>

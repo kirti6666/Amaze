@@ -1,27 +1,28 @@
 import Link from "next/link";
+import { storefrontAppearance } from "./appearance";
 import { getSiteSettings } from "@/lib/site-settings";
 
 /**
  * Thin promo bar pinned above the header, running as a continuous marquee.
  * Renders nothing unless the admin has enabled it (and given it text) in
- * Site Settings → Announcement.
+ * Site Settings â†’ Announcement.
  *
  * How the loop is seamless: the message list is rendered twice, side by side,
  * and the track slides exactly -50% before snapping back. Because the second
  * copy is pixel-identical to the first and sits where the first started, the
- * reset is invisible — no gap, no jump.
+ * reset is invisible â€” no gap, no jump.
  *
- * The admin can write several messages separated by "·" and each becomes its
+ * The admin can write several messages separated by "Â·" and each becomes its
  * own item with a divider, so one settings field drives the whole ticker.
  */
 export async function AnnouncementBar() {
-  const settings = await getSiteSettings();
+  const settings = storefrontAppearance(await getSiteSettings());
   const { enabled, text, link } = settings.announcement;
 
   if (!enabled || !text.trim()) return null;
 
   const messages = text
-    .split("·")
+    .split("Â·")
     .map((m) => m.trim())
     .filter(Boolean);
 
@@ -39,7 +40,7 @@ export async function AnnouncementBar() {
             {m}
           </span>
           <span aria-hidden="true" className="text-[9px] opacity-60">
-            ◆
+            â—†
           </span>
         </span>
       ))}
@@ -49,7 +50,7 @@ export async function AnnouncementBar() {
   const bar = (
     <div className="marquee flex overflow-hidden py-2.5">
       {track}
-      {/* Duplicate copy — aria-hidden so screen readers announce the text once. */}
+      {/* Duplicate copy â€” aria-hidden so screen readers announce the text once. */}
       <div aria-hidden="true" className="contents">
         {track}
       </div>
@@ -57,7 +58,7 @@ export async function AnnouncementBar() {
   );
 
   return (
-    <div className="relative overflow-hidden bg-primary text-primary-foreground">
+    <div className="store-announcement relative overflow-hidden bg-primary text-primary-foreground">
       {bar}
       {link && (
         <Link

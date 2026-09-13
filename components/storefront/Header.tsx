@@ -1,78 +1,45 @@
 import Link from "next/link";
+import { Heart, UserRound, Search } from "lucide-react";
 import { getServerUser } from "@/lib/middleware/getServerUser";
 import { getSiteSettings } from "@/lib/site-settings";
+import { storefrontAppearance } from "./appearance";
 import { CartLink } from "./CartLink";
 import { LogoutButton } from "./LogoutButton";
-import { Logo } from "./Logo";
+import { BrandLogo } from "./BrandLogo";
 import { MobileNav } from "./MobileNav";
 
 export async function Header() {
-  const [user, settings] = await Promise.all([getServerUser(), getSiteSettings()]);
-  const { brand, header } = settings;
-
+  const [user, saved] = await Promise.all([getServerUser(), getSiteSettings()]);
+  const { brand, header } = storefrontAppearance(saved);
   return (
-    <header className="sticky top-0 z-30 border-b border-hairline bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-      {/* Container matches the site's canonical shell — max-w-7xl px-5 md:px-8
-          — the same one the homepage sections, product rails and footer use.
-          It was max-w-6xl px-5 md:px-6, which put the logo 64px inside the
-          content axis of everything below it. */}
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3 md:px-8 md:py-4">
-        <Link href="/" className="flex shrink-0 items-center gap-2" aria-label={brand.storeName}>
-          {brand.logoUrl ? (
-            // An uploaded logo in Site Settings still wins — the drawn lockup is
-            // the fallback, not an override.
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={brand.logoUrl}
-              alt={brand.storeName}
-              className="h-8 w-auto object-contain md:h-9"
-            />
-          ) : (
-            <Logo
-              storeName={brand.storeName}
-              // Only the first clause — the full tagline is a sentence, and at
-              // lockup size anything longer than ~2 words overruns the wordmark.
-              tagline={brand.tagline?.split(".")[0]}
-              markClassName="h-8 w-8 md:h-9 md:w-9"
-              wordClassName="text-[21px] md:text-2xl"
-            />
-          )}
+    <header className="store-header sticky top-0 z-30 border-b border-hairline bg-background">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 md:px-8 md:py-5">
+        <Link href="/" className="shrink-0" aria-label={brand.storeName}>
+          <BrandLogo src={brand.logoUrl} name={brand.storeName} />
         </Link>
-
-        {/* Desktop nav — unchanged behaviour, just gated to md and up. */}
-        <nav className="hidden items-center gap-6 text-sm md:flex">
+        <nav aria-label="Main navigation" className="hidden flex-1 flex-wrap items-center justify-center gap-x-6 gap-y-3 px-4 text-sm font-medium lg:flex">
+          <Link href="/" className="hover:text-primary">Home</Link>
           {header.navLinks.map((l, i) => (
-            <Link key={i} href={l.href || "#"} className="hover:underline">
-              {l.label}
-            </Link>
+            <Link key={i} href={l.href || "#"} className="hover:text-primary">{l.label === "Shop" ? "All Products" : l.label}</Link>
           ))}
-          <CartLink />
-          {user ? (
-            <>
-              <Link
-                href={user.role === "admin" ? "/admin" : "/account"}
-                className="hover:underline"
-              >
-                {user.role === "admin" ? "Admin" : "My Account"}
-              </Link>
-              <LogoutButton />
-            </>
-          ) : (
-            <Link href="/login" className="hover:underline">
-              Login
-            </Link>
-          )}
+          <Link href="/#categories" className="hover:text-primary">Shop By Category</Link>
         </nav>
-
-        {/* Mobile — same destinations, moved behind a hamburger so the labels
-            stop colliding with the logo on narrow screens. */}
-        <MobileNav
-          navLinks={header.navLinks.map((l) => ({
-            label: l.label,
-            href: l.href || "#",
-          }))}
-          user={user ? { role: user.role } : null}
-        />
+        <div className="hidden items-center gap-4 lg:flex">
+          <Link href="/shop" aria-label="Search products" className="header-icon"><Search size={21} strokeWidth={1.6} /></Link>
+          <Link href="/wishlist" aria-label="Wishlist" className="header-icon"><Heart size={21} strokeWidth={1.6} /></Link>
+          <Link href={user ? (user.role === "admin" ? "/admin" : "/account") : "/login"}
+            aria-label={user ? (user.role === "admin" ? "Admin" : "My Account") : "Login"} className="header-icon">
+            <UserRound size={21} strokeWidth={1.6} />
+          </Link>
+          <CartLink />
+          {user && <LogoutButton />}
+        </div>
+        <MobileNav navLinks={[
+          { label: "Home", href: "/" },
+          ...header.navLinks.map(l => ({label: l.label === "Shop" ? "All Products" : l.label, href: l.href || "#"})),
+          { label: "Shop By Category", href: "/#categories" },
+          { label: "Wishlist", href: "/wishlist" },
+        ]} user={user ? {role: user.role} : null} />
       </div>
     </header>
   );

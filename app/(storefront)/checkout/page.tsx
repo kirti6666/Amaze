@@ -208,7 +208,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <main className="max-w-4xl mx-auto px-6 py-10 grid md:grid-cols-3 gap-10">
+    <main className="checkout-page mx-auto px-5 py-10 grid gap-8 md:px-8">
       <div className="md:col-span-2 space-y-8">
         {isGuest ? (
           <GuestCheckoutPanel
@@ -294,7 +294,7 @@ export default function CheckoutPage() {
         </section>
       </div>
 
-      <div className="space-y-4">
+      <div className="checkout-summary space-y-4">
         <h2 className="font-bold text-lg">Order Summary</h2>
 
         <div className="border rounded-md p-4 space-y-3 text-sm">

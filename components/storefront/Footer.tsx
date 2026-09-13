@@ -1,11 +1,13 @@
 import Link from "next/link";
+import { BrandLogo } from "./BrandLogo";
 import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin } from "lucide-react";
 import { getSiteSettings } from "@/lib/site-settings";
+import { storefrontAppearance } from "@/components/storefront/appearance";
 
 /**
- * Storefront footer — entirely driven by Site Settings (about text, link
+ * Storefront footer â€” entirely driven by Site Settings (about text, link
  * columns, contact details, social links, copyright). Add/remove/reorder any
- * of it from /admin/settings → Footer / Contact & Social.
+ * of it from /admin/settings â†’ Footer / Contact & Social.
  *
  * Deliberately compact: link columns go 2-up on mobile rather than stacking,
  * which is what makes a 4-column footer tower on a phone. Headings are set as
@@ -13,7 +15,7 @@ import { getSiteSettings } from "@/lib/site-settings";
  * without claiming vertical space.
  */
 export async function Footer() {
-  const settings = await getSiteSettings();
+  const settings = storefrontAppearance(await getSiteSettings());
   const { brand, footer, contact, social } = settings;
 
   const socials = [
@@ -29,19 +31,22 @@ export async function Footer() {
   );
 
   const hasContact = contact.email || contact.phone || contact.address;
-  const heading = "dose mb-3 text-[10px] uppercase tracking-[0.16em] text-muted";
-  const linkCls = "text-[12.5px] text-muted transition-colors hover:text-foreground";
+  const heading = "mb-5 text-base font-bold";
+  const linkCls = "text-sm text-muted transition-colors hover:text-primary";
 
   return (
-    <footer className="border-t border-hairline bg-surface">
-      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-6 gap-y-8 px-5 py-10 md:grid-cols-4 md:gap-x-8 md:px-8">
-        {/* Brand — spans the full width on mobile so the columns below pair up */}
+    <footer className="store-footer border-t border-hairline bg-surface">
+      <svg className="footer-wave" viewBox="0 0 1440 64" preserveAspectRatio="none" aria-hidden="true">
+        <path fill="#fac1d6" d="M0 24 Q360 -16 720 24 T1440 24 V64 H0Z" />
+        <path fill="#f59ab9" d="M0 34 Q360 4 720 36 T1440 28 V64 H0Z" />
+        <path fill="var(--accent)" d="M0 22 Q460 78 920 38 T1440 14 V64 H0Z" />
+      </svg>
+      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-6 gap-y-8 px-5 py-14 md:grid-cols-4 md:gap-x-8 md:px-8">
+        {/* Brand â€” spans the full width on mobile so the columns below pair up */}
         <div className="col-span-2 md:col-span-1">
-          <p className="font-display text-lg font-extrabold tracking-tightest">
-            {brand.storeName}
-          </p>
+          <Link href="/" aria-label={brand.storeName}><BrandLogo src={brand.logoUrl} name={brand.storeName} /></Link>
           {footer.about && (
-            <p className="mt-2 max-w-xs text-[12.5px] leading-[1.6] text-muted">
+            <p className="mt-5 max-w-xs text-sm leading-[1.6] text-muted">
               {footer.about}
             </p>
           )}
@@ -66,10 +71,10 @@ export async function Footer() {
         {footer.columns.map((col, i) => (
           <div key={i}>
             {col.title && <p className={heading}>{col.title}</p>}
-            <ul className="space-y-1.5">
+            <ul className="space-y-3">
               {col.links.map((lnk, j) => (
                 <li key={j}>
-                  <Link href={lnk.href || "#"} className={linkCls}>
+                  <Link href={lnk.href === "/account/wishlist" ? "/wishlist" : lnk.href || "#"} className={linkCls}>
                     {lnk.label}
                   </Link>
                 </li>
@@ -81,7 +86,7 @@ export async function Footer() {
         {hasContact && (
           <div>
             <p className={heading}>Contact</p>
-            <ul className="space-y-1.5 text-[12.5px] text-muted">
+            <ul className="space-y-3 text-[12.5px] text-muted">
               {contact.email && (
                 <li className="flex items-center gap-2">
                   <Mail size={13} className="shrink-0" />

@@ -23,11 +23,14 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
   const currency = commerce.currencySymbol;
 
   const page = Math.max(1, Number(searchParams.page ?? 1));
-  const filter: Record<string, unknown> = { isActive: true };
+  // Keep the original demo catalog in the database while the new import is paused.
+  const legacyCategories = await Category.find({ slug: { $in: ["strength-vitality", "stamina-energy", "mens-wellness", "sleep-recovery", "fertility", "combos-stacks"] } }).select("_id").lean();
+  const legacyIds = legacyCategories.map(c => c._id);
+  const filter: Record<string, unknown> = { isActive: true, category: { $nin: legacyIds } };
 
   if (searchParams.category) {
     const cat = await Category.findOne({ slug: searchParams.category }).lean();
-    if (cat) filter.category = (cat as { _id: unknown })._id;
+    filter.category = cat ? (cat as { _id: unknown })._id : null;
   }
   if (searchParams.search) {
     filter.$text = { $search: searchParams.search };
@@ -48,7 +51,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
       .limit(PAGE_SIZE)
       .lean(),
     Product.countDocuments(filter),
-    Category.find({ isActive: true }).sort({ name: 1 }).lean(),
+    Category.find({ isActive: true, _id: { $nin: legacyIds } }).sort({ name: 1 }).lean(),
   ]);
 
   const totalPages = Math.ceil(total / PAGE_SIZE);
@@ -64,7 +67,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
 
   return (
     <main className="mx-auto max-w-7xl px-5 py-10 md:px-8">
-      <h1 className="text-2xl font-bold mb-6">Shop</h1>
+      <div className="collection-heading"><h1>All Products</h1><p>{total} products to explore</p></div>
 
       <ShopFilters
         categories={JSON.parse(JSON.stringify(categories))}
@@ -77,7 +80,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
         <p className="text-muted mt-10">No products found.</p>
       ) : (
         <>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mt-8">
             {products.map((p) => (
               <ProductCard key={String(p._id)} product={JSON.parse(JSON.stringify(p))} currency={currency} />
             ))}

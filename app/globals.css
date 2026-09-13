@@ -4,7 +4,7 @@
 
 /* Defaults mirror DEFAULT_SETTINGS.theme so the site renders correctly on the
    very first paint, before the admin-configured values are injected by
-   app/layout.tsx. Never hardcode these hexes anywhere else — read the token. */
+   app/layout.tsx. Never hardcode these hexes anywhere else â€” read the token. */
 :root {
   --background: #0a0a0b;
   --surface: #141416;
@@ -62,7 +62,7 @@ select option {
   color: var(--foreground);
 }
 
-/* Dose figures, batch numbers, SKUs — anything that should read as measured
+/* Dose figures, batch numbers, SKUs â€” anything that should read as measured
    data rather than prose. This is the brand's signature type treatment. */
 .dose {
   font-family: var(--font-mono), ui-monospace, monospace;
@@ -137,4 +137,121 @@ select option {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Amaze Markets storefront. All page rules are scoped away from the admin. */
+.amaze-logo { display:block; position:relative; width:190px; height:62px; overflow:hidden; }
+.amaze-logo img { position:absolute; width:214px; max-width:none; height:auto; left:-10px; top:-24px; }
+.custom-logo { display:block; width:190px; }
+.custom-logo img { width:100%; max-height:70px; object-fit:contain; }
+.header-icon { display:flex; width:32px; height:36px; align-items:center; justify-content:center; }
+.header-icon:hover { color:var(--primary); }
+.hero-art { aspect-ratio:1600 / 666; object-fit:contain; }
+.hero-wave { height:24px; margin-top:-1px; background:var(--primary); clip-path:ellipse(60% 100% at 50% 0%); }
+.product-card { box-shadow:0 5px 20px rgb(23 36 58 / 8%); }
+.product-card:hover { box-shadow:0 8px 25px rgb(23 36 58 / 14%); transform:translateY(-3px); }
+.category-tile { border:1px solid var(--border); transition:box-shadow .2s; }
+.category-tile:hover { box-shadow:0 6px 20px rgb(23 36 58 / 9%); }
+.storefront { --success:#16734a; --danger:#bf3044; --warning:#8b6000; --info:#0759b6; }
+.storefront main:not(.store-home) { min-height:52vh; }
+.storefront h1 { font-family:var(--font-display),sans-serif; letter-spacing:-.025em; }
+.storefront .dose { font-family:var(--font-body),sans-serif; letter-spacing:normal; }
+.storefront input:not([type=checkbox]):not([type=radio]), .storefront select, .storefront textarea { min-width:0; min-height:44px; background:var(--background); }
+.storefront button { transition:background-color .18s,color .18s,border-color .18s; }
+.storefront button:not(:disabled), .storefront a { touch-action:manipulation; }
+.collection-heading { padding:18px 0 30px; text-align:center; }
+.collection-heading h1 { font-size:clamp(30px,4vw,44px); font-weight:750; margin:0; }
+.collection-heading p { margin-top:10px; color:var(--muted); font-size:14px; }
+.shop-filters { padding:20px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+.product-detail { align-items:start; }
+.product-info h1 { font-size:clamp(26px,3vw,38px); line-height:1.2; }
+.product-info > button { min-height:48px; font-weight:650; }
+.product-thumbnails { overflow-x:auto; padding:4px 0; }
+.product-thumbnails button { flex-shrink:0; }
+.cart-page { max-width:1050px; }
+.cart-page > h1 { font-size:36px; padding-bottom:24px; border-bottom:1px solid var(--border); }
+.cart-items > div { padding:22px 0; border-width:0 0 1px; border-radius:0; }
+.cart-items > div > div:first-child { width:100px; height:100px; }
+.cart-summary { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:24px; }
+.checkout-page { max-width:1152px; }
+.checkout-summary { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:24px; align-self:start; }
+.checkout-summary > div:first-of-type { background:var(--background); }
+.checkout-summary input { width:100%; }
+.checkout-summary .flex.justify-between { gap:12px; }
+.checkout-summary .flex.justify-between > span:last-child { white-space:nowrap; }
+@media(min-width:768px) {
+  .product-info { position:sticky; top:124px; }
+  .cart-layout { display:grid; grid-template-columns:1.6fr 1fr; align-items:start; gap:40px; }
+  .checkout-page { grid-template-columns:minmax(0,1.4fr) minmax(0,1fr); }
+  .checkout-page > .md\:col-span-2 { grid-column:span 1; }
+  .checkout-summary { position:sticky; top:124px; }
+}
+@media(max-width:767px) {
+  .amaze-logo { width:156px; height:50px; }
+  .amaze-logo img { width:176px; top:-20px; left:-8px; }
+  .custom-logo { width:156px; }
+  .hero-art { aspect-ratio:1086 / 1448; }
+  .hero-wave { height:14px; }
+  .product-card h3 { font-size:13px; }
+  .product-card > div:last-child { padding:14px 10px; }
+  .shop-filters form { width:100%; }
+  .shop-filters form input { width:100%; flex:1; }
+  .shop-filters select { flex:1; max-width:100%; }
+  .cart-items > div { gap:12px; }
+  .cart-items > div > div:first-child { width:65px; height:80px; }
+  .cart-items > div > div:last-child { font-size:13px; }
+  .cart-items > div > div:nth-child(2) { min-width:0; }
+  .cart-summary { margin-top:24px; }
+  .checkout-summary { padding:20px; }
+}
+.store-header [hidden] { display:none !important; }
+/* Compact, image-led homepage collections. */
+.home-section { max-width:1280px; margin:0 auto; padding:40px 32px; scroll-margin-top:110px; }
+.home-section h2 { margin:0 0 28px; text-align:center; font-size:clamp(24px,3.2vw,40px); line-height:1.18; font-weight:800; letter-spacing:-.025em; color:#151515; }
+.home-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:24px; }
+.category-grid { row-gap:28px; }
+.category-grid .category-tile { display:flex; flex-direction:column; border:0; border-radius:14px; overflow:hidden; background:#f4f4f4; box-shadow:0 6px 20px #00000008; }
+.category-tile > img { width:100%; aspect-ratio:1; object-fit:cover; height:auto; transition:transform .3s; }
+.category-tile:hover > img { transform:scale(1.025); }
+.category-grid .category-tile > div { display:flex; justify-content:center; align-items:center; gap:10px; flex:1; padding:20px 12px; text-align:center; font-size:20px; font-weight:750; line-height:1.3; color:#151515; }
+.category-grid .category-tile svg { flex-shrink:0; }
+.beauty-preview { overflow:hidden; border-radius:14px; background:#111; box-shadow:0 6px 20px #0000000d; }
+.beauty-preview > img { width:100%; aspect-ratio:1; object-fit:cover; height:auto; }
+.beauty-preview > div { padding:20px 14px; text-align:center; }
+.beauty-preview h3 { color:white; font-size:17px; font-weight:750; line-height:1.4; }
+.beauty-preview span { display:block; color:#f58bb3; margin-top:10px; font-size:13px; }
+.home-view-all { margin-top:24px; text-align:center; }
+.home-view-all a { display:inline-flex; align-items:center; gap:12px; min-height:44px; padding:10px 26px; border-radius:8px; background:var(--primary); color:white; font-weight:650; }
+.store-home .product-card > div:last-child { background:#111; color:white; }
+.store-home .product-card h3 { color:white; }
+.store-home .product-card .text-primary { color:#f58bb3; }
+.store-home .product-card .text-muted { color:#c4c4c4; }
+@media(max-width:767px) {
+ .home-section { padding:26px 16px; scroll-margin-top:85px; }
+ .home-section h2 { margin-bottom:18px; font-size:25px; }
+ .home-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+ .category-grid .category-tile { border-radius:10px; }
+ .category-grid .category-tile > div { font-size:14px; padding:14px 8px; gap:6px; }
+ .category-grid .category-tile svg { width:15px; }
+ .beauty-preview { border-radius:10px; }
+ .beauty-preview > div { padding:14px 10px; }
+ .beauty-preview h3 { font-size:13px; }
+ .beauty-preview span { font-size:12px; margin-top:7px; }
+ .store-header > div { padding:8px 16px; gap:8px; }
+ .store-footer > div:first-child { padding:28px 16px; gap:24px 16px; }
+ .store-footer p.mb-5 { margin-bottom:12px; }
+ .storefront main:not(.store-home) { padding-left:16px; padding-right:16px; }
+ .collection-heading { padding:8px 0 20px; }
+}
+
+/* Reference palette: deep purple, pink accents, white storefront. */
+.store-announcement { background:linear-gradient(100deg,var(--primary),#100d43); color:#fff; }
+.store-footer { position:relative; margin-top:44px; background:var(--primary); color:#fff; border-color:transparent; --muted:#e7dff0; --border:#ffffff20; }
+.footer-wave { position:absolute; width:100%; height:44px; left:0; top:-43px; pointer-events:none; }
+.store-footer a:hover { color:#ffb7d3; }
+.store-footer .amaze-logo, .store-footer .custom-logo { background:white; border-radius:8px; }
+.store-footer :focus-visible { outline-color:white; }
+@media(max-width:767px) {
+ .store-footer { margin-top:28px; }
+ .footer-wave { height:28px; top:-27px; }
 }

@@ -30,10 +30,11 @@ export default function CartPage() {
   }
 
   return (
-    <main className="max-w-3xl mx-auto px-6 py-10">
+    <main className="cart-page mx-auto px-5 py-10 md:px-8">
       <h1 className="text-2xl font-bold mb-6">Your Cart</h1>
 
-      <div className="space-y-4">
+      <div className="cart-layout">
+      <div className="cart-items space-y-4">
         {items.map((item) => (
           <div
             key={item.productId + JSON.stringify(item.variant ?? {})}
@@ -94,7 +95,8 @@ export default function CartPage() {
         ))}
       </div>
 
-      <div className="mt-8 border-t pt-6 flex items-center justify-between">
+      <div className="cart-summary">
+      <div className="flex items-center justify-between">
         <span className="text-lg font-medium">Subtotal</span>
         <span className="text-lg font-bold">{currency}{subtotal}</span>
       </div>
@@ -106,6 +108,8 @@ export default function CartPage() {
       >
         Proceed to Checkout
       </Link>
+      </div>
+      </div>
     </main>
   );
 }

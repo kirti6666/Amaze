@@ -23,9 +23,8 @@ import { HERO_SLIDES, HERO_AUTOPLAY_MS, type HeroSlide } from "@/lib/heroSlides"
  *  - honours prefers-reduced-motion by not auto-advancing at all — manual
  *    controls stay available.
  *
- * The two crops (wide banner / square mobile) are separate <img> elements
- * toggled by breakpoint rather than one image with object-position, so the
- * phone never downloads the 1900px-wide banner.
+ * A picture element selects the supplied portrait artwork on mobile, avoiding
+ * a cropped desktop banner or downloading both images.
  */
 
 const DRAG_THRESHOLD = 45; // px before a drag counts as a swipe rather than a tap
@@ -165,26 +164,15 @@ export function HeroSlider({
               draggable={false}
               className="block select-none"
             >
-              {/* Wide banner — md and up */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={slide.image}
-                alt={slide.alt}
-                draggable={false}
-                loading={i === 0 ? "eager" : "lazy"}
-                fetchPriority={i === 0 ? "high" : "auto"}
-                className="mx-auto hidden h-auto w-full object-center md:block"
-              />
-              {/* Square crop — below md */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={slide.mobile}
-                alt={slide.alt}
-                draggable={false}
-                loading={i === 0 ? "eager" : "lazy"}
-                fetchPriority={i === 0 ? "high" : "auto"}
-                className="mx-auto block aspect-square h-auto w-full object-cover object-center md:hidden"
-              />
+              <picture>
+                <source media="(max-width: 767px)" srcSet={slide.mobile} />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={slide.image} alt={slide.alt} draggable={false}
+                  loading={i === 0 ? "eager" : "lazy"}
+                  fetchPriority={i === 0 ? "high" : "auto"}
+                  width={1600} height={666}
+                  className="hero-art mx-auto block h-auto w-full" />
+              </picture>
             </Link>
           </div>
         ))}

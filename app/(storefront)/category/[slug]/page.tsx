@@ -43,13 +43,13 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
 
   return (
     <main className="mx-auto max-w-7xl px-5 py-10 md:px-8">
-      <h1 className="text-2xl font-bold mb-6">{(category as { name: string }).name}</h1>
+      <div className="collection-heading"><h1>{(category as { name: string }).name}</h1><p>{total} products</p></div>
 
       {products.length === 0 ? (
         <p className="text-muted">No products in this category yet.</p>
       ) : (
         <>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {products.map((p) => (
               <ProductCard key={String(p._id)} product={JSON.parse(JSON.stringify(p))} currency={currency} />
             ))}

@@ -114,7 +114,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
   }
 
   return (
-    <div className="grid md:grid-cols-2 gap-10">
+    <div className="product-detail grid md:grid-cols-2 gap-8 lg:gap-16">
       <div>
         <div className="aspect-square rounded-lg overflow-hidden bg-surface mb-3">
           {images[activeImage] ? (
@@ -131,10 +131,12 @@ export function ProductDetailClient({ product }: { product: Product }) {
           )}
         </div>
         {images.length > 1 && (
-          <div className="flex gap-2">
+          <div className="product-thumbnails flex gap-2">
             {images.map((img, i) => (
               <button
                 key={img + i}
+                aria-label={`View image ${i + 1}`}
+                aria-pressed={i === activeImage}
                 onClick={() => setActiveImage(i)}
                 className={`w-16 h-16 rounded-md overflow-hidden border-2 ${i === activeImage ? "border-primary" : "border-transparent"
                   }`}
@@ -147,7 +149,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
         )}
       </div>
 
-      <div>
+      <div className="product-info">
         {product.category?.name && (
           <p className="text-sm text-muted mb-1">{product.category.name}</p>
         )}
@@ -191,6 +193,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
             <div className="flex items-center border rounded-md">
               <button
                 type="button"
+                aria-label="Decrease quantity"
                 onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                 className="px-3 py-1 text-lg"
               >
@@ -199,6 +202,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
               <span className="px-4">{quantity}</span>
               <button
                 type="button"
+                aria-label="Increase quantity"
                 onClick={() => setQuantity((q) => Math.min(stock, q + 1))}
                 className="px-3 py-1 text-lg"
               >
