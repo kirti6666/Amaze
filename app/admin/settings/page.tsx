@@ -317,10 +317,6 @@ export default function AdminSettingsPage() {
 
   if (!settings) {
     return (
-      // <div>
-      //   <h1 className="text-2xl font-bold mb-6">Site Settings</h1>
-      //   <p className="text-gray-400 text-sm"><CardListSkeleton count={5} key={5} /></p>
-      // </div>
       <div className="max-w-3xl space-y-4">
         <Skeleton className="h-8 w-40" />
         {Array.from({ length: 6 }).map((_, i) => (

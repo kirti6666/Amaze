@@ -40,7 +40,7 @@ export function storefrontAppearance(settings: SiteSettingsData): SiteSettingsDa
         { title: "Your Account", links: [{ label: "My Account", href: "/account" }, { label: "My Orders", href: "/account/orders" }, { label: "Wishlist", href: "/wishlist" }, { label: "Cart", href: "/cart" }] },
       ] : settings.footer.columns,
       about: legacyBrand ? "Everyday essentials. Little discoveries. Everything you need, in one amazing market." : settings.footer.about,
-      copyrightText: legacyBrand ? "Â© {year} Amaze Markets. All rights reserved." : settings.footer.copyrightText,
+      copyrightText: legacyBrand ? "© {year} Amaze Markets. All rights reserved." : settings.footer.copyrightText,
     },
   };
 }

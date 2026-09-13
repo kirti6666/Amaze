@@ -2,12 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Providers } from "./providers";
-import { Header } from "@/components/storefront/Header";
-import { Footer } from "@/components/storefront/Footer";
-import { AnnouncementBar } from "@/components/storefront/AnnouncementBar";
 import { getSiteSettings } from "@/lib/site-settings";
 import { storefrontAppearance } from "@/components/storefront/appearance";
-// import { getServerUser } from "@/lib/middleware/getServerUser";
 
 // Three type roles: Archivo for headlines (industrial, tightens well at scale),
 // Instrument Sans for body, IBM Plex Mono for every dose figure and batch
@@ -74,8 +70,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const settings = storefrontAppearance(await getSiteSettings());
-  // const user =await getServerUser()
-  // console.log(user,"from Main Layout")
 
   // Inject the admin-chosen theme colours as CSS variables. Every Tailwind
   // colour token resolves to one of these (see tailwind.config.ts), so the
@@ -91,14 +85,8 @@ export default async function RootLayout({
       <head>
         <style dangerouslySetInnerHTML={{ __html: themeVars }} />
       </head>
-      <body className="flex flex-col min-h-screen font-sans antialiased">
-        <Providers>
-          <AnnouncementBar />
-          <Header />
-          <div className="flex-1">{children}</div>
-        {/* { user?.role!=="admin" && <Footer />} */}
-        <Footer/>
-        </Providers>
+      <body className="min-h-screen font-sans antialiased">
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

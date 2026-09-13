@@ -193,12 +193,6 @@ export default async function AdminDashboard() {
 
       {/* KPI cards */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        {/* <StatCard
-          icon={<Wallet size={14} />}
-          label="Revenue (paid)"
-          value={`\u20B9${stats.revenue.toLocaleString("en-IN")}`}
-          accent="text-green-500"
-        /> */}
         <StatCard
           icon={<Wallet size={14} />}
           label="Revenue (paid)"

@@ -5,7 +5,7 @@ import { getSiteSettings } from "@/lib/site-settings";
 import { storefrontAppearance } from "@/components/storefront/appearance";
 
 /**
- * Storefront footer â€” entirely driven by Site Settings (about text, link
+ * Storefront footer — entirely driven by Site Settings (about text, link
  * columns, contact details, social links, copyright). Add/remove/reorder any
  * of it from /admin/settings â†’ Footer / Contact & Social.
  *
@@ -42,7 +42,7 @@ export async function Footer() {
         <path fill="var(--accent)" d="M0 22 Q460 78 920 38 T1440 14 V64 H0Z" />
       </svg>
       <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-6 gap-y-8 px-5 py-14 md:grid-cols-4 md:gap-x-8 md:px-8">
-        {/* Brand â€” spans the full width on mobile so the columns below pair up */}
+        {/* Brand — spans the full width on mobile so the columns below pair up */}
         <div className="col-span-2 md:col-span-1">
           <Link href="/" aria-label={brand.storeName}><BrandLogo src={brand.logoUrl} name={brand.storeName} /></Link>
           {footer.about && (
