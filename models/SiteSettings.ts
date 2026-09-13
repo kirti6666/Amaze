@@ -1,4 +1,5 @@
 import { Schema, models, model } from "mongoose";
+import { LIGHT_THEME } from "@/lib/theme-presets";
 
 /**
  * SiteSettings — a SINGLETON document that holds every piece of site-wide,
@@ -75,16 +76,16 @@ const SeoSchema = new Schema(
 const ThemeSchema = new Schema(
   {
     // `primary` drives buttons/links (existing behaviour, unchanged contract).
-    primaryColor: { type: String, default: "#D91F2A" },
-    primaryForeground: { type: String, default: "#FFFFFF" },
+    primaryColor: { type: String, default: LIGHT_THEME.primaryColor },
+    primaryForeground: { type: String, default: LIGHT_THEME.primaryForeground },
     // Extended tokens. All optional with defaults, so any existing settings
     // doc keeps working — getSiteSettings() merges these in automatically.
-    backgroundColor: { type: String, default: "#0A0A0B" }, // page canvas (ink)
-    surfaceColor: { type: String, default: "#141416" }, // cards, raised panels
-    foregroundColor: { type: String, default: "#FAFAF8" }, // primary text (bone)
-    mutedColor: { type: String, default: "#8A8A92" }, // secondary text (ash)
-    borderColor: { type: String, default: "#26262A" }, // hairlines
-    accentColor: { type: String, default: "#D91F2A" }, // badges, emphasis
+    backgroundColor: { type: String, default: LIGHT_THEME.backgroundColor }, // page canvas
+    surfaceColor: { type: String, default: LIGHT_THEME.surfaceColor }, // cards, raised panels
+    foregroundColor: { type: String, default: LIGHT_THEME.foregroundColor }, // primary text
+    mutedColor: { type: String, default: LIGHT_THEME.mutedColor }, // secondary text
+    borderColor: { type: String, default: LIGHT_THEME.borderColor }, // hairlines
+    accentColor: { type: String, default: LIGHT_THEME.accentColor }, // badges, emphasis
   },
   { _id: false }
 );

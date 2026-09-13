@@ -1,12 +1,12 @@
 import type { SiteSettingsData } from "@/lib/site-settings";
+import { LIGHT_THEME, isLegacyDarkTheme } from "@/lib/theme-presets";
 
 /** Presentation only: translate the original Tiger preset without writing settings.
  * Custom admin values and commerce stay intact; the legacy preset gets new storefront copy.
  */
 export function storefrontAppearance(settings: SiteSettingsData): SiteSettingsData {
   const legacyBrand = /^(store|tiger)$/i.test(settings.brand.storeName.trim());
-  const legacyTheme = settings.theme.backgroundColor.toLowerCase() === "#0a0a0b"
-    && settings.theme.primaryColor.toLowerCase() === "#d91f2a";
+  const legacyTheme = isLegacyDarkTheme(settings.theme);
   return {
     ...settings,
     brand: {
@@ -22,12 +22,7 @@ export function storefrontAppearance(settings: SiteSettingsData): SiteSettingsDa
       metaTitle: "Amaze Markets | Everything you need, one amazing market",
       metaDescription: "Discover your next favourite at Amaze Markets. Explore our products and shop with easy guest checkout.",
     } : settings.seo,
-    theme: legacyTheme ? {
-      primaryColor: "#412b6b", primaryForeground: "#ffffff",
-      backgroundColor: "#ffffff", surfaceColor: "#f6f4f8",
-      foregroundColor: "#151515", mutedColor: "#6b6475",
-      borderColor: "#e8e3ed", accentColor: "#ef508b",
-    } : settings.theme,
+    theme: legacyTheme ? { ...LIGHT_THEME } : settings.theme,
     home: {
       ...settings.home,
       categoriesHeading: settings.home.categoriesHeading === "Shop by Goal" ? "Shop By Category" : settings.home.categoriesHeading,

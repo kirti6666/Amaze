@@ -1,5 +1,6 @@
 import { connectDB } from "@/lib/db";
 import { SiteSettings } from "@/models";
+import { LIGHT_THEME } from "@/lib/theme-presets";
 
 /**
  * Shared TypeScript shape for the CMS settings. This is the single source of
@@ -121,16 +122,7 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
     metaTitle: "E-Commerce Store",
     metaDescription: "Built with Next.js, MongoDB, and Cloudinary",
   },
-  theme: {
-    primaryColor: "#D91F2A",
-    primaryForeground: "#FFFFFF",
-    backgroundColor: "#0A0A0B",
-    surfaceColor: "#141416",
-    foregroundColor: "#FAFAF8",
-    mutedColor: "#8A8A92",
-    borderColor: "#26262A",
-    accentColor: "#D91F2A",
-  },
+  theme: { ...LIGHT_THEME },
   commerce: {
     currencySymbol: "₹",
     currencyCode: "INR",

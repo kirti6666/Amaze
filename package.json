@@ -10,7 +10,8 @@
     "start": "next start",
     "lint": "next lint",
     "seed": "tsx scripts/seed.ts",
-    "seed:reviews": "tsx scripts/seed-reviews.ts"
+    "seed:reviews": "tsx scripts/seed-reviews.ts",
+    "migrate:theme": "tsx scripts/migrate-theme-light.ts"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
