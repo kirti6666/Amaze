@@ -341,7 +341,7 @@ export default function AdminSettingsPage() {
         <div>
           <h1 className="text-2xl font-bold">Site Settings</h1>
           <p className="text-sm text-gray-400">
-            Everything the storefront shows — branding, homepage, navigation, footer, commerce.
+            Everything the storefront shows â€” branding, homepage, navigation, footer, commerce.
           </p>
         </div>
         <button
@@ -349,7 +349,7 @@ export default function AdminSettingsPage() {
           disabled={saving}
           className="inline-flex items-center gap-2 rounded-md bg-primary text-primary-foreground px-4 py-2 disabled:opacity-50"
         >
-          <Save size={16} /> {saving ? "Saving…" : "Save changes"}
+          <Save size={16} /> {saving ? "Savingâ€¦" : "Save changes"}
         </button>
       </div>
 
@@ -386,7 +386,7 @@ export default function AdminSettingsPage() {
           <Text label="Store name" value={s.brand.storeName} onChange={(v) => set("brand.storeName", v)} />
           <Text label="Tagline" value={s.brand.tagline} onChange={(v) => set("brand.tagline", v)} />
           <SingleImageUpload
-            label="Logo (optional — falls back to the store name text)"
+            label="Logo (optional â€” falls back to the store name text)"
             value={s.brand.logoUrl}
             onChange={(v) => set("brand.logoUrl", v)}
           />
@@ -557,7 +557,7 @@ export default function AdminSettingsPage() {
             label="Text"
             value={s.announcement.text}
             onChange={(v) => set("announcement.text", v)}
-            placeholder="Free shipping on orders over ₹999!"
+            placeholder="Free shipping on orders over â‚¹999!"
           />
           <Text
             label="Link (optional)"
@@ -626,7 +626,7 @@ export default function AdminSettingsPage() {
 
             <div className="rounded-md border p-4 space-y-3">
               <Toggle
-                label="Show Combos & Stacks rail"
+                label="Show featured collection rail"
                 value={s.home.combos.enabled}
                 onChange={(v) => set("home.combos.enabled", v)}
               />
@@ -643,11 +643,11 @@ export default function AdminSettingsPage() {
                 />
               </div>
               <Text
-                label="Combo category slug"
+                label="Featured collection category slug"
                 hint="Products in this category fill the rail. Must match the category's slug exactly."
                 value={s.home.comboCategorySlug}
                 onChange={(v) => set("home.comboCategorySlug", v)}
-                placeholder="combos-stacks"
+                placeholder="fashion-and-beauty"
               />
             </div>
 
@@ -883,7 +883,7 @@ export default function AdminSettingsPage() {
           disabled={saving}
           className="inline-flex items-center gap-2 rounded-md bg-primary text-primary-foreground px-4 py-2 disabled:opacity-50"
         >
-          <Save size={16} /> {saving ? "Saving…" : "Save changes"}
+          <Save size={16} /> {saving ? "Savingâ€¦" : "Save changes"}
         </button>
       </div>
     </div>

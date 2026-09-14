@@ -14,7 +14,7 @@ export default async function AdminLayout({
 
   return (
     <div
-      className="flex min-h-screen bg-background text-foreground"
+      className="admin-shell flex min-h-screen bg-background text-foreground"
       style={
         {
           // The admin panel deliberately keeps its own light palette. Resetting

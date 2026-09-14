@@ -116,13 +116,13 @@ export function ProductDetailClient({ product }: { product: Product }) {
   return (
     <div className="product-detail grid md:grid-cols-2 gap-8 lg:gap-16">
       <div>
-        <div className="aspect-square rounded-lg overflow-hidden bg-surface mb-3">
+        <div className="detail-main-image">
           {images[activeImage] ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={images[activeImage]}
               alt={product.title}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-muted">
@@ -142,7 +142,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
                   }`}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={img} alt="" className="w-full h-full object-cover" />
+                <img src={img} alt="" className="w-full h-full object-contain" />
               </button>
             ))}
           </div>
@@ -151,14 +151,14 @@ export function ProductDetailClient({ product }: { product: Product }) {
 
       <div className="product-info">
         {product.category?.name && (
-          <p className="text-sm text-muted mb-1">{product.category.name}</p>
+          <p className="detail-category">{product.category.name}</p>
         )}
         <h1 className="text-2xl font-bold mb-3">{product.title}</h1>
 
-        <div className="flex items-center gap-2 mb-4">
-          <span className="text-2xl font-semibold">{currency}{displayPrice}</span>
+        <div className="detail-price flex items-center gap-2 mb-4">
+          <span className="text-2xl font-semibold">{currency}{displayPrice.toLocaleString("en-IN")}</span>
           {isDiscounted && (
-            <span className="text-muted line-through">{currency}{product.price}</span>
+            <span className="text-muted line-through">{currency}{product.price.toLocaleString("en-IN")}</span>
           )}
         </div>
 
@@ -170,6 +170,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
                 {v.options.map((opt) => (
                   <button
                     key={opt}
+                    aria-pressed={selected[v.name] === opt}
                     onClick={() => setSelected((prev) => ({ ...prev, [v.name]: opt }))}
                     className={`px-3 py-1.5 rounded-md border text-sm ${selected[v.name] === opt
                       ? "border-primary bg-primary text-primary-foreground"
@@ -212,12 +213,13 @@ export function ProductDetailClient({ product }: { product: Product }) {
           </div>
         )}
 
+        <div className="detail-actions">
         <button
           disabled={outOfStock}
           onClick={handleAddToCart}
           className="w-full rounded-md mb-3 bg-primary text-primary-foreground py-3 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {added ? "Added ✓" : "Add to Cart"}
+          {outOfStock ? "Out of stock" : added ? "Added ✓" : "Add to Cart"}
         </button>
         {/* Instant checkout. Outlined rather than filled so it reads as the
             secondary path — Add to Cart stays the primary action for people
@@ -229,7 +231,8 @@ export function ProductDetailClient({ product }: { product: Product }) {
         >
           Buy Now
         </button>
-        <WishlistButton productId={product._id} variant="inline" />
+        </div>
+        <WishlistButton productId={product._id} variant="inline" className="detail-save" />
         {added && (
           <button
             onClick={() => router.push("/cart")}
@@ -239,10 +242,10 @@ export function ProductDetailClient({ product }: { product: Product }) {
           </button>
         )}
 
-        <div className="mt-8 border-t pt-6">
-          <h2 className="font-medium mb-2">Description</h2>
+        <details className="detail-description" open>
+          <summary>Product details</summary>
           <p className="text-muted text-sm whitespace-pre-line">{product.description}</p>
-        </div>
+        </details>
       </div>
     </div>
   );

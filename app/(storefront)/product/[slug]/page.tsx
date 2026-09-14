@@ -44,11 +44,11 @@ export default async function ProductPage({ params }: { params: { slug: string }
     : [];
 
   return (
-    <main className="mx-auto max-w-7xl px-5 py-10 md:px-8">
+    <main className="product-page mx-auto max-w-7xl px-5 py-10 md:px-8">
       <ProductDetailClient product={JSON.parse(JSON.stringify(product))} />
       <ProductReviews productId={String((product as { _id: unknown })._id)} />
       {related.length > 0 && (
-        <section className="mt-16">
+        <section className="detail-related mt-10">
           <h2 className="text-xl font-bold mb-6">You might also like</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {related.map((p) => (

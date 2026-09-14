@@ -1,7 +1,7 @@
 import { Schema, models, model } from "mongoose";
 
 /**
- * SiteSettings — a SINGLETON document that holds every piece of site-wide,
+ * SiteSettings â€” a SINGLETON document that holds every piece of site-wide,
  * admin-editable content/config for the storefront. There is only ever ONE
  * of these (identified by `singletonKey: "site"`), so the whole CMS is just
  * "read this one doc, edit this one doc".
@@ -9,7 +9,7 @@ import { Schema, models, model } from "mongoose";
  * Design choices:
  *  - Grouped into logical sections (brand, seo, theme, commerce, home, ...)
  *    so the admin form can render one tab per section.
- *  - Sub-documents use `_id: false` — these are plain config blobs, not
+ *  - Sub-documents use `_id: false` â€” these are plain config blobs, not
  *    separately-addressable records, so they don't need their own ids.
  *  - Nothing here is "required": getSiteSettings() always merges the stored
  *    doc over DEFAULT_SETTINGS, so a missing field can never break a page.
@@ -56,7 +56,7 @@ const BannerSchema = new Schema(
 
 const BrandSchema = new Schema(
   {
-    storeName: { type: String, default: "Store" },
+    storeName: { type: String, default: "Amaze Markets" },
     tagline: { type: String, default: "" },
     logoUrl: { type: String, default: "" },
     faviconUrl: { type: String, default: "" },
@@ -78,7 +78,7 @@ const ThemeSchema = new Schema(
     primaryColor: { type: String, default: "#D91F2A" },
     primaryForeground: { type: String, default: "#FFFFFF" },
     // Extended tokens. All optional with defaults, so any existing settings
-    // doc keeps working — getSiteSettings() merges these in automatically.
+    // doc keeps working â€” getSiteSettings() merges these in automatically.
     backgroundColor: { type: String, default: "#0A0A0B" }, // page canvas (ink)
     surfaceColor: { type: String, default: "#141416" }, // cards, raised panels
     foregroundColor: { type: String, default: "#FAFAF8" }, // primary text (bone)
@@ -91,13 +91,13 @@ const ThemeSchema = new Schema(
 
 const CommerceSchema = new Schema(
   {
-    currencySymbol: { type: String, default: "₹" },
+    currencySymbol: { type: String, default: "â‚¹" },
     currencyCode: { type: String, default: "INR" },
     shippingFee: { type: Number, default: 0 },
     freeShippingThreshold: { type: Number, default: 0 },
-    // COD removed — the store is prepaid only. Left in the schema (rather than
+    // COD removed â€” the store is prepaid only. Left in the schema (rather than
     // dropped) so existing documents keep validating and the decision stays
-    // reversible from Admin → Settings → Commerce if that ever changes.
+    // reversible from Admin â†’ Settings â†’ Commerce if that ever changes.
     codEnabled: { type: Boolean, default: false },
     payplusEnabled: { type: Boolean, default: true },
     razorpayEnabled: { type: Boolean, default: true },
@@ -116,7 +116,7 @@ const AnnouncementSchema = new Schema(
 
 const HeroSchema = new Schema(
   {
-    title: { type: String, default: "Welcome to the Store" },
+    title: { type: String, default: "Everything you need, one amazing market" },
     subtitle: { type: String, default: "Quality products, fair prices, fast shipping." },
     ctaText: { type: String, default: "Shop Now" },
     ctaLink: { type: String, default: "/shop" },
@@ -142,17 +142,17 @@ const SectionSchema = new Schema(
 const HomeSchema = new Schema(
   {
     hero: { type: HeroSchema, default: () => ({}) },
-    categoriesHeading: { type: String, default: "Shop by Goal" },
-    featuredHeading: { type: String, default: "Featured" },
+    categoriesHeading: { type: String, default: "Shop By Category" },
+    featuredHeading: { type: String, default: "Trending Now" },
     highlights: { type: [HighlightSchema], default: [] },
     banners: { type: [BannerSchema], default: [] },
-    // Product rails, rendered in this order beneath the goals grid.
+    // Product rails, rendered in this order beneath the category grid.
     combos: {
       type: SectionSchema,
       default: () => ({
         enabled: true,
-        heading: "Combos & Stacks",
-        subheading: "Multi-product protocols with no duplicated ingredients.",
+        heading: "Featured Collection",
+        subheading: "Explore more of your favourites.",
       }),
     },
     bestsellers: {
@@ -172,7 +172,7 @@ const HomeSchema = new Schema(
       }),
     },
     /** Slug of the category treated as bundles. Drives the Combos rail. */
-    comboCategorySlug: { type: String, default: "combos-stacks" },
+    comboCategorySlug: { type: String, default: "fashion-and-beauty" },
   },
   { _id: false }
 );

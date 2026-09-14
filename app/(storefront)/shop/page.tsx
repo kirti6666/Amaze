@@ -67,7 +67,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
 
   return (
     <main className="mx-auto max-w-7xl px-5 py-10 md:px-8">
-      <div className="collection-heading"><h1>All Products</h1><p>{total} products to explore</p></div>
+      <h1 className="sr-only">All Products</h1>
 
       <ShopFilters
         categories={JSON.parse(JSON.stringify(categories))}

@@ -112,27 +112,27 @@ export interface SiteSettingsData {
  */
 export const DEFAULT_SETTINGS: SiteSettingsData = {
   brand: {
-    storeName: "Store",
+    storeName: "Amaze Markets",
     tagline: "Quality products, fair prices, fast shipping.",
-    logoUrl: "",
+    logoUrl: "/brand/amaze-logo.png",
     faviconUrl: "",
   },
   seo: {
-    metaTitle: "E-Commerce Store",
-    metaDescription: "Built with Next.js, MongoDB, and Cloudinary",
+    metaTitle: "Amaze Markets | Everything you need, one amazing market",
+    metaDescription: "Shop everyday essentials, fashion, home, beauty and more at Amaze Markets.",
   },
   theme: {
-    primaryColor: "#D91F2A",
+    primaryColor: "#412B6B",
     primaryForeground: "#FFFFFF",
-    backgroundColor: "#0A0A0B",
-    surfaceColor: "#141416",
-    foregroundColor: "#FAFAF8",
-    mutedColor: "#8A8A92",
-    borderColor: "#26262A",
-    accentColor: "#D91F2A",
+    backgroundColor: "#FFFFFF",
+    surfaceColor: "#F6F4F8",
+    foregroundColor: "#151515",
+    mutedColor: "#6B6475",
+    borderColor: "#E8E3ED",
+    accentColor: "#EF508B",
   },
   commerce: {
-    currencySymbol: "₹",
+    currencySymbol: "â‚¹",
     currencyCode: "INR",
     shippingFee: 0,
     freeShippingThreshold: 0,
@@ -147,25 +147,20 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
   },
   home: {
     hero: {
-      title: "Welcome to the Store",
+      title: "Everything you need, one amazing market",
       subtitle: "Quality products, fair prices, fast shipping.",
       ctaText: "Shop Now",
       ctaLink: "/shop",
       backgroundImage: "",
     },
-    categoriesHeading: "Shop by Goal",
-    featuredHeading: "Featured",
-    highlights: [
-      { icon: "FlaskConical", title: "Lab Tested", subtitle: "NABL-accredited labs" },
-      { icon: "Scale", title: "Clinical Doses", subtitle: "Printed on the front" },
-      { icon: "PackageOpen", title: "Plain Packaging", subtitle: "Discreet, unmarked" },
-      { icon: "Truck", title: "Free Delivery", subtitle: "On all orders" },
-    ],
+    categoriesHeading: "Shop By Category",
+    featuredHeading: "Trending Now",
+    highlights: [],
     banners: [],
     combos: {
       enabled: true,
-      heading: "Combos & Stacks",
-      subheading: "Multi-product protocols with no duplicated ingredients.",
+      heading: "Featured Collection",
+      subheading: "Explore more of your favourites.",
     },
     bestsellers: {
       enabled: true,
@@ -177,7 +172,7 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
       heading: "Special Offers",
       subheading: "Biggest savings across the range.",
     },
-    comboCategorySlug: "combos-stacks",
+    comboCategorySlug: "fashion-and-beauty",
   },
   header: {
     navLinks: [{ label: "Shop", href: "/shop" }],
@@ -200,7 +195,7 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
         ],
       },
     ],
-    copyrightText: "© {year} Store. All rights reserved.",
+    copyrightText: "Â© {year} Amaze Markets. All rights reserved.",
   },
   contact: {
     email: "",
@@ -215,7 +210,7 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
   },
 };
 
-/** True for plain `{}` objects — used to decide what to deep-merge vs. copy. */
+/** True for plain `{}` objects â€” used to decide what to deep-merge vs. copy. */
 function isPlainObject(v: unknown): v is Record<string, unknown> {
   return typeof v === "object" && v !== null && !Array.isArray(v);
 }
@@ -255,7 +250,7 @@ export function applyFreeShipping(settings: SiteSettingsData): SiteSettingsData 
     commerce: { ...settings.commerce, shippingFee: 0, freeShippingThreshold: 0 },
     announcement: {
       ...settings.announcement,
-      text: settings.announcement.text.replace(/free delivery above ₹[\d,]+/gi, "Free delivery on all orders"),
+      text: settings.announcement.text.replace(/free delivery above â‚¹[\d,]+/gi, "Free delivery on all orders"),
     },
     home: {
       ...settings.home,
@@ -275,13 +270,13 @@ export async function getSiteSettings(): Promise<SiteSettingsData> {
     }
     return applyFreeShipping(mergeSettings(DEFAULT_SETTINGS, doc as unknown));
   } catch (err) {
-    // Never let a settings/DB hiccup take down a page — fall back to defaults.
+    // Never let a settings/DB hiccup take down a page â€” fall back to defaults.
     console.error("getSiteSettings failed, using defaults:", err);
     return applyFreeShipping(DEFAULT_SETTINGS);
   }
 }
 
-/** Format a numeric amount with the configured currency symbol, e.g. "₹499". */
-export function formatPrice(amount: number, symbol = "₹"): string {
+/** Format a numeric amount with the configured currency symbol, e.g. "â‚¹499". */
+export function formatPrice(amount: number, symbol = "â‚¹"): string {
   return `${symbol}${amount}`;
 }

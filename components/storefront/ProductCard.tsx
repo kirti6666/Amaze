@@ -12,11 +12,11 @@ interface ProductCardProps {
     category?: { name: string } | null;
     tags?: string[];
   };
-  /** Currency symbol from Site Settings; defaults to â‚¹ so existing call sites keep working. */
+  /** Currency symbol from Site Settings; defaults to Ã¢â€šÂ¹ so existing call sites keep working. */
   currency?: string;
 }
 
-export function ProductCard({ product, currency = "â‚¹" }: ProductCardProps) {
+export function ProductCard({ product, currency = "₹" }: ProductCardProps) {
   const hasDiscount = Boolean(
     product.discountPrice && product.discountPrice < product.price
   );
@@ -27,13 +27,13 @@ export function ProductCard({ product, currency = "â‚¹" }: ProductCardProps)
   return (
     <Link
       href={`/product/${product.slug}`}
-      className="product-card group flex h-full flex-col overflow-hidden rounded-xl bg-background transition-all duration-300"
+      className="product-card refined-card group"
     >
-      <div className="relative aspect-square overflow-hidden bg-surface">
-        <WishlistButton productId={product._id} className="absolute right-2 top-2 z-10" />
+      <div className="card-media">
+        <WishlistButton productId={product._id} className="card-wishlist absolute right-2 top-2 z-10" />
 
         {hasDiscount && (
-          <span className="absolute bottom-3 left-0 z-10 rounded-r bg-accent px-3 py-1 text-[11px] font-bold text-white">
+          <span className="card-discount">
             SAVE {off}%
           </span>
         )}
@@ -44,7 +44,7 @@ export function ProductCard({ product, currency = "â‚¹" }: ProductCardProps)
             src={product.images[0]}
             alt={product.title}
             loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+            className="card-image"
           />
         ) : (
           <div className="dose flex h-full w-full items-center justify-center text-[11px] uppercase tracking-widest text-muted/40">
@@ -53,26 +53,26 @@ export function ProductCard({ product, currency = "â‚¹" }: ProductCardProps)
         )}
       </div>
 
-      <div className="flex flex-1 flex-col p-4 text-center md:p-5">
+      <div className="card-body">
         {product.category?.name && (
-          <p className="mb-2 text-[11px] text-muted">
+          <p className="card-category">
             {product.category.name}
           </p>
         )}
 
-        <h3 className="line-clamp-2 text-sm font-bold leading-snug transition-colors group-hover:text-primary md:text-base">
+        <h3 className="card-title line-clamp-2">
           {product.title}
         </h3>
 
-        <div className="mt-auto flex flex-wrap items-baseline justify-center gap-2 pt-3">
-          <span className="text-base font-bold text-primary">
+        <div className="card-prices">
+          <span className="card-price">
             {currency}
-            {hasDiscount ? product.discountPrice : product.price}
+            {(hasDiscount ? product.discountPrice! : product.price).toLocaleString("en-IN")}
           </span>
           {hasDiscount && (
-            <span className="text-xs font-medium text-muted line-through">
+            <span className="card-original-price">
               {currency}
-              {product.price}
+              {product.price.toLocaleString("en-IN")}
             </span>
           )}
         </div>
