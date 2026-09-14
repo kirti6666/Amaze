@@ -1,6 +1,9 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
+import { ExternalLink } from "lucide-react";
 import { getServerUser } from "@/lib/middleware/getServerUser";
-// import { LogoutButton } from "@/components/storefront/LogoutButton";
+import { LogoutButton } from "@/components/storefront/LogoutButton";
+import { AdminNav } from "@/components/admin/AdminNav";
 
 export default async function AdminLayout({
   children,
@@ -31,48 +34,30 @@ export default async function AdminLayout({
         } as React.CSSProperties
       }
     >
-      <aside className="w-64 border-r p-6 flex flex-col justify-between">
+      <aside className="flex w-64 shrink-0 flex-col justify-between border-r p-6">
         <div>
-          <h2 className="font-bold text-lg mb-6">Admin Panel</h2>
-          <nav className="space-y-0.5 text-sm">
-            <a
-              href="/admin"
-              className="block px-4 py-2 bg-[#111827] hover:bg-[#1F2937] text-white rounded-xl"
-            >
-              Dashboard
-            </a>
-            <a href="/admin/products" className="block px-4 py-2 bg-[#111827] hover:bg-[#1F2937] text-white rounded-xl">
-              Products
-            </a>
-            <a href="/admin/categories" className="block px-4 py-2 bg-[#111827] hover:bg-[#1F2937] text-white rounded-xl">
-              Categories
-            </a>
-            <a href="/admin/coupons" className="block px-4 py-2 bg-[#111827] hover:bg-[#1F2937] text-white rounded-xl">
-              Coupons
-            </a>
-            <a href="/admin/orders" className="block px-4 py-2 bg-[#111827] hover:bg-[#1F2937] text-white rounded-xl">
-              Orders
-            </a>
-            <a href="/admin/invoices" className="block px-4 py-2 bg-[#111827] hover:bg-[#1F2937] text-white rounded-xl">
-              Invoicing
-            </a>
-            <a href="/admin/analytics" className="block px-4 py-2 bg-[#111827] hover:bg-[#1F2937] text-white rounded-xl">
-              Analytics
-            </a>
-            <a href="/admin/reviews" className="block px-4 py-2 bg-[#111827] hover:bg-[#1F2937] text-white rounded-xl">
-              Reviews
-            </a>
-            <a href="/admin/activity-log" className="block px-4 py-2 bg-[#111827] hover:bg-[#1F2937] text-white rounded-xl">
-              Activity Log
-            </a>
-            <a href="/admin/settings" className="block px-4 py-2 bg-[#111827] hover:bg-[#1F2937] text-white rounded-xl">
-              Settings
-            </a>
-          </nav>
+          <h2 className="mb-1 text-lg font-bold">Admin Panel</h2>
+          <p className="mb-6 truncate text-xs text-[#6b7280]" title={user.email}>
+            {user.email}
+          </p>
+          <AdminNav />
         </div>
-        {/* <LogoutButton className="text-sm text-left hover:underline text-red-500" /> */}
+
+        {/* The storefront header used to supply the only way out of the admin
+            panel. It no longer wraps these pages, so the shell owns both the
+            way back to the shop and the way to sign out. */}
+        <div className="mt-6 space-y-1 border-t pt-4 text-sm">
+          <Link
+            href="/"
+            className="flex items-center gap-2 rounded-xl px-4 py-2 text-[#374151] transition-colors hover:bg-[#F3F4F6]"
+          >
+            <ExternalLink size={15} className="shrink-0" />
+            View store
+          </Link>
+          <LogoutButton className="w-full rounded-xl px-4 py-2 text-left text-red-600 transition-colors hover:bg-red-50" />
+        </div>
       </aside>
-      <main className="flex-1 p-8">{children}</main>
+      <main className="min-w-0 flex-1 p-8">{children}</main>
     </div>
   );
 }

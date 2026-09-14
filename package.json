@@ -11,6 +11,9 @@
     "lint": "next lint",
     "seed": "tsx scripts/seed.ts",
     "seed:reviews": "tsx scripts/seed-reviews.ts",
+    "migrate:theme": "tsx scripts/migrate-theme-light.ts",
+    "check:cloudinary": "tsx scripts/check-cloudinary.ts",
+    "check:db": "tsx scripts/check-db.ts",
     "setup:admin": "node scripts/setup-admin.cjs"
   },
   "dependencies": {

@@ -1,5 +1,6 @@
 import { connectDB } from "@/lib/db";
 import { SiteSettings } from "@/models";
+import { LIGHT_THEME } from "@/lib/theme-presets";
 
 /**
  * Shared TypeScript shape for the CMS settings. This is the single source of
@@ -121,18 +122,9 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
     metaTitle: "Amaze Markets | Everything you need, one amazing market",
     metaDescription: "Shop everyday essentials, fashion, home, beauty and more at Amaze Markets.",
   },
-  theme: {
-    primaryColor: "#412B6B",
-    primaryForeground: "#FFFFFF",
-    backgroundColor: "#FFFFFF",
-    surfaceColor: "#F6F4F8",
-    foregroundColor: "#151515",
-    mutedColor: "#6B6475",
-    borderColor: "#E8E3ED",
-    accentColor: "#EF508B",
-  },
+  theme: { ...LIGHT_THEME },
   commerce: {
-    currencySymbol: "â‚¹",
+    currencySymbol: "₹",
     currencyCode: "INR",
     shippingFee: 0,
     freeShippingThreshold: 0,
@@ -195,7 +187,7 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
         ],
       },
     ],
-    copyrightText: "Â© {year} Amaze Markets. All rights reserved.",
+    copyrightText: "© {year} Amaze Markets. All rights reserved.",
   },
   contact: {
     email: "",
@@ -210,7 +202,7 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
   },
 };
 
-/** True for plain `{}` objects â€” used to decide what to deep-merge vs. copy. */
+/** True for plain `{}` objects — used to decide what to deep-merge vs. copy. */
 function isPlainObject(v: unknown): v is Record<string, unknown> {
   return typeof v === "object" && v !== null && !Array.isArray(v);
 }
@@ -250,7 +242,7 @@ export function applyFreeShipping(settings: SiteSettingsData): SiteSettingsData 
     commerce: { ...settings.commerce, shippingFee: 0, freeShippingThreshold: 0 },
     announcement: {
       ...settings.announcement,
-      text: settings.announcement.text.replace(/free delivery above â‚¹[\d,]+/gi, "Free delivery on all orders"),
+      text: settings.announcement.text.replace(/free delivery above ₹[\d,]+/gi, "Free delivery on all orders"),
     },
     home: {
       ...settings.home,
@@ -270,13 +262,13 @@ export async function getSiteSettings(): Promise<SiteSettingsData> {
     }
     return applyFreeShipping(mergeSettings(DEFAULT_SETTINGS, doc as unknown));
   } catch (err) {
-    // Never let a settings/DB hiccup take down a page â€” fall back to defaults.
+    // Never let a settings/DB hiccup take down a page — fall back to defaults.
     console.error("getSiteSettings failed, using defaults:", err);
     return applyFreeShipping(DEFAULT_SETTINGS);
   }
 }
 
-/** Format a numeric amount with the configured currency symbol, e.g. "â‚¹499". */
-export function formatPrice(amount: number, symbol = "â‚¹"): string {
+/** Format a numeric amount with the configured currency symbol, e.g. "₹499". */
+export function formatPrice(amount: number, symbol = "₹"): string {
   return `${symbol}${amount}`;
 }

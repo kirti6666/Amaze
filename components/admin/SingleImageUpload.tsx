@@ -3,6 +3,19 @@
 import { useState } from "react";
 import { X, Upload } from "lucide-react";
 
+/**
+ * Cloudinary explains refusals precisely ("Invalid Signature", "Invalid
+ * cloud_name", an over-quota account). Reporting a flat "upload failed"
+ * threw that away and left the admin with nothing to act on.
+ */
+async function cloudinaryError(res: Response): Promise<Error> {
+  const detail = await res
+    .json()
+    .then((body) => body?.error?.message as string | undefined)
+    .catch(() => undefined);
+  return new Error(detail ? `Cloudinary: ${detail}` : `Cloudinary upload failed (HTTP ${res.status})`);
+}
+
 interface SingleImageUploadProps {
   value: string;
   onChange: (url: string) => void;
@@ -49,7 +62,7 @@ export function SingleImageUpload({
         `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
         { method: "POST", body: formData }
       );
-      if (!uploadRes.ok) throw new Error("Cloudinary upload failed");
+      if (!uploadRes.ok) throw await cloudinaryError(uploadRes);
       const data = await uploadRes.json();
       onChange(data.secure_url);
     } catch (err) {

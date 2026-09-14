@@ -1,7 +1,8 @@
 import { Schema, models, model } from "mongoose";
+import { LIGHT_THEME } from "@/lib/theme-presets";
 
 /**
- * SiteSettings â€” a SINGLETON document that holds every piece of site-wide,
+ * SiteSettings — a SINGLETON document that holds every piece of site-wide,
  * admin-editable content/config for the storefront. There is only ever ONE
  * of these (identified by `singletonKey: "site"`), so the whole CMS is just
  * "read this one doc, edit this one doc".
@@ -9,7 +10,7 @@ import { Schema, models, model } from "mongoose";
  * Design choices:
  *  - Grouped into logical sections (brand, seo, theme, commerce, home, ...)
  *    so the admin form can render one tab per section.
- *  - Sub-documents use `_id: false` â€” these are plain config blobs, not
+ *  - Sub-documents use `_id: false` — these are plain config blobs, not
  *    separately-addressable records, so they don't need their own ids.
  *  - Nothing here is "required": getSiteSettings() always merges the stored
  *    doc over DEFAULT_SETTINGS, so a missing field can never break a page.
@@ -75,29 +76,29 @@ const SeoSchema = new Schema(
 const ThemeSchema = new Schema(
   {
     // `primary` drives buttons/links (existing behaviour, unchanged contract).
-    primaryColor: { type: String, default: "#D91F2A" },
-    primaryForeground: { type: String, default: "#FFFFFF" },
+    primaryColor: { type: String, default: LIGHT_THEME.primaryColor },
+    primaryForeground: { type: String, default: LIGHT_THEME.primaryForeground },
     // Extended tokens. All optional with defaults, so any existing settings
-    // doc keeps working â€” getSiteSettings() merges these in automatically.
-    backgroundColor: { type: String, default: "#0A0A0B" }, // page canvas (ink)
-    surfaceColor: { type: String, default: "#141416" }, // cards, raised panels
-    foregroundColor: { type: String, default: "#FAFAF8" }, // primary text (bone)
-    mutedColor: { type: String, default: "#8A8A92" }, // secondary text (ash)
-    borderColor: { type: String, default: "#26262A" }, // hairlines
-    accentColor: { type: String, default: "#D91F2A" }, // badges, emphasis
+    // doc keeps working — getSiteSettings() merges these in automatically.
+    backgroundColor: { type: String, default: LIGHT_THEME.backgroundColor }, // page canvas
+    surfaceColor: { type: String, default: LIGHT_THEME.surfaceColor }, // cards, raised panels
+    foregroundColor: { type: String, default: LIGHT_THEME.foregroundColor }, // primary text
+    mutedColor: { type: String, default: LIGHT_THEME.mutedColor }, // secondary text
+    borderColor: { type: String, default: LIGHT_THEME.borderColor }, // hairlines
+    accentColor: { type: String, default: LIGHT_THEME.accentColor }, // badges, emphasis
   },
   { _id: false }
 );
 
 const CommerceSchema = new Schema(
   {
-    currencySymbol: { type: String, default: "â‚¹" },
+    currencySymbol: { type: String, default: "₹" },
     currencyCode: { type: String, default: "INR" },
     shippingFee: { type: Number, default: 0 },
     freeShippingThreshold: { type: Number, default: 0 },
-    // COD removed â€” the store is prepaid only. Left in the schema (rather than
+    // COD removed — the store is prepaid only. Left in the schema (rather than
     // dropped) so existing documents keep validating and the decision stays
-    // reversible from Admin â†’ Settings â†’ Commerce if that ever changes.
+    // reversible from Admin → Settings → Commerce if that ever changes.
     codEnabled: { type: Boolean, default: false },
     payplusEnabled: { type: Boolean, default: true },
     razorpayEnabled: { type: Boolean, default: true },

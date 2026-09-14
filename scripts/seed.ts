@@ -18,6 +18,7 @@ import path from "path";
 dotenv.config({ path: path.resolve(process.cwd(), ".env.local") });
 
 import mongoose from "mongoose";
+import { LIGHT_THEME } from "../lib/theme-presets";
 import bcrypt from "bcryptjs";
 import { User, Category, Product, Coupon, SiteSettings } from "../models";
 import { CATEGORIES, PRODUCTS, COMBOS } from "./catalog";
@@ -101,16 +102,7 @@ async function seed() {
       metaDescription:
         "Ayurvedic and nutraceutical supplements at clinically studied doses. Every batch third-party tested at an NABL-accredited lab. Plain, discreet packaging.",
     },
-    theme: {
-      primaryColor: "#D91F2A",
-      primaryForeground: "#FFFFFF",
-      backgroundColor: "#0A0A0B",
-      surfaceColor: "#141416",
-      foregroundColor: "#FAFAF8",
-      mutedColor: "#8A8A92",
-      borderColor: "#26262A",
-      accentColor: "#D91F2A",
-    },
+    theme: { ...LIGHT_THEME },
     commerce: {
       currencySymbol: "₹",
       currencyCode: "INR",

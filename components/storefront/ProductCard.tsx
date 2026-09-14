@@ -12,7 +12,7 @@ interface ProductCardProps {
     category?: { name: string } | null;
     tags?: string[];
   };
-  /** Currency symbol from Site Settings; defaults to Ã¢â€šÂ¹ so existing call sites keep working. */
+  /** Currency symbol from Site Settings; defaults to â‚¹ so existing call sites keep working. */
   currency?: string;
 }
 

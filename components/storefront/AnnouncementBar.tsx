@@ -10,7 +10,7 @@ import { getSiteSettings } from "@/lib/site-settings";
  * How the loop is seamless: the message list is rendered twice, side by side,
  * and the track slides exactly -50% before snapping back. Because the second
  * copy is pixel-identical to the first and sits where the first started, the
- * reset is invisible â€” no gap, no jump.
+ * reset is invisible — no gap, no jump.
  *
  * The admin can write several messages separated by "Â·" and each becomes its
  * own item with a divider, so one settings field drives the whole ticker.
@@ -40,7 +40,7 @@ export async function AnnouncementBar() {
             {m}
           </span>
           <span aria-hidden="true" className="text-[9px] opacity-60">
-            â—†
+            ◆
           </span>
         </span>
       ))}
@@ -50,7 +50,7 @@ export async function AnnouncementBar() {
   const bar = (
     <div className="marquee flex overflow-hidden py-2.5">
       {track}
-      {/* Duplicate copy â€” aria-hidden so screen readers announce the text once. */}
+      {/* Duplicate copy — aria-hidden so screen readers announce the text once. */}
       <div aria-hidden="true" className="contents">
         {track}
       </div>
