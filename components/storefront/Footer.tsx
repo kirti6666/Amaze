@@ -3,6 +3,7 @@ import { BrandLogo } from "./BrandLogo";
 import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin } from "lucide-react";
 import { getSiteSettings } from "@/lib/site-settings";
 import { storefrontAppearance } from "@/components/storefront/appearance";
+import { POLICIES } from "@/lib/policies";
 
 /**
  * Storefront footer — entirely driven by Site Settings (about text, link
@@ -31,6 +32,17 @@ export async function Footer() {
   );
 
   const hasContact = contact.email || contact.phone || contact.address;
+
+  // The policy pages are part of the codebase rather than Site Settings, so
+  // their column is always rendered — unless the admin has already added their
+  // own column pointing at them, in which case we don't show it twice.
+  const policyColumn = {
+    title: "Policies",
+    links: POLICIES.map((p) => ({ label: p.navLabel, href: `/policies/${p.slug}` })),
+  };
+  const columns = footer.columns.some((col) => col.links.some((l) => l.href.startsWith("/policies")))
+    ? footer.columns
+    : [...footer.columns, policyColumn];
   const heading = "mb-5 text-base font-bold";
   const linkCls = "text-sm text-muted transition-colors hover:text-primary";
 
@@ -41,9 +53,9 @@ export async function Footer() {
         <path fill="#f59ab9" d="M0 34 Q360 4 720 36 T1440 28 V64 H0Z" />
         <path fill="var(--accent)" d="M0 22 Q460 78 920 38 T1440 14 V64 H0Z" />
       </svg>
-      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-6 gap-y-8 px-5 py-14 md:grid-cols-4 md:gap-x-8 md:px-8">
+      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-6 gap-y-8 px-5 py-14 md:grid-cols-3 md:gap-x-8 lg:grid-cols-5 md:px-8">
         {/* Brand — spans the full width on mobile so the columns below pair up */}
-        <div className="col-span-2 md:col-span-1">
+        <div className="col-span-2 md:col-span-3 lg:col-span-1">
           <Link href="/" aria-label={brand.storeName}><BrandLogo src={brand.logoUrl} name={brand.storeName} /></Link>
           {footer.about && (
             <p className="mt-5 max-w-xs text-sm leading-[1.6] text-muted">
@@ -68,7 +80,7 @@ export async function Footer() {
           )}
         </div>
 
-        {footer.columns.map((col, i) => (
+        {columns.map((col, i) => (
           <div key={i}>
             {col.title && <p className={heading}>{col.title}</p>}
             <ul className="space-y-3">
