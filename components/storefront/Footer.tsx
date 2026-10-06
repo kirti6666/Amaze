@@ -4,6 +4,7 @@ import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin } from "luci
 import { getSiteSettings } from "@/lib/site-settings";
 import { storefrontAppearance } from "@/components/storefront/appearance";
 import { POLICIES } from "@/lib/policies";
+import { PaymentIcons } from "./PaymentIcons";
 
 /**
  * Storefront footer — entirely driven by Site Settings (about text, link
@@ -124,13 +125,16 @@ export async function Footer() {
         )}
       </div>
 
-      {copyright && (
-        <div className="border-t border-hairline">
-          <p className="mx-auto max-w-7xl px-5 py-3.5 text-center text-[10.5px] leading-[1.5] text-muted md:px-8">
-            {copyright}
-          </p>
+      <div className="border-t border-hairline">
+        <div className="mx-auto max-w-7xl px-5 pb-3.5 pt-6 md:px-8 md:pt-8">
+          <PaymentIcons />
+          {copyright && (
+            <p className="mt-5 text-center text-[10.5px] leading-[1.5] text-muted md:mt-6">
+              {copyright}
+            </p>
+          )}
         </div>
-      )}
+      </div>
     </footer>
   );
 }

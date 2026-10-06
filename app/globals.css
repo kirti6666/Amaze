@@ -491,3 +491,14 @@ select option {
  .home-grid { gap:18px; }
  .category-grid .category-tile > div { font-size:17px; padding:18px 10px; }
 }
+
+/* Footer "we accept" payment badges. Each SVG carries its own white/brand
+   card, so they read on the purple footer as-is. Sized up from the 38×24
+   source and wrapped into centred rows on narrow screens. */
+.payment-icons { display:flex; flex-wrap:wrap; justify-content:center; gap:10px 12px; }
+.payment-icons li { display:flex; }
+.payment-icons img { display:block; width:54px; height:auto; aspect-ratio:38 / 24; border-radius:4px; }
+@media(max-width:767px) {
+ .payment-icons { gap:8px; }
+ .payment-icons img { width:44px; }
+}
