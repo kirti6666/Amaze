@@ -190,7 +190,6 @@ select option {
   .amaze-logo { width:156px; height:50px; }
   .amaze-logo img { width:176px; top:-20px; left:-8px; }
   .custom-logo { width:156px; }
-  .hero-art { aspect-ratio:1086 / 1448; }
   .hero-wave { height:14px; }
   .product-card h3 { font-size:13px; }
   .product-card > div:last-child { padding:14px 10px; }
@@ -445,4 +444,50 @@ select option {
  .policy-contact ul { flex-direction:column; }
  .policy-cards { grid-template-columns:minmax(0,1fr); gap:12px; }
  .policy-card { padding:18px; }
+}
+
+/* Homepage responsive tuning — fills the gaps between the phone (≤767px) and
+   desktop rules above so large phones, tablets and small laptops get layouts
+   sized for them rather than a stretched phone or squeezed desktop view. */
+
+/* Portrait hero art on phones only. Must match the <source media> breakpoint
+   in HeroSlider.tsx; wider screens get the landscape banner, which keeps the
+   hero from filling a whole tablet screen. */
+@media(max-width:559px) { .hero-art { aspect-ratio:1086 / 1448; } }
+
+.category-grid .category-tile > div span { text-wrap:balance; }
+
+/* Small phones (iPhone SE, Galaxy Fold): tighter gutters and labels. */
+@media(max-width:374px) {
+ .storefront .home-section { padding:20px 12px; }
+ .storefront .home-section h2 { font-size:21px; }
+ .home-grid { gap:10px; }
+ .category-grid .category-tile > div { font-size:13px; padding:12px 6px; }
+}
+
+/* Large phones in landscape and small tablets: four tiles per row, so a
+   section of four products is one row and eight categories take two, instead
+   of a stack of screen-filling 2-up tiles. */
+@media(min-width:560px) and (max-width:767px) {
+ .home-grid { grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; }
+ .category-grid { row-gap:12px; }
+ .category-grid .category-tile > div { font-size:12.5px; padding:10px 6px; }
+ .category-grid .category-tile svg { display:none; }
+}
+
+/* Tablets: keep four columns but size gutters and labels to the narrower
+   tiles so category names don't break mid-phrase around the arrow. */
+@media(min-width:768px) and (max-width:1023px) {
+ .home-section { padding:32px 24px; }
+ .home-section h2 { margin-bottom:22px; }
+ .home-grid { gap:14px; }
+ .category-grid { row-gap:16px; }
+ .category-grid .category-tile > div { font-size:15px; padding:14px 8px; gap:6px; }
+ .category-grid .category-tile svg { width:16px; }
+}
+
+/* Small laptops. */
+@media(min-width:1024px) and (max-width:1279px) {
+ .home-grid { gap:18px; }
+ .category-grid .category-tile > div { font-size:17px; padding:18px 10px; }
 }

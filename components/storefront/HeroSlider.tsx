@@ -23,7 +23,8 @@ import { HERO_SLIDES, HERO_AUTOPLAY_MS, type HeroSlide } from "@/lib/heroSlides"
  *  - honours prefers-reduced-motion by not auto-advancing at all — manual
  *    controls stay available.
  *
- * A picture element selects the supplied portrait artwork on mobile, avoiding
+ * A picture element selects the supplied portrait artwork on phones (up to
+ * 559px wide — keep in sync with `.hero-art` in globals.css), avoiding
  * a cropped desktop banner or downloading both images.
  */
 
@@ -165,7 +166,7 @@ export function HeroSlider({
               className="block select-none"
             >
               <picture>
-                <source media="(max-width: 767px)" srcSet={slide.mobile} />
+                <source media="(max-width: 559px)" srcSet={slide.mobile} />
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={slide.image} alt={slide.alt} draggable={false}
                   loading={i === 0 ? "eager" : "lazy"}

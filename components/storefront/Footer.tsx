@@ -53,8 +53,10 @@ export async function Footer() {
         <path fill="#f59ab9" d="M0 34 Q360 4 720 36 T1440 28 V64 H0Z" />
         <path fill="var(--accent)" d="M0 22 Q460 78 920 38 T1440 14 V64 H0Z" />
       </svg>
-      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-6 gap-y-8 px-5 py-14 md:grid-cols-3 md:gap-x-8 lg:grid-cols-5 md:px-8">
-        {/* Brand — spans the full width on mobile so the columns below pair up */}
+      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-6 gap-y-8 px-5 py-14 md:grid-cols-3 md:gap-x-8 md:px-8 lg:auto-cols-fr lg:grid-flow-col lg:grid-cols-[minmax(0,1.4fr)]">
+        {/* Brand — spans the full width on mobile/tablet so the columns below
+            pair up; on desktop every column shares one row, with the brand
+            slightly wider, however many link columns are configured. */}
         <div className="col-span-2 md:col-span-3 lg:col-span-1">
           <Link href="/" aria-label={brand.storeName}><BrandLogo src={brand.logoUrl} name={brand.storeName} /></Link>
           {footer.about && (
