@@ -11,6 +11,7 @@ import {
   type GuestContact,
 } from "@/components/storefront/GuestCheckoutPanel";
 import { AvailableCoupons } from "@/components/storefront/AvailableCoupons";
+import { ChargeCurrencyNote } from "@/components/storefront/Price";
 
 interface Address {
   _id: string;
@@ -366,6 +367,9 @@ export default function CheckoutPage() {
             <span>Total</span>
             <span>{cur}{total}</span>
           </div>
+          {/* Checkout always shows the real charge; flag it if the shopper was
+              browsing in another currency. */}
+          <ChargeCurrencyNote className="pt-1 text-xs text-muted" />
         </div>
 
         {orderError && <p className="text-sm text-danger">{orderError}</p>}

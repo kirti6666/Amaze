@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { WishlistButton } from "./WishlistButton";
+import { Price } from "./Price";
 
 interface ProductCardProps {
   product: {
@@ -65,15 +66,13 @@ export function ProductCard({ product, currency = "₹" }: ProductCardProps) {
         </h3>
 
         <div className="card-prices">
-          <span className="card-price">
-            {currency}
-            {(hasDiscount ? product.discountPrice! : product.price).toLocaleString("en-IN")}
-          </span>
+          <Price
+            className="card-price"
+            symbol={currency}
+            amount={hasDiscount ? product.discountPrice! : product.price}
+          />
           {hasDiscount && (
-            <span className="card-original-price">
-              {currency}
-              {product.price.toLocaleString("en-IN")}
-            </span>
+            <Price className="card-original-price" symbol={currency} amount={product.price} />
           )}
         </div>
       </div>

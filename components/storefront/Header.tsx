@@ -23,6 +23,8 @@ export async function Header() {
             <Link key={i} href={l.href || "#"} className="hover:text-primary">{l.label === "Shop" ? "All Products" : l.label}</Link>
           ))}
           <Link href="/#categories" className="hover:text-primary">Shop By Category</Link>
+          <Link href="/about" className="hover:text-primary">About Us</Link>
+          <Link href="/contact" className="hover:text-primary">Contact Us</Link>
         </nav>
         <div className="hidden items-center gap-4 lg:flex">
           <Link href="/shop" aria-label="Search products" className="header-icon"><Search size={21} strokeWidth={1.6} /></Link>
@@ -39,6 +41,8 @@ export async function Header() {
           ...header.navLinks.map(l => ({label: l.label === "Shop" ? "All Products" : l.label, href: l.href || "#"})),
           { label: "Shop By Category", href: "/#categories" },
           { label: "Wishlist", href: "/wishlist" },
+          { label: "About Us", href: "/about" },
+          { label: "Contact Us", href: "/contact" },
         ]} user={user ? {role: user.role} : null} />
       </div>
     </header>

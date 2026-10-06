@@ -1,6 +1,8 @@
 import { Header } from "@/components/storefront/Header";
 import { Footer } from "@/components/storefront/Footer";
 import { AnnouncementBar } from "@/components/storefront/AnnouncementBar";
+import { TopBar } from "@/components/storefront/TopBar";
+import { BackToTop } from "@/components/storefront/BackToTop";
 
 /**
  * Storefront chrome lives here rather than in the root layout, so that it wraps
@@ -14,9 +16,11 @@ export default function StorefrontLayout({ children }: { children: React.ReactNo
   return (
     <div className="storefront flex min-h-screen flex-col">
       <AnnouncementBar />
+      <TopBar />
       <Header />
       <div className="flex-1">{children}</div>
       <Footer />
+      <BackToTop />
     </div>
   );
 }

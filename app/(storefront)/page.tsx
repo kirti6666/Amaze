@@ -7,6 +7,7 @@ import { HeroSlider } from "@/components/storefront/HeroSlider";
 import { getSiteSettings } from "@/lib/site-settings";
 import { storefrontAppearance } from "@/components/storefront/appearance";
 import { homeCategories, beautyPreviews } from "@/components/storefront/home-content";
+import { TrustBadges } from "@/components/storefront/TrustBadges";
 
 export const dynamic = "force-dynamic";
 const fields = "title slug price discountPrice images category tags";
@@ -29,6 +30,9 @@ export default async function HomePage() {
     <section aria-label="Welcome to Amaze Markets">
       <h1 className="sr-only">Everything you need, one amazing market</h1>
       <HeroSlider fallbackHref="/shop" />
+    </section>
+    <section className="home-trust" aria-label="Why shop with us">
+      <TrustBadges />
     </section>
     {featured.length > 0 && <section className="home-section">
       <h2>Trending Now</h2>

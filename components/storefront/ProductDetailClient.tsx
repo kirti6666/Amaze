@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { useCartStore } from "@/store/useCartStore";
 import { useCurrency } from "@/lib/useCurrency";
 import { WishlistButton } from "./WishlistButton";
+import { Price } from "./Price";
+import { TrustBadges } from "./TrustBadges";
 
 interface VariantAttribute {
   name: string;
@@ -156,9 +158,9 @@ export function ProductDetailClient({ product }: { product: Product }) {
         <h1 className="text-2xl font-bold mb-3">{product.title}</h1>
 
         <div className="detail-price flex items-center gap-2 mb-4">
-          <span className="text-2xl font-semibold">{currency}{displayPrice.toLocaleString("en-IN")}</span>
+          <Price className="text-2xl font-semibold" symbol={currency} amount={displayPrice} />
           {isDiscounted && (
-            <span className="text-muted line-through">{currency}{product.price.toLocaleString("en-IN")}</span>
+            <Price className="text-muted line-through" symbol={currency} amount={product.price} />
           )}
         </div>
 
@@ -241,6 +243,8 @@ export function ProductDetailClient({ product }: { product: Product }) {
             View Cart
           </button>
         )}
+
+        <TrustBadges variant="compact" />
 
         <details className="detail-description" open>
           <summary>Product details</summary>

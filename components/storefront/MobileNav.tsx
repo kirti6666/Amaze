@@ -6,6 +6,8 @@ import { usePathname } from "next/navigation";
 import { Menu, X, ShoppingBag, User, LogIn } from "lucide-react";
 import { useCartStore } from "@/store/useCartStore";
 import { LogoutButton } from "./LogoutButton";
+import { CurrencySwitcher } from "./CurrencySwitcher";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 interface NavLink {
   label: string;
@@ -185,6 +187,11 @@ export function MobileNav({
         </nav>
 
         <div className="border-t border-hairline px-5 py-4">
+          {/* Same pickers as the desktop top bar. */}
+          <div className="mb-3 grid grid-cols-2 gap-2">
+            <LanguageSwitcher className="util-select--block" />
+            <CurrencySwitcher className="util-select--block" />
+          </div>
           <Link
             href="/shop"
             onClick={() => setOpen(false)}
