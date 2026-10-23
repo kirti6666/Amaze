@@ -1,5 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
+import { CheckCircle2 } from "lucide-react";
 import { connectDB } from "@/lib/db";
 import { Order } from "@/models";
 import { cookies } from "next/headers";
@@ -35,8 +36,8 @@ export default async function OrderSuccessPage({ params }: { params: { id: strin
 
   return (
     <main className="max-w-2xl mx-auto px-6 py-16 text-center">
-      <div className="text-5xl mb-4">✓</div>
-      <h1 className="text-2xl font-bold mb-2">Order placed successfully!</h1>
+      <div className="success-badge" aria-hidden="true"><CheckCircle2 size={40} strokeWidth={1.8} /></div>
+      <h1 className="page-title mb-2">Order placed successfully!</h1>
       <p className="text-muted mb-8">
         Order ID: <span className="font-mono">{String(o._id)}</span>
       </p>

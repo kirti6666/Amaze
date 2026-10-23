@@ -189,7 +189,7 @@ export default function CheckoutPage() {
   if (items.length === 0) {
     return (
       <main className="max-w-3xl mx-auto px-6 py-16 text-center">
-        <h1 className="text-2xl font-bold mb-4">Your cart is empty</h1>
+        <h1 className="page-title mb-4">Your cart is empty</h1>
         <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
           <Link
             href="/shop"

@@ -102,7 +102,7 @@ export function ProductReviews({ productId }: { productId: string }) {
 
   return (
     <section className="mt-16 border-t pt-10">
-      <h2 className="text-xl font-bold mb-6">Ratings & Reviews</h2>
+      <h2 className="section-title mb-6">Ratings & Reviews</h2>
 
       {/* Summary */}
       <div className="flex flex-col sm:flex-row gap-8 mb-10">

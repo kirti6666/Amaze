@@ -39,14 +39,15 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center p-6">
-      <div className="w-full max-w-sm space-y-6">
-        <h1 className="text-2xl font-bold">Log in</h1>
+    <main className="auth-page">
+      <div className="auth-card space-y-6">
+        <h1 className="page-title">Log in</h1>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Email</label>
+            <label htmlFor="login-email" className="block text-sm font-medium mb-1">Email</label>
             <input
+              id="login-email"
               type="email"
               required
               value={email}
@@ -55,8 +56,9 @@ export default function LoginPage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Password</label>
+            <label htmlFor="login-password" className="block text-sm font-medium mb-1">Password</label>
             <input
+              id="login-password"
               type="password"
               required
               value={password}
@@ -77,7 +79,7 @@ export default function LoginPage() {
         </form>
 
         <div className="relative text-center text-sm text-muted">
-          <span className="bg-surface px-2 relative z-10">or</span>
+          <span className="bg-background px-2 relative z-10">or</span>
           <div className="absolute inset-x-0 top-1/2 border-t" />
         </div>
 

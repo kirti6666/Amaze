@@ -55,7 +55,7 @@ export function PayplusPayment({ orderId, total, paymentUrl }: { orderId: string
         <ShieldCheck className="text-primary" size={36} />
         <div>
           <p className="text-xs uppercase tracking-widest text-muted">Secure checkout · PayPlus</p>
-          <h1 className="mt-2 text-3xl font-bold">Complete your payment</h1>
+          <h1 className="page-title mt-2">Complete your payment</h1>
           <p className="mt-3 text-muted">Pay on the secure PayPlus page, then return here. We will check your payment and confirm your order.</p>
         </div>
         <div className="border-y border-hairline py-4 flex justify-between items-center">

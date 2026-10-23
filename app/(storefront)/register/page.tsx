@@ -39,14 +39,15 @@ export default function RegisterPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center p-6">
-      <div className="w-full max-w-sm space-y-6">
-        <h1 className="text-2xl font-bold">Create an account</h1>
+    <main className="auth-page">
+      <div className="auth-card space-y-6">
+        <h1 className="page-title">Create an account</h1>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Name</label>
+            <label htmlFor="register-name" className="block text-sm font-medium mb-1">Name</label>
             <input
+              id="register-name"
               type="text"
               required
               value={name}
@@ -55,8 +56,9 @@ export default function RegisterPage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Email</label>
+            <label htmlFor="register-email" className="block text-sm font-medium mb-1">Email</label>
             <input
+              id="register-email"
               type="email"
               required
               value={email}
@@ -65,8 +67,9 @@ export default function RegisterPage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Password</label>
+            <label htmlFor="register-password" className="block text-sm font-medium mb-1">Password</label>
             <input
+              id="register-password"
               type="password"
               required
               minLength={8}

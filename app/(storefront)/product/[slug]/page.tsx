@@ -49,7 +49,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
       <ProductReviews productId={String((product as { _id: unknown })._id)} />
       {related.length > 0 && (
         <section className="detail-related mt-10">
-          <h2 className="text-xl font-bold mb-6">You might also like</h2>
+          <h2 className="section-title mb-6">You might also like</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {related.map((p) => (
               <ProductCard key={String(p._id)} product={JSON.parse(JSON.stringify(p))} />

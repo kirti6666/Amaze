@@ -30,7 +30,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
       <div className="flex flex-wrap items-start justify-between gap-3 mt-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold mb-1">Order Details</h1>
+          <h1 className="page-title mb-1">Order Details</h1>
           <p className="text-muted text-sm font-mono">#{String(o._id)}</p>
         </div>
         {/* Issues the tax invoice on first open, then always serves the same
@@ -48,30 +48,14 @@ export default async function OrderDetailPage({ params }: { params: { id: string
           This order was cancelled.
         </div>
       ) : (
-        <div className="flex items-center justify-between mb-8">
+        <ol className="order-steps mb-8" aria-label="Order progress">
           {STEPS.map((step, i) => (
-            <div key={step} className="flex-1 flex flex-col items-center text-center">
-              <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium ${
-                  i <= currentStepIndex
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-surface text-muted"
-                }`}
-              >
-                {i + 1}
-              </div>
-              <span className="text-xs mt-1 capitalize text-muted">{step}</span>
-              {i < STEPS.length - 1 && (
-                <div
-                  className={`h-0.5 w-full mt-4 -translate-y-4 ${
-                    i < currentStepIndex ? "bg-primary" : "bg-hairline"
-                  }`}
-                  style={{ marginLeft: "50%" }}
-                />
-              )}
-            </div>
+            <li key={step} className={i <= currentStepIndex ? "is-done" : undefined} aria-current={i === currentStepIndex ? "step" : undefined}>
+              <span className="order-step-dot">{i + 1}</span>
+              <span className="order-step-label">{step}</span>
+            </li>
           ))}
-        </div>
+        </ol>
       )}
 
       <div className="border rounded-md p-6 space-y-4">

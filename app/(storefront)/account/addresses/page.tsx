@@ -50,7 +50,7 @@ export default function AddressesPage() {
 
   return (
     <main className="max-w-2xl mx-auto px-6 py-10">
-      <h1 className="text-2xl font-bold mb-6">My Addresses</h1>
+      <h1 className="page-title mb-6">My Addresses</h1>
 
       {loading ? (
         <ListSkeleton rows={3} />

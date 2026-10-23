@@ -17,7 +17,7 @@ export default function StorefrontError({
 
   return (
     <main className="max-w-xl mx-auto px-6 py-24 text-center">
-      <h1 className="text-2xl font-bold mb-2">Something went wrong</h1>
+      <h1 className="page-title mb-2">Something went wrong</h1>
       <p className="text-muted mb-6">
         We hit an unexpected error loading this page. Please try again.
       </p>
