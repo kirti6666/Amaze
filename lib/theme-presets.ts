@@ -20,19 +20,28 @@ export interface ThemePreset {
 
 /**
  * The Amaze Markets palette, and the default the storefront ships with: a
- * white canvas with plum/pink accents. This is the theme the site actually
- * renders, so it is also what the admin Theme tab shows.
+ * white canvas with rose primary and deep plum text, matching the pink logo
+ * and hero artwork. This is the theme the site actually renders, so it is also
+ * what the admin Theme tab shows.
  */
 export const LIGHT_THEME: ThemePreset = {
-  primaryColor: "#412B6B",
+  primaryColor: "#B42D55",
   primaryForeground: "#FFFFFF",
   backgroundColor: "#FFFFFF",
-  surfaceColor: "#F6F4F8",
-  foregroundColor: "#151515",
-  mutedColor: "#6B6475",
-  borderColor: "#E8E3ED",
-  accentColor: "#EF508B",
+  surfaceColor: "#FFF4F6",
+  foregroundColor: "#3A0E22",
+  mutedColor: "#6E5560",
+  borderColor: "#F2DDE3",
+  accentColor: "#E85D84",
 };
+
+/** Primary of the previous purple Amaze preset; stored copies are upgraded on read. */
+const RETIRED_LIGHT_PRIMARY = "#412b6b";
+
+/** True for the dark Tiger preset or the untouched purple Amaze preset — never an admin's own palette. */
+export function isRetiredTheme(theme: { backgroundColor: string; primaryColor: string }): boolean {
+  return isLegacyDarkTheme(theme) || theme.primaryColor.trim().toLowerCase() === RETIRED_LIGHT_PRIMARY;
+}
 
 /**
  * Canvas colour of the retired Tiger preset. Settings documents created before

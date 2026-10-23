@@ -1,12 +1,12 @@
 import type { SiteSettingsData } from "@/lib/site-settings";
-import { LIGHT_THEME, isLegacyDarkTheme } from "@/lib/theme-presets";
+import { LIGHT_THEME, isRetiredTheme } from "@/lib/theme-presets";
 
 /** Presentation only: translate the original Tiger preset without writing settings.
  * Custom admin values and commerce stay intact; the legacy preset gets new storefront copy.
  */
 export function storefrontAppearance(settings: SiteSettingsData): SiteSettingsData {
   const legacyBrand = /^(store|tiger)$/i.test(settings.brand.storeName.trim());
-  const legacyTheme = isLegacyDarkTheme(settings.theme);
+  const legacyTheme = isRetiredTheme(settings.theme);
   return {
     ...settings,
     brand: {

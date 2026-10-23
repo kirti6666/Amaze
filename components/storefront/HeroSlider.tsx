@@ -171,7 +171,7 @@ export function HeroSlider({
                 <img src={slide.image} alt={slide.alt} draggable={false}
                   loading={i === 0 ? "eager" : "lazy"}
                   fetchPriority={i === 0 ? "high" : "auto"}
-                  width={1600} height={666}
+                  width={1671} height={941}
                   className="hero-art mx-auto block h-auto w-full" />
               </picture>
             </Link>

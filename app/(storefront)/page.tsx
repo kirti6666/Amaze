@@ -35,12 +35,11 @@ export default async function HomePage() {
       <TrustBadges />
     </section>
     {featured.length > 0 && <section className="home-section">
-      <h2>Trending Now</h2>
+      <div className="home-head"><h2>Trending Now</h2><ViewAll href="/shop" /></div>
       <div className="home-grid">{featured.map(p => <ProductCard key={String(p._id)} product={plain(p)} currency={settings.commerce.currencySymbol} />)}</div>
-      <ViewAll href="/shop" />
     </section>}
     <section id="categories" className="home-section">
-      <h2>Shop By Category</h2>
+      <div className="home-head"><h2>Shop By Category</h2></div>
       <div className="home-grid category-grid">
         {homeCategories.map(c => <Link key={c.slug} href={`/shop?category=${c.slug}`} className="category-tile">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -50,7 +49,7 @@ export default async function HomePage() {
       </div>
     </section>
     <section className="home-section beauty-section">
-      <h2>Skin &amp; Beauty Essentials</h2>
+      <div className="home-head"><h2>Skin &amp; Beauty Essentials</h2>{beauty.length > 0 && <ViewAll href="/shop?category=fashion-and-beauty" />}</div>
       <div className="home-grid">
         {beauty.length > 0 ? beauty.map(p => <ProductCard key={String(p._id)} product={plain(p)} currency={settings.commerce.currencySymbol} />) : beautyPreviews.map(p => <article key={p.title} className="beauty-preview">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -58,7 +57,6 @@ export default async function HomePage() {
           <div><h3>{p.title}</h3><span>Coming soon</span></div>
         </article>)}
       </div>
-      {beauty.length > 0 && <ViewAll href="/shop?category=fashion-and-beauty" />}
     </section>
   </main>;
 }

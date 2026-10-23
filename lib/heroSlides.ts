@@ -14,9 +14,9 @@ export interface HeroSlide {
 
 export const HERO_SLIDES: HeroSlide[] = [
   {
-    image: "/brand/amaze-desktop.png",
-    mobile: "/brand/amaze-mobile.png",
-    alt: "Everything you need, one amazing market. Fashion, electronics, home and living, beauty — all in one place. Shop now at Amaze Markets.",
+    image: "/hero/amaze-hero-desktop.webp",
+    mobile: "/hero/amaze-hero-mobile.webp",
+    alt: "Everything you need. One amazing market. Fashion, electronics, home and living and beauty, all in one place. 100% secure payments, free delivery across India, dedicated support.",
   },
 ];
 

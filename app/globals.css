@@ -140,13 +140,13 @@ select option {
 }
 
 /* Amaze Markets storefront. All page rules are scoped away from the admin. */
-.amaze-logo { display:block; position:relative; width:190px; height:62px; overflow:hidden; }
-.amaze-logo img { position:absolute; width:214px; max-width:none; height:auto; left:-10px; top:-24px; }
+.amaze-logo { display:block; width:180px; }
+.amaze-logo img { display:block; width:100%; height:auto; }
 .custom-logo { display:block; width:190px; }
 .custom-logo img { width:100%; max-height:70px; object-fit:contain; }
 .header-icon { display:flex; width:32px; height:36px; align-items:center; justify-content:center; }
 .header-icon:hover { color:var(--primary); }
-.hero-art { aspect-ratio:1600 / 666; object-fit:contain; }
+.hero-art { aspect-ratio:1671 / 941; object-fit:contain; }
 .hero-wave { height:24px; margin-top:-1px; background:var(--primary); clip-path:ellipse(60% 100% at 50% 0%); }
 .product-card { box-shadow:0 5px 20px rgb(23 36 58 / 8%); }
 .product-card:hover { box-shadow:0 8px 25px rgb(23 36 58 / 14%); transform:translateY(-3px); }
@@ -187,8 +187,7 @@ select option {
   .checkout-summary { position:sticky; top:124px; }
 }
 @media(max-width:767px) {
-  .amaze-logo { width:156px; height:50px; }
-  .amaze-logo img { width:176px; top:-20px; left:-8px; }
+  .amaze-logo { width:150px; }
   .custom-logo { width:156px; }
   .hero-wave { height:14px; }
   .product-card h3 { font-size:13px; }
@@ -206,24 +205,27 @@ select option {
 .store-header [hidden] { display:none !important; }
 /* Compact, image-led homepage collections. */
 .home-section { max-width:1280px; margin:0 auto; padding:40px 32px; scroll-margin-top:110px; }
-.home-section h2 { margin:0 0 28px; text-align:center; font-size:clamp(24px,3.2vw,40px); line-height:1.18; font-weight:800; letter-spacing:-.025em; color:#151515; }
+.home-section h2 { margin:0; font-size:clamp(18px,2vw,24px); line-height:1.25; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--foreground); }
+.home-head { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:24px; }
 .home-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:24px; }
 .category-grid { row-gap:28px; }
 .category-grid .category-tile { display:flex; flex-direction:column; border:0; border-radius:14px; overflow:hidden; background:#f4f4f4; box-shadow:0 6px 20px #00000008; }
 .category-tile > img { width:100%; aspect-ratio:1; object-fit:cover; height:auto; transition:transform .3s; }
 .category-tile:hover > img { transform:scale(1.025); }
-.category-grid .category-tile > div { display:flex; justify-content:center; align-items:center; gap:10px; flex:1; padding:20px 12px; text-align:center; font-size:20px; font-weight:750; line-height:1.3; color:#151515; }
+.category-grid .category-tile > div { display:flex; justify-content:space-between; align-items:center; gap:10px; flex:1; padding:16px 18px; text-align:left; font-size:15px; font-weight:750; line-height:1.3; letter-spacing:.06em; text-transform:uppercase; background:var(--primary); color:var(--primary-foreground); }
 .category-grid .category-tile svg { flex-shrink:0; }
 .beauty-preview { overflow:hidden; border-radius:14px; background:#fff; box-shadow:0 6px 20px #0000000d; }
 .beauty-preview > img { width:100%; aspect-ratio:1; object-fit:cover; height:auto; }
 .beauty-preview > div { padding:20px 14px; text-align:center; }
-.beauty-preview h3 { color:#211b2b; font-size:17px; font-weight:750; line-height:1.4; }
-.beauty-preview span { display:block; color:var(--primary); margin-top:10px; font-size:13px; }
-.home-view-all { margin-top:24px; text-align:center; }
-.home-view-all a { display:inline-flex; align-items:center; gap:12px; min-height:44px; padding:10px 26px; border-radius:8px; background:var(--primary); color:white; font-weight:650; }
+.beauty-preview h3 { color:var(--foreground); font-size:17px; font-weight:750; line-height:1.4; }
+.beauty-preview span { display:inline-block; margin-top:10px; padding:4px 10px; border-radius:4px; background:var(--foreground); color:#fff; font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+.home-view-all { flex-shrink:0; }
+.home-view-all a { display:inline-flex; align-items:center; gap:8px; min-height:44px; color:var(--primary); font-size:14px; font-weight:700; letter-spacing:.04em; }
+.home-view-all a:hover { text-decoration:underline; text-underline-offset:4px; }
 @media(max-width:767px) {
  .home-section { padding:26px 16px; scroll-margin-top:85px; }
- .home-section h2 { margin-bottom:18px; font-size:25px; }
+ .home-section h2 { font-size:16px; }
+ .home-head { margin-bottom:16px; }
  .home-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
  .category-grid .category-tile { border-radius:10px; }
  .category-grid .category-tile > div { font-size:14px; padding:14px 8px; gap:6px; }
@@ -239,37 +241,29 @@ select option {
  .collection-heading { padding:8px 0 20px; }
 }
 
-/* Reference palette: deep purple, pink accents, white storefront. */
-.store-announcement { background:linear-gradient(100deg,var(--primary),#100d43); color:#fff; }
-.store-footer { position:relative; margin-top:44px; background:var(--primary); color:#fff; border-color:transparent; --muted:#e7dff0; --border:#ffffff20; }
-.footer-wave { position:absolute; width:100%; height:44px; left:0; top:-43px; pointer-events:none; }
-.store-footer a:hover { color:#ffb7d3; }
-.store-footer .amaze-logo, .store-footer .custom-logo { background:white; border-radius:8px; }
-.store-footer :focus-visible { outline-color:white; }
-@media(max-width:767px) {
- .store-footer { margin-top:28px; }
- .footer-wave { height:28px; top:-27px; }
-}
+/* Rose and plum palette: plum announcement bar, light blush footer. */
+.store-announcement { background:var(--foreground); color:#fff; }
+.store-footer { margin-top:56px; background:var(--surface); }
+@media(max-width:767px) { .store-footer { margin-top:32px; } }
 
 /* Refined compact product cards. */
-.storefront .refined-card{display:flex;flex-direction:column;height:100%;overflow:hidden;border:1px solid #ece8f0;border-radius:12px;background:white;box-shadow:0 2px 8px #30204004;transition:box-shadow .2s,transform .2s}
+.storefront .refined-card{display:flex;flex-direction:column;height:100%;overflow:hidden;border:1px solid var(--border);border-radius:12px;background:white;box-shadow:0 2px 8px #30204004;transition:box-shadow .2s,transform .2s}
 .refined-card .card-media{position:relative;aspect-ratio:1.12;overflow:hidden;background:#f8f7fa;border-bottom:1px solid #f0edf3}
 .refined-card .card-image{display:block;width:100%;height:100%;object-fit:contain;padding:8px;mix-blend-mode:multiply;transition:transform .35s}
-.storefront .refined-card .card-body{display:flex;flex:1;flex-direction:column;padding:12px 14px 14px;text-align:left;background:white;color:#211b2b}
+.storefront .refined-card .card-body{display:flex;flex:1;flex-direction:column;padding:12px 14px 14px;text-align:left;background:white;color:var(--foreground)}
 .refined-card .card-category{margin:0 0 5px;font-size:10px;line-height:1.4;letter-spacing:.065em;text-transform:uppercase;color:#756e80;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.storefront .refined-card .card-title{margin:0;min-height:2.8em;font-size:14px;line-height:1.4;font-weight:600;letter-spacing:-.015em;color:#211b2b}
+.storefront .refined-card .card-title{margin:0;min-height:2.8em;font-size:14px;line-height:1.4;font-weight:600;letter-spacing:-.015em;color:var(--foreground)}
 .refined-card .card-prices{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;margin-top:auto;padding-top:9px}
 .refined-card .card-price{color:var(--primary);font-size:16px;font-weight:750;font-variant-numeric:tabular-nums;letter-spacing:-.03em}
 .refined-card .card-original-price{font-size:11px;color:#837b8d;text-decoration:line-through}
 .refined-card .card-discount{position:absolute;bottom:9px;left:9px;z-index:1;padding:4px 7px;border-radius:5px;background:#fce8f0;color:#95204e;font-size:10px;font-weight:750}
 .refined-card .card-wishlist{width:38px;height:38px;border:1px solid #ebe6ef;background:#ffffffed;box-shadow:0 2px 6px #30204008}
-@media(hover:hover){.storefront .refined-card:hover{border-color:#d9cce7;box-shadow:0 8px 22px #412b6b0c;transform:translateY(-2px)}.refined-card:hover .card-image{transform:scale(1.035)}}
+@media(hover:hover){.storefront .refined-card:hover{border-color:color-mix(in srgb,var(--primary) 35%,white);box-shadow:0 8px 22px rgb(58 14 34 / 8%);transform:translateY(-2px)}.refined-card:hover .card-image{transform:scale(1.035)}}
 @media(max-width:767px){.storefront .refined-card{border-radius:10px}.storefront .refined-card .card-body{padding:10px 10px 12px}.storefront .refined-card .card-title{font-size:12px}.refined-card .card-category{font-size:9px;letter-spacing:.035em}.refined-card .card-price{font-size:14px}.refined-card .card-image{padding:5px}.refined-card .card-wishlist{width:36px;height:36px;top:5px;right:5px}}
 /* Mobile density: preserve touch targets while reducing decorative spacing. */
 @media(max-width:767px){
  .store-header > div{padding:6px 14px;min-height:60px}
- .store-header .amaze-logo{width:140px;height:45px}
- .store-header .amaze-logo img{width:158px;top:-18px;left:-7px}
+ .store-header .amaze-logo{width:132px}
  .storefront main:not(.store-home){padding:20px 14px;min-height:45vh}
  .storefront main.min-h-screen{min-height:0;align-items:flex-start;padding-top:28px;padding-bottom:32px}
  .storefront main > h1,.storefront .collection-heading h1{font-size:26px;line-height:1.2;margin-bottom:12px}
@@ -317,8 +311,6 @@ select option {
  .admin-shell main input,.admin-shell main select,.admin-shell main button{min-height:44px}
  .admin-shell main form.flex{flex-wrap:wrap}
 }
-.storefront .store-home .refined-card > .card-body { background:#fff;color:#211b2b; }
-.storefront .store-home .refined-card .card-title { color:#211b2b; }
 
 /* Product detail: contained photography and concise purchase panel. */
 .detail-main-image{aspect-ratio:1.08;background:#f8f7fa;border:1px solid #eee9f2;border-radius:14px;overflow:hidden;padding:16px;margin-bottom:10px}
@@ -528,6 +520,8 @@ body > .skiptranslate, .goog-te-banner-frame, iframe.skiptranslate, #goog-gt-tt,
 
 /* ---- Trust badges -------------------------------------------------------- */
 .home-trust { max-width:1280px; margin:0 auto; padding:28px 32px 4px; }
+/* Desktop/tablet hero art already shows the trust badges; the strip is for the phone art. */
+@media(min-width:560px) { .home-trust { display:none; } }
 .trust-badges { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; }
 .trust-badges a { display:flex; align-items:center; gap:12px; height:100%; color:var(--foreground); }
 .trust-badges strong { display:block; font-weight:700; line-height:1.3; }
