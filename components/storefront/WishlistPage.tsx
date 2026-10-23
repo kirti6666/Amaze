@@ -51,7 +51,7 @@ export function WishlistPage() {
   return (
     <main className="mx-auto max-w-7xl px-5 py-10 md:px-8">
       <div className="collection-heading">
-        <Heart className="mx-auto mb-3 text-primary" size={28} />
+        <Heart className="text-primary" size={26} aria-hidden="true" />
         <h1>My Wishlist</h1>
         <p>{guest ? "Your favourites, saved on this device. No account needed." : "All your favourites in one place."}</p>
       </div>

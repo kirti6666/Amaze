@@ -159,7 +159,7 @@ select option {
 .storefront input:not([type=checkbox]):not([type=radio]), .storefront select, .storefront textarea { min-width:0; min-height:44px; background:var(--background); }
 .storefront button { transition:background-color .18s,color .18s,border-color .18s; }
 .storefront button:not(:disabled), .storefront a { touch-action:manipulation; }
-.collection-heading { display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 14px; padding:8px 0 24px; }
+.collection-heading { display:flex; flex-wrap:wrap; align-items:center; gap:6px 14px; padding:8px 0 24px; }
 .collection-heading h1 { margin:0; font-size:clamp(20px,2.2vw,28px); font-weight:800; letter-spacing:.06em; text-transform:uppercase; }
 .collection-heading p { margin:0; color:var(--muted); font-size:14px; }
 .shop-filters { padding:20px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
@@ -282,7 +282,7 @@ select option {
  .storefront form input:not([type=checkbox]):not([type=radio]),.storefront form textarea{font-size:16px}
  .storefront form button{min-height:44px}
  .storefront .home-section{padding:22px 14px}
- .storefront .home-section h2{font-size:23px;margin-bottom:14px}
+ .storefront .home-section h2{font-size:17px}
  .storefront .home-view-all{margin-top:16px}
  .storefront .product-detail{gap:20px}
  .storefront .product-info h1{font-size:24px;line-height:1.25}
@@ -452,7 +452,7 @@ select option {
 /* Small phones (iPhone SE, Galaxy Fold): tighter gutters and labels. */
 @media(max-width:374px) {
  .storefront .home-section { padding:20px 12px; }
- .storefront .home-section h2 { font-size:21px; }
+ .storefront .home-section h2 { font-size:15px; }
  .home-grid { gap:10px; }
  .category-grid .category-tile > div { font-size:13px; padding:12px 6px; }
 }
@@ -471,7 +471,7 @@ select option {
    tiles so category names don't break mid-phrase around the arrow. */
 @media(min-width:768px) and (max-width:1023px) {
  .home-section { padding:32px 24px; }
- .home-section h2 { margin-bottom:22px; }
+ .home-section h2 { margin-bottom:0; }
  .home-grid { gap:14px; }
  .category-grid { row-gap:16px; }
  .category-grid .category-tile > div { font-size:15px; padding:14px 8px; gap:6px; }
@@ -657,3 +657,10 @@ body > .skiptranslate, .goog-te-banner-frame, iframe.skiptranslate, #goog-gt-tt,
   .account-page { padding:24px 14px 8px; }
   .account-links { grid-template-columns:minmax(0,1fr); gap:12px; }
 }
+/* Phone homepage: the four promises as one compact row — icon over a short title. */
+.home-trust .trust-badges--strip { grid-template-columns:repeat(4,minmax(0,1fr)); gap:6px; }
+.home-trust .trust-badges--strip a { position:relative; flex-direction:column; align-items:center; gap:6px; padding:10px 4px; border-radius:10px; text-align:center; }
+.home-trust .trust-badges--strip .trust-icon { width:34px; height:34px; }
+.home-trust .trust-badges--strip .trust-icon svg { width:17px; height:17px; }
+.home-trust .trust-badges--strip strong { font-size:11px; line-height:1.25; }
+.home-trust .trust-badges--strip small { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
