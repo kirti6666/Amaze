@@ -82,6 +82,9 @@ const LOGO = `<svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentCol
 const HEART_BG = `<svg class="bg" viewBox="0 0 54 50" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5fe0a0"/><stop offset="1" stop-color="#0a9b3c"/></linearGradient></defs><path fill="url(#hg)" d="M27 48 6.5 28.2A13.2 13.2 0 0 1 27 11.4a13.2 13.2 0 0 1 20.5 16.8Z"/></svg>`;
 
 /* ---------- sample data ---------- */
+// sample photos; swap for the NGO's own images per campaign
+const PHOTO = { hospital: 'img/hospital.jpg', family: 'img/street-family.jpg', water: 'img/water.jpg', school: 'img/school.jpg', boy: 'img/boy.jpg' };
+const PHOTO_LIST = Object.values(PHOTO);
 const CATS = {
   medical: { label: 'Medical', icon: 'pulse', g: ['#3fb6d6', '#1d63b0'] },
   food: { label: 'Food & Iftar', icon: 'utensils', g: ['#f7b048', '#e0602a'] },
@@ -102,7 +105,7 @@ const ORGS = {
 
 const CAMPAIGNS = [
   {
-    id: 1, org: 'shifa', cat: 'medical', zakat: true, featured: true, city: 'Hyderabad, Telangana', days: 18,
+    id: 1, photo: PHOTO.hospital, pos: '30% center', org: 'shifa', cat: 'medical', zakat: true, featured: true, city: 'Hyderabad, Telangana', days: 18,
     title: 'Help 6-year-old Ayaan beat leukaemia', caption: 'Ayaan has 4 chemo cycles left',
     goal: 800000, raised: 512400, donors: 1284,
     unit: [5000, 'day of chemotherapy'],
@@ -112,7 +115,7 @@ const CAMPAIGNS = [
     updates: [['3 days ago', 'Cycle 3 completed. Ayaan is responding well and his blood counts are improving.'], ['2 weeks ago', 'Hospital bill of ₹1,85,000 paid from the funds raised. Receipt uploaded.']],
   },
   {
-    id: 2, org: 'noor', cat: 'food', zakat: true, featured: true, city: 'Mumbai, Maharashtra', days: 9,
+    id: 2, photo: PHOTO.family, pos: 'center', org: 'noor', cat: 'food', zakat: true, featured: true, city: 'Mumbai, Maharashtra', days: 9,
     title: 'Give an Iftar to 1,000 families this Ramadan', caption: '₹100 feeds one fasting person',
     goal: 300000, raised: 241800, donors: 2106,
     unit: [100, 'iftar meal'],
@@ -122,7 +125,7 @@ const CAMPAIGNS = [
     updates: [['Yesterday', '412 iftar boxes distributed at Govandi station road.']],
   },
   {
-    id: 3, org: 'ummeed', cat: 'water', zakat: false, city: 'Barmer, Rajasthan', days: 26,
+    id: 3, photo: PHOTO.water, pos: 'center', org: 'ummeed', cat: 'water', zakat: false, city: 'Barmer, Rajasthan', days: 26,
     title: 'Clean water well for Sanawada village', caption: 'Women walk 6 km for water',
     goal: 450000, raised: 168500, donors: 640,
     unit: [1500, 'family supplied for a year'],
@@ -132,7 +135,7 @@ const CAMPAIGNS = [
     updates: [['5 hours ago', 'Drilling started. We hit water at 240 ft.']],
   },
   {
-    id: 4, org: 'iqra', cat: 'education', zakat: true, city: 'Malappuram, Kerala', days: 33,
+    id: 4, photo: PHOTO.school, pos: 'center', org: 'iqra', cat: 'education', zakat: true, city: 'Malappuram, Kerala', days: 33,
     title: 'Sponsor school fees for 50 orphan girls', caption: '₹12,000 covers a full year',
     goal: 600000, raised: 133200, donors: 402,
     unit: [12000, 'year of school for one girl'],
@@ -142,7 +145,7 @@ const CAMPAIGNS = [
     updates: [],
   },
   {
-    id: 6, org: 'me', cat: 'medical', zakat: true, city: 'Lucknow, Uttar Pradesh', days: 21,
+    id: 6, photo: PHOTO.hospital, pos: '85% center', org: 'me', cat: 'medical', zakat: true, city: 'Lucknow, Uttar Pradesh', days: 21,
     title: 'Help my father get a kidney transplant', caption: 'Surgery is scheduled for next month',
     goal: 600000, raised: 245000, donors: 318,
     unit: [2000, 'dialysis session'],
@@ -152,7 +155,7 @@ const CAMPAIGNS = [
     updates: [['6 days ago', 'Campaign verified by the MuslimPro team.']],
   },
   {
-    id: 5, org: 'ummeed', cat: 'emergency', zakat: true, featured: true, city: 'Dhemaji, Assam', days: 4,
+    id: 5, photo: PHOTO.boy, pos: 'center 30%', org: 'ummeed', cat: 'emergency', zakat: true, featured: true, city: 'Dhemaji, Assam', days: 4,
     title: 'Rebuild 40 homes after the Assam floods', caption: 'Families are living in relief camps',
     goal: 1200000, raised: 987000, donors: 3410,
     unit: [30000, 'home rebuilt'],
@@ -162,7 +165,7 @@ const CAMPAIGNS = [
     updates: [['Today', '12 homes complete. Families have moved back in.']],
   },
   {
-    id: 9, org: 'iqra', cat: 'food', zakat: true, city: 'Across India', days: 14,
+    id: 9, photo: PHOTO.school, pos: '70% center', org: 'iqra', cat: 'food', zakat: true, city: 'Across India', days: 14,
     title: 'Daily meals for madrasa students', caption: '₹50 feeds a student for a day',
     goal: 350000, raised: 182600, donors: 2954,
     unit: [50, 'meal for a madrasa student'],
@@ -172,22 +175,22 @@ const CAMPAIGNS = [
     updates: [['2 days ago', 'Rations delivered to 6 madrasas in Bahraich.']],
   },
   {
-    id: 7, org: 'noor', cat: 'food', zakat: false, done: true, city: 'Delhi', title: 'Winter blankets for 2,000 street families',
+    id: 7, photo: PHOTO.family, pos: 'center', org: 'noor', cat: 'food', zakat: false, done: true, city: 'Delhi', title: 'Winter blankets for 2,000 street families',
     goal: 600000, raised: 640000, donors: 2312, unit: [300, 'blanket'], ben: { Beneficiary: '2,000 families', Location: 'Delhi' }, docs: [], story: ['Thanks to you, 2,000 families received warm blankets before the cold wave.'], updates: [],
     util: [['Blankets (2,000 pcs)', 78], ['Transport & storage', 12], ['Distribution volunteers', 6], ['Platform & payment fees', 4]],
   },
   {
-    id: 8, org: 'iqra', cat: 'orphans', zakat: true, done: true, city: 'Bengaluru', title: 'Eid gifts and new clothes for 300 orphans',
+    id: 8, photo: PHOTO.boy, pos: 'center 25%', org: 'iqra', cat: 'orphans', zakat: true, done: true, city: 'Bengaluru', title: 'Eid gifts and new clothes for 300 orphans',
     goal: 300000, raised: 309500, donors: 1170, unit: [1000, 'Eid gift box'], ben: { Beneficiary: '300 children', Location: 'Bengaluru' }, docs: [], story: ['Every child at three orphanages received new Eid clothes and a gift box.'], updates: [],
     util: [['Clothes & shoes', 64], ['Gift boxes', 24], ['Eid lunch', 8], ['Platform & payment fees', 4]],
   },
 ];
 const COMMENTS = { 1: [['Zoya S.', '2h', 'Praying for Ayaan’s quick recovery. Ameen.'], ['Farhan A.', '1d', 'Shared with my office group.']], 2: [['Nida K.', '5h', 'May Allah accept from all of us.']] };
 const NAMES = ['Mohammed Faisal', 'Sana Qureshi', 'Abdul Rahman', 'Zoya Siddiqui', 'Anonymous donor', 'Farhan Ali', 'Rukhsar Bano', 'Yusuf Patel', 'Nida Khan', 'Arif Hussain'];
-const AV_COLORS = ['#1d63b0', '#0a8a52', '#e0602a', '#5634c0', '#cf4778', '#0e8fa6', '#b5651d', '#3d3d4a'];
-const avColor = s => AV_COLORS[[...s].reduce((a, ch) => a + ch.charCodeAt(0), 0) % AV_COLORS.length];
+const AV_HUES = [212, 150, 24, 262, 330, 188, 38, 230];
+const avHue = s => AV_HUES[[...s].reduce((a, ch) => a + ch.charCodeAt(0), 0) % AV_HUES.length];
 const initials = s => s.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
-const avatar = (name, cls = '') => `<div class="av ${cls}" style="background:${avColor(name)}">${esc(initials(name))}</div>`;
+const avatar = (name, cls = '') => `<div class="av ${cls}" style="background:hsl(${avHue(name)} 45% 93%);color:hsl(${avHue(name)} 45% 30%)">${esc(initials(name))}</div>`;
 
 const LEAGUES = [
   { name: 'Seedling', icon: 'sprout', g: ['#7be0a8', '#0a9b3c'] },
@@ -224,13 +227,14 @@ const myRaised = () => S.mine.map(m => camp(m.id)).filter(Boolean).reduce((a, c)
 const withdrawn = () => S.withdrawals.reduce((a, w) => a + w.amt, 0);
 
 /* ---------- shared pieces ---------- */
+const thumb = (c, photo = c.photo) => photo ? `<div class="thumb" style="background:url('${photo}') center/cover"></div>` : `<div class="thumb plain">${ic(CATS[c.cat].icon)}</div>`;
 function cover(c, opts = {}) {
   const cat = CATS[c.cat];
-  const angle = [150, 120, 190][opts.v || 0];
-  const bg = c.photo ? `background-image:url('${c.photo}')` : `background:linear-gradient(${angle}deg, ${cat.g[0]}, ${cat.g[1]})`;
+  const photo = opts.photo || c.photo;
+  const bg = photo ? `background-image:url('${photo}');background-position:${c.pos || 'center'}` : 'background:#2b3a33';
   const org = ORGS[c.org];
   return `<div class="cover ${opts.cls || ''}" style="${bg}">
-    ${c.photo ? '' : `<div class="pattern"></div><div class="glow"></div><div class="art">${ic(cat.icon)}</div><div class="caption">${esc(c.caption || cat.label)}</div>`}
+    ${photo ? '' : `<div class="pattern"></div><div class="glow"></div><div class="art">${ic(cat.icon)}</div><div class="caption">${esc(c.caption || cat.label)}</div>`}
     <div class="shade"></div>
     ${opts.bare ? '' : `<div class="org-row">
       <div class="org-av" style="color:${org.color}">${org.short}</div>
@@ -247,19 +251,19 @@ function campaignCard(c) {
   if (c.done) return `<article class="card">
     <div data-go="#/c/${c.id}">${cover(c, { dots: true })}</div>
     <div class="card-body">
-      <div class="actions"><button class="btn btn-soft btn-round" data-act="share" data-id="${c.id}" aria-label="Share">${ic('share')}</button><button class="btn btn-gray grow" data-go="#/c/${c.id}">Campaign completed</button></div>
-      <div class="money"><div><small>contributors</small><div class="goal num">${c.donors.toLocaleString('en-IN')} ${ic('users')}</div></div><div><small style="text-align:right">raised</small><div class="raised num">${inr(c.raised)}</div></div></div>
+      <div class="actions"><button class="btn btn-soft btn-round" data-act="share" data-id="${c.id}" aria-label="Share">${ic('share')}</button><button class="btn btn-gray grow" data-go="#/c/${c.id}">${ic('check')} Campaign completed</button></div>
       <h3 class="card-title" data-go="#/c/${c.id}">${esc(c.title)}</h3>
+      <div class="money"><span><b class="raised num">${inr(c.raised)}</b> <span class="of">raised from ${c.donors.toLocaleString('en-IN')} donors</span></span><span class="pct num">Goal met</span></div>
     </div>
     <div class="card-foot"><span class="stat">${ic('msg')} ${(COMMENTS[c.id] || []).length}</span><button class="link" data-go="#/c/${c.id}/comments">Leave a comment ${ic('right')}</button></div>
   </article>`;
   return `<article class="card">
     <div data-go="#/c/${c.id}">${cover(c, { dots: true })}</div>
     <div class="card-body">
-      <div class="actions"><button class="btn btn-soft grow" data-act="share" data-id="${c.id}">${ic('share')} Share</button><button class="btn btn-main" style="flex:1.4" data-go="#/donate/${c.id}">Donate</button></div>
-      <div class="money"><div><small>goal</small><div class="goal num">${inr(c.goal)}</div></div><div><small style="text-align:right">raised</small><div class="raised num">${inr(c.raised)}</div></div></div>
-      <div class="bar"><i style="width:${pct(c)}%"></i></div>
+      <div class="actions"><button class="btn btn-soft grow" data-act="share" data-id="${c.id}">${ic('share')} Share</button><button class="btn btn-main" style="flex:1.6" data-go="#/donate/${c.id}">Donate</button></div>
       <h3 class="card-title" data-go="#/c/${c.id}">${esc(c.title)}</h3>
+      <div class="bar"><i style="width:${pct(c)}%"></i></div>
+      <div class="money"><span><b class="raised num">${inr(c.raised)}</b> <span class="of">raised of ${inr(c.goal)}</span></span><span class="pct num">${pct(c)}%</span></div>
     </div>
     <div class="card-foot"><span class="stat">${ic('users')} ${c.donors.toLocaleString('en-IN')}</span><span class="vr"></span><span class="stat">${ic('msg')} ${(COMMENTS[c.id] || []).length}</span><span class="stat ${c.days <= 5 ? 'late' : ''}">${ic('clock')} ${c.days}d</span><button class="link" data-go="#/c/${c.id}/comments">Comment ${ic('right')}</button></div>
   </article>`;
@@ -316,7 +320,7 @@ const hadithBlock = () => { const [q, src] = todayHadith(); return `<section cla
   <div class="hadith">${ic('quote')}<p class="hq">“${q}”</p><p class="hs">— ${src}</p><a class="btn hadith-share" href="https://wa.me/?text=${encodeURIComponent(`“${q}” — ${src}\nShared from ${APP}`)}" target="_blank" rel="noopener">${ic('share')} Share</a></div></section>`; };
 const MEMBERS = [['Ayesha Khan', 'Oasis'], ['Rizwan Ahmed', 'Lantern'], ['Fatima Noor', 'Oasis'], ['Imran Shaikh', 'Crescent'], ['Zahra Ali', 'Lantern'], ['Bilal Qureshi', 'Seedling'], ['Mariam Siddiqui', 'Crescent']];
 const membersBlock = () => `<section class="home-sec">${secTitle('Active members', '', `<button class="text-link small" data-go="#/rating">Leaderboard ${ic('right')}</button>`)}
-  <div class="members">${MEMBERS.map(([n, l], i) => `<div class="member"><span class="mav">${avatar(n)}${i % 3 !== 2 ? '<i></i>' : ''}</span><b>${esc(n.split(' ')[0])}</b><span class="lg-${l.toLowerCase()}">${l}</span></div>`).join('')}</div></section>`;
+  <div class="members">${MEMBERS.map(([n, l], i) => `<div class="member"><span class="mav">${avatar(n)}${i % 3 !== 2 ? '<i></i>' : ''}</span><b>${esc(n.split(' ')[0])}</b><span>${l}</span></div>`).join('')}</div></section>`;
 
 V.home = () => {
   const cats = [['all', 'All', 'heart'], ...Object.entries(CATS).map(([k, c]) => [k, c.label, c.icon])];
@@ -332,7 +336,7 @@ V.home = () => {
 V.completed = () => {
   const done = CAMPAIGNS.filter(c => c.done);
   const reports = done.map(c => `<article class="section">
-      <div class="mini-camp"><div class="thumb" style="background:linear-gradient(140deg,${CATS[c.cat].g.join(',')})">${ic(CATS[c.cat].icon)}</div><div><b>${esc(c.title)}</b><span class="small muted">${esc(ORGS[c.org].name)} · Closed with ${inr(c.raised)}</span></div></div>
+      <div class="mini-camp">${thumb(c)}<div><b>${esc(c.title)}</b><span class="small muted">${esc(ORGS[c.org].name)} · Closed with ${inr(c.raised)}</span></div></div>
       <h3 style="font-size:15px;margin-top:16px">Where the money went</h3>
       ${c.util.map(([l, v]) => `<div class="util-row"><div><span>${l}</span><b class="num">${v}% · ${inr(c.raised * v / 100)}</b></div><div class="bar"><i style="width:${v}%"></i></div></div>`).join('')}
       <div class="actions" style="margin-top:16px"><button class="btn btn-soft grow" data-act="toast" data-msg="Report PDF downloaded">${ic('file')} Full report</button><button class="btn btn-line grow" data-go="#/c/${c.id}">View campaign</button></div>
@@ -385,7 +389,7 @@ V.rating = () => {
     <div class="fixed-col me-sticky"><div class="rank-row me"><span class="rk"><span class="num">${meRank.toLocaleString('en-IN')}</span></span>${avatar(S.user.name)}<span class="nm">${S.user.name}<small>You</small></span><span class="val">${meVal}</span></div></div>` };
 };
 
-const STORIES = [['food', 'How ₹500 became five iftars'], ['medical', 'Ayaan rang the last-chemo bell'], ['water', 'Sanawada’s first clean well'], ['education', 'A day at Iqra Girls Academy']];
+const STORIES = [[PHOTO.family, 'How ₹500 became five iftars'], [PHOTO.hospital, 'Ayaan rang the last-chemo bell'], [PHOTO.water, 'Water for Sanawada'], [PHOTO.school, 'A day at Iqra Academy']];
 const POSTS = [
   { c: 2, t: '1h ago', txt: '412 iftar boxes reached families at Govandi station road tonight. Thank you for making this Ramadan lighter for them.', likes: 324 },
   { c: 3, t: '5h ago', txt: 'Drilling has started in Sanawada and we hit water at 240 ft. Next step: the solar pump and storage tank.', likes: 198 },
@@ -397,7 +401,7 @@ V.news = arg => {
   if (arg === 'notifications') { S.ui.news = 'notifs'; history.replaceState(null, '', location.href.split('#')[0] + '#/news'); }
   const body = S.ui.news === 'news'
     ? `<h2 style="font-size:24px;font-weight:700;color:var(--ink-2);padding:20px 16px 12px">Good videos</h2>
-      <div class="stories">${STORIES.map(([k, t]) => `<button class="story" data-act="toast" data-msg="Video plays here in the full app" style="background:linear-gradient(160deg,${CATS[k].g.join(',')})"><div class="pattern" style="position:absolute;inset:0;opacity:.15"></div><span class="play">${ic('play')}</span><span>${t}</span></button>`).join('')}</div>
+      <div class="stories">${STORIES.map(([k, t]) => `<button class="story" data-act="toast" data-msg="Video plays here in the full app" style="background:url('${k}') center/cover"><span class="play">${ic('play')}</span><span>${t}</span></button>`).join('')}</div>
       <div class="feed">${POSTS.map((p, i) => { const c = camp(p.c), o = ORGS[c.org], liked = S.liked.has(i); return `<article class="card">
         <div class="post-head"><div class="org-av" style="color:${o.color}">${o.short}</div><div><b>${esc(o.name)}</b><div class="small muted">${p.t}</div></div></div>
         <p class="post-text">${esc(p.txt)}</p>
@@ -429,7 +433,7 @@ V.profile = () => {
     </div>
     <section class="section">
       <div class="sec-head"><h2>My fundraisers</h2><button class="pill-link green" data-go="#/my">Dashboard ${ic('right')}</button></div>
-      ${mine.map(m => `<div class="my-camp" data-go="#/my"><div class="thumb" style="background:${m.photo ? `url('${m.photo}') center/cover` : `linear-gradient(140deg,${CATS[m.c.cat].g.join(',')})`}">${m.photo ? '' : ic(CATS[m.c.cat].icon)}</div><div class="info"><b>${esc(m.c.title)}</b><span class="small muted num">${inr(m.c.raised)} of ${inr(m.c.goal)}</span> <span class="status ${m.status === 'live' ? 'st-live' : 'st-review'}">${m.status === 'live' ? 'Live' : 'Under review'}</span><div class="bar"><i style="width:${pct(m.c)}%"></i></div></div></div>`).join('')}
+      ${mine.map(m => `<div class="my-camp" data-go="#/my">${thumb(m.c, m.photo)}<div class="info"><b>${esc(m.c.title)}</b><span class="small muted num">${inr(m.c.raised)} of ${inr(m.c.goal)}</span> <span class="status ${m.status === 'live' ? 'st-live' : 'st-review'}">${m.status === 'live' ? 'Live' : 'Under review'}</span><div class="bar"><i style="width:${pct(m.c)}%"></i></div></div></div>`).join('')}
       <div class="actions" style="margin-top:10px"><button class="btn btn-soft grow" data-go="#/start">${ic('plus')} Start new</button><button class="btn btn-line grow" data-go="#/withdraw">${ic('wallet')} Withdraw</button></div>
     </section>
     <section class="section">
@@ -465,7 +469,7 @@ V.c = (id, sub) => {
   const tabBody = tab === 'story' ? `<div class="prose">${c.story.map(p => `<p>${esc(p)}</p>`).join('')}</div>`
     : tab === 'updates' ? (c.updates.length ? `<div class="timeline">${c.updates.map(([t, u], i) => `<div class="tl"><div class="rail"><i></i>${i < c.updates.length - 1 ? '<b></b>' : ''}</div><div class="tl-body"><small>${t}</small><p>${esc(u)}</p></div></div>`).join('')}</div>` : '<p class="muted">No updates yet. Donors are notified as soon as the organiser posts one.</p>')
     : donors.map(([n, a, t], i) => `<div class="person">${avatar(n)}<div class="who"><b>${esc(n)}</b><span>${t}${i === 0 && !mineHere.length ? ' · Top donor' : ''}</span></div><span class="amt num">${inr(a)}</span></div>`).join('');
-  const html = `<div class="d-cover"><div class="slides">${[0, 1, 2].map(v => cover(c, { v, bare: true })).join('')}</div>
+  const html = `<div class="d-cover"><div class="slides">${[c.photo, ...PHOTO_LIST.filter(x => x !== c.photo).slice(0, c.photo ? 2 : 0)].map(photo => cover(c, { photo, bare: true })).join('')}</div>
       <div class="bar-top"><button class="glass" data-act="back" aria-label="Back">${ic('left')}</button><span class="spacer"></span><button class="glass" data-act="share" data-id="${c.id}" aria-label="Share">${ic('share')}</button><button class="glass ${S.saved.has(c.id) ? 'on' : ''}" data-act="save" data-id="${c.id}" aria-label="Save">${ic('bookmark')}</button></div>
       <div class="dots" style="bottom:36px"><i class="on"></i><i></i><i></i></div></div>
     <div class="d-body">
@@ -508,7 +512,7 @@ V.donate = id => {
   const d = S.donate;
   const types = ['Sadaqah', 'Zakat', 'Lillah'];
   const html = pageHead('Donate') + `<div class="wrap">
-    <section class="section"><div class="mini-camp"><div class="thumb" style="background:linear-gradient(140deg,${CATS[c.cat].g.join(',')})">${ic(CATS[c.cat].icon)}</div><div><b>${esc(c.title)}</b><span class="small muted">${esc(ORGS[c.org].name)}</span></div></div></section>
+    <section class="section"><div class="mini-camp">${thumb(c)}<div><b>${esc(c.title)}</b><span class="small muted">${esc(ORGS[c.org].name)}</span></div></div></section>
     <section class="section">
       <div class="sec-head"><h2>Choose amount</h2></div>
       <div class="amounts">${AMOUNTS.map(a => `<button class="${!d.other && d.amount === a ? 'on' : ''}" data-act="amt" data-v="${a}">${inr(a)}</button>`).join('')}<button class="${d.other ? 'on' : ''}" data-act="amt" data-v="other">Other</button></div>
@@ -560,7 +564,7 @@ function results() {
   let list = active().filter(c => (S.ui.cat === 'all' || c.cat === S.ui.cat) && (!S.ui.zakatOnly || c.zakat) && (!q || [c.title, ORGS[c.org].name, c.city, CATS[c.cat].label].join(' ').toLowerCase().includes(q)));
   list.sort(S.ui.sort === 'urgent' ? (a, b) => a.days - b.days : S.ui.sort === 'near' ? (a, b) => pct(b) - pct(a) : (a, b) => b.id - a.id);
   if (!list.length) return `<p class="muted center" style="padding:24px 0">No campaigns match “${esc(S.ui.q)}”. Try another word or clear a filter.</p>`;
-  return `<p class="small muted">${list.length} campaign${list.length > 1 ? 's' : ''}</p>` + list.map(c => `<div class="result" data-go="#/c/${c.id}"><div class="thumb" style="background:linear-gradient(140deg,${CATS[c.cat].g.join(',')})">${ic(CATS[c.cat].icon)}</div><div class="info"><b>${esc(c.title)}</b><span class="small muted num">${inr(c.raised)} raised · ${c.days} days left</span><div class="bar"><i style="width:${pct(c)}%"></i></div></div></div>`).join('');
+  return `<p class="small muted">${list.length} campaign${list.length > 1 ? 's' : ''}</p>` + list.map(c => `<div class="result" data-go="#/c/${c.id}">${thumb(c)}<div class="info"><b>${esc(c.title)}</b><span class="small muted num">${inr(c.raised)} raised · ${c.days} days left</span><div class="bar"><i style="width:${pct(c)}%"></i></div></div></div>`).join('');
 }
 
 /* fundraiser wizard */
@@ -643,7 +647,7 @@ V.my = () => {
   return { html: pageHead('Fundraiser dashboard') + `<div class="wrap">
     <div class="balance"><div class="pattern"></div><small>Available to withdraw</small><b class="num">${inr(avail)}</b><div class="row"><button class="btn btn-white grow" data-go="#/withdraw">${ic('wallet')} Withdraw</button><button class="btn btn-ghost-w grow" data-go="#/kyc">${ic('shield')} KYC & bank</button></div></div>
     <section class="section"><div class="sec-head"><h2>My fundraisers</h2></div>
-      ${mine.map(m => `<div class="my-camp"><div class="thumb" style="background:${m.photo ? `url('${m.photo}') center/cover` : `linear-gradient(140deg,${CATS[m.c.cat].g.join(',')})`}">${m.photo ? '' : ic(CATS[m.c.cat].icon)}</div><div class="info"><b>${esc(m.c.title)}</b><span class="small muted num">${inr(m.c.raised)} of ${inr(m.c.goal)} · ${m.c.donors} donors</span><div class="bar"><i style="width:${pct(m.c)}%"></i></div>
+      ${mine.map(m => `<div class="my-camp">${thumb(m.c, m.photo)}<div class="info"><b>${esc(m.c.title)}</b><span class="small muted num">${inr(m.c.raised)} of ${inr(m.c.goal)} · ${m.c.donors} donors</span><div class="bar"><i style="width:${pct(m.c)}%"></i></div>
         <div style="display:flex;gap:8px;align-items:center;margin-top:8px"><span class="status ${m.status === 'live' ? 'st-live' : 'st-review'}">${m.status === 'live' ? 'Live' : 'Under review'}</span>${m.status === 'live' ? `<button class="text-link small" data-go="#/c/${m.c.id}">View</button><button class="text-link small" data-act="share" data-id="${m.c.id}">Share</button><button class="text-link small" data-act="postUpdate">Post update</button>` : `<button class="text-link small" data-act="approve" data-id="${m.c.id}">Demo: approve as admin</button>`}</div></div></div>`).join('')}
     </section>
     <section class="section"><div class="sec-head"><h2>Donations received</h2><span class="small muted">${camp(6).donors} total</span></div>
@@ -715,7 +719,7 @@ V.history = () => {
   const all = [...S.donations, ...base];
   return { html: pageHead('Donation history') + `<div class="wrap">
     <section class="section" style="display:flex;justify-content:space-between"><div><span class="small muted">This year</span><b class="num" style="display:block;font-size:24px;color:var(--brand)">${inr(S.donated + 1000)}</b></div><div style="text-align:right"><span class="small muted">Zakat given</span><b class="num" style="display:block;font-size:24px">${inr(S.donations.filter(d => d.type === 'Zakat').reduce((a, d) => a + d.amount, 0))}</b></div></section>
-    <section class="section">${all.map((d, i) => { const c = camp(d.cid); return `<div class="result"><div class="thumb" style="background:linear-gradient(140deg,${CATS[c.cat].g.join(',')})">${ic(CATS[c.cat].icon)}</div><div class="info"><b>${esc(c.title)}</b><span class="small muted">${d.date} · ${d.type}</span></div><div style="text-align:right"><b class="num">${inr(d.amount)}</b><button class="text-link small" style="display:block" data-act="receipt" data-i="${i}">Receipt</button></div></div>`; }).join('')}</section>
+    <section class="section">${all.map((d, i) => { const c = camp(d.cid); return `<div class="result">${thumb(c)}<div class="info"><b>${esc(c.title)}</b><span class="small muted">${d.date} · ${d.type}</span></div><div style="text-align:right"><b class="num">${inr(d.amount)}</b><button class="text-link small" style="display:block" data-act="receipt" data-i="${i}">Receipt</button></div></div>`; }).join('')}</section>
   </div>`, data: all };
 };
 
