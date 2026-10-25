@@ -414,7 +414,7 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 .check i svg.i { width: 14px; height: 14px; stroke-width: 3; }
 
 /* splash + onboarding (curved green header, content below) */
-.splash { width: 100%; min-height: 100vh; display: grid; place-items: center; background: linear-gradient(170deg, var(--hero-1), var(--hero-2)); padding: 0 12%; color: var(--hero-ink); }
+.splash { position: relative; overflow: hidden; width: 100%; min-height: 100vh; display: grid; place-items: center; background: linear-gradient(170deg, var(--hero-1), var(--hero-2)); padding: 0 12%; color: var(--hero-ink); }
 .brand-lockup { position: relative; display: grid; justify-items: center; gap: 4px; color: var(--hero-ink); text-align: center; }
 .brand-lockup .emblem { width: 92px; height: 92px; margin-bottom: 6px; filter: drop-shadow(0 4px 10px rgb(0 60 20 / 0.25)); }
 .brand-lockup b { font-size: 30px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
@@ -425,7 +425,6 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 .onb-hero.short .brand-lockup .emblem { width: 60px; height: 60px; margin-bottom: 2px; }
 .onb-hero.short .brand-lockup b { font-size: 24px; }
 .onb-hero .pattern { position: absolute; inset: 0; opacity: .16; }
-.onb-moon { position: absolute; top: -30px; right: -40px; width: 170px; height: 170px; fill: rgb(255 255 255 / 0.16); }
 
 .onb-body { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; padding: 22px 22px calc(24px + var(--sab)); }
 .onb-body h1 { font-size: 24px; }
@@ -619,3 +618,17 @@ a.btn { text-decoration: none; }
 .dua { overflow: hidden; padding-top: 0; }
 .dua-photo { height: 120px; margin: 0 -14px 12px; background-size: cover; background-position: center 40%; }
 .ts-badge { width: 58px; height: 58px; border-radius: 18px; flex: none; display: grid; place-items: center; background: radial-gradient(circle at 50% 45%, var(--tc) 0%, transparent 72%), var(--soft); }
+/* chand-sitare: gold crescent, twinkling stars, hanging stars */
+.splash .pattern { position: absolute; inset: 0; opacity: .12; }
+.decor, .sparkles { position: absolute; inset: 0; pointer-events: none; }
+.sparkles svg { position: absolute; fill: #ffe7a3; filter: drop-shadow(0 0 4px rgb(255 214 120 / 0.9)); animation: twinkle 3s ease-in-out infinite; }
+@keyframes twinkle { 0%, 100% { opacity: .3; transform: scale(.55) rotate(0deg); } 50% { opacity: 1; transform: scale(1) rotate(25deg); } }
+.hero-moon { position: absolute; top: 9%; right: 9%; width: 58px; height: 58px; filter: drop-shadow(0 0 14px rgb(255 214 120 / 0.8)); animation: moonglow 4s ease-in-out infinite; }
+.onb-hero.short .hero-moon { width: 40px; height: 40px; top: 12%; }
+@keyframes moonglow { 0%, 100% { filter: drop-shadow(0 0 8px rgb(255 214 120 / 0.55)); } 50% { filter: drop-shadow(0 0 18px rgb(255 214 120 / 0.95)); } }
+.hang { position: absolute; top: 0; width: 14px; height: calc(var(--h) + 14px); transform-origin: 50% 0; animation: sway 4.5s ease-in-out infinite; }
+.hang::before { content: ""; position: absolute; left: 50%; top: 0; width: 1px; height: var(--h); background: linear-gradient(rgb(255 231 163 / 0), rgb(255 231 163 / 0.85)); }
+.hang svg { position: absolute; left: 0; bottom: 0; width: 14px; height: 14px; fill: #ffe7a3; filter: drop-shadow(0 0 5px rgb(255 214 120 / 0.95)); }
+.onb-hero.short .hang { display: none; }
+@keyframes sway { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
+.brand-lockup { z-index: 1; }

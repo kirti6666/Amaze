@@ -296,7 +296,7 @@ const DECO = {
   lantern: '<svg class="season-deco" viewBox="0 0 60 90" aria-hidden="true"><path d="M30 0v14" stroke="currentColor" stroke-width="1.5"/><path d="M22 18h16l-3-4H25Z" fill="currentColor"/><path d="M20 22h20l4 10v26l-4 10H20l-4-10V32Z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M30 22v46M16 32h28M16 58h28" stroke="currentColor" stroke-width="1.2" opacity=".6"/><ellipse cx="30" cy="45" rx="5" ry="8" fill="currentColor" opacity=".45"/><path d="M24 68h12l-2 6h-8Z" fill="currentColor"/><path d="M30 74v8" stroke="currentColor" stroke-width="1.5"/></svg>',
   diya: '<svg class="season-deco" viewBox="0 0 70 60" aria-hidden="true"><path d="M35 6c-4 7-6 11-6 15a6 6 0 0 0 12 0c0-4-2-8-6-15Z" fill="currentColor"/><path d="M6 32h58c-2 13-14 22-29 22S8 45 6 32Z" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M14 38c6 4 13 6 21 6s15-2 21-6" stroke="currentColor" stroke-width="1.4" opacity=".6" fill="none"/></svg>',
 };
-const seasonCard = () => { const b = theme().banner; return b ? `<div class="season-card">${b.deco ? DECO[b.deco] : ''}<span class="season-ic">${ic(b.icon)}</span><span class="season-txt"><b>${b.title}</b><span>${b.sub}</span></span><button class="btn btn-main" data-act="${b.act}">${b.cta}</button></div>` : ''; };
+const seasonCard = () => { const b = theme().banner; return b ? `<div class="season-card">${sparkles([[44, 18, 9, 0], [58, 70, 7, 1.3], [72, 30, 6, .7]])}${b.deco ? DECO[b.deco] : ''}<span class="season-ic">${ic(b.icon)}</span><span class="season-txt"><b>${b.title}</b><span>${b.sub}</span></span><button class="btn btn-main" data-act="${b.act}">${b.cta}</button></div>` : ''; };
 
 /* ---------- shared pieces ---------- */
 const thumb = (c, photo = c.photo) => photo ? `<div class="thumb" style="background:url('${photo}') center/cover"></div>` : `<div class="thumb plain">${ic(CATS[c.cat].icon)}</div>`;
@@ -826,7 +826,7 @@ V.creator = () => {
   const steps = [['userplus', 'Register', 'Create your creator account'], ['code', 'Get your code', 'A unique promo code is generated'], ['megaphone', 'Promote', 'YouTube, Facebook, Instagram or offline'], ['users', 'Members join', 'They buy a plan with your code'], ['rupee', 'Earn', 'Commission is credited automatically']];
   return { html: `<header class="phead"><button class="icon-btn" data-act="back" aria-label="Back">${ic('left')}</button><div style="flex:1;min-width:0"><h1>Affiliate & Creator</h1><span class="small muted">Aapki mehnat · hamari tarakki · sabka saath</span></div></header>
   <div class="wrap">
-    <section class="creator-hero"><div class="pattern"></div>${ic('megaphone')}<h2>Share good, earn halal</h2><p>“Aap prachar karein, log jodein, hum aapki mehnat ka samman karein.”</p></section>
+    <section class="creator-hero"><div class="pattern"></div>${sparkles([[70, 18, 12, 0], [84, 52, 8, 1], [62, 74, 7, 1.8], [92, 22, 6, .5]])}${ic('megaphone')}<h2>Share good, earn halal</h2><p>“Aap prachar karein, log jodein, hum aapki mehnat ka samman karein.”</p></section>
     ${cr ? `<section class="section"><div class="sec-head"><h2>Your creator code</h2><span class="status st-live">Active</span></div>
       <div class="code-box"><b class="num">${cr.code}</b><button class="btn btn-soft" data-act="copy" data-v="${SITE}/join?ref=${cr.code}">${ic('link')} Copy link</button></div>
       <div class="stats3"><div><b class="num">0</b><span>clicks</span></div><div><b class="num">0</b><span>members joined</span></div><div><b class="num">₹0</b><span>earned</span></div></div></section>` : ''}
@@ -856,11 +856,19 @@ const INFO = {
 V.info = slug => { const [t, body] = INFO[slug] || INFO.about; return { html: pageHead(t) + `<div class="wrap"><section class="section prose">${body}</section></div>` }; };
 
 const WORDMARK = `<div class="brand-lockup">${emblem()}<b>${APP}</b><span>Together for a Better Muslim</span></div>`;
-const onbHero = cls => `<div class="onb-hero ${cls || ''}"><div class="pattern"></div><svg class="onb-moon" viewBox="0 0 24 24" aria-hidden="true">${P.moon}</svg>${WORDMARK}</div>`;
+// chand-sitare decoration: glowing crescent, twinkling four-point stars and hanging stars
+const STAR4 = '<path d="M12 0c.9 7.2 4.8 11.1 12 12-7.2.9-11.1 4.8-12 12-.9-7.2-4.8-11.1-12-12C7.2 11.1 11.1 7.2 12 0Z"/>';
+const sparkles = pts => `<div class="sparkles" aria-hidden="true">${pts.map(([x, y, sz, d]) => `<svg viewBox="0 0 24 24" style="left:${x}%;top:${y}%;width:${sz}px;height:${sz}px;animation-delay:${d}s">${STAR4}</svg>`).join('')}</div>`;
+const SKY = [[12, 22, 14, 0], [24, 58, 9, 1.1], [38, 14, 8, 2], [62, 70, 12, .6], [78, 44, 9, 1.6], [88, 78, 7, .3], [8, 74, 8, 2.3], [52, 32, 6, 1.9], [70, 16, 10, 2.6]];
+const chandSitare = () => `<div class="decor" aria-hidden="true">${sparkles(SKY)}
+  <svg class="hero-moon" viewBox="0 0 24 24"><defs><linearGradient id="moonG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff3c4"/><stop offset="1" stop-color="#e9b52c"/></linearGradient></defs><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" fill="url(#moonG)"/></svg>
+  ${[[14, 46, 0], [26, 82, 1.2], [84, 60, .6]].map(([x, h, d]) => `<span class="hang" style="left:${x}%;--h:${h}px;animation-delay:${d}s"><svg viewBox="0 0 24 24">${STAR4}</svg></span>`).join('')}</div>`;
+
+const onbHero = cls => `<div class="onb-hero ${cls || ''}"><div class="pattern"></div>${chandSitare()}${WORDMARK}</div>`;
 
 V.splash = () => {
   setTimeout(() => location.hash === '#/splash' && replaceRoute('#/intro'), 1400);
-  return { bare: true, html: `<button class="splash" data-act="splashNext" aria-label="Continue">${WORDMARK}</button>` };
+  return { bare: true, html: `<button class="splash" data-act="splashNext" aria-label="Continue"><div class="pattern"></div>${chandSitare()}${WORDMARK}</button>` };
 };
 
 V.intro = () => ({ bare: true, html: `<div class="onb">${onbHero()}<div class="onb-body">
