@@ -224,10 +224,12 @@ const flows = {
   step2: () => { open('#/start'); win().eval('S.draft = null; render()'); setTimeout(() => { const d = win().document; const f = (id, v) => { const el = d.getElementById(id); if (!el) return; el.value = v; el.dispatchEvent(new Event('input', { bubbles: true })); }; f('f-title', 'Help my neighbour Salma with eye surgery'); f('f-goal', '150000'); d.querySelector('[data-act=wizNext]')?.click(); }, 250); },
   overall: () => { open('#/rating'); click('[data-k=rate][data-v=overall]'); },
   reports: () => { open('#/completed'); click('[data-k=comp][data-v=reports]'); },
+  zakat: () => { open('#/home'); click('[data-act=zakatCalc]'); },
+  greet: () => { open('#/home'); win().eval('S.greet = true; render()'); },
 };
 const SCREENS = [
   ['Start', [['Splash', '#/splash'], ['Welcome', '#/intro'], ['Sign up & OTP', '#/login']]],
-  ['Tabs', [['Campaigns (home)', '#/home'], ['Completed', '#/completed'], ['Completed reports', 'reports'], ['Rating · your league', '#/rating'], ['Rating · overall', 'overall'], ['News', '#/news'], ['Notifications', '#/news/notifications'], ['Profile', '#/profile']]],
+  ['Tabs', [['Campaigns (home)', '#/home'], ['Welcome notification', 'greet'], ['Zakat calculator', 'zakat'], ['Completed', '#/completed'], ['Completed reports', 'reports'], ['Rating · your league', '#/rating'], ['Rating · overall', 'overall'], ['News', '#/news'], ['Notifications', '#/news/notifications'], ['Profile', '#/profile']]],
   ['Giving', [['Search & filters', '#/search'], ['Campaign page', '#/c/1'], ['Campaign donors', 'donors'], ['Share sheet', 'share'], ['Donate', '#/donate/1'], ['Payment success', 'success'], ['Donation history', '#/history']]],
   ['Fundraising', [['Start a fundraiser', '#/start'], ['Beneficiary & uploads', 'step2'], ['Submitted for review', '#/submitted'], ['Organiser dashboard', '#/my'], ['Post an update', 'update'], ['Request withdrawal', '#/withdraw'], ['KYC & bank account', '#/kyc']]],
   ['Account & info', [['Profile settings', '#/settings'], ['Verified NGOs', '#/ngos'], ['About us', '#/info/about'], ['How it works', '#/info/how'], ['FAQs', '#/info/faq'], ['Contact us', '#/info/contact'], ['Terms & Conditions', '#/info/terms'], ['Privacy Policy', '#/info/privacy'], ['Refund Policy', '#/info/refund']]],

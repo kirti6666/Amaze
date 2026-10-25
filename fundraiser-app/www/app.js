@@ -62,6 +62,9 @@ const P = {
   trend: '<path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/>',
   calendar: '<rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
   headset: '<path d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M21 16v2a4 4 0 0 1-4 4h-5"/>',
+  calc: '<rect width="16" height="20" x="4" y="2" rx="2"/><path d="M8 6h8M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/>',
+  quote: '<path d="M10 11H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5c0 2.5-1.5 4-4 5"/><path d="M19 11h-4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5c0 2.5-1.5 4-4 5"/>',
+  bowl: '<path d="M3 11h18a9 9 0 0 1-18 0Z"/><path d="M7 21h10"/><path d="M8 7c0-1 1-1.5 1-2.5S8 3 8 3M12 7c0-1 1-1.5 1-2.5S12 3 12 3M16 7c0-1 1-1.5 1-2.5S16 3 16 3"/>',
   hands: '<path d="M11 14h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 16"/><path d="m7 20 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"/><path d="m2 15 6 6"/><path d="M19.5 8.5c.7-.7 1.5-1.6 1.5-2.7A2.73 2.73 0 0 0 16 4a2.78 2.78 0 0 0-5 1.8c0 1.2.8 2 1.5 2.8L16 12Z"/>',
 };
 const ic = (n, cls = '') => `<svg class="i ${cls}" viewBox="0 0 24 24" aria-hidden="true">${P[n]}</svg>`;
@@ -157,6 +160,16 @@ const CAMPAIGNS = [
     docs: ['District relief list', 'Material quotation', 'Site photos'],
     story: ['The Brahmaputra floods destroyed 40 homes in two villages. Families are in a school relief camp.', 'Each ₹30,000 rebuilds one raised home that can survive the next monsoon.'],
     updates: [['Today', '12 homes complete. Families have moved back in.']],
+  },
+  {
+    id: 9, org: 'iqra', cat: 'food', zakat: true, city: 'Across India', days: 14,
+    title: 'Daily meals for madrasa students', caption: '₹50 feeds a student for a day',
+    goal: 350000, raised: 182600, donors: 2954,
+    unit: [50, 'meal for a madrasa student'],
+    ben: { Beneficiary: '1,200 students in 14 madrasas', Covers: 'Breakfast and lunch', Partner: 'Iqra Education Trust', Location: 'UP, Bihar, West Bengal' },
+    docs: ['Madrasa list (verified)', 'Kitchen cost sheet', 'Trust 80G certificate'],
+    story: ['Many madrasa students come from families that cannot send food with them. A warm meal keeps them in class and learning the Quran.', 'Your gift is pooled every week and spent on rations for the madrasa kitchens.'],
+    updates: [['2 days ago', 'Rations delivered to 6 madrasas in Bahraich.']],
   },
   {
     id: 7, org: 'noor', cat: 'food', zakat: false, done: true, city: 'Delhi', title: 'Winter blankets for 2,000 street families',
@@ -275,12 +288,45 @@ function navBar(cur) {
 /* ---------- tab views ---------- */
 const V = {};
 
+const secTitle = (t, sub, right = '') => `<div class="sec-title"><h2>${t}</h2>${sub ? `<span lang="hi">${sub}</span>` : ''}${right ? `<span class="spacer"></span>${right}` : ''}</div>`;
+const hijri = () => { try { return new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date()); } catch { return ''; } };
+
+// Zakat: 2.5% of zakatable wealth held above the nisab
+// shortcut: fixed silver nisab; fetch the live silver price before going to production
+const NISAB = 52000;
+const zakatDue = net => (net >= NISAB ? Math.round(net * 0.025) : 0);
+console.assert(zakatDue(100000) === 2500 && zakatDue(NISAB - 1) === 0, 'zakatDue');
+
+const SERVICES = [
+  ['calc', 'Zakat calculator', 'zakatCalc'], ['star', 'Pay Zakat', 'svcZakat'], ['mosque', 'Sadaqah Jariyah', 'svcJariyah'], ['utensils', 'Iftar & food', 'svcFood'],
+  ['baby', 'Orphan care', 'svcOrphans'], ['hands', 'Fidya & Kaffarah', 'fidya'], ['calendar', 'Qurbani', 'qurbani'], ['plus', 'Start fundraiser', 'svcStart'],
+];
+const servicesBlock = () => `<section class="services">${secTitle('Our services', 'हमारी सेवाएँ')}<div class="svc-grid">${SERVICES.map(([i, l, a]) => `<button class="svc" data-act="${a}"><span class="svc-ic">${ic(i)}</span>${l}</button>`).join('')}</div></section>`;
+const duaBlock = () => `<section class="home-sec">${secTitle('Feed a madrasa child', 'बच्चों के लिए भोजन')}
+  <div class="dua"><div class="dua-head"><div><h3>Dua karein, aur karein donation</h3><p>Your dua and a small gift give a meal to children studying in our madrasas.</p></div>${ic('bowl')}</div>
+  <div class="dua-amts">${[10, 20, 50, 100].map(a => `<button data-act="quickGive" data-v="${a}">₹${a}</button>`).join('')}</div></div></section>`;
+const HADITH = [
+  ['The best of people are those who are most beneficial to people.', 'Hadith, al-Mu‘jam al-Awsat'],
+  ['Charity does not decrease wealth.', 'Hadith, Sahih Muslim 2588'],
+  ['Protect yourself from the Fire, even with half a date given in charity.', 'Hadith, Sahih al-Bukhari 1417'],
+  ['Those who spend their wealth in the way of Allah are like a seed that grows seven ears, in each ear a hundred grains.', 'Quran, Al-Baqarah 2:261'],
+];
+const todayHadith = () => HADITH[Math.floor(Date.now() / 864e5) % HADITH.length];
+const hadithBlock = () => { const [q, src] = todayHadith(); return `<section class="home-sec">${secTitle('Aaj ki khaas baat', 'आज की खास बात')}
+  <div class="hadith">${ic('quote')}<p class="hq">“${q}”</p><p class="hs">— ${src}</p><a class="btn hadith-share" href="https://wa.me/?text=${encodeURIComponent(`“${q}” — ${src}\nShared from ${APP}`)}" target="_blank" rel="noopener">${ic('share')} Share</a></div></section>`; };
+const MEMBERS = [['Ayesha Khan', 'Oasis'], ['Rizwan Ahmed', 'Lantern'], ['Fatima Noor', 'Oasis'], ['Imran Shaikh', 'Crescent'], ['Zahra Ali', 'Lantern'], ['Bilal Qureshi', 'Seedling'], ['Mariam Siddiqui', 'Crescent']];
+const membersBlock = () => `<section class="home-sec">${secTitle('Active members', '', `<button class="text-link small" data-go="#/rating">Leaderboard ${ic('right')}</button>`)}
+  <div class="members">${MEMBERS.map(([n, l], i) => `<div class="member"><span class="mav">${avatar(n)}${i % 3 !== 2 ? '<i></i>' : ''}</span><b>${esc(n.split(' ')[0])}</b><span class="lg-${l.toLowerCase()}">${l}</span></div>`).join('')}</div></section>`;
+
 V.home = () => {
   const cats = [['all', 'All', 'heart'], ...Object.entries(CATS).map(([k, c]) => [k, c.label, c.icon])];
   let list = S.ui.home === 'fav' ? CAMPAIGNS.filter(c => S.saved.has(c.id)) : active().filter(c => S.ui.cat === 'all' || c.cat === S.ui.cat).sort((a, b) => !!b.featured - !!a.featured);
+  const cards = list.map(campaignCard);
+  if (S.ui.home === 'all' && S.ui.cat === 'all') { cards.splice(1, 0, duaBlock()); cards.splice(3, 0, hadithBlock()); cards.splice(5, 0, membersBlock()); }
   return { nav: 'home', html: header(seg('home', [['all', 'All campaigns'], ['fav', 'My favorites']])) +
+    (S.ui.home === 'all' && S.ui.cat === 'all' ? servicesBlock() : '') +
     (S.ui.home === 'all' ? `<div class="chips">${cats.map(([k, l, i]) => `<button class="chip ${S.ui.cat === k ? 'on' : ''}" data-act="ui" data-k="cat" data-v="${k}">${ic(i)}${l}</button>`).join('')}</div>` : '') +
-    `<div class="feed">${list.map(campaignCard).join('') || `<div class="empty">${ic('bookmark')}<p>Tap the bookmark on any campaign to keep it here.</p><button class="btn btn-soft" data-act="ui" data-k="home" data-v="all">Browse campaigns</button></div>`}</div>` };
+    `<div class="feed">${cards.join('') || `<div class="empty">${ic('bookmark')}<p>Tap the bookmark on any campaign to keep it here.</p><button class="btn btn-soft" data-act="ui" data-k="home" data-v="all">Browse campaigns</button></div>`}</div>` };
 };
 
 V.completed = () => {
@@ -745,6 +791,7 @@ function render() {
   app.className = view.nav ? '' : view.cta ? 'no-nav' : 'bare';
   app.innerHTML = view.html + (view.nav ? navBar(view.nav) : '') + (view.cta ? `<div class="fixed-col cta-bar">${view.cta}</div>` : '');
   if (changed) window.scrollTo(0, 0);
+  if (S.greet && name === 'home') { S.greet = false; setTimeout(greet, 500); }
 }
 const rerender = () => { const y = window.scrollY; render(); window.scrollTo(0, y); };
 const go = h => { if (location.hash === h) rerender(); else location.hash = h; };
@@ -752,6 +799,15 @@ const replaceRoute = h => location.replace(location.href.split('#')[0] + h);
 window.addEventListener('hashchange', render);
 
 /* ---------- interactions ---------- */
+function greet() {
+  const friday = new Date().getDay() === 5;
+  const g = document.createElement('div');
+  g.className = 'greet fixed-col'; g.setAttribute('role', 'status');
+  g.innerHTML = `<div class="greet-card"><span class="greet-ic">${LOGO}</span><div><b>Assalamu alaikum, ${esc(S.user.first)}!</b><p>${friday ? 'Jumu‘ah Mubarak. ' : ''}${hijri() ? hijri() + '. ' : ''}2,481 people were helped today. Start your day with a small Sadaqah.</p></div></div>`;
+  g.addEventListener('click', () => g.remove());
+  document.body.appendChild(g);
+  setTimeout(() => g.remove(), 6000);
+}
 function toast(msg) {
   document.querySelector('.toast')?.remove();
   const t = document.createElement('div');
@@ -861,6 +917,23 @@ const A = {
   mylink: () => sheet(`<h2>Your personal link</h2><p class="muted small">Share it anywhere. Donations made through it count toward your Inspirer rank.</p><p style="margin-top:12px;font-weight:700;user-select:all">${SITE}/u/ayesha-khan</p><button class="btn btn-main btn-block" style="margin-top:14px" data-act="copy" data-v="${SITE}/u/ayesha-khan">${ic('link')} Copy link</button>`),
   logout: () => { S.login = { stage: 'details', role: 'donor', name: '', email: '', phone: '', err: {} }; replaceRoute('#/intro'); },
   splashNext: () => replaceRoute('#/intro'),
+  quickGive: el => { S.donate = { cid: 9, amount: 1000, custom: el.dataset.v, other: true, type: 'Sadaqah', anon: false, tip: 0, pay: 'upi' }; go('#/donate/9'); },
+  svcZakat: () => { S.ui.zakatOnly = true; S.ui.cat = 'all'; go('#/search'); },
+  svcJariyah: () => { S.ui.cat = 'water'; S.ui.home = 'all'; rerender(); document.querySelector('.chips')?.scrollIntoView({ block: 'start' }); },
+  svcFood: () => { S.ui.cat = 'food'; S.ui.home = 'all'; rerender(); document.querySelector('.chips')?.scrollIntoView({ block: 'start' }); },
+  svcOrphans: () => { S.ui.cat = 'orphans'; S.ui.home = 'all'; rerender(); document.querySelector('.chips')?.scrollIntoView({ block: 'start' }); },
+  svcStart: () => go('#/start'),
+  fidya: () => sheet(`<h2>Fidya & Kaffarah</h2><p class="muted">Missed fasts you cannot make up? Fidya feeds one person for each missed fast. Kaffarah for a broken fast feeds 60 people.</p>
+    <div class="summary" style="margin-top:14px"><div><span>Fidya, per fast</span><b class="num">₹150</b></div><div><span>Kaffarah, per broken fast (60 × ₹150)</span><b class="num">₹9,000</b></div></div>
+    <button class="btn btn-main btn-block" style="margin-top:16px" data-close data-act="quickGive" data-v="150">Give Fidya for 1 fast</button>`),
+  qurbani: () => sheet(`<h2>Qurbani</h2><p class="muted">Book your Qurbani share and we deliver the meat to families in need on Eid al-Adha.</p>
+    <div class="radio-list" style="margin-top:14px">${[['Goat (1 share)', '₹9,500'], ['Cow (1 of 7 shares)', '₹4,200']].map(([l, pr]) => `<div class="radio"><span class="ic">${ic('calendar')}</span><span class="txt"><b>${l}</b><span>Distributed in India</span></span><b class="num">${pr}</b></div>`).join('')}</div>
+    <button class="btn btn-soft btn-block" style="margin-top:14px" data-close data-act="toast" data-msg="We’ll remind you when Qurbani booking opens">Remind me before Eid al-Adha</button>`),
+  zakatCalc: () => sheet(`<h2>Zakat calculator</h2><p class="muted small">Zakat is 2.5% of wealth you have held for a lunar year, if it is above the nisab (${inr(NISAB)}, based on silver).</p>
+    <div style="display:grid;gap:10px;margin-top:12px">${[['z-cash', 'Cash and bank balance'], ['z-gold', 'Gold and silver (market value)'], ['z-inv', 'Investments and savings'], ['z-owed', 'Money owed to you'], ['z-debt', 'Debts and bills due now']].map(([id, l]) => `<div class="field"><label for="${id}">${l}</label><div class="prefix"><span>₹</span><input class="input num" id="${id}" inputmode="numeric" placeholder="0" data-zakat></div></div>`).join('')}</div>
+    <div class="zakat-out" id="zakat-out">${zakatOut(0)}</div>
+    <button class="btn btn-main btn-block" style="margin-top:12px" data-close data-act="svcZakat">Find Zakat-eligible causes</button>`),
+
   pref: el => { S.prefs[el.dataset.k] = !S.prefs[el.dataset.k]; rerender(); },
   lset: el => { S.login[el.dataset.k] = el.dataset.v; rerender(); },
   otp: () => {
@@ -876,7 +949,7 @@ const A = {
     const l = S.login;
     if (l.name.trim()) { S.user.name = l.name.trim(); S.user.first = S.user.name.split(' ')[0]; }
     if (l.email.trim()) S.user.email = l.email.trim();
-    l.stage = 'details'; replaceRoute('#/home');
+    l.stage = 'details'; S.greet = true; replaceRoute('#/home');
   },
 };
 
@@ -893,8 +966,14 @@ document.addEventListener('click', e => {
   if (goEl) { e.preventDefault(); goEl.closest('.scrim')?.remove(); go(goEl.dataset.go); }
 });
 
+const zakatOut = net => `<div><span>Zakatable wealth</span><b class="num">${inr(Math.max(0, net))}</b></div><div class="total"><span>Zakat due</span><b class="num">${inr(zakatDue(net))}</b></div>${net > 0 && net < NISAB ? '<p class="small muted">Below the nisab, so no Zakat is due this year.</p>' : ''}`;
 document.addEventListener('input', e => {
   const el = e.target;
+  if (el.dataset.zakat !== undefined) {
+    const v = id => Number(document.getElementById(id).value.replace(/\D/g, '')) || 0;
+    document.getElementById('zakat-out').innerHTML = zakatOut(v('z-cash') + v('z-gold') + v('z-inv') + v('z-owed') - v('z-debt'));
+    return;
+  }
   if (el.dataset.otp) { if (el.value && el.nextElementSibling) el.nextElementSibling.focus(); return; }
   if (!el.dataset.model) return;
   setPath(el.dataset.model, el.value);
