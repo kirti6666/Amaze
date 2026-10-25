@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Barakah Desktop Preview</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: top bar with mode switch; "app" mode = screen list | phone | scope checklist, "admin" mode = sidebar + workspace. Light only, matching the app. */
+:root {
+  --brand: #0a9b3c; --brand-2: #3ddbbd; --brand-3: #1fc95c; --brand-ink: #087a30; --brand-soft: #dcf7ea;
+  --raised: #25cf98; --gold: #e9b52c; --gold-soft: #fff5d6; --ink: #15151f; --ink-2: #3d3d4a; --muted: #85858f;
+  --line: #e6e6ec; --bg: #f1f1f5; --card: #ffffff; --chip: #ececf1; --danger: #d9434b; --danger-soft: #fdeaea;
+  --amber: #8a5a00; --amber-soft: #fff1d6; --blue: #1f5fbf; --blue-soft: #e3eefc;
+  --font: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.5 var(--font); -webkit-font-smoothing: antialiased; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; border: 0; background: none; padding: 0; }
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+h1, h2, h3 { margin: 0; letter-spacing: -0.015em; text-wrap: balance; }
+p { margin: 0; }
+.num { font-variant-numeric: tabular-nums; }
+svg.i { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+.bar-top { position: sticky; top: 0; z-index: 10; height: 60px; background: var(--card); border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 16px; padding-block: 0; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.brand { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 20px; letter-spacing: -0.04em; color: var(--brand); }
+.brand svg { width: 26px; height: 26px; }
+.brand small { font-weight: 500; font-size: 13px; color: var(--muted); letter-spacing: 0; margin-left: 4px; }
+.modes { display: flex; background: var(--chip); border-radius: 99px; padding: 3px; margin-left: auto; }
+.modes button { padding: 7px 16px; border-radius: 99px; font-weight: 600; color: var(--muted); }
+.modes button.on { background: var(--card); color: var(--ink); box-shadow: 0 1px 3px rgb(0 0 0 / 0.08); }
+
+/* app mode */
+.stage { display: grid; grid-template-columns: 250px minmax(0, 1fr) 340px; gap: 24px; padding: 24px; max-width: 1400px; margin: 0 auto; align-items: start; }
+.panel { background: var(--card); border-radius: 20px; padding: 16px; position: sticky; top: 84px; max-height: calc(100vh - 108px); overflow-y: auto; }
+.panel h2 { font-size: 15px; margin-bottom: 4px; }
+.panel .lead { color: var(--muted); font-size: 12.5px; margin-bottom: 12px; }
+.group { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; margin: 16px 0 6px; }
+.group:first-of-type { margin-top: 4px; }
+.screen-btn { display: flex; width: 100%; align-items: center; gap: 10px; height: 36px; padding: 0 10px; border-radius: 10px; text-align: left; color: var(--ink-2); font-weight: 500; }
+.screen-btn:hover { background: var(--bg); }
+.screen-btn.on { background: var(--brand-soft); color: var(--brand-ink); font-weight: 600; }
+.phone-col { display: grid; justify-items: center; gap: 14px; }
+.phone { width: 404px; height: 860px; border-radius: 54px; background: #111; padding: 12px; box-shadow: 0 30px 60px rgb(20 20 40 / 0.18), inset 0 0 0 2px #2a2a2a; position: relative; }
+.screen { width: 100%; height: 100%; border-radius: 42px; overflow: hidden; background: var(--card); display: grid; grid-template-rows: 34px 1fr; }
+.status { display: flex; align-items: center; justify-content: space-between; padding: 0 26px 0 30px; font-weight: 600; font-size: 13px; background: var(--card); position: relative; }
+.status::after { content: ""; position: absolute; left: 50%; top: 9px; width: 18px; height: 18px; border-radius: 50%; background: #111; transform: translateX(-50%); }
+.status span { display: flex; gap: 5px; align-items: center; }
+.status svg { width: 15px; height: 15px; fill: currentColor; }
+.screen iframe { width: 100%; height: 100%; border: 0; display: block; }
+.phone-note { color: var(--muted); font-size: 12.5px; text-align: center; max-width: 380px; }
+.feat-sec { border-top: 1px solid var(--line); padding: 12px 0 4px; }
+.feat-sec:first-of-type { border-top: 0; padding-top: 4px; }
+.feat-sec h3 { font-size: 13.5px; display: flex; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+.feat-sec h3 span { color: var(--brand); font-weight: 600; font-size: 12px; }
+.feat { display: flex; align-items: flex-start; gap: 8px; padding: 5px 0; font-size: 13px; color: var(--ink-2); }
+.feat > svg.i { color: var(--brand); width: 16px; height: 16px; margin-top: 2px; stroke-width: 2.6; }
+.feat .t { flex: 1; min-width: 0; }
+.feat button { color: var(--brand-ink); font-weight: 600; font-size: 12px; white-space: nowrap; padding: 2px 8px; border-radius: 99px; background: var(--brand-soft); }
+.summary { display: flex; gap: 10px; align-items: center; background: var(--brand-soft); color: var(--brand-ink); border-radius: 14px; padding: 10px 12px; font-weight: 600; font-size: 13px; margin-bottom: 12px; }
+
+/* admin mode */
+.admin { display: grid; grid-template-columns: 232px minmax(0, 1fr); min-height: calc(100vh - 60px); }
+.side { background: var(--card); border-right: 1px solid var(--line); padding: 16px 12px; display: grid; align-content: start; gap: 2px; position: sticky; top: 60px; height: calc(100vh - 60px); }
+.side button { display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 12px; border-radius: 10px; font-weight: 500; color: var(--ink-2); text-align: left; }
+.side button:hover { background: var(--bg); }
+.side button.on { background: var(--brand-soft); color: var(--brand-ink); font-weight: 600; }
+.side .count { margin-left: auto; background: var(--danger); color: #fff; font-size: 11px; font-weight: 700; min-width: 20px; height: 20px; border-radius: 10px; display: grid; place-items: center; padding: 0 6px; }
+.work { padding: 24px 28px 40px; min-width: 0; display: grid; gap: 18px; align-content: start; max-width: 1240px; }
+.work-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.work-head h1 { font-size: 24px; }
+.work-head p { color: var(--muted); width: 100%; margin-top: -8px; }
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.kpi { background: var(--card); border-radius: 16px; padding: 16px; display: grid; gap: 4px; }
+.kpi span { color: var(--muted); font-size: 12.5px; }
+.kpi b { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; }
+.kpi small { color: var(--brand); font-weight: 600; font-size: 12px; }
+.card { background: var(--card); border-radius: 16px; padding: 16px; min-width: 0; }
+.card h2 { font-size: 16px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.cols { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { text-align: left; font-weight: 600; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; padding: 10px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+td { padding: 12px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+tr:last-child td { border-bottom: 0; }
+td.r, th.r { text-align: right; }
+td .sub { display: block; color: var(--muted); font-size: 12px; }
+.pill { display: inline-block; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 99px; white-space: nowrap; }
+.p-live, .p-approved, .p-active, .p-verified { background: var(--brand-soft); color: var(--brand-ink); }
+.p-review, .p-pending, .p-requested { background: var(--amber-soft); color: var(--amber); }
+.p-paid, .p-completed { background: var(--blue-soft); color: var(--blue); }
+.p-rejected, .p-suspended, .p-blocked { background: var(--danger-soft); color: var(--danger); }
+.clip { display: block; max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.acts { display: flex; gap: 6px; justify-content: flex-end; }
+.b { height: 32px; padding: 0 12px; border-radius: 8px; font-weight: 600; font-size: 12.5px; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.b-main { background: var(--brand); color: #fff; }
+.b-soft { background: var(--chip); color: var(--ink); }
+.b-danger { background: var(--danger-soft); color: var(--danger); }
+.b-lg { height: 40px; padding: 0 16px; font-size: 14px; border-radius: 10px; }
+.filters { display: flex; gap: 6px; flex-wrap: wrap; }
+.filters button { height: 32px; padding: 0 12px; border-radius: 99px; background: var(--card); border: 1px solid var(--line); font-weight: 500; font-size: 13px; }
+.filters button.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+.attn { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.attn:last-child { border-bottom: 0; }
+.attn .ic { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; flex: none; }
+.attn .t { flex: 1; }
+.attn .t span { display: block; color: var(--muted); font-size: 12.5px; }
+.hbar { display: grid; grid-template-columns: 110px minmax(0, 1fr) 90px; gap: 10px; align-items: center; padding: 6px 0; font-size: 13px; }
+.hbar .track { height: 8px; background: var(--chip); border-radius: 9px; overflow: hidden; }
+.hbar .track i { display: block; height: 100%; background: linear-gradient(90deg, var(--brand-2), var(--brand-3)); border-radius: 9px; }
+.hbar b { text-align: right; font-weight: 600; }
+.queue { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+.q { background: var(--card); border-radius: 16px; padding: 16px; display: grid; gap: 10px; align-content: start; }
+.q-head { display: flex; gap: 10px; align-items: center; }
+.av { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 13px; flex: none; }
+.q-head .t { flex: 1; min-width: 0; }
+.q-head .t span { display: block; color: var(--muted); font-size: 12.5px; }
+.docs { display: flex; flex-wrap: wrap; gap: 6px; }
+.doc { display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 10px; border-radius: 8px; background: var(--bg); font-size: 12.5px; font-weight: 500; }
+.doc svg.i { width: 15px; height: 15px; color: var(--muted); }
+.form { display: grid; gap: 14px; max-width: 560px; }
+.field { display: grid; gap: 6px; }
+.field label { font-weight: 600; font-size: 13px; }
+.field .hint { color: var(--muted); font-size: 12px; }
+.input, .select, .textarea { width: 100%; height: 40px; border: 1px solid var(--line); border-radius: 10px; padding: 0 12px; background: var(--card); outline: none; }
+.textarea { height: 200px; padding: 10px 12px; resize: vertical; line-height: 1.5; }
+.input:focus, .select:focus, .textarea:focus { border-color: var(--brand); }
+.toggle-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.toggle-row:last-child { border-bottom: 0; }
+.toggle-row .t { flex: 1; }
+.toggle-row .t span { display: block; color: var(--muted); font-size: 12.5px; }
+.sw { width: 40px; height: 24px; border-radius: 99px; background: #cfd3db; position: relative; flex: none; transition: background .2s; }
+.sw::after { content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; transition: transform .2s; }
+.sw.on { background: var(--brand); }
+.sw.on::after { transform: translateX(16px); }
+.dot { width: 12px; height: 12px; border-radius: 4px; display: inline-block; vertical-align: -1px; margin-right: 8px; }
+.modal-scrim { position: fixed; inset: 0; background: rgb(15 15 30 / 0.4); display: grid; place-items: center; z-index: 50; padding: 16px; }
+.modal { background: var(--card); border-radius: 18px; padding: 20px; width: min(560px, 100%); display: grid; gap: 14px; }
+.modal h2 { font-size: 18px; }
+.doc-preview { height: 220px; border-radius: 12px; background: repeating-linear-gradient(0deg, var(--bg) 0 14px, var(--card) 14px 28px); border: 1px solid var(--line); display: grid; place-items: center; color: var(--muted); font-weight: 600; }
+.toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--ink); color: #fff; padding: 10px 18px; border-radius: 99px; font-weight: 600; z-index: 60; }
+[hidden] { display: none !important; }
+
+@media (max-width: 1180px) { .stage { grid-template-columns: 220px minmax(0, 1fr); } .stage .checklist { grid-column: 1 / -1; position: static; max-height: none; } .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } .cols { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 760px) {
+  .stage { grid-template-columns: minmax(0, 1fr); padding: 0; gap: 0; }
+  .stage .screens { display: none; }
+  .phone { width: 100%; height: calc(100vh - 60px); border-radius: 0; padding: 0; box-shadow: none; background: none; }
+  .screen { border-radius: 0; grid-template-rows: 0 1fr; }
+  .status { overflow: hidden; padding: 0; }
+  .phone-note { display: none; }
+  .stage .checklist { border-radius: 0; }
+  .brand small { display: none; }
+  .admin { grid-template-columns: minmax(0, 1fr); }
+  .side { position: static; height: auto; display: flex; overflow-x: auto; border-right: 0; border-bottom: 1px solid var(--line); }
+  .side button { flex: none; }
+  .work { padding: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<header class="bar-top">
+  <div class="brand"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16.5 4.5a11.5 11.5 0 1 0 11 15A9.2 9.2 0 1 1 16.5 4.5Z"/><path fill="#e9b52c" d="M23.3 7.2l1 2.3 2.4.3-1.8 1.6.5 2.4-2.1-1.2-2.1 1.2.5-2.4-1.8-1.6 2.4-.3Z"/></svg>barakah<small>Desktop preview</small></div>
+  <div class="modes" role="tablist"><button class="on" data-mode="app" role="tab">Mobile app</button><button data-mode="admin" role="tab">Admin panel</button></div>
+</header>
+
+<main id="mode-app" class="stage">
+  <aside class="panel screens"><h2>Screens</h2><p class="lead">Click to jump. You can also tap around inside the phone.</p><div id="screen-list"></div></aside>
+  <section class="phone-col">
+    <div class="phone"><div class="screen">
+      <div class="status"><span class="num">9:41</span><span><svg viewBox="0 0 24 24"><path d="M2 20h3v-4H2zm5 0h3v-8H7zm5 0h3V8h-3zm5 0h3V4h-3z"/></svg><svg viewBox="0 0 24 24"><path d="M12 18.5a1.5 1.5 0 1 0 0 .01ZM12 6C8 6 4.5 7.6 2 10l1.8 1.8C5.8 9.9 8.7 8.6 12 8.6s6.2 1.3 8.2 3.2L22 10c-2.5-2.4-6-4-10-4Zm0 5c-2.3 0-4.4.9-6 2.4l1.8 1.8A6 6 0 0 1 12 13.6c1.6 0 3.1.6 4.2 1.6l1.8-1.8A8.6 8.6 0 0 0 12 11Z"/></svg><svg viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="4" y="9" width="12" height="6" rx="1"/><rect x="21" y="10" width="1.6" height="4" rx=".8"/></svg></span></div>
+      <iframe id="app-frame" title="Barakah Android app"></iframe>
+    </div></div>
+    <p class="phone-note">The same code runs inside the Android APK. All data is sample data and payments are simulated.</p>
+  </section>
+  <aside class="panel checklist"><h2>Scope checklist</h2><p class="lead">Each item from the proposed scope and where it is in the UI.</p><div id="feature-list"></div></aside>
+</main>
+
+<main id="mode-admin" class="admin" hidden>
+  <nav class="side" id="admin-nav"></nav>
+  <section class="work" id="admin-work"></section>
+</main>
+
+<script type="text/plain" id="app-css">{{APP_CSS}}</script>
+<script type="text/plain" id="app-js">{{APP_JS}}</script>
+<script>
+'use strict';
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+const inr = n => '₹' + Math.round(n).toLocaleString('en-IN');
+const P = {
+  check: '<path d="M20 6 9 17l-5-5"/>', grid: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+  flag: '<path d="M4 22V4a1 1 0 0 1 1-1h12l-2 4 2 4H5"/>', shield: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>',
+  wallet: '<path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>',
+  chart: '<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>', users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+  tag: '<path d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.7 8.7a2.4 2.4 0 0 0 3.4 0l6.6-6.6a2.4 2.4 0 0 0 0-3.4Z"/><circle cx="7.5" cy="7.5" r="1.5"/>',
+  file: '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8M16 17H8"/>',
+  sliders: '<path d="M21 4h-7M10 4H3M21 12h-9M8 12H3M21 20h-5M12 20H3M14 2v4M8 10v4M16 18v4"/>', bank: '<path d="M3 22h18M6 18v-7M10 18v-7M14 18v-7M18 18v-7"/><path d="m12 2 8 5H4z"/>',
+  clock: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>', download: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/>',
+};
+const ic = n => `<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${P[n]}</svg>`;
+function toast(m) { document.querySelector('.toast')?.remove(); const t = document.createElement('div'); t.className = 'toast'; t.textContent = m; t.setAttribute('role', 'status'); document.body.appendChild(t); setTimeout(() => t.remove(), 2200); }
+
+/* ---------- mobile app in the phone frame ---------- */
+const frame = $('#app-frame');
+frame.srcdoc = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"><style>${$('#app-css').textContent}</style></head><body><div id="app"></div><script>${$('#app-js').textContent}<\/script></body></html>`;
+const win = () => frame.contentWindow;
+const click = sel => setTimeout(() => win().document.querySelector(sel)?.click(), 120);
+const open = hash => { win().location.hash = hash; };
+// screens that need a few taps to reach a realistic state
+const flows = {
+  success: () => { open('#/donate/1'); click('[data-act=pay]'); },
+  share: () => { open('#/home'); click('[data-act=share]'); },
+  donors: () => { open('#/c/1'); click('[data-k=dTab][data-v=donors]'); },
+  update: () => { open('#/my'); click('[data-act=postUpdate]'); },
+  step2: () => { open('#/start'); win().eval('S.draft = null; render()'); setTimeout(() => { const d = win().document; const f = (id, v) => { const el = d.getElementById(id); if (!el) return; el.value = v; el.dispatchEvent(new Event('input', { bubbles: true })); }; f('f-title', 'Help my neighbour Salma with eye surgery'); f('f-goal', '150000'); d.querySelector('[data-act=wizNext]')?.click(); }, 250); },
+  overall: () => { open('#/rating'); click('[data-k=rate][data-v=overall]'); },
+  reports: () => { open('#/completed'); click('[data-k=comp][data-v=reports]'); },
+};
+const SCREENS = [
+  ['Start', [['Login & OTP', '#/login']]],
+  ['Tabs', [['Campaigns (home)', '#/home'], ['Completed', '#/completed'], ['Completed reports', 'reports'], ['Rating · your league', '#/rating'], ['Rating · overall', 'overall'], ['News', '#/news'], ['Notifications', '#/news/notifications'], ['Profile', '#/profile']]],
+  ['Giving', [['Search & filters', '#/search'], ['Campaign page', '#/c/1'], ['Campaign donors', 'donors'], ['Share sheet', 'share'], ['Donate', '#/donate/1'], ['Payment success', 'success'], ['Donation history', '#/history']]],
+  ['Fundraising', [['Start a fundraiser', '#/start'], ['Beneficiary & uploads', 'step2'], ['Submitted for review', '#/submitted'], ['Organiser dashboard', '#/my'], ['Post an update', 'update'], ['Request withdrawal', '#/withdraw'], ['KYC & bank account', '#/kyc']]],
+  ['Account & info', [['Profile settings', '#/settings'], ['Verified NGOs', '#/ngos'], ['About us', '#/info/about'], ['How it works', '#/info/how'], ['FAQs', '#/info/faq'], ['Contact us', '#/info/contact'], ['Terms & Conditions', '#/info/terms'], ['Privacy Policy', '#/info/privacy'], ['Refund Policy', '#/info/refund']]],
+];
+function go(target) {
+  setMode('app');
+  win().document.querySelector('.scrim')?.remove();
+  flows[target] ? flows[target]() : open(target);
+  document.querySelectorAll('.screen-btn').forEach(b => b.classList.toggle('on', b.dataset.t === target));
+}
+$('#screen-list').innerHTML = SCREENS.map(([g, items]) => `<div class="group">${g}</div>` + items.map(([l, t]) => `<button class="screen-btn" data-t="${t}">${l}</button>`).join('')).join('');
+
+const FEATURES = [
+  ['1. Website & fundraiser listings', [['Home with featured fundraisers and cause categories', '#/home'], ['Listing with search and filters', '#/search'], ['Campaign page: story, beneficiary, images, target, raised, progress', '#/c/1']]],
+  ['2. Registration & dashboard', [['Login and registration for donors and organisers', '#/login'], ['Profile management', '#/settings'], ['Dashboard: campaigns, donations, withdrawals', '#/my'], ['Donor contribution history', '#/history']]],
+  ['3. Fundraiser creation & management', [['Title, category, story and target amount', '#/start'], ['Beneficiary details, images and documents', 'step2'], ['Submit for admin review', '#/submitted'], ['Publish campaign updates', 'update'], ['Share on WhatsApp and social media', 'share']]],
+  ['4. Donations & payments', [['UPI, cards and net banking', '#/donate/1'], ['Confirmation, receipt and acknowledgement', 'success'], ['Campaign donation records', 'donors'], ['Optional platform tip / voluntary contribution', '#/donate/1']]],
+  ['5. Verification & withdrawals', [['KYC and supporting documents', '#/kyc'], ['Beneficiary bank account', '#/kyc'], ['Admin verification of campaigns and recipients', 'admin:verification'], ['Withdrawal requests with approval and payment status', '#/withdraw']]],
+  ['6. Admin panel', [['Manage users', 'admin:users'], ['Manage fundraisers: approve, reject, suspend', 'admin:campaigns'], ['Categories and website content', 'admin:categories'], ['Review documents and withdrawals', 'admin:withdrawals'], ['Donations, transactions and reports', 'admin:donations'], ['Platform fee and voluntary contribution settings', 'admin:settings']]],
+  ['7. Supporting pages & notifications', [['About, How it works, FAQs, Contact', '#/info/about'], ['Privacy, Terms and Refund policy pages', '#/info/privacy'], ['Email notification preferences', '#/settings'], ['In-app notifications', '#/news/notifications']]],
+];
+const total = FEATURES.reduce((a, [, f]) => a + f.length, 0);
+$('#feature-list').innerHTML = `<div class="summary">${ic('check')} ${total} of ${total} scope items have a screen</div>` + FEATURES.map(([h, items]) => `<div class="feat-sec"><h3>${h}<span>${items.length}/${items.length}</span></h3>${items.map(([l, t]) => `<div class="feat">${ic('check')}<span class="t">${l}</span><button data-t="${t}">Open</button></div>`).join('')}</div>`).join('');
+
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-t]');
+  if (t) { const v = t.dataset.t; v.startsWith('admin:') ? (setMode('admin'), adminGo(v.slice(6))) : go(v); }
+  const m = e.target.closest('[data-mode]');
+  if (m) setMode(m.dataset.mode);
+});
+function setMode(m) {
+  $('#mode-app').hidden = m !== 'app'; $('#mode-admin').hidden = m !== 'admin';
+  document.querySelectorAll('[data-mode]').forEach(b => b.classList.toggle('on', b.dataset.mode === m));
+  if (m === 'admin') renderAdmin();
+}
+
+/* ---------- admin panel (its own sample data) ---------- */
+const AV = ['#1d63b0', '#0a8a52', '#e0602a', '#5634c0', '#cf4778', '#0e8fa6', '#b5651d'];
+const avatar = n => `<span class="av" style="background:${AV[[...n].reduce((a, c) => a + c.charCodeAt(0), 0) % AV.length]}">${esc(n.split(' ').map(w => w[0]).join('').slice(0, 2))}</span>`;
+const DB = {
+  section: 'overview', campFilter: 'all',
+  campaigns: [
+    { id: 9, title: 'Help my neighbour Salma with eye surgery', org: 'Ayesha Khan', cat: 'Medical', goal: 150000, raised: 0, status: 'review', submitted: 'Today' },
+    { id: 10, title: 'Ration kits for 200 widows in Bhiwandi', org: 'Al-Noor Welfare Society', cat: 'Food & Iftar', goal: 400000, raised: 0, status: 'review', submitted: 'Yesterday' },
+    { id: 11, title: 'Solar lights for Mewat village school', org: 'Ummeed Foundation', cat: 'Education', goal: 250000, raised: 0, status: 'review', submitted: '2 days ago' },
+    { id: 1, title: 'Help 6-year-old Ayaan beat leukaemia', org: 'Shifa Health Trust', cat: 'Medical', goal: 800000, raised: 512400, status: 'live' },
+    { id: 2, title: 'Give an Iftar to 1,000 families this Ramadan', org: 'Al-Noor Welfare Society', cat: 'Food & Iftar', goal: 300000, raised: 241800, status: 'live' },
+    { id: 3, title: 'Clean water well for Sanawada village', org: 'Ummeed Foundation', cat: 'Water', goal: 450000, raised: 168500, status: 'live' },
+    { id: 6, title: 'Help my father get a kidney transplant', org: 'Ayesha Khan', cat: 'Medical', goal: 600000, raised: 245000, status: 'live' },
+    { id: 12, title: 'Urgent: surgery fund (duplicate listing)', org: 'Rahul M.', cat: 'Medical', goal: 900000, raised: 12000, status: 'suspended' },
+    { id: 7, title: 'Winter blankets for 2,000 street families', org: 'Al-Noor Welfare Society', cat: 'Food & Iftar', goal: 600000, raised: 640000, status: 'completed' },
+  ],
+  verify: [
+    { id: 'V1', who: 'Ayesha Khan', type: 'Organiser KYC', docs: ['PAN card', 'Aadhaar', 'Selfie'], status: 'pending' },
+    { id: 'V2', who: 'Ummeed Foundation', type: 'NGO registration', docs: ['12A certificate', '80G certificate', 'Trust deed'], status: 'pending' },
+    { id: 'V3', who: 'Ayesha Khan', type: 'Bank account', docs: ['Cancelled cheque', 'SBI ••0921'], status: 'pending' },
+    { id: 'V4', who: 'Salma Begum', type: 'Beneficiary documents', docs: ['Eye surgery estimate', 'Aadhaar'], status: 'pending' },
+  ],
+  withdrawals: [
+    { id: 'WD-1053', camp: 'Help my father get a kidney transplant', org: 'Ayesha Khan', amt: 60000, to: 'SGPGI Lucknow (hospital)', bill: 'SGPGI-advance.pdf', status: 'requested' },
+    { id: 'WD-1051', camp: 'Help my father get a kidney transplant', org: 'Ayesha Khan', amt: 30000, to: 'HDFC ••4521', bill: 'pharmacy-bill.jpg', status: 'approved' },
+    { id: 'WD-1049', camp: 'Help 6-year-old Ayaan beat leukaemia', org: 'Shifa Health Trust', amt: 185000, to: 'MNJ Hospital', bill: 'cycle-3-invoice.pdf', status: 'requested' },
+    { id: 'WD-1042', camp: 'Help my father get a kidney transplant', org: 'Ayesha Khan', amt: 50000, to: 'HDFC ••4521', bill: 'dialysis-bills.pdf', status: 'paid' },
+  ],
+  donations: [
+    ['BRK75920311', 'Mohammed Faisal', 'Help 6-year-old Ayaan beat leukaemia', 5000, 'Zakat', 'UPI', '25 Oct, 10:42'],
+    ['BRK75920287', 'Anonymous donor', 'Give an Iftar to 1,000 families this Ramadan', 2000, 'Sadaqah', 'Card', '25 Oct, 10:31'],
+    ['BRK75920102', 'Sana Qureshi', 'Clean water well for Sanawada village', 1000, 'Sadaqah', 'UPI', '25 Oct, 09:58'],
+    ['BRK75919877', 'Yusuf Patel', 'Help my father get a kidney transplant', 10000, 'Zakat', 'Net banking', '25 Oct, 09:12'],
+    ['BRK75919540', 'Zoya Siddiqui', 'Rebuild 40 homes after the Assam floods', 2500, 'Lillah', 'UPI', '25 Oct, 08:47'],
+    ['BRK75919322', 'Farhan Ali', 'Sponsor school fees for 50 orphan girls', 12000, 'Zakat', 'UPI', '24 Oct, 22:05'],
+  ],
+  users: [
+    ['Ayesha Khan', 'Organiser', 'Mar 2025', 2, 'active'], ['Mohammed Faisal', 'Donor', 'Jan 2024', 41, 'active'], ['Shifa Health Trust', 'NGO', 'Aug 2023', 3, 'active'],
+    ['Sana Qureshi', 'Donor', 'Feb 2025', 12, 'active'], ['Rahul M.', 'Organiser', 'Oct 2026', 1, 'blocked'], ['Ummeed Foundation', 'NGO', 'Nov 2023', 6, 'active'],
+  ],
+  cats: [['Medical', '#1d63b0', 64, true], ['Food & Iftar', '#e0602a', 31, true], ['Water', '#2774d1', 12, true], ['Education', '#5634c0', 18, true], ['Orphans', '#cf4778', 15, true], ['Masjid', '#0a8a52', 9, true], ['Emergency', '#c33838', 7, true], ['Animal welfare', '#8a5a00', 0, false]],
+  pages: [['About us', '12 Oct 2026'], ['How it works', '12 Oct 2026'], ['FAQs', '20 Oct 2026'], ['Contact us', '2 Sep 2026'], ['Terms & Conditions', 'Awaiting approved text'], ['Privacy Policy', 'Awaiting approved text'], ['Refund Policy', 'Awaiting approved text'], ['Home banner', '22 Oct 2026']],
+  settings: { fee: 0, tips: true, tipDefault: 5, upi: true, card: true, nb: true, intl: false, mReceipt: true, mStatus: true, mWithdraw: true, mWeekly: false },
+};
+const pending = () => ({ campaigns: DB.campaigns.filter(c => c.status === 'review').length, verification: DB.verify.filter(v => v.status === 'pending').length, withdrawals: DB.withdrawals.filter(w => w.status === 'requested').length });
+const NAV = [['overview', 'Overview', 'grid'], ['campaigns', 'Fundraisers', 'flag'], ['verification', 'Verification', 'shield'], ['withdrawals', 'Withdrawals', 'wallet'], ['donations', 'Donations & reports', 'chart'], ['users', 'Users', 'users'], ['categories', 'Categories', 'tag'], ['content', 'Website content', 'file'], ['settings', 'Fees & settings', 'sliders']];
+const pill = s => `<span class="pill p-${s}">${{ review: 'Pending review', live: 'Live', suspended: 'Suspended', completed: 'Completed', rejected: 'Rejected', pending: 'Pending', approved: 'Approved', requested: 'Requested', paid: 'Paid', active: 'Active', blocked: 'Blocked', verified: 'Verified' }[s] || s}</span>`;
+const head = (t, d, right = '') => `<div class="work-head"><h1>${t}</h1><span style="margin-left:auto;display:flex;gap:8px">${right}</span><p>${d}</p></div>`;
+
+const ADMIN = {
+  overview: () => { const p = pending(); return head('Overview', 'Today at a glance, Saturday 25 October 2026.') + `
+    <div class="kpis">
+      <div class="kpi"><span>Raised this year</span><b class="num">₹4.21 Cr</b><small>+18% vs last year</small></div>
+      <div class="kpi"><span>Donations today</span><b class="num">1,284</b><small>${inr(862400)}</small></div>
+      <div class="kpi"><span>Live fundraisers</span><b class="num">${142 + DB.campaigns.filter(c => c.status === 'live').length - 4}</b><small>9 end this week</small></div>
+      <div class="kpi"><span>Waiting for you</span><b class="num">${p.campaigns + p.verification + p.withdrawals}</b><small style="color:var(--amber)">reviews and payouts</small></div>
+    </div>
+    <div class="cols">
+      <div class="card"><h2>Recent donations <button class="b b-soft" data-a="nav" data-v="donations">View all</button></h2><div class="table-wrap">${donTable(DB.donations.slice(0, 5), true)}</div></div>
+      <div class="card"><h2>Needs attention</h2>
+        ${[['flag', 'Fundraisers to review', p.campaigns + ' waiting', 'campaigns', 'var(--amber-soft)', 'var(--amber)'], ['shield', 'KYC and documents', p.verification + ' waiting', 'verification', 'var(--blue-soft)', 'var(--blue)'], ['wallet', 'Withdrawal requests', p.withdrawals + ' to approve', 'withdrawals', 'var(--brand-soft)', 'var(--brand-ink)']].map(([i, t, s, v, bg, fg]) => `<div class="attn"><span class="ic" style="background:${bg};color:${fg}">${ic(i)}</span><span class="t"><b>${t}</b><span>${s}</span></span><button class="b b-soft" data-a="nav" data-v="${v}">Review</button></div>`).join('')}
+        <h2 style="margin-top:16px">Raised by cause, this month</h2>
+        ${[['Medical', 46], ['Food & Iftar', 22], ['Emergency', 14], ['Education', 9], ['Water', 6], ['Masjid', 3]].map(([l, v]) => `<div class="hbar"><span>${l}</span><span class="track"><i style="width:${v / 46 * 100}%"></i></span><b class="num">${inr(v * 41200)}</b></div>`).join('')}
+      </div>
+    </div>`; },
+  campaigns: () => { const f = DB.campFilter; const list = DB.campaigns.filter(c => f === 'all' || c.status === f);
+    return head('Fundraisers', 'Review new fundraisers before they go live. Suspend anything that breaks the rules.') + `
+    <div class="filters">${[['all', 'All'], ['review', 'Pending review'], ['live', 'Live'], ['suspended', 'Suspended'], ['completed', 'Completed']].map(([k, l]) => `<button class="${f === k ? 'on' : ''}" data-a="campFilter" data-v="${k}">${l} <span class="num">${k === 'all' ? DB.campaigns.length : DB.campaigns.filter(c => c.status === k).length}</span></button>`).join('')}</div>
+    <div class="card"><div class="table-wrap"><table><thead><tr><th>Fundraiser</th><th>Category</th><th class="r">Raised / goal</th><th>Status</th><th class="r">Actions</th></tr></thead><tbody>
+    ${list.map(c => `<tr><td><b>${esc(c.title)}</b><span class="sub">${esc(c.org)}${c.submitted ? ' · submitted ' + c.submitted : ''}</span></td><td>${c.cat}</td><td class="r num">${inr(c.raised)} <span class="sub">of ${inr(c.goal)}</span></td><td>${pill(c.status)}</td><td><div class="acts">${
+      c.status === 'review' ? `<button class="b b-soft" data-a="preview" data-v="${c.id}">Documents</button><button class="b b-danger" data-a="camp" data-v="${c.id}" data-s="rejected">Reject</button><button class="b b-main" data-a="camp" data-v="${c.id}" data-s="live">Approve</button>`
+      : c.status === 'live' ? `<button class="b b-danger" data-a="camp" data-v="${c.id}" data-s="suspended">Suspend</button>`
+      : c.status === 'suspended' || c.status === 'rejected' ? `<button class="b b-soft" data-a="camp" data-v="${c.id}" data-s="live">Reinstate</button>` : '<span class="sub">Report published</span>'}</div></td></tr>`).join('') || '<tr><td colspan="5" class="sub">Nothing here.</td></tr>'}
+    </tbody></table></div></div>`; },
+  verification: () => head('Verification', 'Check organiser KYC, NGO registration, bank accounts and beneficiary documents.') + `<div class="queue">${DB.verify.map(v => `<div class="q"><div class="q-head">${avatar(v.who)}<span class="t"><b>${esc(v.who)}</b><span>${v.type}</span></span>${pill(v.status)}</div>
+      <div class="docs">${v.docs.map(d => `<button class="doc" data-a="doc" data-v="${esc(d)}">${ic('file')}${esc(d)}</button>`).join('')}</div>
+      ${v.status === 'pending' ? `<div class="acts" style="justify-content:flex-start"><button class="b b-main" data-a="verify" data-v="${v.id}" data-s="verified">Approve</button><button class="b b-danger" data-a="verify" data-v="${v.id}" data-s="rejected">Reject</button><button class="b b-soft" data-a="toast" data-v="Request sent to ${esc(v.who)}">Ask for more</button></div>` : ''}</div>`).join('')}</div>`,
+  withdrawals: () => head('Withdrawals', 'Every payout needs a verified account and a matching bill.') + `<div class="card"><div class="table-wrap"><table><thead><tr><th>Request</th><th>Fundraiser</th><th class="r">Amount</th><th>Pay to</th><th>Bill</th><th>Status</th><th class="r">Actions</th></tr></thead><tbody>
+    ${DB.withdrawals.map(w => `<tr><td class="num"><b>${w.id}</b></td><td>${esc(w.camp)}<span class="sub">${esc(w.org)}</span></td><td class="r num"><b>${inr(w.amt)}</b></td><td>${esc(w.to)}</td><td><button class="doc" data-a="doc" data-v="${esc(w.bill)}">${ic('file')}${esc(w.bill)}</button></td><td>${pill(w.status)}</td><td><div class="acts">${
+      w.status === 'requested' ? `<button class="b b-danger" data-a="wd" data-v="${w.id}" data-s="rejected">Reject</button><button class="b b-main" data-a="wd" data-v="${w.id}" data-s="approved">Approve</button>`
+      : w.status === 'approved' ? `<button class="b b-main" data-a="wd" data-v="${w.id}" data-s="paid">Mark paid</button>` : '<span class="sub">Done</span>'}</div></td></tr>`).join('')}
+    </tbody></table></div></div>`,
+  donations: () => head('Donations & reports', 'Every transaction, with Zakat tracked separately.', `<button class="b b-soft b-lg" data-a="csv">${ic('download')} Export CSV</button>`) + `
+    <div class="kpis"><div class="kpi"><span>This month</span><b class="num">₹38.6 L</b><small>9,412 donations</small></div><div class="kpi"><span>Zakat</span><b class="num">₹14.2 L</b><small>37% of total</small></div><div class="kpi"><span>Donor tips</span><b class="num">₹1.9 L</b><small>avg 5.1%</small></div><div class="kpi"><span>Refunds</span><b class="num">₹12,400</b><small style="color:var(--muted)">6 requests</small></div></div>
+    <div class="card"><h2>Transactions</h2><div class="table-wrap">${donTable(DB.donations)}</div></div>`,
+  users: () => head('Users', 'Donors, organisers and NGOs.') + `<div class="card"><div class="table-wrap"><table><thead><tr><th>Name</th><th>Role</th><th>Joined</th><th class="r">Donations / campaigns</th><th>Status</th><th class="r">Actions</th></tr></thead><tbody>
+    ${DB.users.map((u, i) => `<tr><td><span style="display:flex;align-items:center;gap:10px">${avatar(u[0])}<b>${esc(u[0])}</b></span></td><td>${u[1]}</td><td>${u[2]}</td><td class="r num">${u[3]}</td><td>${pill(u[4])}</td><td><div class="acts"><button class="b ${u[4] === 'active' ? 'b-danger' : 'b-soft'}" data-a="user" data-v="${i}">${u[4] === 'active' ? 'Block' : 'Unblock'}</button></div></td></tr>`).join('')}
+    </tbody></table></div></div>`,
+  categories: () => head('Categories', 'Causes shown as filters in the app and on the website.') + `<div class="card"><div class="table-wrap"><table><thead><tr><th>Category</th><th class="r">Fundraisers</th><th class="r">Shown in app</th></tr></thead><tbody>
+    ${DB.cats.map((c, i) => `<tr><td><span class="dot" style="background:${c[1]}"></span><b>${esc(c[0])}</b></td><td class="r num">${c[2]}</td><td><div class="acts"><button class="sw ${c[3] ? 'on' : ''}" data-a="cat" data-v="${i}" role="switch" aria-checked="${c[3]}" aria-label="Show ${esc(c[0])}"></button></div></td></tr>`).join('')}
+    </tbody></table></div>
+    <form data-f="cat" style="display:flex;gap:8px;margin-top:14px;max-width:460px"><input class="input" id="new-cat" placeholder="New category name" required><button class="b b-main b-lg">Add</button></form></div>`,
+  content: () => head('Website content', 'Pages shown in the app and on the website. Policy pages wait for the approved text.') + `<div class="card"><div class="table-wrap"><table><thead><tr><th>Page</th><th>Last updated</th><th class="r">Actions</th></tr></thead><tbody>
+    ${DB.pages.map((p, i) => `<tr><td><b>${p[0]}</b></td><td class="${p[1].startsWith('Awaiting') ? '' : 'num'}">${p[1].startsWith('Awaiting') ? pill('pending').replace('Pending', p[1]) : p[1]}</td><td><div class="acts"><button class="b b-soft" data-a="edit" data-v="${i}">Edit</button></div></td></tr>`).join('')}
+    </tbody></table></div></div>`,
+  settings: () => { const s = DB.settings; const sw = (k, t, d) => `<div class="toggle-row"><span class="t"><b>${t}</b><span>${d}</span></span><button class="sw ${s[k] ? 'on' : ''}" data-a="set" data-v="${k}" role="switch" aria-checked="${s[k]}" aria-label="${t}"></button></div>`;
+    return head('Fees & settings', 'Platform fee, voluntary contributions, payment methods and emails.') + `<div class="cols">
+    <div class="card"><h2>Fees</h2><div class="form">
+      <div class="field"><label for="fee">Platform fee charged to fundraisers (%)</label><input class="input num" id="fee" type="number" min="0" max="15" step="0.5" value="${s.fee}"><span class="hint">0% means fundraisers receive the full amount minus gateway charges.</span></div>
+      ${sw('tips', 'Ask donors for a voluntary tip', 'Shown on the donate screen as 0 / 5 / 10 / 15%')}
+      <div class="field"><label for="tipdef">Default tip (%)</label><select class="select" id="tipdef">${[0, 5, 10, 15].map(t => `<option ${s.tipDefault === t ? 'selected' : ''}>${t}</option>`).join('')}</select></div>
+      <button class="b b-main b-lg" style="justify-self:start" data-a="toast" data-v="Settings saved">Save fees</button></div></div>
+    <div class="card"><h2>Payment methods</h2>${sw('upi', 'UPI', 'GPay, PhonePe, Paytm, BHIM')}${sw('card', 'Debit and credit cards', 'Visa, Mastercard, RuPay')}${sw('nb', 'Net banking', 'All major Indian banks')}${sw('intl', 'International cards', 'Needs FCRA registration for NGOs')}
+      <h2 style="margin-top:18px">Email notifications</h2>${sw('mReceipt', 'Donation receipt', 'Sent to the donor with the 80G receipt')}${sw('mStatus', 'Fundraiser status', 'Submitted, approved, rejected, goal reached')}${sw('mWithdraw', 'Withdrawal status', 'Requested, approved, paid')}${sw('mWeekly', 'Weekly summary to organisers', 'Donations and visits in the last 7 days')}</div>
+    </div>`; },
+};
+function donTable(rows, compact) {
+  if (compact) return `<table><thead><tr><th>Donor</th><th>Fundraiser</th><th class="r">Amount</th><th>Time</th></tr></thead><tbody>${rows.map(r => `<tr><td style="white-space:nowrap">${esc(r[1])}<span class="sub">${r[4]} · ${r[5]}</span></td><td><span class="clip">${esc(r[2])}</span></td><td class="r num"><b>${inr(r[3])}</b></td><td class="num" style="white-space:nowrap">${r[6].split(', ')[1]}</td></tr>`).join('')}</tbody></table>`; return `<table><thead><tr><th>Transaction</th><th>Donor</th><th>Fundraiser</th><th class="r">Amount</th><th>Type</th><th>Method</th><th>Time</th></tr></thead><tbody>${rows.map(r => `<tr><td class="num">${r[0]}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td class="r num"><b>${inr(r[3])}</b></td><td>${r[4]}</td><td>${r[5]}</td><td class="num" style="white-space:nowrap">${r[6]}</td></tr>`).join('')}</tbody></table>`; }
+function renderAdmin() {
+  const p = pending();
+  $('#admin-nav').innerHTML = NAV.map(([k, l, i]) => `<button class="${DB.section === k ? 'on' : ''}" data-a="nav" data-v="${k}">${ic(i)}${l}${p[k] ? `<span class="count">${p[k]}</span>` : ''}</button>`).join('');
+  $('#admin-work').innerHTML = ADMIN[DB.section]();
+}
+function adminGo(s) { DB.section = s; renderAdmin(); window.scrollTo(0, 0); }
+function modal(html) { const m = document.createElement('div'); m.className = 'modal-scrim'; m.innerHTML = `<div class="modal" role="dialog" aria-modal="true">${html}</div>`; m.addEventListener('click', e => { if (e.target === m || e.target.closest('[data-close]')) m.remove(); }); document.body.appendChild(m); return m; }
+const ACT = {
+  nav: v => adminGo(v),
+  campFilter: v => { DB.campFilter = v; renderAdmin(); },
+  camp: (v, el) => { const c = DB.campaigns.find(x => x.id === Number(v)); c.status = el.dataset.s; delete c.submitted; toast({ live: 'Approved. The organiser has been emailed.', rejected: 'Rejected. The organiser has been emailed the reason.', suspended: 'Suspended. Donations are paused.' }[c.status]); renderAdmin(); },
+  verify: (v, el) => { DB.verify.find(x => x.id === v).status = el.dataset.s; toast(el.dataset.s === 'verified' ? 'Marked as verified' : 'Rejected and organiser notified'); renderAdmin(); },
+  wd: (v, el) => { DB.withdrawals.find(x => x.id === v).status = el.dataset.s; toast({ approved: 'Withdrawal approved', paid: 'Marked as paid. Organiser notified.', rejected: 'Withdrawal rejected' }[el.dataset.s]); renderAdmin(); },
+  user: v => { const u = DB.users[Number(v)]; u[4] = u[4] === 'active' ? 'blocked' : 'active'; renderAdmin(); },
+  cat: v => { const c = DB.cats[Number(v)]; c[3] = !c[3]; renderAdmin(); },
+  set: v => { DB.settings[v] = !DB.settings[v]; renderAdmin(); },
+  toast: v => toast(v),
+  doc: v => modal(`<h2>${esc(v)}</h2><div class="doc-preview">Document preview</div><div class="acts"><button class="b b-soft b-lg" data-close>Close</button></div>`),
+  preview: v => { const c = DB.campaigns.find(x => x.id === Number(v)); modal(`<h2>${esc(c.title)}</h2><p style="color:var(--muted)">${esc(c.org)} · ${c.cat} · goal ${inr(c.goal)}</p><div class="docs">${['Cost estimate', 'Beneficiary ID', 'Photos (3)', 'Organiser KYC'].map(d => `<span class="doc">${ic('file')}${d}</span>`).join('')}</div><div class="doc-preview">Document preview</div><div class="acts"><button class="b b-soft b-lg" data-close>Close</button></div>`); },
+  edit: v => { const p = DB.pages[Number(v)]; const m = modal(`<h2>Edit: ${p[0]}</h2><form data-f="page" data-v="${v}" style="display:grid;gap:12px"><textarea class="textarea" id="page-body" placeholder="Paste the approved text here">${p[1].startsWith('Awaiting') ? '' : 'Barakah connects people who want to give with verified NGOs and families who need help.'}</textarea><div class="acts"><button type="button" class="b b-soft b-lg" data-close>Cancel</button><button class="b b-main b-lg">Publish</button></div></form>`); m.querySelector('textarea').focus(); },
+  csv: () => {
+    const csv = ['Transaction,Donor,Fundraiser,Amount,Type,Method,Time', ...DB.donations.map(r => r.map(x => `"${String(x).replace(/"/g, '""')}"`).join(','))].join('\n');
+    try { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' })); a.download = 'barakah-donations.csv'; a.click(); } catch { /* download blocked in some viewers */ }
+    toast('CSV exported');
+  },
+};
+document.addEventListener('click', e => { const el = e.target.closest('[data-a]'); if (el && ACT[el.dataset.a]) { e.preventDefault(); ACT[el.dataset.a](el.dataset.v, el); } });
+document.addEventListener('submit', e => {
+  e.preventDefault(); const f = e.target;
+  if (f.dataset.f === 'cat') { DB.cats.push([f.querySelector('input').value.trim(), '#3d3d4a', 0, true]); toast('Category added'); renderAdmin(); }
+  if (f.dataset.f === 'page') { DB.pages[Number(f.dataset.v)][1] = '25 Oct 2026'; f.closest('.modal-scrim').remove(); toast('Page published'); renderAdmin(); }
+});
+</script>
+</body>
+</html>

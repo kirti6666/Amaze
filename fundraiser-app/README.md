@@ -17,11 +17,14 @@ All data is sample data held in memory. There is no backend, and no real payment
 | News | Impact videos, campaign updates, notifications |
 | Profile | Ranks, donations, streak, achievements, settings, About / How it works / FAQ / Contact / policy pages |
 | Start a fundraiser | 4-step form with real photo/document pickers, submit for review |
-| Dashboard | My fundraisers, "approve as admin" demo button, withdrawals with status tracking, KYC and bank account |
+| Dashboard | My fundraisers, donations received, "approve as admin" demo button, withdrawals with status tracking, KYC and bank account |
+| Settings | Profile details, PAN for 80G receipts, email notification preferences, verified NGO list |
+| Admin panel (desktop preview only) | Overview, fundraiser review (approve / reject / suspend), verification, withdrawals, donations and reports, users, categories, website content, fees and settings |
 
-## Preview in a browser
+## Preview on a desktop
 
-Open `www/index.html` through any static server, for example `npx serve www`, and use a phone-sized window.
+Double-click `desktop-preview.html`. It shows the app in a phone frame with a screen list and the scope checklist, plus an **Admin panel** mode.
+After changing anything in `www/`, run `npm run preview` to rebuild it.
 
 ## Build the APK
 

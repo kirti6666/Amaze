@@ -6,7 +6,8 @@
   "scripts": {
     "android:add": "cap add android",
     "android:sync": "cap sync android",
-    "android:open": "cap open android"
+    "android:open": "cap open android",
+    "preview": "node build-preview.mjs"
   },
   "dependencies": {
     "@capacitor/android": "^8.5.3",

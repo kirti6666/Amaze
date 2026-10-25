@@ -99,7 +99,7 @@ const ORGS = {
 
 const CAMPAIGNS = [
   {
-    id: 1, org: 'shifa', cat: 'medical', zakat: true, city: 'Hyderabad, Telangana', days: 18,
+    id: 1, org: 'shifa', cat: 'medical', zakat: true, featured: true, city: 'Hyderabad, Telangana', days: 18,
     title: 'Help 6-year-old Ayaan beat leukaemia', caption: 'Ayaan has 4 chemo cycles left',
     goal: 800000, raised: 512400, donors: 1284,
     unit: [5000, 'day of chemotherapy'],
@@ -109,7 +109,7 @@ const CAMPAIGNS = [
     updates: [['3 days ago', 'Cycle 3 completed. Ayaan is responding well and his blood counts are improving.'], ['2 weeks ago', 'Hospital bill of ₹1,85,000 paid from the funds raised. Receipt uploaded.']],
   },
   {
-    id: 2, org: 'noor', cat: 'food', zakat: true, city: 'Mumbai, Maharashtra', days: 9,
+    id: 2, org: 'noor', cat: 'food', zakat: true, featured: true, city: 'Mumbai, Maharashtra', days: 9,
     title: 'Give an Iftar to 1,000 families this Ramadan', caption: '₹100 feeds one fasting person',
     goal: 300000, raised: 241800, donors: 2106,
     unit: [100, 'iftar meal'],
@@ -149,7 +149,7 @@ const CAMPAIGNS = [
     updates: [['6 days ago', 'Campaign verified by the Barakah team.']],
   },
   {
-    id: 5, org: 'ummeed', cat: 'emergency', zakat: true, city: 'Dhemaji, Assam', days: 4,
+    id: 5, org: 'ummeed', cat: 'emergency', zakat: true, featured: true, city: 'Dhemaji, Assam', days: 4,
     title: 'Rebuild 40 homes after the Assam floods', caption: 'Families are living in relief camps',
     goal: 1200000, raised: 987000, donors: 3410,
     unit: [30000, 'home rebuilt'],
@@ -270,7 +270,7 @@ const pageHead = (title, right = '') => `<header class="phead"><button class="ic
 
 function navBar(cur) {
   const tabs = [['home', 'Campaigns'], ['completed', 'Completed'], ['rating', 'Rating'], ['news', 'News'], ['profile', 'Profile']];
-  return `<nav class="nav fixed-col">${tabs.map(([k, l]) => `<a href="#/${k}" class="${cur === k ? 'on' : ''}"><svg class="i" viewBox="0 0 24 24" aria-hidden="true">${NAV_ICONS[k]}</svg>${l}</a>`).join('')}</nav>`;
+  return `<nav class="nav fixed-col">${tabs.map(([k, l]) => `<a href="#/${k}" data-go="#/${k}" class="${cur === k ? 'on' : ''}"><svg class="i" viewBox="0 0 24 24" aria-hidden="true">${NAV_ICONS[k]}</svg>${l}</a>`).join('')}</nav>`;
 }
 
 /* ---------- tab views ---------- */
@@ -280,6 +280,7 @@ V.home = () => {
   const cats = [['all', 'All', 'heart'], ...Object.entries(CATS).map(([k, c]) => [k, c.label, c.icon])];
   let list = S.ui.home === 'fav' ? CAMPAIGNS.filter(c => S.saved.has(c.id)) : active().filter(c => S.ui.cat === 'all' || c.cat === S.ui.cat);
   return { nav: 'home', html: header(seg('home', [['all', 'All campaigns'], ['fav', 'My favorites']])) +
+    (S.ui.home === 'all' && S.ui.cat === 'all' ? `<div class="rail-head"><h2>Featured</h2><span class="small muted">Verified and urgent</span></div><div class="featured">${active().filter(c => c.featured).map(c => `<button class="feat" data-go="#/c/${c.id}"><span class="feat-cover" style="background:linear-gradient(150deg,${CATS[c.cat].g.join(',')})"><span class="pattern"></span>${ic(CATS[c.cat].icon)}</span><span class="feat-body"><b>${esc(c.title)}</b><span class="bar"><i style="width:${pct(c)}%"></i></span><span class="feat-meta"><span class="num">${inr(c.raised)}</span><span>${pct(c)}%</span></span></span></button>`).join('')}</div>` : '') +
     (S.ui.home === 'all' ? `<div class="chips">${cats.map(([k, l, i]) => `<button class="chip ${S.ui.cat === k ? 'on' : ''}" data-act="ui" data-k="cat" data-v="${k}">${ic(i)}${l}</button>`).join('')}</div>` : '') +
     `<div class="feed">${list.map(campaignCard).join('') || `<div class="empty">${ic('bookmark')}<p>Tap the bookmark on any campaign to keep it here.</p><button class="btn btn-soft" data-act="ui" data-k="home" data-v="all">Browse campaigns</button></div>`}</div>` };
 };
@@ -313,7 +314,7 @@ function rankRows(sub) {
   const base = sub === 'leaders' ? 48200 : sub === 'inspirers' ? 912 : 1840000;
   return NAMES.map((n, i) => {
     const v = Math.round(base * Math.pow(0.82, i));
-    return `<div class="rank-row"><span class="rk ${i < 3 ? 'top' : ''}">${i + 1}</span>${avatar(n)}<span class="nm">${n}</span><span class="val">${unit ? v.toLocaleString('en-IN') + ' ' + unit : inr(v)}</span></div>`;
+    return `<div class="rank-row"><span class="rk ${i < 3 ? 'medal' : ''}"><span>${i + 1}</span></span>${avatar(n)}<span class="nm">${n}</span><span class="val">${unit ? v.toLocaleString('en-IN') + ' ' + unit : inr(v)}</span></div>`;
   }).join('');
 }
 
@@ -324,7 +325,7 @@ V.rating = () => {
     const table = joined ? `<div class="wrap"><div class="season">${ic('calendar')} Ramadan season · ends in 12 days. Top 5 move up to Crescent League.</div></div>
       <div style="background:var(--card);border-radius:26px;margin:0 10px;padding:6px 0">
         <div class="zone">Promotion zone</div>
-        ${NAMES.slice(1, 5).map((n, i) => `<div class="rank-row"><span class="rk top">${i + 1}</span>${avatar(n)}<span class="nm">${n}</span><span class="val">${(980 - i * 140).toLocaleString('en-IN')} pts</span></div>`).join('')}
+        ${NAMES.slice(1, 5).map((n, i) => `<div class="rank-row"><span class="rk ${i < 3 ? 'medal' : ''}"><span>${i + 1}</span></span>${avatar(n)}<span class="nm">${n}</span><span class="val">${(980 - i * 140).toLocaleString('en-IN')} pts</span></div>`).join('')}
         <div class="rank-row me"><span class="rk"><span>${S.points >= 420 ? 5 : 14}</span></span>${avatar(S.user.name)}<span class="nm">${S.user.name}<small>You</small></span><span class="val">${S.points} pts</span></div>
       </div>` : `<div class="empty"><p>Earn any amount of Kindness Points to join the competition this season.</p><button class="btn btn-main" style="background:var(--brand)" data-act="earn">How to earn points</button></div>`;
     return { nav: 'rating', html: head + `<div class="leagues">${LEAGUES.map((l, i) => `<div class="league">${archBadge(l, i, i > 0, i === 0)}</div>`).join('')}</div>
@@ -349,7 +350,7 @@ const POSTS = [
 const NCOL = { green: ['#dcf7ea', '#087a30'], blue: ['#e1efff', '#1d63b0'], violet: ['#efe6ff', '#6d3fd1'], gray: ['#eceef2', '#3d3d4a'], gold: ['#fff5d6', '#8a5a00'] };
 
 V.news = arg => {
-  if (arg === 'notifications') { S.ui.news = 'notifs'; history.replaceState(null, '', '#/news'); }
+  if (arg === 'notifications') { S.ui.news = 'notifs'; history.replaceState(null, '', location.href.split('#')[0] + '#/news'); }
   const body = S.ui.news === 'news'
     ? `<h2 style="font-size:24px;font-weight:700;color:var(--ink-2);padding:20px 16px 12px">Good videos</h2>
       <div class="stories">${STORIES.map(([k, t]) => `<button class="story" data-act="toast" data-msg="Video plays here in the full app" style="background:linear-gradient(160deg,${CATS[k].g.join(',')})"><div class="pattern" style="position:absolute;inset:0;opacity:.15"></div><span class="play">${ic('play')}</span><span>${t}</span></button>`).join('')}</div>
@@ -370,7 +371,7 @@ V.profile = () => {
   const menu = items => `<div class="menu">${items.map(([i, l, a, meta]) => `<button ${a.startsWith('#') ? `data-go="${a}"` : `data-act="${a}"`}>${ic(i)}<span>${l}</span>${meta ? `<span class="meta">${meta}</span>` : ''}${ic('right', 'chev')}</button>`).join('')}</div>`;
   return { nav: 'profile', html: `<div class="wrap" style="padding-top:16px">
     <section class="section" style="border-radius:0 0 26px 26px;margin:-16px -10px 0;padding-top:22px">
-      <div class="prof">${avatar(S.user.name)}<div style="flex:1;min-width:0"><h1>${S.user.name}</h1><button class="muted" data-act="toast" data-msg="Profile settings open here" style="display:flex;align-items:center;gap:2px;font-size:16px">Profile settings ${ic('right')}</button></div><button class="icon-btn" data-act="toast" data-msg="Edit profile" aria-label="Edit profile">${ic('pencil')}</button></div>
+      <div class="prof">${avatar(S.user.name)}<div style="flex:1;min-width:0"><h1>${S.user.name}</h1><button class="muted" data-go="#/settings" style="display:flex;align-items:center;gap:2px;font-size:15px">Profile settings ${ic('right')}</button></div><button class="icon-btn" data-go="#/settings" aria-label="Edit profile">${ic('pencil')}</button></div>
       <div class="tiles">
         <div class="tile"><b style="font-size:15px">Seedling League <svg viewBox="0 0 120 138" style="width:20px;height:23px">${archBadge(LEAGUES[0], 9, false, true).replace(/^<svg[^>]*>|<\/svg>$/g, '')}</svg></b><span>${S.points ? S.points + ' pts this season' : 'Season open'}</span></div>
         <div class="tile"><b class="num">${Math.max(11, 15840 - S.points * 9).toLocaleString('en-IN')} <span style="color:var(--violet)">${ic('trophy')}</span></b><span>Top leaders</span></div>
@@ -399,9 +400,10 @@ V.profile = () => {
     </section>
     ${menu([['receipt', 'Donation history', '#/history'], ['globe', 'Language and region', 'region', 'English · ₹ INR'], ['calendar', 'Monthly giving', 'monthly'], ['card', 'Payment methods', 'payments']])}
     ${menu([['bookmark', 'Favorites', 'favs'], ['wallet', 'Fundraiser dashboard & withdrawals', '#/my'], ['shield', 'KYC & bank account', '#/kyc', 'Verified'], ['link', 'Your personal link', 'mylink']])}
+    ${menu([['hands', 'Verified NGOs', '#/ngos', String(Object.values(ORGS).filter(o => o.ngo).length)], ['bell', 'Notifications & email', '#/settings']])}
     ${menu([['hands', 'About us', '#/info/about'], ['help', 'How it works', '#/info/how'], ['info', 'FAQs', '#/info/faq']])}
     <section class="section">
-      <div class="thanks"><div style="flex:1"><h3>Thank you for being with us</h3><p>Write to us if you have a question, feedback, an idea, or something isn’t working.</p><a href="#/info/contact">Write to us</a></div><div class="logo" style="flex-direction:column;font-size:20px;gap:2px">${LOGO.replace('viewBox', 'style="width:54px;height:54px" viewBox')}${APP}</div></div>
+      <div class="thanks"><div style="flex:1"><h3>Thank you for being with us</h3><p>Write to us if you have a question, feedback, an idea, or something isn’t working.</p><a href="#/info/contact" data-go="#/info/contact">Write to us</a></div><div class="logo" style="flex-direction:column;font-size:20px;gap:2px">${LOGO.replace('viewBox', 'style="width:54px;height:54px" viewBox')}${APP}</div></div>
       <div class="menu" style="padding:4px 0 0">${[['headset', 'Support', '#/info/contact'], ['file', 'Terms & Conditions', '#/info/terms'], ['shield', 'Privacy Policy', '#/info/privacy'], ['receipt', 'Refund Policy', '#/info/refund']].map(([i, l, h]) => `<button data-go="${h}">${ic(i)}<span>${l}</span>${ic('right', 'chev')}</button>`).join('')}<button data-act="logout" style="color:var(--danger)">${ic('logout')}<span>Log out</span></button></div>
     </section>
     <p class="center small muted">Barakah Giving · demo build 0.1</p>
@@ -600,6 +602,9 @@ V.my = () => {
       ${mine.map(m => `<div class="my-camp"><div class="thumb" style="background:${m.photo ? `url('${m.photo}') center/cover` : `linear-gradient(140deg,${CATS[m.c.cat].g.join(',')})`}">${m.photo ? '' : ic(CATS[m.c.cat].icon)}</div><div class="info"><b>${esc(m.c.title)}</b><span class="small muted num">${inr(m.c.raised)} of ${inr(m.c.goal)} · ${m.c.donors} donors</span><div class="bar"><i style="width:${pct(m.c)}%"></i></div>
         <div style="display:flex;gap:8px;align-items:center;margin-top:8px"><span class="status ${m.status === 'live' ? 'st-live' : 'st-review'}">${m.status === 'live' ? 'Live' : 'Under review'}</span>${m.status === 'live' ? `<button class="text-link small" data-go="#/c/${m.c.id}">View</button><button class="text-link small" data-act="share" data-id="${m.c.id}">Share</button><button class="text-link small" data-act="postUpdate">Post update</button>` : `<button class="text-link small" data-act="approve" data-id="${m.c.id}">Demo: approve as admin</button>`}</div></div></div>`).join('')}
     </section>
+    <section class="section"><div class="sec-head"><h2>Donations received</h2><span class="small muted">${camp(6).donors} total</span></div>
+      ${[['Mohammed Faisal', 5000, '12 min ago', 'Zakat'], ['Anonymous donor', 2000, '1h ago', 'Sadaqah'], ['Sana Qureshi', 1000, '3h ago', 'Sadaqah'], ['Yusuf Patel', 10000, 'Yesterday', 'Zakat']].map(([n, a, t, ty]) => `<div class="person">${avatar(n)}<div class="who"><b>${n}</b><span>${t} · ${ty}</span></div><span class="amt num">${inr(a)}</span></div>`).join('')}
+    </section>
     <section class="section"><div class="sec-head"><h2>Withdrawals</h2></div>
       ${S.withdrawals.slice().reverse().map(w => `<div class="my-camp" style="display:block"><div style="display:flex;justify-content:space-between;gap:10px"><b class="num">${inr(w.amt)}</b><span class="status ${w.status === 'paid' ? 'st-paid' : w.status === 'approved' ? 'st-live' : 'st-review'}">${w.status[0].toUpperCase() + w.status.slice(1)}</span></div><span class="small muted">${w.id} · ${w.date} · ${esc(w.note)}</span>${stepper(w.status)}</div>`).join('')}
     </section>
@@ -638,6 +643,28 @@ V.kyc = () => {
       <button class="btn btn-main" data-act="kycSubmit">Submit for verification</button></section>`}
   </div>` };
 };
+
+S.prefs = { receipts: true, status: true, withdrawals: true, updates: true, news: false };
+V.settings = () => {
+  const u = S.user;
+  const sw = (k, t, d) => `<div class="switch-row"><div class="txt"><b>${t}</b><span>${d}</span></div><button class="switch ${S.prefs[k] ? 'on' : ''}" data-act="pref" data-k="${k}" role="switch" aria-checked="${S.prefs[k]}" aria-label="${t}"></button></div>`;
+  return { html: pageHead('Profile settings') + `<form class="wrap" data-form="profile">
+    <section class="section center" style="display:grid;justify-items:center;gap:10px">${avatar(u.name, 'big')}<label class="text-link" for="avatar-in">Change photo<input type="file" id="avatar-in" accept="image/*" hidden></label></section>
+    <section class="section" style="display:grid;gap:14px">
+      <div class="field"><label for="s-name">Full name</label><input class="input" id="s-name" name="name" value="${esc(u.name)}" required></div>
+      <div class="field"><label for="s-email">Email</label><input class="input" id="s-email" name="email" type="email" value="${esc(u.email)}" required><span class="hint">Receipts and alerts are sent here.</span></div>
+      <div class="field"><label for="s-phone">Mobile</label><input class="input num" id="s-phone" value="+91 98765 43210" readonly></div>
+      <div class="field"><label for="s-pan">PAN (for 80G tax receipts)</label><input class="input" id="s-pan" name="pan" value="ABCPK1234F" style="text-transform:uppercase" maxlength="10"></div>
+    </section>
+    <section class="section"><div class="sec-head"><h2>Email notifications</h2></div>
+      ${sw('receipts', 'Donation receipts', 'An 80G receipt after every donation')}${sw('status', 'Campaign status', 'Review, approval and goal reached')}${sw('withdrawals', 'Withdrawal updates', 'Requested, approved and paid')}${sw('updates', 'Updates from campaigns', 'News from campaigns you support')}${sw('news', 'Monthly newsletter', 'Impact stories and new causes')}
+    </section>
+    <button class="btn btn-main">Save changes</button>
+  </form>` };
+};
+
+V.ngos = () => ({ html: pageHead('Verified NGOs') + `<div class="wrap"><section class="section">${Object.entries(ORGS).filter(([, o]) => o.ngo).map(([k, o]) => { const cs = CAMPAIGNS.filter(c => c.org === k); return `<div class="person"><div class="org-av" style="color:${o.color};border:1px solid var(--line);box-shadow:none">${o.short}</div><div class="who"><b>${esc(o.name)}</b><span>12A · 80G · ${cs.length} campaigns · ${inr(cs.reduce((a, c) => a + c.raised, 0))} raised</span></div><span class="verified">${ic('verified')}</span></div>`; }).join('')}</section>
+  <p class="small muted" style="padding:0 4px">Every NGO submits registration, 12A/80G certificates and audited accounts before listing.</p></div>` });
 
 V.history = () => {
   const base = [{ cid: 2, amount: 1000, type: 'Sadaqah', date: '2 Mar 2026', txn: 'BRK73810294' }, { cid: 7, amount: 2500, type: 'Sadaqah', date: '14 Dec 2025', txn: 'BRK61200877' }, { cid: 8, amount: 5000, type: 'Zakat', date: '28 Mar 2025', txn: 'BRK40021933' }];
@@ -678,7 +705,7 @@ V.login = () => {
       <p class="small muted center">Demo: type any 4 digits</p>
       <button class="btn btn-main" data-act="enter">Verify & continue</button>`;
   return { bare: true, html: `<div class="login"><div class="login-hero"><div class="pattern"></div><svg class="moon" viewBox="0 0 24 24" fill="#fff">${P.moon}</svg><div class="logo">${LOGO.replace('fill="currentColor"', 'fill="#fff"')}${APP}</div><h1>Give with barakah. See where it goes.</h1><p>Verified campaigns, Zakat-ready giving and updates from the people you help.</p></div>
-    <div class="login-card">${card}<p class="small muted center">By continuing you agree to our <a class="text-link" href="#/info/terms">Terms</a> and <a class="text-link" href="#/info/privacy">Privacy Policy</a>.</p></div></div>` };
+    <div class="login-card">${card}<p class="small muted center">By continuing you agree to our <a class="text-link" href="#/info/terms" data-go="#/info/terms">Terms</a> and <a class="text-link" href="#/info/privacy" data-go="#/info/privacy">Privacy Policy</a>.</p></div></div>` };
 };
 
 /* ---------- router ---------- */
@@ -699,6 +726,7 @@ function render() {
 }
 const rerender = () => { const y = window.scrollY; render(); window.scrollTo(0, y); };
 const go = h => { if (location.hash === h) rerender(); else location.hash = h; };
+const replaceRoute = h => location.replace(location.href.split('#')[0] + h);
 window.addEventListener('hashchange', render);
 
 /* ---------- interactions ---------- */
@@ -763,7 +791,7 @@ const A = {
       c.raised += amount; c.donors += 1;
       S.donated += amount; S.points += rec.points; S.streak = true; S.last = rec; S.donations.unshift(rec); S.donate = null;
       S.notifs.unshift({ ic: 'heart', c: 'green', txt: `Your ${rec.type} of <b>${inr(amount)}</b> to <b>${esc(c.title)}</b> was received. Receipt sent to ${S.user.email}.`, t: 'Just now', unread: true });
-      location.replace('#/success');
+      replaceRoute('#/success');
     }, 1500);
   },
   receipt: el => { const d = currentView.data[Number(el.dataset.i)], c = camp(d.cid); sheet(`<h2>80G receipt</h2><dl class="kv" style="margin-top:12px"><dt>Campaign</dt><dd>${esc(c.title)}</dd><dt>NGO</dt><dd>${esc(ORGS[c.org].name)}</dd><dt>Amount</dt><dd class="num">${inr(d.amount)}</dd><dt>Type</dt><dd>${d.type}</dd><dt>Date</dt><dd>${d.date}</dd><dt>Transaction</dt><dd class="num">${d.txn}</dd></dl><button class="btn btn-soft btn-block" style="margin-top:16px" data-close data-act="toast" data-msg="Receipt PDF downloaded">${ic('file')} Download PDF</button>`); },
@@ -778,7 +806,7 @@ const A = {
     S.mine.push({ id, status: 'review', photo: d.photos[0] });
     S.notifs.unshift({ ic: 'clock', c: 'gold', txt: `Your fundraiser <b>${esc(d.title)}</b> was submitted and is under review.`, t: 'Just now', unread: true });
     S.draft = null;
-    location.replace('#/submitted');
+    replaceRoute('#/submitted');
   },
   approve: el => {
     const id = Number(el.dataset.id), m = S.mine.find(x => x.id === id), c = camp(id);
@@ -795,7 +823,7 @@ const A = {
     S.withdrawals.push({ id: 'WD-' + (1052 + S.withdrawals.length), amt, status: 'requested', date: 'Today', note: (w.acct === 'hdfc' ? 'To HDFC ••4521' : 'To SGPGI Lucknow') + ' · ' + w.purpose });
     S.wd = null;
     toast('Withdrawal requested. We’ll notify you at each step.');
-    location.replace('#/my');
+    replaceRoute('#/my');
   },
   kycSubmit: () => {
     const k = S.kyc || {};
@@ -809,14 +837,15 @@ const A = {
   monthly: () => sheet(`<h2>Monthly giving</h2><p class="muted">Give a fixed amount every month by UPI AutoPay. You can pause or stop anytime.</p><div class="amounts" style="margin-top:14px">${[300, 500, 1000].map(a => `<button>${inr(a)}</button>`).join('')}</div><button class="btn btn-main btn-block" style="margin-top:14px" data-close data-act="toast" data-msg="Monthly giving set up (demo)">Set up monthly giving</button>`),
   favs: () => { S.ui.home = 'fav'; go('#/home'); },
   mylink: () => sheet(`<h2>Your personal link</h2><p class="muted small">Share it anywhere. Donations made through it count toward your Inspirer rank.</p><p style="margin-top:12px;font-weight:700;user-select:all">${SITE}/u/ayesha-khan</p><button class="btn btn-main btn-block" style="margin-top:14px" data-act="copy" data-v="${SITE}/u/ayesha-khan">${ic('link')} Copy link</button>`),
-  logout: () => { S.login = { stage: 'phone', phone: '', role: 'donor' }; location.replace('#/login'); },
+  logout: () => { S.login = { stage: 'phone', phone: '', role: 'donor' }; replaceRoute('#/login'); },
+  pref: el => { S.prefs[el.dataset.k] = !S.prefs[el.dataset.k]; rerender(); },
   lset: el => { S.login[el.dataset.k] = el.dataset.v; rerender(); },
   otp: () => {
     const ph = S.login.phone.replace(/\D/g, '');
     if (!/^[6-9]\d{9}$/.test(ph)) { document.getElementById('ph-err').textContent = 'Enter a valid 10-digit mobile number.'; return; }
     S.login.stage = 'otp'; rerender(); document.getElementById('otp0')?.focus();
   },
-  enter: () => { S.login.stage = 'phone'; location.replace('#/home'); },
+  enter: () => { S.login.stage = 'phone'; replaceRoute('#/home'); },
 };
 
 document.addEventListener('click', e => {
@@ -865,6 +894,9 @@ document.addEventListener('submit', e => {
     const txt = f.txt.value.trim(); if (!txt) return;
     (COMMENTS[f.dataset.id] ||= []).unshift([S.user.name, 'now', txt]);
     rerender(); toast('Comment posted');
+  } else if (kind === 'profile') {
+    S.user.name = f.name.value.trim() || S.user.name; S.user.first = S.user.name.split(' ')[0]; S.user.email = f.email.value.trim() || S.user.email;
+    toast('Profile saved'); history.back();
   } else if (kind === 'contact') { f.reset(); toast('Message sent. We’ll reply by email.'); }
   else if (kind === 'update') {
     const c = camp(6); c.updates.unshift(['Just now', f.querySelector('textarea').value.trim()]);
@@ -872,5 +904,5 @@ document.addEventListener('submit', e => {
   }
 });
 
-if (!location.hash) location.replace('#/login');
+if (!location.hash) replaceRoute('#/login');
 render();
