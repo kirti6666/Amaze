@@ -25,6 +25,8 @@ jobs:
       - run: npm ci
       - run: npx cap add android
       - run: npx cap sync android
+      # app icon and splash screen with the Muslim Life Pro emblem
+      - run: cp -r resources/android/res/. android/app/src/main/res/
       - run: ./gradlew assembleDebug --no-daemon
         working-directory: fundraiser-app/android
       - uses: actions/upload-artifact@v4

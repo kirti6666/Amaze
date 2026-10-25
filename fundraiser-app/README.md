@@ -38,6 +38,7 @@ cd fundraiser-app
 npm ci
 npx cap add android      # first time only; the android/ folder is not committed
 npx cap sync android
+cp -r resources/android/res/. android/app/src/main/res/   # app icon and splash
 cd android && ./gradlew assembleDebug   # APK: android/app/build/outputs/apk/debug/app-debug.apk
 ```
 

@@ -73,6 +73,7 @@ const P = {
   xcircle: '<circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/>',
   sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>',
   palette: '<circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.55-2.5 5.55-5.55C21.97 6.01 17.46 2 12 2z"/>',
+  gem: '<path d="M6 3h12l4 6-10 12L2 9Z"/><path d="M11 3 8 9l4 12 4-12-3-6"/><path d="M2 9h20"/>',
   hands: '<path d="M11 14h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 16"/><path d="m7 20 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"/><path d="m2 15 6 6"/><path d="M19.5 8.5c.7-.7 1.5-1.6 1.5-2.7A2.73 2.73 0 0 0 16 4a2.78 2.78 0 0 0-5 1.8c0 1.2.8 2 1.5 2.8L16 12Z"/>',
 };
 const ic = (n, cls = '') => `<svg class="i ${cls}" viewBox="0 0 24 24" aria-hidden="true">${P[n]}</svg>`;
@@ -89,7 +90,6 @@ const NAV_ICONS = {
 // app emblem: dome with crescent finial, two minarets, open Quran as the base
 const emblem = (cls = '') => `<svg class="emblem ${cls}" viewBox="0 0 64 64" aria-hidden="true"><path fill="#e9b52c" d="M33.6 2.2a4.2 4.2 0 1 0 2.6 6.9 3.4 3.4 0 1 1-2.6-6.9Z"/><g fill="currentColor"><path d="M31 9.5h2v3.2h-2z"/><path d="M17.5 33.5c0-9.6 6.6-15.6 14.5-20.5 7.9 4.9 14.5 10.9 14.5 20.5Z"/><rect x="15.5" y="33.5" width="33" height="3.2" rx="1"/><path d="M18.5 37.5h27v10h-9.5v-4.2a4 4 0 0 0-8 0v4.2h-9.5Z"/><path d="M7.5 47.5V24.5l3-6.5 3 6.5v23Z"/><path d="M50.5 47.5V24.5l3-6.5 3 6.5v23Z"/><path d="M4 50.2c9.3-2.6 19-2 28 2.6 9-4.6 18.7-5.2 28-2.6v6.6c-9.3-2.6-19-2-28 2.6-9-4.6-18.7-5.2-28-2.6Z"/></g></svg>`;
 const LOGO = emblem();
-const HEART_BG = `<svg class="bg" viewBox="0 0 54 50" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--brand-2)"/><stop offset="1" style="stop-color:var(--brand)"/></linearGradient></defs><path fill="url(#hg)" d="M27 48 6.5 28.2A13.2 13.2 0 0 1 27 11.4a13.2 13.2 0 0 1 20.5 16.8Z"/></svg>`;
 
 /* ---------- sample data ---------- */
 // sample photos; swap for the NGO's own images per campaign
@@ -217,8 +217,8 @@ const BASE_DONATIONS = [
   { cid: 2, amount: 1000, type: 'Zakat', pay: 'upi', date: '19 Oct 2026', txn: 'pay_MLP80A12', status: 'failed' },
 ];
 // permanent member badge by total confirmed giving (never removed)
-const TIERS = [['Visitor', 0, '#9aa1ad'], ['Starter', 1000, '#2fb36b'], ['Supporter', 5000, '#16a3a3'], ['Silver', 10000, '#8f99a8'], ['Gold', 25000, '#d9a21b'], ['Platinum', 50000, '#5b7fa6'], ['Diamond', 100000, '#21a7d8'], ['Royal Crown', 200000, '#8a4fd8']];
-const tierOf = total => { const i = TIERS.filter(([, min]) => total >= min).length - 1; return { i, name: TIERS[i][0], color: TIERS[i][2], next: TIERS[i + 1] }; };
+const TIERS = [['Visitor', 0, ['#d5dae3', '#7f8899'], 'user'], ['Starter', 1000, ['#8fe8b2', '#169a52'], 'sprout'], ['Supporter', 5000, ['#7fe0dc', '#0d8a88'], 'heart'], ['Silver', 10000, ['#f1f4f8', '#8d97a8'], 'star'], ['Gold', 25000, ['#ffe28f', '#cf940c'], 'star'], ['Platinum', 50000, ['#cfe0f4', '#4d73a3'], 'shield'], ['Diamond', 100000, ['#a8ecff', '#1592d0'], 'gem'], ['Royal Crown', 200000, ['#e2c4ff', '#7536cf'], 'crown']];
+const tierOf = total => { const i = TIERS.filter(([, min]) => total >= min).length - 1; return { i, name: TIERS[i][0], color: TIERS[i][2][1], next: TIERS[i + 1] }; };
 console.assert(tierOf(800).name === 'Visitor' && tierOf(800).next[0] === 'Starter' && tierOf(1000).name === 'Starter' && tierOf(250000).next === undefined, 'tierOf');
 
 /* ---------- state ---------- */
@@ -256,7 +256,7 @@ const withdrawn = () => S.withdrawals.reduce((a, w) => a + w.amt, 0);
 // every colour in app.css reads these tokens, so a theme is just a token set
 const BASE_TOKENS = { brand: '#0a9b3c', 'brand-2': '#3ddbbd', 'brand-3': '#1fc95c', 'brand-ink': '#087a30', 'brand-soft': '#dcf7ea', gold: '#e9b52c', 'gold-soft': '#fff5d6', 'gold-ink': '#7a4d00', ink: '#15151f', 'ink-2': '#3d3d4a', muted: '#8a8a96', line: '#ebebf0', bg: '#f1f1f5', card: '#ffffff', chip: '#e8eaf0', soft: '#f2f5f3', 'soft-line': '#c9d4cf', page: '#dcdce3', 'on-brand': '#ffffff' };
 const DARK = { 'gold-soft': '#2c2716', 'gold-ink': '#f1d58b', ink: '#f2f2f5', 'ink-2': '#cfd0d8', muted: '#8f93a3', 'on-brand': '#14110a' };
-const T = (id, name, hi, desc, icon, dark, c, banner) => ({ id, name, hi, desc, icon, dark, banner, c: { ...BASE_TOKENS, ...(dark ? DARK : {}), ...c, raised: c.brand || BASE_TOKENS.brand } });
+const T = (id, name, hi, desc, icon, dark, c, banner) => ({ id, name, hi, desc, icon, dark, banner, c: { ...BASE_TOKENS, ...(dark ? DARK : {}), 'hero-1': c['brand-2'] || BASE_TOKENS['brand-2'], 'hero-2': c['brand-3'] || BASE_TOKENS['brand-3'], 'hero-ink': c['on-brand'] || (dark ? DARK['on-brand'] : '#ffffff'), ...c, raised: c.brand || BASE_TOKENS.brand } });
 const THEMES = [
   T('classic', 'Classic Green', 'हरा-भरा', 'Fresh green on clean white', 'sprout', false, {}),
   T('ocean', 'Ocean Teal', 'समंदर', 'Calm teal and sky blue', 'droplet', false, { brand: '#0e8f9e', 'brand-2': '#5fd3e0', 'brand-3': '#149fb0', 'brand-ink': '#0b6f7a', 'brand-soft': '#dff4f6', bg: '#eef4f6', chip: '#e2eaee', soft: '#eef5f7', line: '#e3ebee', 'soft-line': '#c2d3d8', page: '#d5e1e5' }),
@@ -266,12 +266,12 @@ const THEMES = [
   T('eid', 'Eid Mubarak', 'ईद मुबारक', 'Royal purple with gold', 'gift', false, { brand: '#6b3fc4', 'brand-2': '#b48cf2', 'brand-3': '#7d4fe0', 'brand-ink': '#52299e', 'brand-soft': '#eee6fc', gold: '#e2a72b', bg: '#f3f0fa', chip: '#e7e1f4', soft: '#f3effb', line: '#e8e3f3', 'soft-line': '#cdc3e3', page: '#ddd5ee' },
     { icon: 'gift', title: 'Eid Mubarak!', sub: 'Share the joy. Gift Eid clothes to an orphan today.', cta: 'Gift Eid', act: 'svcOrphans' }),
   T('paper', 'Ink & Paper', 'सादगी', 'Minimal black and white', 'pencil', false, { brand: '#1d1d24', 'brand-2': '#55555f', 'brand-3': '#2b2b33', 'brand-ink': '#1d1d24', 'brand-soft': '#ececef', gold: '#b08a3e', bg: '#f4f4f5', chip: '#e8e8eb', soft: '#f3f3f4', line: '#e6e6e9', 'soft-line': '#c9c9cf', page: '#dadadd' }),
-  T('midnight', 'Midnight', 'आधी रात', 'Deep navy with silver', 'star', true, { brand: '#5b93ff', 'brand-2': '#8db6ff', 'brand-3': '#4a80ef', 'brand-ink': '#b3cdff', 'brand-soft': '#1c2b4a', gold: '#e9c46a', line: '#263048', bg: '#0d1322', card: '#151d31', chip: '#1e2840', soft: '#1b2439', 'soft-line': '#34405c', page: '#070b14', 'on-brand': '#ffffff' }),
-  T('royal', 'Royal Gold', 'शाही सुनहरा', 'Black & gold, timeless', 'crown', true, { brand: '#d4a72c', 'brand-2': '#f3d27a', 'brand-3': '#c9971f', 'brand-ink': '#f3d27a', 'brand-soft': '#2e2717', gold: '#e9c46a', ink: '#f4efe2', 'ink-2': '#d6cfbd', muted: '#9a927f', line: '#2a2721', bg: '#0e0d0b', card: '#1a1814', chip: '#25221c', soft: '#221f19', 'soft-line': '#3d382d', page: '#050504' }),
-  T('ramzan', 'Ramzan', 'रमज़ान मुबारक', 'Emerald nights, golden lanterns', 'moon', true, { brand: '#34c98e', 'brand-2': '#6ee7b7', 'brand-3': '#22b07a', 'brand-ink': '#8ff0c6', 'brand-soft': '#12392b', gold: '#e9c46a', ink: '#eef7f2', 'ink-2': '#c4d8ce', muted: '#86a297', line: '#1b3a2e', bg: '#061611', card: '#0c241b', chip: '#123126', soft: '#0f2c21', 'soft-line': '#2a4d3f', page: '#030c09', 'on-brand': '#04261a' },
-    { icon: 'moon', title: 'Ramzan Mubarak', sub: 'Feed a fasting person tonight. ₹100 gives one iftar.', cta: 'Give iftar', act: 'svcFood' }),
-  T('diwali', 'Diwali', 'शुभ दीपावली', 'Diyas, marigold & sparkle', 'flame', true, { brand: '#f59e0b', 'brand-2': '#fbbf24', 'brand-3': '#f08a0b', 'brand-ink': '#fcd38a', 'brand-soft': '#3a1d14', gold: '#fbbf24', 'gold-soft': '#3a2412', 'gold-ink': '#fcd38a', ink: '#fbeee6', 'ink-2': '#e3cbbf', muted: '#a98b80', line: '#3a1f1c', bg: '#1a0b0b', card: '#261111', chip: '#331816', soft: '#2e1513', 'soft-line': '#533028', page: '#0d0505', 'on-brand': '#2a1103' },
-    { icon: 'flame', title: 'Shubh Deepavali', sub: 'Light a diya of hope. Gift a family a festive meal.', cta: 'Gift a meal', act: 'svcFood' }),
+  T('midnight', 'Midnight', 'आधी रात', 'Deep navy with silver', 'star', true, { brand: '#5b93ff', 'brand-2': '#8db6ff', 'brand-3': '#4a80ef', 'brand-ink': '#b3cdff', 'brand-soft': '#1c2b4a', gold: '#e9c46a', line: '#263048', bg: '#0d1322', card: '#151d31', chip: '#1e2840', soft: '#1b2439', 'soft-line': '#34405c', page: '#070b14', 'on-brand': '#ffffff' , 'hero-1': '#1b2a52', 'hero-2': '#0b1124', 'hero-ink': '#ffffff' }),
+  T('royal', 'Royal Gold', 'शाही सुनहरा', 'Black & gold, timeless', 'crown', true, { brand: '#d4a72c', 'brand-2': '#f3d27a', 'brand-3': '#c9971f', 'brand-ink': '#f3d27a', 'brand-soft': '#2e2717', gold: '#e9c46a', ink: '#f4efe2', 'ink-2': '#d6cfbd', muted: '#9a927f', line: '#2a2721', bg: '#0e0d0b', card: '#1a1814', chip: '#25221c', soft: '#221f19', 'soft-line': '#3d382d', page: '#050504' , 'hero-1': '#2b2414', 'hero-2': '#0e0d0b', 'hero-ink': '#f3d27a' }),
+  T('ramzan', 'Ramzan', 'रमज़ान मुबारक', 'Emerald nights, golden lanterns', 'moon', true, { brand: '#e2b85c', 'brand-2': '#f3d58f', 'brand-3': '#c99a3a', 'brand-ink': '#f0d28a', 'brand-soft': '#1f3a2a', gold: '#e2b85c', 'gold-soft': '#26372a', 'gold-ink': '#f0d28a', ink: '#f1f6f2', 'ink-2': '#c9dbd1', muted: '#8eaa9d', line: '#1c3d31', bg: '#06191a', card: '#0b2620', chip: '#123329', soft: '#0f2e25', 'soft-line': '#2c5345', page: '#020c0a', 'on-brand': '#1b1506', 'hero-1': '#0f4a37', 'hero-2': '#06231b', 'hero-ink': '#f3d58f' },
+    { icon: 'moon', title: 'Ramzan Mubarak', sub: 'Feed a fasting person tonight. ₹100 gives one iftar.', cta: 'Give iftar', act: 'svcFood', deco: 'lantern' }),
+  T('diwali', 'Diwali', 'शुभ दीपावली', 'Diyas, marigold & sparkle', 'flame', true, { brand: '#f59e0b', 'brand-2': '#fbbf24', 'brand-3': '#f08a0b', 'brand-ink': '#fcd38a', 'brand-soft': '#3a1d14', gold: '#fbbf24', 'gold-soft': '#3a2412', 'gold-ink': '#fcd38a', ink: '#fbeee6', 'ink-2': '#e3cbbf', muted: '#a98b80', line: '#3a1f1c', bg: '#1a0b0b', card: '#261111', chip: '#331816', soft: '#2e1513', 'soft-line': '#533028', page: '#0d0505', 'on-brand': '#2a1103' , 'hero-1': '#4a1a12', 'hero-2': '#1a0b0b', 'hero-ink': '#fcd38a' },
+    { icon: 'flame', title: 'Shubh Deepavali', sub: 'Light a diya of hope. Gift a family a festive meal.', cta: 'Gift a meal', act: 'svcFood', deco: 'diya' }),
 ];
 const theme = () => THEMES.find(t => t.id === S.theme) || THEMES[0];
 function applyTheme(id) {
@@ -292,7 +292,11 @@ const themeCard = (t, on, locked) => `<button class="theme-card ${on ? 'on' : ''
   <span class="th-txt"><b>${t.name}</b><span style="color:${t.c.muted}"><span lang="hi">${t.hi}</span> · ${t.desc}</span>
   <span class="th-dots">${[t.c.bg, t.c.card, t.c.brand, t.c.gold, t.c['brand-2']].map(x => `<i style="background:${x}"></i>`).join('')}</span></span>
   <span class="th-radio" style="border-color:${on ? t.c.brand : t.c['soft-line']}">${on ? `<i style="background:${t.c.brand}"></i>` : ''}</span></button>`;
-const seasonCard = () => { const b = theme().banner; return b ? `<div class="season-card"><span class="season-ic">${ic(b.icon)}</span><span class="season-txt"><b>${b.title}</b><span>${b.sub}</span></span><button class="btn btn-main" data-act="${b.act}">${b.cta}</button></div>` : ''; };
+const DECO = {
+  lantern: '<svg class="season-deco" viewBox="0 0 60 90" aria-hidden="true"><path d="M30 0v14" stroke="currentColor" stroke-width="1.5"/><path d="M22 18h16l-3-4H25Z" fill="currentColor"/><path d="M20 22h20l4 10v26l-4 10H20l-4-10V32Z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M30 22v46M16 32h28M16 58h28" stroke="currentColor" stroke-width="1.2" opacity=".6"/><ellipse cx="30" cy="45" rx="5" ry="8" fill="currentColor" opacity=".45"/><path d="M24 68h12l-2 6h-8Z" fill="currentColor"/><path d="M30 74v8" stroke="currentColor" stroke-width="1.5"/></svg>',
+  diya: '<svg class="season-deco" viewBox="0 0 70 60" aria-hidden="true"><path d="M35 6c-4 7-6 11-6 15a6 6 0 0 0 12 0c0-4-2-8-6-15Z" fill="currentColor"/><path d="M6 32h58c-2 13-14 22-29 22S8 45 6 32Z" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M14 38c6 4 13 6 21 6s15-2 21-6" stroke="currentColor" stroke-width="1.4" opacity=".6" fill="none"/></svg>',
+};
+const seasonCard = () => { const b = theme().banner; return b ? `<div class="season-card">${b.deco ? DECO[b.deco] : ''}<span class="season-ic">${ic(b.icon)}</span><span class="season-txt"><b>${b.title}</b><span>${b.sub}</span></span><button class="btn btn-main" data-act="${b.act}">${b.cta}</button></div>` : ''; };
 
 /* ---------- shared pieces ---------- */
 const thumb = (c, photo = c.photo) => photo ? `<div class="thumb" style="background:url('${photo}') center/cover"></div>` : `<div class="thumb plain">${ic(CATS[c.cat].icon)}</div>`;
@@ -337,20 +341,22 @@ function campaignCard(c) {
   </article>`;
 }
 
-const tierBadge = (i, size = 44) => { const [, , c] = TIERS[i]; return `<svg class="tier-badge" viewBox="0 0 48 52" width="${size}" height="${size * 52 / 48}" aria-hidden="true"><path d="M24 2 44 13.5v25L24 50 4 38.5v-25Z" fill="${c}" stroke="#fff" stroke-width="3" stroke-linejoin="round"/><path d="M24 7.5 39.5 16.5v19L24 44.5 8.5 35.5v-19Z" fill="#fff" fill-opacity=".18"/><g transform="translate(14 15) scale(.85)" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">${i === TIERS.length - 1 ? P.crown : P.user}</g></svg>`; };
+// glossy hex badge: tier gradient, inner bevel, top shine and the tier's own icon
+const tierBadge = (i, size = 44) => { const [, , [lt, dk], icon] = TIERS[i]; const id = `tb${i}`; return `<svg class="tier-badge" viewBox="0 0 48 52" width="${size}" height="${size * 52 / 48}" aria-hidden="true"><defs><linearGradient id="${id}" x1="0" y1="0" x2="0.6" y2="1"><stop offset="0" stop-color="${lt}"/><stop offset="1" stop-color="${dk}"/></linearGradient><linearGradient id="${id}s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs><path d="M24 1.5 45 13.5v25L24 50.5 3 38.5v-25Z" fill="url(#${id})" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/><path d="M24 7 40 16.2v19.6L24 45 8 35.8V16.2Z" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="1.2"/><path d="M24 7 40 16.2v6.3C34 19.5 14 19.5 8 22.5v-6.3Z" fill="url(#${id}s)"/><g transform="translate(13.2 15) scale(.9)" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">${P[icon]}</g></svg>`; };
 const tierProgress = t => { const tr = tierOf(t); return tr.next ? Math.round((t - TIERS[tr.i][1]) / (tr.next[1] - TIERS[tr.i][1]) * 100) : 100; };
-const tierStrip = () => { const t = totalGiven(), tr = tierOf(t); return `<button class="tier-strip" data-go="#/donations">${tierBadge(tr.i, 40)}<span class="ts-body"><span class="eyebrow">${tr.name} member</span><b class="num">${inr(t)} <span>donated</span></b><span class="bar"><i style="width:${tierProgress(t)}%"></i></span><span class="ts-next">${tr.next ? `${inr(tr.next[1] - t)} more to reach <b>${tr.next[0]}</b>` : 'Highest badge reached'}</span></span>${ic('right')}</button>`; };
+const tierStrip = () => { const t = totalGiven(), tr = tierOf(t); return `<button class="tier-strip" data-go="#/donations"><span class="ts-badge" style="--tc:${TIERS[tr.i][2][0]}">${tierBadge(tr.i, 44)}</span><span class="ts-body"><span class="eyebrow">${tr.name} member</span><b class="num">${inr(t)} <span>donated</span></b><span class="bar"><i style="width:${tierProgress(t)}%"></i></span><span class="ts-next">${tr.next ? `${inr(tr.next[1] - t)} more to reach <b>${tr.next[0]}</b>` : 'Highest badge reached'}</span></span>${ic('right')}</button>`; };
 const creatorNudge = () => S.creator ? '' : `<button class="creator-nudge" data-go="#/creator"><span class="cn-ic">${ic('megaphone')}</span><span><b>Share good, earn halal</b><span>Join as a creator and get your own promo code.</span></span>${ic('right')}</button>`;
 
 function header(seg) {
   return `<header class="top">
     <div class="top-row">
-      <div class="logo">${LOGO}${APP}</div>
-      <div class="helped"><b class="num">2,481</b>helped today</div>
+      <div class="brandblock"><div class="logo">${LOGO}${APP}</div><div class="helped"><i></i><b class="num">2,481</b> helped today</div></div>
       <span class="spacer"></span>
-      <button class="heart-btn" data-go="#/start" aria-label="Start a fundraiser">${HEART_BG}${ic('plus')}</button>
-      <button class="icon-btn" data-go="#/news" aria-label="News and notifications">${ic('bell')}${S.notifs.some(n => n.unread) ? '<span class="dot-badge"></span>' : ''}</button>
-      <button class="icon-btn" data-go="#/search" aria-label="Search">${ic('search')}</button>
+      <div class="hbtns">
+        <button class="hbtn primary" data-go="#/start" aria-label="Start a fundraiser">${ic('plus')}</button>
+        <button class="hbtn" data-go="#/news" aria-label="News and notifications">${ic('bell')}${S.notifs.some(n => n.unread) ? '<span class="dot-badge"></span>' : ''}</button>
+        <button class="hbtn" data-go="#/search" aria-label="Search">${ic('search')}</button>
+      </div>
     </div>
     ${seg || ''}
   </header>`;
@@ -796,7 +802,7 @@ V.ngos = () => ({ html: pageHead('Verified NGOs') + `<div class="wrap"><section 
 V.donations = () => {
   const t = totalGiven(), tr = tierOf(t), n = confirmed().length;
   const challenges = [['flame', '60-Day Sadaqah Challenge', 1000, 'in the last 60 days'], ['crown', '2-Year Royal Pledge', 200000, 'in the last 2 years']];
-  return { nav: 'donations', html: `<header class="top"><div class="top-row"><h1 class="page-title">Donations</h1><span class="spacer"></span><button class="icon-btn" data-go="#/history" aria-label="Receipts">${ic('receipt')}</button></div></header>
+  return { nav: 'donations', html: `<header class="top"><div class="top-row"><h1 class="page-title">Donations</h1><span class="spacer"></span><div class="hbtns"><button class="hbtn" data-go="#/history" aria-label="Receipts">${ic('receipt')}</button></div></div></header>
   <div class="wrap">
     <section class="section tier-card">
       <div class="tc-row"><div><span class="eyebrow">Total confirmed</span><b class="tc-amt num">${inr(t)}</b><span class="muted small">${n} successful donation${n === 1 ? '' : 's'}</span></div><div class="tc-badge">${tierBadge(tr.i, 58)}<span>${tr.name}</span></div></div>

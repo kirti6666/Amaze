@@ -20,6 +20,9 @@
   --gold-ink: #7a4d00;
   --page: #dcdce3;
   --on-brand: #ffffff;
+  --hero-1: #3ddbbd;
+  --hero-2: #1fc95c;
+  --hero-ink: #ffffff;
   --violet: #8a4fd8;
   --danger: #d9434b;
   --wa: #1fae55;
@@ -49,22 +52,25 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 
 /* top header */
 .top { position: sticky; top: var(--sat); z-index: 20; background: var(--card); padding: 6px 14px 10px; border-radius: 0 0 22px 22px; box-shadow: 0 1px 0 var(--line); }
-.top-row { display: flex; align-items: center; gap: 8px; min-height: 46px; }
+.top-row { display: flex; align-items: center; gap: 8px; min-height: 52px; }
+.brandblock { display: grid; gap: 1px; min-width: 0; }
+.hbtns { display: flex; gap: 6px; flex: none; }
+.hbtn { width: 38px; height: 38px; border-radius: 50%; background: var(--soft); color: var(--ink-2); display: grid; place-items: center; position: relative; }
+.hbtn svg.i { width: 19px; height: 19px; }
+.hbtn.primary { background: var(--brand); color: var(--on-brand); }
+.hbtn.primary svg.i { stroke-width: 2.6; }
+.hbtn .dot-badge { top: 7px; right: 8px; border-color: var(--soft); }
 .logo { display: flex; align-items: center; gap: 5px; white-space: nowrap; font-family: var(--logo); font-weight: 800; font-size: 19px; letter-spacing: -0.04em; color: var(--brand); line-height: 1; }
 .logo svg { width: 28px; height: 28px; }
-.helped { line-height: 1.2; font-size: 11.5px; color: var(--muted); padding-top: 1px; margin-left: 2px; }
-.helped b { display: block; color: var(--ink); font-size: 13px; font-weight: 600; position: relative; }
-.helped b::after { content: ""; position: absolute; width: 7px; height: 7px; border-radius: 50%; background: #22c55e; margin: 1px 0 0 4px; box-shadow: 0 0 0 3px rgb(34 197 94 / 0.18); }
+.helped { display: flex; align-items: center; gap: 4px; font-size: 11.5px; color: var(--muted); padding-left: 33px; white-space: nowrap; }
+.helped i { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 3px rgb(34 197 94 / 0.18); margin-right: 2px; }
+.helped b { color: var(--ink); font-weight: 600; }
 .spacer { flex: 1; }
-.heart-btn { width: 50px; height: 46px; display: grid; place-items: center; color: #fff; position: relative; }
-.heart-btn svg.bg { position: absolute; inset: 0; width: 100%; height: 100%; filter: drop-shadow(0 3px 6px rgb(10 155 60 / 0.3)); }
-.heart-btn { color: var(--on-brand); }
-.heart-btn svg.i { position: relative; width: 20px; height: 20px; stroke-width: 3; margin-top: -3px; }
 .icon-btn { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%; color: var(--ink-2); position: relative; }
 .icon-btn:active { background: var(--chip); }
 .dot-badge { position: absolute; top: 6px; right: 7px; min-width: 17px; height: 17px; border-radius: 9px; background: var(--danger); color: #fff; font-size: 10px; font-weight: 700; display: grid; place-items: center; border: 2px solid var(--card); }
-.page-title { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; }
-.points { display: inline-flex; align-items: center; gap: 6px; background: var(--brand); color: var(--on-brand); font-weight: 700; padding: 5px 6px 5px 14px; border-radius: 99px; font-size: 17px; }
+.page-title { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+.points { display: inline-flex; align-items: center; gap: 6px; height: 38px; background: var(--brand); color: var(--on-brand); font-weight: 700; padding: 5px 6px 5px 14px; border-radius: 99px; font-size: 17px; }
 .points .coin { width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(145deg, #ffd66b, var(--gold)); display: grid; place-items: center; color: var(--gold-ink); }
 .points .coin svg { width: 15px; height: 15px; fill: currentColor; stroke: none; }
 
@@ -359,7 +365,7 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 .thanks h3 { font-size: 17px; font-weight: 700; }
 .thanks p { font-size: 13.5px; color: var(--muted); margin: 4px 0 8px; }
 .thanks a, .text-link { color: var(--brand); font-weight: 700; }
-.balance { background: linear-gradient(135deg, #078a34, var(--brand) 50%, var(--brand-2)); color: var(--on-brand); border-radius: 22px; padding: 16px; position: relative; overflow: hidden; }
+.balance { background: linear-gradient(135deg, var(--hero-1), var(--hero-2)); color: var(--hero-ink); border-radius: 22px; padding: 16px; position: relative; overflow: hidden; }
 .balance small { opacity: .85; }
 .balance b { display: block; font-size: 27px; font-weight: 700; letter-spacing: -0.02em; margin: 2px 0 14px; }
 .balance .pattern { position: absolute; inset: 0; opacity: .12; }
@@ -408,13 +414,13 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 .check i svg.i { width: 14px; height: 14px; stroke-width: 3; }
 
 /* splash + onboarding (curved green header, content below) */
-.splash { width: 100%; min-height: 100vh; display: grid; place-items: center; background: linear-gradient(170deg, var(--brand-2), var(--brand-3)); padding: 0 12%; }
-.brand-lockup { position: relative; display: grid; justify-items: center; gap: 4px; color: var(--on-brand); text-align: center; }
+.splash { width: 100%; min-height: 100vh; display: grid; place-items: center; background: linear-gradient(170deg, var(--hero-1), var(--hero-2)); padding: 0 12%; color: var(--hero-ink); }
+.brand-lockup { position: relative; display: grid; justify-items: center; gap: 4px; color: var(--hero-ink); text-align: center; }
 .brand-lockup .emblem { width: 92px; height: 92px; margin-bottom: 6px; filter: drop-shadow(0 4px 10px rgb(0 60 20 / 0.25)); }
 .brand-lockup b { font-size: 30px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
 .brand-lockup span { font-size: 13.5px; opacity: .9; }
 .onb { min-height: 100vh; display: flex; flex-direction: column; background: var(--card); }
-.onb-hero { position: relative; height: 42vh; min-height: 250px; display: grid; place-items: center; padding: 0 9%; background: linear-gradient(160deg, var(--brand-2), var(--brand-3)); clip-path: ellipse(125% 100% at 50% 0); overflow: hidden; }
+.onb-hero { position: relative; height: 42vh; min-height: 250px; display: grid; place-items: center; padding: 0 9%; background: linear-gradient(160deg, var(--hero-1), var(--hero-2)); clip-path: ellipse(125% 100% at 50% 0); overflow: hidden; }
 .onb-hero.short { height: 26vh; min-height: 170px; }
 .onb-hero.short .brand-lockup .emblem { width: 60px; height: 60px; margin-bottom: 2px; }
 .onb-hero.short .brand-lockup b { font-size: 24px; }
@@ -539,7 +545,7 @@ a.btn { text-decoration: none; }
 .ts-body .bar { margin: 2px 0 0; }
 .ts-next { font-size: 12px; color: var(--muted); }
 .ts-next b { color: var(--ink); }
-.tier-badge { flex: none; filter: drop-shadow(0 2px 4px rgb(0 0 0 / 0.12)); }
+.tier-badge { flex: none; filter: drop-shadow(0 3px 6px rgb(0 0 0 / 0.18)); }
 .dot-badge:empty { min-width: 10px; width: 10px; height: 10px; top: 8px; right: 9px; }
 .nav-fab { position: relative; }
 .nav-fab .fab { width: 54px; height: 54px; margin: -26px 0 -2px; border-radius: 50%; background: var(--brand); color: var(--on-brand); display: grid; place-items: center; box-shadow: 0 6px 16px rgb(10 155 60 / 0.35); border: 4px solid var(--card); }
@@ -574,7 +580,7 @@ a.btn { text-decoration: none; }
 .creator-nudge > span:nth-child(2) span { font-size: 12.5px; color: var(--muted); }
 .creator-nudge > svg.i { color: var(--soft-line); width: 18px; height: 18px; }
 .cn-ic { width: 42px; height: 42px; border-radius: 14px; background: var(--brand); color: var(--on-brand); display: grid; place-items: center; flex: none; }
-.creator-hero { position: relative; overflow: hidden; border-radius: 22px; padding: 20px 18px; color: var(--on-brand); background: linear-gradient(140deg, #087a30, var(--brand)); display: grid; gap: 8px; }
+.creator-hero { position: relative; overflow: hidden; border-radius: 22px; padding: 20px 18px; color: var(--hero-ink); background: linear-gradient(140deg, var(--hero-1), var(--hero-2)); display: grid; gap: 8px; }
 .creator-hero .pattern { position: absolute; inset: 0; opacity: .12; }
 .creator-hero > svg.i { width: 34px; height: 34px; position: relative; }
 .creator-hero h2 { font-size: 24px; position: relative; }
@@ -602,11 +608,14 @@ a.btn { text-decoration: none; }
 .th-dots i { width: 14px; height: 14px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgb(127 127 127 / 0.35); }
 .th-radio { width: 22px; height: 22px; border-radius: 50%; border: 2px solid; display: grid; place-items: center; flex: none; }
 .th-radio i { width: 10px; height: 10px; border-radius: 50%; }
-.season-card { display: flex; align-items: center; gap: 12px; margin-top: 10px; background: var(--brand-soft); border-radius: 20px; padding: 12px 12px 12px 14px; }
-.season-ic { width: 40px; height: 40px; border-radius: 12px; background: var(--brand); color: var(--on-brand); display: grid; place-items: center; flex: none; }
+.season-card { position: relative; overflow: hidden; display: flex; align-items: center; gap: 12px; margin-top: 10px; background: linear-gradient(120deg, var(--hero-1), var(--hero-2)); border: 1px solid var(--line); border-radius: 20px; padding: 14px 12px 14px 14px; color: var(--hero-ink); }
+.season-deco { position: absolute; right: 30px; top: -22px; width: 34px; height: 52px; color: var(--hero-ink); opacity: .3; pointer-events: none; }
+.season-ic { width: 40px; height: 40px; border-radius: 12px; background: rgb(255 255 255 / 0.12); color: var(--hero-ink); display: grid; place-items: center; flex: none; position: relative; }
 .season-txt { flex: 1; min-width: 0; display: grid; }
-.season-txt b { font-size: 15px; color: var(--brand-ink); }
-.season-txt span { font-size: 12.5px; color: var(--ink-2); }
-.season-card .btn { height: 38px; padding: 0 14px; font-size: 13.5px; }
+.season-txt b { font-size: 15px; color: var(--hero-ink); }
+.season-txt span { font-size: 12.5px; color: var(--hero-ink); opacity: .8; }
+.season-txt { position: relative; }
+.season-card .btn { position: relative; height: 38px; padding: 0 14px; font-size: 13.5px; background: var(--hero-ink); color: var(--hero-2); }
 .dua { overflow: hidden; padding-top: 0; }
 .dua-photo { height: 120px; margin: 0 -14px 12px; background-size: cover; background-position: center 40%; }
+.ts-badge { width: 58px; height: 58px; border-radius: 18px; flex: none; display: grid; place-items: center; background: radial-gradient(circle at 50% 45%, var(--tc) 0%, transparent 72%), var(--soft); }
