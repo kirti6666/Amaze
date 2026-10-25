@@ -29,6 +29,7 @@ After changing anything in `www/`, run `npm run preview` to rebuild it.
 ## Build the APK
 
 **GitHub Actions:** every push that touches `fundraiser-app/` runs `.github/workflows/fundraiser-apk.yml`.
+The newest APK is always at https://github.com/kirti6666/Amaze/releases/download/demo-latest/MuslimLifePro-demo.apk (no GitHub login needed).
 Download `muslim-life-pro-demo-apk` from the run's Artifacts section and install `app-debug.apk` on the phone.
 
 **Locally** (needs Node 22+, JDK 21 and Android Studio):

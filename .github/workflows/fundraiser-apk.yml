@@ -7,6 +7,10 @@ on:
       - '.github/workflows/fundraiser-apk.yml'
   workflow_dispatch:
 
+# contents: write lets the job publish the APK as a release
+permissions:
+  contents: write
+
 jobs:
   apk:
     runs-on: ubuntu-latest
@@ -33,3 +37,15 @@ jobs:
         with:
           name: muslim-life-pro-demo-apk
           path: fundraiser-app/android/app/build/outputs/apk/debug/app-debug.apk
+      - run: cp android/app/build/outputs/apk/debug/app-debug.apk MuslimLifePro-demo.apk
+      # one fixed, login-free download link that always holds the newest build
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: demo-latest
+          name: Muslim Life Pro demo (latest build)
+          prerelease: true
+          overwrite_files: true
+          files: fundraiser-app/MuslimLifePro-demo.apk
+          body: |
+            Demo build of the Muslim Life Pro Android app. Sample data only; no real payments.
+            Install: open MuslimLifePro-demo.apk on an Android phone, allow "Install unknown apps", then Install.
