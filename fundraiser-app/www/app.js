@@ -190,7 +190,7 @@ const S = {
   saved: new Set([2]), liked: new Set(),
   points: 0, donated: 0, donations: [], streak: false, last: null,
   ui: { home: 'all', cat: 'all', comp: 'done', rate: 'league', rateSub: 'donors', news: 'news', dTab: 'story', q: '', sort: 'urgent', zakatOnly: false },
-  login: { stage: 'phone', phone: '', role: 'donor' },
+  login: { stage: 'details', role: 'donor', name: '', email: '', phone: '', err: {} },
   donate: null,
   draft: null,
   mine: [{ id: 6, status: 'live' }],
@@ -685,25 +685,49 @@ const INFO = {
 };
 V.info = slug => { const [t, body] = INFO[slug] || INFO.about; return { html: pageHead(t) + `<div class="wrap"><section class="section prose">${body}</section></div>` }; };
 
+// Outlined wordmark used on the splash and onboarding headers (white outline around a green fill, like the reference)
+const WORDMARK = `<svg class="wordmark" viewBox="0 0 440 110" role="img" aria-label="${APP}"><path d="M52 14a40 40 0 1 0 40 52 32 32 0 1 1-40-52Z" fill="none" stroke="#fff" stroke-width="9" stroke-linejoin="round"/><path d="M78 20l3.5 7.5 8 1-6 5.5 1.6 8-7.1-4-7.1 4 1.6-8-6-5.5 8-1Z" fill="#fff"/><text x="272" y="76" text-anchor="middle" textLength="312" lengthAdjust="spacingAndGlyphs" font-family="Manrope, system-ui, sans-serif" font-weight="800" font-size="70" fill="#1fc95c" stroke="#fff" stroke-width="12" stroke-linejoin="round" paint-order="stroke">${APP}</text></svg>`;
+const onbHero = cls => `<div class="onb-hero ${cls || ''}"><div class="pattern"></div><svg class="onb-moon" viewBox="0 0 24 24" aria-hidden="true">${P.moon}</svg>${WORDMARK}</div>`;
+
+V.splash = () => {
+  setTimeout(() => location.hash === '#/splash' && replaceRoute('#/intro'), 1400);
+  return { bare: true, html: `<button class="splash" data-act="splashNext" aria-label="Continue">${WORDMARK}</button>` };
+};
+
+V.intro = () => ({ bare: true, html: `<div class="onb">${onbHero()}<div class="onb-body">
+  <h1>Assalamu alaikum!</h1>
+  <p class="onb-text">Give Zakat and Sadaqah to verified causes and see where every rupee goes. By tapping “Let’s go” you accept the <a class="text-link" href="#/info/terms" data-go="#/info/terms">Terms of Use</a> and the <a class="text-link" href="#/info/privacy" data-go="#/info/privacy">Privacy Policy</a>.</p>
+  <button class="btn btn-main onb-cta" data-go="#/login">Let’s go</button>
+</div></div>` });
+
 V.login = () => {
-  const l = S.login;
-  const card = l.stage === 'phone' ? `
-      <h2 style="font-size:22px;font-weight:800">Welcome</h2>
-      <div class="seg" style="margin-top:0">${[['donor', 'I want to donate'], ['org', 'I want to raise funds']].map(([k, t]) => `<button class="${l.role === k ? 'on' : ''}" data-act="lset" data-k="role" data-v="${k}">${t}</button>`).join('')}</div>
-      <div class="field"><label for="ph">Mobile number</label><div class="phone-in"><input class="input cc" value="+91" aria-label="Country code" readonly><input class="input num" id="ph" inputmode="numeric" maxlength="10" placeholder="98765 43210" value="${esc(l.phone)}" data-model="login.phone"></div><span class="err" id="ph-err"></span></div>
-      <button class="btn btn-main" data-act="otp">Get OTP</button>
-      <div class="or">or</div>
-      <button class="btn btn-line" data-act="enter">${ic('mail')} Continue with email</button>
-      <button class="btn btn-line" data-act="enter"><b style="color:#4285f4">G</b> Continue with Google</button>
-      <button class="text-link" data-act="enter" style="margin-top:4px">Explore as guest</button>`
-    : `
-      <h2 style="font-size:22px;font-weight:800">Enter the code</h2>
-      <p class="muted">We sent a 4-digit code to +91 ${esc(l.phone)}. <button class="text-link" data-act="lset" data-k="stage" data-v="phone">Change</button></p>
-      <div class="otp">${[0, 1, 2, 3].map(i => `<input id="otp${i}" inputmode="numeric" maxlength="1" aria-label="Digit ${i + 1}" data-otp="${i}">`).join('')}</div>
-      <p class="small muted center">Demo: type any 4 digits</p>
-      <button class="btn btn-main" data-act="enter">Verify & continue</button>`;
-  return { bare: true, html: `<div class="login"><div class="login-hero"><div class="pattern"></div><svg class="moon" viewBox="0 0 24 24" fill="#fff">${P.moon}</svg><div class="logo">${LOGO.replace('fill="currentColor"', 'fill="#fff"')}${APP}</div><h1>Give with barakah. See where it goes.</h1><p>Verified campaigns, Zakat-ready giving and updates from the people you help.</p></div>
-    <div class="login-card">${card}<p class="small muted center">By continuing you agree to our <a class="text-link" href="#/info/terms" data-go="#/info/terms">Terms</a> and <a class="text-link" href="#/info/privacy" data-go="#/info/privacy">Privacy Policy</a>.</p></div></div>` };
+  const l = S.login, e = l.err || {};
+  const err = k => e[k] ? `<span class="err">${e[k]}</span>` : '';
+  const body = l.stage === 'details' ? `
+    <h1>Welcome! Let’s set you up</h1>
+    <div class="seg" style="margin-top:4px">${[['donor', 'I want to donate'], ['org', 'I want to raise funds']].map(([k, t]) => `<button class="${l.role === k ? 'on' : ''}" data-act="lset" data-k="role" data-v="${k}">${t}</button>`).join('')}</div>
+    <div class="onb-form">
+      <div class="field"><label for="l-name">Full name</label><input class="input ${e.name ? 'bad' : ''}" id="l-name" autocomplete="name" placeholder="Your name" value="${esc(l.name)}" data-model="login.name">${err('name')}</div>
+      <div class="field"><label for="l-email">Email</label><input class="input ${e.email ? 'bad' : ''}" id="l-email" type="email" autocomplete="email" placeholder="you@example.com" value="${esc(l.email)}" data-model="login.email">${err('email')}</div>
+      <div class="field"><label for="ph">Mobile number</label><div class="phone-in"><input class="input cc" value="+91" aria-label="Country code" readonly><input class="input num ${e.phone ? 'bad' : ''}" id="ph" inputmode="numeric" maxlength="10" autocomplete="tel-national" placeholder="98765 43210" value="${esc(l.phone)}" data-model="login.phone"></div>${err('phone')}</div>
+    </div>
+    <button class="btn btn-main onb-cta" data-act="otp">Continue</button>
+    <div class="or">or continue with</div>
+    <div class="socials">
+      <button class="soc" data-act="enter" aria-label="Continue with Google"><b style="color:#4285f4;font-size:20px">G</b></button>
+      <button class="soc" data-act="enter" aria-label="Continue with Facebook"><b style="color:#fff;background:#1877f2;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:17px">f</b></button>
+      <button class="soc" data-act="enter" aria-label="Continue with Apple"><svg viewBox="0 0 24 24" width="22" height="22" fill="#111" aria-hidden="true"><path d="M16.5 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.8-.9-3-.8-1.6 0-3 .9-3.8 2.3-1.6 2.8-.4 6.9 1.2 9.2.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3 .7c1.3 0 2.1-1.1 2.8-2.3.9-1.3 1.3-2.6 1.3-2.6s-2.5-1-2.5-3.7ZM14.2 5.8c.6-.8 1.1-1.8 1-2.8-.9 0-2 .6-2.7 1.4-.6.7-1.1 1.7-1 2.7 1 .1 2-.5 2.7-1.3Z"/></svg></button>
+      <button class="soc" data-act="enter" aria-label="Continue with email" style="color:var(--brand-3)">${ic('mail')}</button>
+    </div>
+    <button class="text-link onb-skip" data-act="enter">Skip for now</button>`
+  : `
+    <h1>Enter the code</h1>
+    <p class="onb-text">We sent a 4-digit code to +91 ${esc(l.phone)}. <button class="text-link" data-act="lset" data-k="stage" data-v="details">Change</button></p>
+    <div class="otp">${[0, 1, 2, 3].map(i => `<input id="otp${i}" inputmode="numeric" maxlength="1" aria-label="Digit ${i + 1}" data-otp="${i}">`).join('')}</div>
+    <p class="small muted">Demo: type any 4 digits</p>
+    <button class="btn btn-main onb-cta" data-act="enter">Verify & continue</button>
+    <button class="text-link onb-skip" data-act="toast" data-msg="New code sent">Resend code</button>`;
+  return { bare: true, html: `<div class="onb">${onbHero('short')}<div class="onb-body">${body}</div></div>` };
 };
 
 /* ---------- router ---------- */
@@ -835,15 +859,25 @@ const A = {
   monthly: () => sheet(`<h2>Monthly giving</h2><p class="muted">Give a fixed amount every month by UPI AutoPay. You can pause or stop anytime.</p><div class="amounts" style="margin-top:14px">${[300, 500, 1000].map(a => `<button>${inr(a)}</button>`).join('')}</div><button class="btn btn-main btn-block" style="margin-top:14px" data-close data-act="toast" data-msg="Monthly giving set up (demo)">Set up monthly giving</button>`),
   favs: () => { S.ui.home = 'fav'; go('#/home'); },
   mylink: () => sheet(`<h2>Your personal link</h2><p class="muted small">Share it anywhere. Donations made through it count toward your Inspirer rank.</p><p style="margin-top:12px;font-weight:700;user-select:all">${SITE}/u/ayesha-khan</p><button class="btn btn-main btn-block" style="margin-top:14px" data-act="copy" data-v="${SITE}/u/ayesha-khan">${ic('link')} Copy link</button>`),
-  logout: () => { S.login = { stage: 'phone', phone: '', role: 'donor' }; replaceRoute('#/login'); },
+  logout: () => { S.login = { stage: 'details', role: 'donor', name: '', email: '', phone: '', err: {} }; replaceRoute('#/intro'); },
+  splashNext: () => replaceRoute('#/intro'),
   pref: el => { S.prefs[el.dataset.k] = !S.prefs[el.dataset.k]; rerender(); },
   lset: el => { S.login[el.dataset.k] = el.dataset.v; rerender(); },
   otp: () => {
-    const ph = S.login.phone.replace(/\D/g, '');
-    if (!/^[6-9]\d{9}$/.test(ph)) { document.getElementById('ph-err').textContent = 'Enter a valid 10-digit mobile number.'; return; }
-    S.login.stage = 'otp'; rerender(); document.getElementById('otp0')?.focus();
+    const l = S.login, ph = l.phone.replace(/\D/g, '');
+    l.err = {};
+    if (!l.name.trim()) l.err.name = 'Enter your name, or tap “Skip for now”.';
+    if (l.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(l.email.trim())) l.err.email = 'Enter a valid email, like name@example.com.';
+    if (!/^[6-9]\d{9}$/.test(ph)) l.err.phone = 'Enter a valid 10-digit mobile number.';
+    if (Object.keys(l.err).length) return rerender();
+    l.stage = 'otp'; rerender(); document.getElementById('otp0')?.focus();
   },
-  enter: () => { S.login.stage = 'phone'; replaceRoute('#/home'); },
+  enter: () => {
+    const l = S.login;
+    if (l.name.trim()) { S.user.name = l.name.trim(); S.user.first = S.user.name.split(' ')[0]; }
+    if (l.email.trim()) S.user.email = l.email.trim();
+    l.stage = 'details'; replaceRoute('#/home');
+  },
 };
 
 document.addEventListener('click', e => {
@@ -902,5 +936,5 @@ document.addEventListener('submit', e => {
   }
 });
 
-if (!location.hash) replaceRoute('#/login');
+if (!location.hash) replaceRoute('#/splash');
 render();

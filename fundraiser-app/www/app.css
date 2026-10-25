@@ -400,16 +400,28 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 .check.on i { background: var(--brand); border-color: var(--brand); }
 .check i svg.i { width: 14px; height: 14px; stroke-width: 3; }
 
-/* login */
-.login { min-height: 100vh; display: flex; flex-direction: column; background: var(--card); }
-.login-hero { background: linear-gradient(160deg, #078a34, var(--brand) 50%, var(--brand-2)); color: #fff; padding: 34px 22px 60px; position: relative; overflow: hidden; }
-.login-hero .pattern { position: absolute; inset: 0; opacity: .13; }
-.login-hero .logo { color: #fff; font-size: 32px; position: relative; }
-.login-hero .logo svg { width: 46px; height: 46px; }
-.login-hero h1 { font-size: 25px; font-weight: 700; line-height: 1.15; margin-top: 26px; position: relative; max-width: 14ch; }
-.login-hero p { opacity: .88; margin-top: 10px; position: relative; max-width: 32ch; }
-.login-hero .moon { position: absolute; right: -40px; top: 30px; width: 190px; height: 190px; opacity: .18; }
-.login-card { margin-top: -32px; background: var(--card); border-radius: 26px 26px 0 0; padding: 20px 18px 24px; position: relative; display: grid; gap: 12px; flex: 1; align-content: start; }
+/* splash + onboarding (curved green header, content below) */
+.splash { width: 100%; min-height: 100vh; display: grid; place-items: center; background: linear-gradient(170deg, var(--brand-2), var(--brand-3)); padding: 0 12%; }
+.wordmark { width: 100%; max-width: 340px; height: auto; display: block; }
+.onb { min-height: 100vh; display: flex; flex-direction: column; background: var(--card); }
+.onb-hero { position: relative; height: 42vh; min-height: 250px; display: grid; place-items: center; padding: 0 9%; background: linear-gradient(160deg, var(--brand-2), var(--brand-3)); clip-path: ellipse(125% 100% at 50% 0); overflow: hidden; }
+.onb-hero.short { height: 26vh; min-height: 170px; }
+.onb-hero.short .wordmark { max-width: 250px; }
+.onb-hero .pattern { position: absolute; inset: 0; opacity: .16; }
+.onb-moon { position: absolute; top: -30px; right: -40px; width: 170px; height: 170px; fill: rgb(255 255 255 / 0.16); }
+.onb-hero .wordmark { position: relative; }
+.onb-body { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; padding: 22px 22px calc(24px + var(--sab)); }
+.onb-body h1 { font-size: 24px; }
+.onb-text { color: var(--muted); max-width: 34ch; }
+.onb-body > .seg { width: 100%; }
+.onb-form { width: 100%; display: grid; gap: 10px; text-align: left; }
+.onb-cta { width: 82%; margin-top: auto; }
+.onb-form + .onb-cta { margin-top: 6px; width: 100%; }
+.onb-skip { padding: 6px 12px; }
+.or { width: 100%; }
+.socials { display: flex; justify-content: center; gap: 14px; }
+.soc { width: 52px; height: 52px; border-radius: 50%; background: var(--card); display: grid; place-items: center; box-shadow: 0 4px 14px rgb(20 20 40 / 0.1); }
+.input.bad { border-color: var(--danger); }
 .phone-in { display: flex; gap: 8px; }
 .phone-in .cc { width: 76px; flex: none; text-align: center; font-weight: 700; }
 .otp { display: flex; gap: 10px; justify-content: center; }

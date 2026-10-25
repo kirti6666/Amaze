@@ -226,7 +226,7 @@ const flows = {
   reports: () => { open('#/completed'); click('[data-k=comp][data-v=reports]'); },
 };
 const SCREENS = [
-  ['Start', [['Login & OTP', '#/login']]],
+  ['Start', [['Splash', '#/splash'], ['Welcome', '#/intro'], ['Sign up & OTP', '#/login']]],
   ['Tabs', [['Campaigns (home)', '#/home'], ['Completed', '#/completed'], ['Completed reports', 'reports'], ['Rating · your league', '#/rating'], ['Rating · overall', 'overall'], ['News', '#/news'], ['Notifications', '#/news/notifications'], ['Profile', '#/profile']]],
   ['Giving', [['Search & filters', '#/search'], ['Campaign page', '#/c/1'], ['Campaign donors', 'donors'], ['Share sheet', 'share'], ['Donate', '#/donate/1'], ['Payment success', 'success'], ['Donation history', '#/history']]],
   ['Fundraising', [['Start a fundraiser', '#/start'], ['Beneficiary & uploads', 'step2'], ['Submitted for review', '#/submitted'], ['Organiser dashboard', '#/my'], ['Post an update', 'update'], ['Request withdrawal', '#/withdraw'], ['KYC & bank account', '#/kyc']]],
