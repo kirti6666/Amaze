@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MuslimPro Giving Desktop Preview</title>
+<title>Muslim Life Pro Desktop Preview</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
 <style>
 /* Layout: top bar with mode switch; "app" mode = screen list | phone | scope checklist, "admin" mode = sidebar + workspace. Light only, matching the app. */
@@ -168,7 +168,7 @@ td .sub { display: block; color: var(--muted); font-size: 12px; }
 </head>
 <body>
 <header class="bar-top">
-  <div class="brand"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16.5 4.5a11.5 11.5 0 1 0 11 15A9.2 9.2 0 1 1 16.5 4.5Z"/><path fill="#e9b52c" d="M23.3 7.2l1 2.3 2.4.3-1.8 1.6.5 2.4-2.1-1.2-2.1 1.2.5-2.4-1.8-1.6 2.4-.3Z"/></svg>MuslimPro<small>Desktop preview</small></div>
+  <div class="brand"><svg viewBox="0 0 64 64" aria-hidden="true"><path fill="#e9b52c" d="M33.6 2.2a4.2 4.2 0 1 0 2.6 6.9 3.4 3.4 0 1 1-2.6-6.9Z"/><g fill="currentColor"><path d="M31 9.5h2v3.2h-2z"/><path d="M17.5 33.5c0-9.6 6.6-15.6 14.5-20.5 7.9 4.9 14.5 10.9 14.5 20.5Z"/><rect x="15.5" y="33.5" width="33" height="3.2" rx="1"/><path d="M18.5 37.5h27v10h-9.5v-4.2a4 4 0 0 0-8 0v4.2h-9.5Z"/><path d="M7.5 47.5V24.5l3-6.5 3 6.5v23Z"/><path d="M50.5 47.5V24.5l3-6.5 3 6.5v23Z"/><path d="M4 50.2c9.3-2.6 19-2 28 2.6 9-4.6 18.7-5.2 28-2.6v6.6c-9.3-2.6-19-2-28 2.6-9-4.6-18.7-5.2-28-2.6Z"/></g></svg>Muslim Life Pro<small>Desktop preview</small></div>
   <div class="modes" role="tablist"><button class="on" data-mode="app" role="tab">Mobile app</button><button data-mode="admin" role="tab">Admin panel</button></div>
 </header>
 
@@ -177,7 +177,7 @@ td .sub { display: block; color: var(--muted); font-size: 12px; }
   <section class="phone-col">
     <div class="phone"><div class="screen">
       <div class="status"><span class="num">9:41</span><span><svg viewBox="0 0 24 24"><path d="M2 20h3v-4H2zm5 0h3v-8H7zm5 0h3V8h-3zm5 0h3V4h-3z"/></svg><svg viewBox="0 0 24 24"><path d="M12 18.5a1.5 1.5 0 1 0 0 .01ZM12 6C8 6 4.5 7.6 2 10l1.8 1.8C5.8 9.9 8.7 8.6 12 8.6s6.2 1.3 8.2 3.2L22 10c-2.5-2.4-6-4-10-4Zm0 5c-2.3 0-4.4.9-6 2.4l1.8 1.8A6 6 0 0 1 12 13.6c1.6 0 3.1.6 4.2 1.6l1.8-1.8A8.6 8.6 0 0 0 12 11Z"/></svg><svg viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="4" y="9" width="12" height="6" rx="1"/><rect x="21" y="10" width="1.6" height="4" rx=".8"/></svg></span></div>
-      <iframe id="app-frame" title="MuslimPro Giving Android app"></iframe>
+      <iframe id="app-frame" title="Muslim Life Pro Android app"></iframe>
     </div></div>
     <p class="phone-note">The same code runs inside the Android APK. All data is sample data and payments are simulated.</p>
   </section>
@@ -229,7 +229,7 @@ const flows = {
 };
 const SCREENS = [
   ['Start', [['Splash', '#/splash'], ['Welcome', '#/intro'], ['Sign up & OTP', '#/login']]],
-  ['Tabs', [['Campaigns (home)', '#/home'], ['Welcome notification', 'greet'], ['Zakat calculator', 'zakat'], ['Completed', '#/completed'], ['Completed reports', 'reports'], ['Rating · your league', '#/rating'], ['Rating · overall', 'overall'], ['News', '#/news'], ['Notifications', '#/news/notifications'], ['Profile', '#/profile']]],
+  ['Tabs', [['Campaigns (home)', '#/home'], ['Donations (centre button)', '#/donations'], ['Affiliate & Creator', '#/creator'], ['Welcome notification', 'greet'], ['Zakat calculator', 'zakat'], ['Completed', '#/completed'], ['Completed reports', 'reports'], ['Rating · your league', '#/rating'], ['Rating · overall', 'overall'], ['News', '#/news'], ['Notifications', '#/news/notifications'], ['Profile', '#/profile']]],
   ['Giving', [['Search & filters', '#/search'], ['Campaign page', '#/c/1'], ['Campaign donors', 'donors'], ['Share sheet', 'share'], ['Donate', '#/donate/1'], ['Payment success', 'success'], ['Donation history', '#/history']]],
   ['Fundraising', [['Start a fundraiser', '#/start'], ['Beneficiary & uploads', 'step2'], ['Submitted for review', '#/submitted'], ['Organiser dashboard', '#/my'], ['Post an update', 'update'], ['Request withdrawal', '#/withdraw'], ['KYC & bank account', '#/kyc']]],
   ['Account & info', [['Profile settings', '#/settings'], ['Verified NGOs', '#/ngos'], ['About us', '#/info/about'], ['How it works', '#/info/how'], ['FAQs', '#/info/faq'], ['Contact us', '#/info/contact'], ['Terms & Conditions', '#/info/terms'], ['Privacy Policy', '#/info/privacy'], ['Refund Policy', '#/info/refund']]],
@@ -393,10 +393,10 @@ const ACT = {
   toast: v => toast(v),
   doc: v => modal(`<h2>${esc(v)}</h2><div class="doc-preview">Document preview</div><div class="acts"><button class="b b-soft b-lg" data-close>Close</button></div>`),
   preview: v => { const c = DB.campaigns.find(x => x.id === Number(v)); modal(`<h2>${esc(c.title)}</h2><p style="color:var(--muted)">${esc(c.org)} · ${c.cat} · goal ${inr(c.goal)}</p><div class="docs">${['Cost estimate', 'Beneficiary ID', 'Photos (3)', 'Organiser KYC'].map(d => `<span class="doc">${ic('file')}${d}</span>`).join('')}</div><div class="doc-preview">Document preview</div><div class="acts"><button class="b b-soft b-lg" data-close>Close</button></div>`); },
-  edit: v => { const p = DB.pages[Number(v)]; const m = modal(`<h2>Edit: ${p[0]}</h2><form data-f="page" data-v="${v}" style="display:grid;gap:12px"><textarea class="textarea" id="page-body" placeholder="Paste the approved text here">${p[1].startsWith('Awaiting') ? '' : 'MuslimPro Giving connects people who want to give with verified NGOs and families who need help.'}</textarea><div class="acts"><button type="button" class="b b-soft b-lg" data-close>Cancel</button><button class="b b-main b-lg">Publish</button></div></form>`); m.querySelector('textarea').focus(); },
+  edit: v => { const p = DB.pages[Number(v)]; const m = modal(`<h2>Edit: ${p[0]}</h2><form data-f="page" data-v="${v}" style="display:grid;gap:12px"><textarea class="textarea" id="page-body" placeholder="Paste the approved text here">${p[1].startsWith('Awaiting') ? '' : 'Muslim Life Pro connects people who want to give with verified NGOs and families who need help.'}</textarea><div class="acts"><button type="button" class="b b-soft b-lg" data-close>Cancel</button><button class="b b-main b-lg">Publish</button></div></form>`); m.querySelector('textarea').focus(); },
   csv: () => {
     const csv = ['Transaction,Donor,Fundraiser,Amount,Type,Method,Time', ...DB.donations.map(r => r.map(x => `"${String(x).replace(/"/g, '""')}"`).join(','))].join('\n');
-    try { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' })); a.download = 'muslimpro-donations.csv'; a.click(); } catch { /* download blocked in some viewers */ }
+    try { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' })); a.download = 'muslimlifepro-donations.csv'; a.click(); } catch { /* download blocked in some viewers */ }
     toast('CSV exported');
   },
 };

@@ -1,4 +1,4 @@
-# MuslimPro Giving: Android UI demo
+# Muslim Life Pro: Android UI demo
 
 A clickable Android app demo for a donation and fundraising platform (Tooba-style layout, Milaap-style flows).
 All data is sample data held in memory. There is no backend, and no real payments are made.
@@ -29,7 +29,7 @@ After changing anything in `www/`, run `npm run preview` to rebuild it.
 ## Build the APK
 
 **GitHub Actions:** every push that touches `fundraiser-app/` runs `.github/workflows/fundraiser-apk.yml`.
-Download `muslimpro-giving-demo-apk` from the run's Artifacts section and install `app-debug.apk` on the phone.
+Download `muslim-life-pro-demo-apk` from the run's Artifacts section and install `app-debug.apk` on the phone.
 
 **Locally** (needs Node 22+, JDK 21 and Android Studio):
 

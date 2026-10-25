@@ -1,9 +1,9 @@
-/* MuslimPro Giving: clickable Android UI demo for a donation / fundraising platform.
+/* Muslim Life Pro: clickable Android UI demo for a donation / fundraising platform.
    Everything is in-memory sample data; no backend calls. Hash routes give the Android back button for free. */
 'use strict';
 
-const APP = 'MuslimPro';
-const SITE = 'https://give.muslimpro.demo';
+const APP = 'Muslim Life Pro';
+const SITE = 'https://muslimlifepro.demo';
 const inr = n => '₹' + Math.round(n).toLocaleString('en-IN');
 const esc = s => String(s ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 const pct = c => Math.min(100, Math.round((c.raised / c.goal) * 100));
@@ -65,6 +65,12 @@ const P = {
   calc: '<rect width="16" height="20" x="4" y="2" rx="2"/><path d="M8 6h8M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/>',
   quote: '<path d="M10 11H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5c0 2.5-1.5 4-4 5"/><path d="M19 11h-4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5c0 2.5-1.5 4-4 5"/>',
   bowl: '<path d="M3 11h18a9 9 0 0 1-18 0Z"/><path d="M7 21h10"/><path d="M8 7c0-1 1-1.5 1-2.5S8 3 8 3M12 7c0-1 1-1.5 1-2.5S12 3 12 3M16 7c0-1 1-1.5 1-2.5S16 3 16 3"/>',
+  megaphone: '<path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>',
+  crown: '<path d="M11.56 3.27a.5.5 0 0 1 .88 0l2.95 5.6a1 1 0 0 0 1.52.29l4.27-3.66a.5.5 0 0 1 .82.5l-2.83 10.25a1 1 0 0 1-.96.74H5.81a1 1 0 0 1-.96-.74L2.02 6.01a.5.5 0 0 1 .82-.5l4.27 3.66a1 1 0 0 0 1.52-.29z"/><path d="M5 21h14"/>',
+  rupee: '<path d="M6 3h12M6 8h12M6 13l8.5 8M6 13h3a5 5 0 0 0 0-10"/>',
+  userplus: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/>',
+  code: '<path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/>',
+  xcircle: '<circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/>',
   hands: '<path d="M11 14h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 16"/><path d="m7 20 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"/><path d="m2 15 6 6"/><path d="M19.5 8.5c.7-.7 1.5-1.6 1.5-2.7A2.73 2.73 0 0 0 16 4a2.78 2.78 0 0 0-5 1.8c0 1.2.8 2 1.5 2.8L16 12Z"/>',
 };
 const ic = (n, cls = '') => `<svg class="i ${cls}" viewBox="0 0 24 24" aria-hidden="true">${P[n]}</svg>`;
@@ -78,7 +84,9 @@ const NAV_ICONS = {
   profile: '<circle cx="10" cy="6.5" r="4"/><path d="M2.5 19.5a7.5 7.5 0 0 1 12.2-5.8A5 5 0 0 0 13 21.5H4a1.5 1.5 0 0 1-1.5-2Z"/><circle cx="18.5" cy="17.5" r="4.5"/><path fill="#fff" d="M18.5 20.2l-2-1.9a1.2 1.2 0 0 1 1.7-1.8l.3.3.3-.3a1.2 1.2 0 0 1 1.7 1.8Z"/>',
 };
 
-const LOGO = `<svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16.5 4.5a11.5 11.5 0 1 0 11 15A9.2 9.2 0 1 1 16.5 4.5Z"/><path fill="#e9b52c" d="M23.3 7.2l1 2.3 2.4.3-1.8 1.6.5 2.4-2.1-1.2-2.1 1.2.5-2.4-1.8-1.6 2.4-.3Z"/></svg>`;
+// app emblem: dome with crescent finial, two minarets, open Quran as the base
+const emblem = (cls = '') => `<svg class="emblem ${cls}" viewBox="0 0 64 64" aria-hidden="true"><path fill="#e9b52c" d="M33.6 2.2a4.2 4.2 0 1 0 2.6 6.9 3.4 3.4 0 1 1-2.6-6.9Z"/><g fill="currentColor"><path d="M31 9.5h2v3.2h-2z"/><path d="M17.5 33.5c0-9.6 6.6-15.6 14.5-20.5 7.9 4.9 14.5 10.9 14.5 20.5Z"/><rect x="15.5" y="33.5" width="33" height="3.2" rx="1"/><path d="M18.5 37.5h27v10h-9.5v-4.2a4 4 0 0 0-8 0v4.2h-9.5Z"/><path d="M7.5 47.5V24.5l3-6.5 3 6.5v23Z"/><path d="M50.5 47.5V24.5l3-6.5 3 6.5v23Z"/><path d="M4 50.2c9.3-2.6 19-2 28 2.6 9-4.6 18.7-5.2 28-2.6v6.6c-9.3-2.6-19-2-28 2.6-9-4.6-18.7-5.2-28-2.6Z"/></g></svg>`;
+const LOGO = emblem();
 const HEART_BG = `<svg class="bg" viewBox="0 0 54 50" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5fe0a0"/><stop offset="1" stop-color="#0a9b3c"/></linearGradient></defs><path fill="url(#hg)" d="M27 48 6.5 28.2A13.2 13.2 0 0 1 27 11.4a13.2 13.2 0 0 1 20.5 16.8Z"/></svg>`;
 
 /* ---------- sample data ---------- */
@@ -152,7 +160,7 @@ const CAMPAIGNS = [
     ben: { Beneficiary: 'Rashid Khan, 58 yrs', Relation: 'Father of organiser', Hospital: 'SGPGI Lucknow', Location: 'Lucknow' },
     docs: ['Transplant cost estimate', 'Nephrologist letter', 'Organiser KYC'],
     story: ['My father Rashid has been on dialysis three times a week for a year. His brother is a matching donor and the surgery is set for next month.', 'We have arranged ₹2 lakh ourselves. Please help with the remaining amount.'],
-    updates: [['6 days ago', 'Campaign verified by the MuslimPro team.']],
+    updates: [['6 days ago', 'Campaign verified by the Muslim Life Pro team.']],
   },
   {
     id: 5, photo: PHOTO.boy, pos: 'center 30%', org: 'ummeed', cat: 'emergency', zakat: true, featured: true, city: 'Dhemaji, Assam', days: 4,
@@ -200,6 +208,17 @@ const LEAGUES = [
 ];
 const ACHIEVEMENTS = [['First Sadaqah', 'heart'], ['Ramadan Giver', 'moon'], ['7-day streak', 'flame'], ['Zakat paid', 'star'], ['Inspirer', 'users'], ['Fundraiser', 'sprout'], ['Water bearer', 'droplet'], ['Early supporter', 'clock']];
 
+// past donations of the demo user; one failed so the history shows both states
+const BASE_DONATIONS = [
+  { cid: 9, amount: 500, type: 'Sadaqah', pay: 'upi', date: '15 Sep 2026', txn: 'pay_MLP7F31A', status: 'success' },
+  { cid: 1, amount: 300, type: 'Sadaqah', pay: 'card', date: '13 Oct 2026', txn: 'pay_MLP7F99C', status: 'success' },
+  { cid: 2, amount: 1000, type: 'Zakat', pay: 'upi', date: '19 Oct 2026', txn: 'pay_MLP80A12', status: 'failed' },
+];
+// permanent member badge by total confirmed giving (never removed)
+const TIERS = [['Visitor', 0, '#9aa1ad'], ['Starter', 1000, '#2fb36b'], ['Supporter', 5000, '#16a3a3'], ['Silver', 10000, '#8f99a8'], ['Gold', 25000, '#d9a21b'], ['Platinum', 50000, '#5b7fa6'], ['Diamond', 100000, '#21a7d8'], ['Royal Crown', 200000, '#8a4fd8']];
+const tierOf = total => { const i = TIERS.filter(([, min]) => total >= min).length - 1; return { i, name: TIERS[i][0], color: TIERS[i][2], next: TIERS[i + 1] }; };
+console.assert(tierOf(800).name === 'Visitor' && tierOf(800).next[0] === 'Starter' && tierOf(1000).name === 'Starter' && tierOf(250000).next === undefined, 'tierOf');
+
 /* ---------- state ---------- */
 const S = {
   user: { name: 'Ayesha Khan', first: 'Ayesha', email: 'ayesha.khan@mail.com' },
@@ -224,6 +243,9 @@ const camp = id => CAMPAIGNS.find(c => c.id === Number(id));
 // campaigns submitted in the demo stay hidden from the feed until "approved"
 const active = () => CAMPAIGNS.filter(c => !c.done && !c.hidden);
 const myRaised = () => S.mine.map(m => camp(m.id)).filter(Boolean).reduce((a, c) => a + c.raised, 0);
+const allDonations = () => [...S.donations.map(d => ({ ...d, status: 'success' })), ...BASE_DONATIONS];
+const confirmed = () => allDonations().filter(d => d.status === 'success');
+const totalGiven = () => confirmed().reduce((a, d) => a + d.amount, 0);
 const withdrawn = () => S.withdrawals.reduce((a, w) => a + w.amt, 0);
 
 /* ---------- shared pieces ---------- */
@@ -269,6 +291,11 @@ function campaignCard(c) {
   </article>`;
 }
 
+const tierBadge = (i, size = 44) => { const [, , c] = TIERS[i]; return `<svg class="tier-badge" viewBox="0 0 48 52" width="${size}" height="${size * 52 / 48}" aria-hidden="true"><path d="M24 2 44 13.5v25L24 50 4 38.5v-25Z" fill="${c}" stroke="#fff" stroke-width="3" stroke-linejoin="round"/><path d="M24 7.5 39.5 16.5v19L24 44.5 8.5 35.5v-19Z" fill="#fff" fill-opacity=".18"/><g transform="translate(14 15) scale(.85)" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">${i === TIERS.length - 1 ? P.crown : P.user}</g></svg>`; };
+const tierProgress = t => { const tr = tierOf(t); return tr.next ? Math.round((t - TIERS[tr.i][1]) / (tr.next[1] - TIERS[tr.i][1]) * 100) : 100; };
+const tierStrip = () => { const t = totalGiven(), tr = tierOf(t); return `<button class="tier-strip" data-go="#/donations">${tierBadge(tr.i, 40)}<span class="ts-body"><span class="eyebrow">${tr.name} member</span><b class="num">${inr(t)} <span>donated</span></b><span class="bar"><i style="width:${tierProgress(t)}%"></i></span><span class="ts-next">${tr.next ? `${inr(tr.next[1] - t)} more to reach <b>${tr.next[0]}</b>` : 'Highest badge reached'}</span></span>${ic('right')}</button>`; };
+const creatorNudge = () => S.creator ? '' : `<button class="creator-nudge" data-go="#/creator"><span class="cn-ic">${ic('megaphone')}</span><span><b>Share good, earn halal</b><span>Join as a creator and get your own promo code.</span></span>${ic('right')}</button>`;
+
 function header(seg) {
   return `<header class="top">
     <div class="top-row">
@@ -276,6 +303,7 @@ function header(seg) {
       <div class="helped"><b class="num">2,481</b>helped today</div>
       <span class="spacer"></span>
       <button class="heart-btn" data-go="#/start" aria-label="Start a fundraiser">${HEART_BG}${ic('plus')}</button>
+      <button class="icon-btn" data-go="#/news" aria-label="News and notifications">${ic('bell')}${S.notifs.some(n => n.unread) ? '<span class="dot-badge"></span>' : ''}</button>
       <button class="icon-btn" data-go="#/search" aria-label="Search">${ic('search')}</button>
     </div>
     ${seg || ''}
@@ -285,8 +313,8 @@ const seg = (key, opts) => `<div class="seg" role="tablist">${opts.map(([v, l]) 
 const pageHead = (title, right = '') => `<header class="phead"><button class="icon-btn" data-act="back" aria-label="Back">${ic('left')}</button><h1>${title}</h1>${right}</header>`;
 
 function navBar(cur) {
-  const tabs = [['home', 'Campaigns'], ['completed', 'Completed'], ['rating', 'Rating'], ['news', 'News'], ['profile', 'Profile']];
-  return `<nav class="nav fixed-col">${tabs.map(([k, l]) => `<a href="#/${k}" data-go="#/${k}" class="${cur === k ? 'on' : ''}"><svg class="i" viewBox="0 0 24 24" aria-hidden="true">${NAV_ICONS[k]}</svg>${l}</a>`).join('')}</nav>`;
+  const tabs = [['home', 'Campaigns'], ['completed', 'Completed'], ['donations', 'Donations'], ['rating', 'Rating'], ['profile', 'Profile']];
+  return `<nav class="nav fixed-col">${tabs.map(([k, l]) => k === 'donations' ? `<a href="#/donations" data-go="#/donations" class="nav-fab ${cur === k ? 'on' : ''}"><span class="fab">${ic('hands')}</span>${l}</a>` : `<a href="#/${k}" data-go="#/${k}" class="${cur === k ? 'on' : ''}"><svg class="i" viewBox="0 0 24 24" aria-hidden="true">${NAV_ICONS[k]}</svg>${l}</a>`).join('')}</nav>`;
 }
 
 /* ---------- tab views ---------- */
@@ -318,7 +346,7 @@ const HADITH = [
 const todayHadith = () => HADITH[Math.floor(Date.now() / 864e5) % HADITH.length];
 const hadithBlock = () => { const [q, src] = todayHadith(); return `<section class="home-sec">${secTitle('Aaj ki khaas baat', 'आज की खास बात')}
   <div class="hadith">${ic('quote')}<p class="hq">“${q}”</p><p class="hs">— ${src}</p><a class="btn hadith-share" href="https://wa.me/?text=${encodeURIComponent(`“${q}” — ${src}\nShared from ${APP}`)}" target="_blank" rel="noopener">${ic('share')} Share</a></div></section>`; };
-const MEMBERS = [['Ayesha Khan', 'Oasis'], ['Rizwan Ahmed', 'Lantern'], ['Fatima Noor', 'Oasis'], ['Imran Shaikh', 'Crescent'], ['Zahra Ali', 'Lantern'], ['Bilal Qureshi', 'Seedling'], ['Mariam Siddiqui', 'Crescent']];
+const MEMBERS = [['Ayesha Khan', 'Diamond'], ['Rizwan Ahmed', 'Gold'], ['Fatima Noor', 'Platinum'], ['Imran Shaikh', 'Silver'], ['Zahra Ali', 'Royal Crown'], ['Bilal Qureshi', 'Starter'], ['Mariam Siddiqui', 'Supporter']];
 const membersBlock = () => `<section class="home-sec">${secTitle('Active members', '', `<button class="text-link small" data-go="#/rating">Leaderboard ${ic('right')}</button>`)}
   <div class="members">${MEMBERS.map(([n, l], i) => `<div class="member"><span class="mav">${avatar(n)}${i % 3 !== 2 ? '<i></i>' : ''}</span><b>${esc(n.split(' ')[0])}</b><span>${l}</span></div>`).join('')}</div></section>`;
 
@@ -326,9 +354,9 @@ V.home = () => {
   const cats = [['all', 'All', 'heart'], ...Object.entries(CATS).map(([k, c]) => [k, c.label, c.icon])];
   let list = S.ui.home === 'fav' ? CAMPAIGNS.filter(c => S.saved.has(c.id)) : active().filter(c => S.ui.cat === 'all' || c.cat === S.ui.cat).sort((a, b) => !!b.featured - !!a.featured);
   const cards = list.map(campaignCard);
-  if (S.ui.home === 'all' && S.ui.cat === 'all') { cards.splice(1, 0, duaBlock()); cards.splice(3, 0, hadithBlock()); cards.splice(5, 0, membersBlock()); }
+  if (S.ui.home === 'all' && S.ui.cat === 'all') { cards.splice(1, 0, duaBlock()); cards.splice(3, 0, hadithBlock()); cards.splice(5, 0, membersBlock()); cards.splice(6, 0, creatorNudge()); }
   return { nav: 'home', html: header(seg('home', [['all', 'All campaigns'], ['fav', 'My favorites']])) +
-    (S.ui.home === 'all' && S.ui.cat === 'all' ? servicesBlock() : '') +
+    (S.ui.home === 'all' && S.ui.cat === 'all' ? `<div class="home-top">${tierStrip()}</div>` + servicesBlock() : '') +
     (S.ui.home === 'all' ? `<div class="chips">${cats.map(([k, l, i]) => `<button class="chip ${S.ui.cat === k ? 'on' : ''}" data-act="ui" data-k="cat" data-v="${k}">${ic(i)}${l}</button>`).join('')}</div>` : '') +
     `<div class="feed">${cards.join('') || `<div class="empty">${ic('bookmark')}<p>Tap the bookmark on any campaign to keep it here.</p><button class="btn btn-soft" data-act="ui" data-k="home" data-v="all">Browse campaigns</button></div>`}</div>` };
 };
@@ -420,6 +448,7 @@ V.profile = () => {
   return { nav: 'profile', html: `<div class="wrap" style="padding-top:16px">
     <section class="section" style="border-radius:0 0 26px 26px;margin:-16px -10px 0;padding-top:22px">
       <div class="prof">${avatar(S.user.name)}<div style="flex:1;min-width:0"><h1>${S.user.name}</h1><button class="muted" data-go="#/settings" style="display:flex;align-items:center;gap:2px;font-size:15px">Profile settings ${ic('right')}</button></div><button class="icon-btn" data-go="#/settings" aria-label="Edit profile">${ic('pencil')}</button></div>
+      <div style="margin-top:12px">${tierStrip()}</div>
       <div class="tiles">
         <div class="tile"><b style="font-size:15px">Seedling League <svg viewBox="0 0 120 138" style="width:20px;height:23px">${archBadge(LEAGUES[0], 9, false, true).replace(/^<svg[^>]*>|<\/svg>$/g, '')}</svg></b><span>${S.points ? S.points + ' pts this season' : 'Season open'}</span></div>
         <div class="tile"><b class="num">${Math.max(11, 15840 - S.points * 9).toLocaleString('en-IN')} <span style="color:var(--violet)">${ic('trophy')}</span></b><span>Top leaders</span></div>
@@ -428,7 +457,7 @@ V.profile = () => {
       </div>
     </section>
     <div class="money-tiles">
-      <button class="money-tile" data-go="#/history"><span>My donations ${ic('right')}</span><b class="num">${inr(S.donated)}</b></button>
+      <button class="money-tile" data-go="#/history"><span>My donations ${ic('right')}</span><b class="num">${inr(totalGiven())}</b></button>
       <button class="money-tile" data-go="#/my"><span>Raised by my fundraisers ${ic('right')}</span><b class="num">${inr(myRaised())}</b></button>
     </div>
     <section class="section">
@@ -448,13 +477,13 @@ V.profile = () => {
     </section>
     ${menu([['receipt', 'Donation history', '#/history'], ['globe', 'Language and region', 'region', 'English · ₹ INR'], ['calendar', 'Monthly giving', 'monthly'], ['card', 'Payment methods', 'payments']])}
     ${menu([['bookmark', 'Favorites', 'favs'], ['wallet', 'Fundraiser dashboard & withdrawals', '#/my'], ['shield', 'KYC & bank account', '#/kyc', 'Verified'], ['link', 'Your personal link', 'mylink']])}
-    ${menu([['hands', 'Verified NGOs', '#/ngos', String(Object.values(ORGS).filter(o => o.ngo).length)], ['bell', 'Notifications & email', '#/settings']])}
+    ${menu([['megaphone', 'Affiliate & Creator', '#/creator', S.creator ? S.creator.code : 'Earn halal'], ['hands', 'Verified NGOs', '#/ngos', String(Object.values(ORGS).filter(o => o.ngo).length)], ['bell', 'Notifications & email', '#/settings']])}
     ${menu([['hands', 'About us', '#/info/about'], ['help', 'How it works', '#/info/how'], ['info', 'FAQs', '#/info/faq']])}
     <section class="section">
       <div class="thanks"><div style="flex:1"><h3>Thank you for being with us</h3><p>Write to us if you have a question, feedback, an idea, or something isn’t working.</p><a href="#/info/contact" data-go="#/info/contact">Write to us</a></div><div class="logo" style="flex-direction:column;font-size:20px;gap:2px">${LOGO.replace('viewBox', 'style="width:54px;height:54px" viewBox')}${APP}</div></div>
       <div class="menu" style="padding:4px 0 0">${[['headset', 'Support', '#/info/contact'], ['file', 'Terms & Conditions', '#/info/terms'], ['shield', 'Privacy Policy', '#/info/privacy'], ['receipt', 'Refund Policy', '#/info/refund']].map(([i, l, h]) => `<button data-go="${h}">${ic(i)}<span>${l}</span>${ic('right', 'chev')}</button>`).join('')}<button data-act="logout" style="color:var(--danger)">${ic('logout')}<span>Log out</span></button></div>
     </section>
-    <p class="center small muted">MuslimPro Giving · demo build 0.2</p>
+    <p class="center small muted">Muslim Life Pro · demo build 0.2</p>
   </div>` };
 };
 
@@ -481,7 +510,7 @@ V.c = (id, sub) => {
     </div>
     <div style="background:var(--card);padding:6px 16px 18px;display:grid;gap:12px">
       <div class="box"><h3>${ic('user')} Beneficiary details</h3><dl class="kv">${Object.entries(c.ben).map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl></div>
-      ${c.docs.length ? `<div class="box"><h3>${ic('shield')} Verified documents</h3>${c.docs.map(d => `<div class="doc-row">${ic('file')}<span>${d}</span><span class="ok">${ic('check')}Checked</span></div>`).join('')}<p class="small muted" style="margin-top:8px">Reviewed by the MuslimPro team. Funds are released only against bills.</p></div>` : ''}
+      ${c.docs.length ? `<div class="box"><h3>${ic('shield')} Verified documents</h3>${c.docs.map(d => `<div class="doc-row">${ic('file')}<span>${d}</span><span class="ok">${ic('check')}Checked</span></div>`).join('')}<p class="small muted" style="margin-top:8px">Reviewed by the Muslim Life Pro team. Funds are released only against bills.</p></div>` : ''}
       ${c.util ? `<div class="box"><h3>${ic('receipt')} Utilisation report</h3>${c.util.map(([l, v]) => `<div class="util-row"><div><span>${l}</span><b class="num">${v}%</b></div><div class="bar"><i style="width:${v}%"></i></div></div>`).join('')}</div>` : ''}
       <div class="seg" style="margin-top:4px">${[['story', 'Story'], ['updates', `Updates (${c.updates.length})`], ['donors', 'Donors']].map(([v, l]) => `<button class="${tab === v ? 'on' : ''}" data-act="ui" data-k="dTab" data-v="${v}">${l}</button>`).join('')}</div>
       <div>${tabBody}</div>
@@ -497,7 +526,7 @@ V.c = (id, sub) => {
   return { html, cta, bare: false };
 };
 
-const shareText = c => `Please support "${c.title}" on MuslimPro. Every share helps: ${SITE}/c/${c.id}`;
+const shareText = c => `Please support "${c.title}" on Muslim Life Pro. Every share helps: ${SITE}/c/${c.id}`;
 const waLink = c => 'https://wa.me/?text=' + encodeURIComponent(shareText(c));
 
 const AMOUNTS = [500, 1000, 2500, 5000, 10000];
@@ -526,7 +555,7 @@ V.donate = id => {
       <div class="switch-row" style="margin-top:12px"><div class="txt"><b>Donate anonymously</b><span>Your name won’t appear in the donor list</span></div><button class="switch ${d.anon ? 'on' : ''}" data-act="dtoggle" data-k="anon" role="switch" aria-checked="${d.anon}" aria-label="Donate anonymously"></button></div>
     </section>
     <section class="section">
-      <div class="sec-head"><h2>Support MuslimPro</h2><span class="small muted">optional</span></div>
+      <div class="sec-head"><h2>Support Muslim Life Pro</h2><span class="small muted">optional</span></div>
       <p class="small muted" style="margin-bottom:10px">We charge NGOs 0% platform fee. A small tip keeps the app running.</p>
       <div class="amounts" style="grid-template-columns:repeat(4,1fr)">${TIPS.map(t => `<button class="${d.tip === t ? 'on' : ''}" data-act="dset" data-k="tip" data-v="${t}">${t}%</button>`).join('')}</div>
     </section>
@@ -539,7 +568,7 @@ V.donate = id => {
   return { html, cta: `<button class="btn btn-main btn-block" id="paybtn" data-act="pay">${payLabel()}</button>` };
 };
 const impactLine = c => { const n = Math.floor(dAmount() / c.unit[0]); return n >= 1 ? `${ic('heart')} ${inr(dAmount())} covers ${n.toLocaleString('en-IN')} ${c.unit[1]}${n > 1 && !c.unit[1].includes(' of ') && !c.unit[1].includes(' for ') ? 's' : ''}` : `${ic('heart')} Every rupee counts. ${inr(c.unit[0])} covers one ${c.unit[1]}.`; };
-const summary = () => `<div><span>Donation (${S.donate.type})</span><b class="num">${inr(dAmount())}</b></div><div><span>Tip to MuslimPro</span><b class="num">${inr(dTip())}</b></div><div class="total"><span>Total</span><span class="num">${inr(dAmount() + dTip())}</span></div>`;
+const summary = () => `<div><span>Donation (${S.donate.type})</span><b class="num">${inr(dAmount())}</b></div><div><span>Tip to Muslim Life Pro</span><b class="num">${inr(dTip())}</b></div><div class="total"><span>Total</span><span class="num">${inr(dAmount() + dTip())}</span></div>`;
 const payLabel = () => dAmount() >= 10 ? `Pay ${inr(dAmount() + dTip())}` : 'Enter at least ₹10';
 
 V.success = () => {
@@ -551,6 +580,7 @@ V.success = () => {
       <section class="section"><div class="sec-head"><h2>Receipt</h2><span class="status st-live">Paid</span></div>
         <dl class="kv"><dt>Transaction ID</dt><dd class="num">${d.txn}</dd><dt>Date</dt><dd>${d.date}</dd><dt>Paid via</dt><dd>${PAYS.find(p => p[0] === d.pay)[1]}</dd><dt>Donation</dt><dd class="num">${inr(d.amount)}</dd><dt>Tip</dt><dd class="num">${inr(d.tip)}</dd><dt>Total</dt><dd class="num">${inr(d.amount + d.tip)}</dd></dl>
         <p class="small muted" style="margin-top:12px">80G receipt sent to ${S.user.email}</p></section>
+      ${creatorNudge()}
     </div>`;
   return { html, bare: true, cta: `<a class="btn btn-wa grow" href="${waLink(c)}" target="_blank" rel="noopener">${ic('share')} Share & inspire</a><button class="btn btn-soft grow" data-go="#/home">Done</button>` };
 };
@@ -714,20 +744,55 @@ V.settings = () => {
 V.ngos = () => ({ html: pageHead('Verified NGOs') + `<div class="wrap"><section class="section">${Object.entries(ORGS).filter(([, o]) => o.ngo).map(([k, o]) => { const cs = CAMPAIGNS.filter(c => c.org === k); return `<div class="person"><div class="org-av" style="color:${o.color};border:1px solid var(--line);box-shadow:none">${o.short}</div><div class="who"><b>${esc(o.name)}</b><span>12A · 80G · ${cs.length} campaigns · ${inr(cs.reduce((a, c) => a + c.raised, 0))} raised</span></div><span class="verified">${ic('verified')}</span></div>`; }).join('')}</section>
   <p class="small muted" style="padding:0 4px">Every NGO submits registration, 12A/80G certificates and audited accounts before listing.</p></div>` });
 
+V.donations = () => {
+  const t = totalGiven(), tr = tierOf(t), n = confirmed().length;
+  const challenges = [['flame', '60-Day Sadaqah Challenge', 1000, 'in the last 60 days'], ['crown', '2-Year Royal Pledge', 200000, 'in the last 2 years']];
+  return { nav: 'donations', html: `<header class="top"><div class="top-row"><h1 class="page-title">Donations</h1><span class="spacer"></span><button class="icon-btn" data-go="#/history" aria-label="Receipts">${ic('receipt')}</button></div></header>
+  <div class="wrap">
+    <section class="section tier-card">
+      <div class="tc-row"><div><span class="eyebrow">Total confirmed</span><b class="tc-amt num">${inr(t)}</b><span class="muted small">${n} successful donation${n === 1 ? '' : 's'}</span></div><div class="tc-badge">${tierBadge(tr.i, 58)}<span>${tr.name}</span></div></div>
+      <div class="bar"><i style="width:${tierProgress(t)}%"></i></div>
+      <div class="tc-foot"><span>${tr.name}</span><span>${tr.next ? `${inr(tr.next[1] - t)} to reach ${tr.next[0]}` : 'Highest badge'}</span></div>
+      <button class="btn btn-main btn-block" data-go="#/home">${ic('heart')} Donate now</button>
+    </section>
+    <div class="tier-ladder">${TIERS.map(([nm, min], i) => `<div class="${i <= tr.i ? 'got' : ''}">${tierBadge(i, 30)}<b>${nm}</b><span class="num">${min ? inr(min) : 'Start'}</span></div>`).join('')}</div>
+    ${secTitle('Campaign achievements', 'समय-आधारित')}
+    <p class="small muted" style="margin:-6px 4px 0">Separate from your permanent badge. Your badge is never removed when a campaign ends.</p>
+    ${challenges.map(([i, l, goal, when]) => { const v = Math.min(100, Math.round(t / goal * 100)); return `<section class="section chal"><div class="chal-row"><span class="chal-ic">${ic(i)}</span><div><b>${l}</b><span class="small muted num">${inr(t)} of ${inr(goal)} ${when}</span></div><b class="num chal-pct">${v}%</b></div><div class="bar"><i style="width:${v}%"></i></div></section>`; }).join('')}
+    ${secTitle('Donation history', 'दान इतिहास', `<button class="text-link small" data-go="#/history">All receipts ${ic('right')}</button>`)}
+    <section class="section" style="padding-block:4px">${allDonations().map(d => { const c = camp(d.cid), ok = d.status === 'success'; return `<div class="dh-row"><span class="dh-ic ${ok ? '' : 'bad'}">${ic(ok ? 'check' : 'xcircle')}</span><div class="dh-body"><b><span class="num">${inr(d.amount)}</span> · ${esc(c.title)}</b><span class="small muted">${d.date} · ${PAYS.find(p => p[0] === d.pay)[1]} · ${d.txn}</span></div>${ok ? '<span class="status st-live">Success</span>' : `<button class="status st-fail" data-go="#/donate/${c.id}">Retry</button>`}</div>`; }).join('')}</section>
+    ${creatorNudge()}
+  </div>` };
+};
+
+V.creator = () => {
+  const cr = S.creator;
+  const does = ['Unique promo code for every creator', 'Earn from membership plans', 'Track social media and offline promotion', 'Automatic commission and reward calculation', 'Dashboard, reports, payments and invoices', 'Admin keeps full control'];
+  const steps = [['userplus', 'Register', 'Create your creator account'], ['code', 'Get your code', 'A unique promo code is generated'], ['megaphone', 'Promote', 'YouTube, Facebook, Instagram or offline'], ['users', 'Members join', 'They buy a plan with your code'], ['rupee', 'Earn', 'Commission is credited automatically']];
+  return { html: `<header class="phead"><button class="icon-btn" data-act="back" aria-label="Back">${ic('left')}</button><div style="flex:1;min-width:0"><h1>Affiliate & Creator</h1><span class="small muted">Aapki mehnat · hamari tarakki · sabka saath</span></div></header>
+  <div class="wrap">
+    <section class="creator-hero"><div class="pattern"></div>${ic('megaphone')}<h2>Share good, earn halal</h2><p>“Aap prachar karein, log jodein, hum aapki mehnat ka samman karein.”</p></section>
+    ${cr ? `<section class="section"><div class="sec-head"><h2>Your creator code</h2><span class="status st-live">Active</span></div>
+      <div class="code-box"><b class="num">${cr.code}</b><button class="btn btn-soft" data-act="copy" data-v="${SITE}/join?ref=${cr.code}">${ic('link')} Copy link</button></div>
+      <div class="stats3"><div><b class="num">0</b><span>clicks</span></div><div><b class="num">0</b><span>members joined</span></div><div><b class="num">₹0</b><span>earned</span></div></div></section>` : ''}
+    <section class="section">${secTitle('What this does')}${does.map(d => `<div class="does">${ic('check')}<span>${d}</span></div>`).join('')}</section>
+    <section class="section">${secTitle('How it works', 'कैसे काम करता है')}${steps.map(([i, t, d], k) => `<div class="how"><span class="how-ic">${ic(i)}</span><div><b>${k + 1}. ${t}</b><span class="small muted">${d}</span></div></div>`).join('')}</section>
+  </div>`, cta: cr ? `<a class="btn btn-wa btn-block" href="https://wa.me/?text=${encodeURIComponent(`Join ${APP} with my code ${cr.code}: ${SITE}/join?ref=${cr.code}`)}" target="_blank" rel="noopener">${ic('share')} Share my code</a>` : `<button class="btn btn-main btn-block" data-act="joinCreator">${ic('star')} Join as creator</button>` };
+};
+
 V.history = () => {
-  const base = [{ cid: 2, amount: 1000, type: 'Sadaqah', date: '2 Mar 2026', txn: 'BRK73810294' }, { cid: 7, amount: 2500, type: 'Sadaqah', date: '14 Dec 2025', txn: 'BRK61200877' }, { cid: 8, amount: 5000, type: 'Zakat', date: '28 Mar 2025', txn: 'BRK40021933' }];
-  const all = [...S.donations, ...base];
+  const all = allDonations();
   return { html: pageHead('Donation history') + `<div class="wrap">
-    <section class="section" style="display:flex;justify-content:space-between"><div><span class="small muted">This year</span><b class="num" style="display:block;font-size:24px;color:var(--brand)">${inr(S.donated + 1000)}</b></div><div style="text-align:right"><span class="small muted">Zakat given</span><b class="num" style="display:block;font-size:24px">${inr(S.donations.filter(d => d.type === 'Zakat').reduce((a, d) => a + d.amount, 0))}</b></div></section>
-    <section class="section">${all.map((d, i) => { const c = camp(d.cid); return `<div class="result">${thumb(c)}<div class="info"><b>${esc(c.title)}</b><span class="small muted">${d.date} · ${d.type}</span></div><div style="text-align:right"><b class="num">${inr(d.amount)}</b><button class="text-link small" style="display:block" data-act="receipt" data-i="${i}">Receipt</button></div></div>`; }).join('')}</section>
+    <section class="section" style="display:flex;justify-content:space-between"><div><span class="small muted">This year</span><b class="num" style="display:block;font-size:24px;color:var(--brand)">${inr(totalGiven())}</b></div><div style="text-align:right"><span class="small muted">Zakat given</span><b class="num" style="display:block;font-size:24px">${inr(S.donations.filter(d => d.type === 'Zakat').reduce((a, d) => a + d.amount, 0))}</b></div></section>
+    <section class="section">${all.map((d, i) => { const c = camp(d.cid); return `<div class="result">${thumb(c)}<div class="info"><b>${esc(c.title)}</b><span class="small muted">${d.date} · ${d.type}</span> ${d.status === 'failed' ? '<span class="status st-fail">Failed</span>' : ''}</div><div style="text-align:right"><b class="num">${inr(d.amount)}</b><button class="text-link small" style="display:block" data-act="receipt" data-i="${i}">Receipt</button></div></div>`; }).join('')}</section>
   </div>`, data: all };
 };
 
 const INFO = {
-  about: ['About us', `<p>MuslimPro Giving connects people who want to give with verified NGOs and families who need help. Every fundraiser is checked by our team, and funds are released against bills.</p><p>We charge 0% platform fee to NGOs. Optional tips from donors keep the service running.</p>`],
+  about: ['About us', `<p>Muslim Life Pro connects people who want to give with verified NGOs and families who need help. Every fundraiser is checked by our team, and funds are released against bills.</p><p>We charge 0% platform fee to NGOs. Optional tips from donors keep the service running.</p>`],
   how: ['How it works', `<div class="timeline">${[['Start a fundraiser', 'Add the story, target, beneficiary details, photos and documents.'], ['We verify', 'Our team reviews documents and KYC within 48 hours.'], ['Share and raise', 'Share your link on WhatsApp and social media. Donors pay by UPI, card or net banking.'], ['Withdraw against bills', 'Request a withdrawal to a verified bank account. Track it until it is paid.']].map(([t, s], i) => `<div class="tl"><div class="rail"><i></i>${i < 3 ? '<b></b>' : ''}</div><div class="tl-body"><b>${t}</b><p>${s}</p></div></div>`).join('')}</div>`],
   faq: ['FAQs', [['Is my donation tax deductible?', 'Donations to NGOs with 80G registration get an 80G receipt by email right after payment.'], ['Can I give Zakat?', 'Yes. Campaigns marked “Zakat eligible” keep Zakat funds separate and use them only for eligible beneficiaries.'], ['How do I know a campaign is genuine?', 'Every campaign is reviewed with documents and KYC before it goes live. Look for the verified tick.'], ['When can organisers withdraw money?', 'After KYC and bank verification. Each withdrawal needs a bill or invoice and is approved by our team.'], ['Can I get a refund?', 'Refunds are possible within 7 days for duplicate or failed payments. See the Refund Policy.']].map(([q, a]) => `<details class="faq"><summary>${q}${ic('down')}</summary><p>${a}</p></details>`).join('')],
-  contact: ['Contact us', `<p>We usually reply within one working day.</p><p><b>Email</b><br><span style="user-select:all">support@give.muslimpro.demo</span></p><p><b>Phone (10 am – 6 pm IST)</b><br><span style="user-select:all">+91 80 4000 1234</span></p>
+  contact: ['Contact us', `<p>We usually reply within one working day.</p><p><b>Email</b><br><span style="user-select:all">support@muslimlifepro.demo</span></p><p><b>Phone (10 am – 6 pm IST)</b><br><span style="user-select:all">+91 80 4000 1234</span></p>
     <form data-form="contact" style="display:grid;gap:10px;margin-top:14px"><input class="input" id="c-name" required placeholder="Your name"><input class="input" id="c-email" type="email" required placeholder="Email"><textarea class="textarea" id="c-msg" required placeholder="How can we help?"></textarea><button class="btn btn-main">Send message</button></form>`],
   terms: ['Terms & Conditions', '<p>The approved Terms & Conditions will be shown here. This page is ready for the final legal text.</p>'],
   privacy: ['Privacy Policy', '<p>The approved Privacy Policy will be shown here, including how donor and beneficiary data is stored and used.</p>'],
@@ -735,8 +800,7 @@ const INFO = {
 };
 V.info = slug => { const [t, body] = INFO[slug] || INFO.about; return { html: pageHead(t) + `<div class="wrap"><section class="section prose">${body}</section></div>` }; };
 
-// Outlined wordmark used on the splash and onboarding headers (white outline around a green fill, like the reference)
-const WORDMARK = `<svg class="wordmark" viewBox="0 0 440 110" role="img" aria-label="${APP}"><path d="M52 14a40 40 0 1 0 40 52 32 32 0 1 1-40-52Z" fill="none" stroke="#fff" stroke-width="9" stroke-linejoin="round"/><path d="M78 20l3.5 7.5 8 1-6 5.5 1.6 8-7.1-4-7.1 4 1.6-8-6-5.5 8-1Z" fill="#fff"/><text x="272" y="76" text-anchor="middle" textLength="312" lengthAdjust="spacingAndGlyphs" font-family="Manrope, system-ui, sans-serif" font-weight="800" font-size="70" fill="#1fc95c" stroke="#fff" stroke-width="12" stroke-linejoin="round" paint-order="stroke">${APP}</text></svg>`;
+const WORDMARK = `<div class="brand-lockup">${emblem()}<b>${APP}</b><span>Together for a Better Muslim</span></div>`;
 const onbHero = cls => `<div class="onb-hero ${cls || ''}"><div class="pattern"></div><svg class="onb-moon" viewBox="0 0 24 24" aria-hidden="true">${P.moon}</svg>${WORDMARK}</div>`;
 
 V.splash = () => {
@@ -921,6 +985,11 @@ const A = {
   mylink: () => sheet(`<h2>Your personal link</h2><p class="muted small">Share it anywhere. Donations made through it count toward your Inspirer rank.</p><p style="margin-top:12px;font-weight:700;user-select:all">${SITE}/u/ayesha-khan</p><button class="btn btn-main btn-block" style="margin-top:14px" data-act="copy" data-v="${SITE}/u/ayesha-khan">${ic('link')} Copy link</button>`),
   logout: () => { S.login = { stage: 'details', role: 'donor', name: '', email: '', phone: '', err: {} }; replaceRoute('#/intro'); },
   splashNext: () => replaceRoute('#/intro'),
+  joinCreator: () => sheet(`<h2>Join as creator</h2><p class="muted small">Tell us where you share. We review new creators within a day.</p>
+    <form data-form="creator" style="display:grid;gap:10px;margin-top:12px">
+      <div class="field"><label for="cr-handle">Main channel or profile link</label><input class="input" id="cr-handle" name="handle" required placeholder="youtube.com/@yourchannel"></div>
+      <div class="field"><label for="cr-size">Audience size</label><select class="select" id="cr-size" name="size"><option>Under 1,000</option><option>1,000 – 10,000</option><option>10,000 – 1 lakh</option><option>Over 1 lakh</option></select></div>
+      <button class="btn btn-main">Create my code</button></form>`),
   quickGive: el => { S.donate = { cid: 9, amount: 1000, custom: el.dataset.v, other: true, type: 'Sadaqah', anon: false, tip: 0, pay: 'upi' }; go('#/donate/9'); },
   svcZakat: () => { S.ui.zakatOnly = true; S.ui.cat = 'all'; go('#/search'); },
   svcJariyah: () => { S.ui.cat = 'water'; S.ui.home = 'all'; rerender(); document.querySelector('.chips')?.scrollIntoView({ block: 'start' }); },
@@ -1012,6 +1081,9 @@ document.addEventListener('submit', e => {
   } else if (kind === 'profile') {
     S.user.name = f.name.value.trim() || S.user.name; S.user.first = S.user.name.split(' ')[0]; S.user.email = f.email.value.trim() || S.user.email;
     toast('Profile saved'); history.back();
+  } else if (kind === 'creator') {
+    S.creator = { code: 'MLP-' + S.user.first.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 6) + '25', handle: f.handle.value.trim() };
+    f.closest('.scrim').remove(); toast('Your creator code is ready'); rerender();
   } else if (kind === 'contact') { f.reset(); toast('Message sent. We’ll reply by email.'); }
   else if (kind === 'update') {
     const c = camp(6); c.updates.unshift(['Just now', f.querySelector('textarea').value.trim()]);
