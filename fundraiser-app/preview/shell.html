@@ -268,6 +268,8 @@ document.addEventListener('click', e => {
   const m = e.target.closest('[data-mode]');
   if (m) setMode(m.dataset.mode);
 });
+// a link ending in #admin opens straight into the admin panel (handy for sharing with clients)
+if (location.hash === '#admin') setTimeout(() => setMode('admin'));
 function setMode(m) {
   $('#mode-app').hidden = m !== 'app'; $('#mode-admin').hidden = m !== 'admin';
   document.querySelectorAll('[data-mode]').forEach(b => b.classList.toggle('on', b.dataset.mode === m));
