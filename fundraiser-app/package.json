@@ -1,0 +1,18 @@
+{
+  "name": "barakah-fundraiser-demo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Android app UI demo for a donation / fundraising platform (Capacitor wrapper around www/)",
+  "scripts": {
+    "android:add": "cap add android",
+    "android:sync": "cap sync android",
+    "android:open": "cap open android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/core": "^8.5.3"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.5.3"
+  }
+}

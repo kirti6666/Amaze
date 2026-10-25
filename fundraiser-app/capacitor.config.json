@@ -1,0 +1,8 @@
+{
+  "appId": "app.barakah.demo",
+  "appName": "Barakah",
+  "webDir": "www",
+  "plugins": {
+    "SystemBars": { "insetsHandling": "css", "initialViewportFitValueHint": "cover" }
+  }
+}
