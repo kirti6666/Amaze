@@ -71,23 +71,25 @@ const P = {
   userplus: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/>',
   code: '<path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/>',
   xcircle: '<circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>',
+  palette: '<circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.55-2.5 5.55-5.55C21.97 6.01 17.46 2 12 2z"/>',
   hands: '<path d="M11 14h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 16"/><path d="m7 20 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"/><path d="m2 15 6 6"/><path d="M19.5 8.5c.7-.7 1.5-1.6 1.5-2.7A2.73 2.73 0 0 0 16 4a2.78 2.78 0 0 0-5 1.8c0 1.2.8 2 1.5 2.8L16 12Z"/>',
 };
 const ic = (n, cls = '') => `<svg class="i ${cls}" viewBox="0 0 24 24" aria-hidden="true">${P[n]}</svg>`;
 
 /* Solid tab-bar glyphs, drawn to match the filled style of the reference app */
 const NAV_ICONS = {
-  home: '<path d="M5 3h14a1.5 1.5 0 0 1 0 3H5a1.5 1.5 0 0 1 0-3Z"/><path d="M3.5 8h17v10.5A3.5 3.5 0 0 1 17 22H7a3.5 3.5 0 0 1-3.5-3.5Z"/><path fill="#fff" d="M12 19.2l-3.3-3.1a2.1 2.1 0 0 1 3-3l.3.3.3-.3a2.1 2.1 0 0 1 3 3Z"/>',
-  completed: '<path d="M6 2.5h12A3.5 3.5 0 0 1 21.5 6v12a3.5 3.5 0 0 1-3.5 3.5H6A3.5 3.5 0 0 1 2.5 18V6A3.5 3.5 0 0 1 6 2.5Z"/><path d="M8 13l3 3 5-6" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>',
+  home: '<path d="M5 3h14a1.5 1.5 0 0 1 0 3H5a1.5 1.5 0 0 1 0-3Z"/><path d="M3.5 8h17v10.5A3.5 3.5 0 0 1 17 22H7a3.5 3.5 0 0 1-3.5-3.5Z"/><path style="fill:var(--card)" d="M12 19.2l-3.3-3.1a2.1 2.1 0 0 1 3-3l.3.3.3-.3a2.1 2.1 0 0 1 3 3Z"/>',
+  completed: '<path d="M6 2.5h12A3.5 3.5 0 0 1 21.5 6v12a3.5 3.5 0 0 1-3.5 3.5H6A3.5 3.5 0 0 1 2.5 18V6A3.5 3.5 0 0 1 6 2.5Z"/><path d="M8 13l3 3 5-6" fill="none" style="stroke:var(--card)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>',
   rating: '<path d="M6 2h12v7a6 6 0 0 1-12 0Z"/><path d="M6 4H3.5a1 1 0 0 0-1 1.2C3 8.5 4.6 10 6.5 10.4M18 4h2.5a1 1 0 0 1 1 1.2c-.5 3.3-2.1 4.8-4 5.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10.5 14.5h3v3.5h-3z"/><path d="M7 19.5h10V22H7z"/>',
   news: '<path d="M12 2.5a6.5 6.5 0 0 0-6.5 6.5v4.3L3.7 16.6a1 1 0 0 0 .9 1.4h14.8a1 1 0 0 0 .9-1.4l-1.8-3.3V9A6.5 6.5 0 0 0 12 2.5Z"/><path d="M9.2 19.5h5.6a2.8 2.8 0 0 1-5.6 0Z"/>',
-  profile: '<circle cx="10" cy="6.5" r="4"/><path d="M2.5 19.5a7.5 7.5 0 0 1 12.2-5.8A5 5 0 0 0 13 21.5H4a1.5 1.5 0 0 1-1.5-2Z"/><circle cx="18.5" cy="17.5" r="4.5"/><path fill="#fff" d="M18.5 20.2l-2-1.9a1.2 1.2 0 0 1 1.7-1.8l.3.3.3-.3a1.2 1.2 0 0 1 1.7 1.8Z"/>',
+  profile: '<circle cx="10" cy="6.5" r="4"/><path d="M2.5 19.5a7.5 7.5 0 0 1 12.2-5.8A5 5 0 0 0 13 21.5H4a1.5 1.5 0 0 1-1.5-2Z"/><circle cx="18.5" cy="17.5" r="4.5"/><path style="fill:var(--card)" d="M18.5 20.2l-2-1.9a1.2 1.2 0 0 1 1.7-1.8l.3.3.3-.3a1.2 1.2 0 0 1 1.7 1.8Z"/>',
 };
 
 // app emblem: dome with crescent finial, two minarets, open Quran as the base
 const emblem = (cls = '') => `<svg class="emblem ${cls}" viewBox="0 0 64 64" aria-hidden="true"><path fill="#e9b52c" d="M33.6 2.2a4.2 4.2 0 1 0 2.6 6.9 3.4 3.4 0 1 1-2.6-6.9Z"/><g fill="currentColor"><path d="M31 9.5h2v3.2h-2z"/><path d="M17.5 33.5c0-9.6 6.6-15.6 14.5-20.5 7.9 4.9 14.5 10.9 14.5 20.5Z"/><rect x="15.5" y="33.5" width="33" height="3.2" rx="1"/><path d="M18.5 37.5h27v10h-9.5v-4.2a4 4 0 0 0-8 0v4.2h-9.5Z"/><path d="M7.5 47.5V24.5l3-6.5 3 6.5v23Z"/><path d="M50.5 47.5V24.5l3-6.5 3 6.5v23Z"/><path d="M4 50.2c9.3-2.6 19-2 28 2.6 9-4.6 18.7-5.2 28-2.6v6.6c-9.3-2.6-19-2-28 2.6-9-4.6-18.7-5.2-28-2.6Z"/></g></svg>`;
 const LOGO = emblem();
-const HEART_BG = `<svg class="bg" viewBox="0 0 54 50" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5fe0a0"/><stop offset="1" stop-color="#0a9b3c"/></linearGradient></defs><path fill="url(#hg)" d="M27 48 6.5 28.2A13.2 13.2 0 0 1 27 11.4a13.2 13.2 0 0 1 20.5 16.8Z"/></svg>`;
+const HEART_BG = `<svg class="bg" viewBox="0 0 54 50" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--brand-2)"/><stop offset="1" style="stop-color:var(--brand)"/></linearGradient></defs><path fill="url(#hg)" d="M27 48 6.5 28.2A13.2 13.2 0 0 1 27 11.4a13.2 13.2 0 0 1 20.5 16.8Z"/></svg>`;
 
 /* ---------- sample data ---------- */
 // sample photos; swap for the NGO's own images per campaign
@@ -113,7 +115,7 @@ const ORGS = {
 
 const CAMPAIGNS = [
   {
-    id: 1, photo: PHOTO.hospital, pos: '30% center', org: 'shifa', cat: 'medical', zakat: true, featured: true, city: 'Hyderabad, Telangana', days: 18,
+    id: 1, photo: PHOTO.hospital, pos: '30% center', org: 'shifa', cat: 'medical', zakat: true, city: 'Hyderabad, Telangana', days: 18,
     title: 'Help 6-year-old Ayaan beat leukaemia', caption: 'Ayaan has 4 chemo cycles left',
     goal: 800000, raised: 512400, donors: 1284,
     unit: [5000, 'day of chemotherapy'],
@@ -123,7 +125,7 @@ const CAMPAIGNS = [
     updates: [['3 days ago', 'Cycle 3 completed. Ayaan is responding well and his blood counts are improving.'], ['2 weeks ago', 'Hospital bill of ₹1,85,000 paid from the funds raised. Receipt uploaded.']],
   },
   {
-    id: 2, photo: PHOTO.family, pos: 'center', org: 'noor', cat: 'food', zakat: true, featured: true, city: 'Mumbai, Maharashtra', days: 9,
+    id: 2, photo: PHOTO.family, pos: 'center', org: 'noor', cat: 'food', zakat: true, city: 'Mumbai, Maharashtra', days: 9,
     title: 'Give an Iftar to 1,000 families this Ramadan', caption: '₹100 feeds one fasting person',
     goal: 300000, raised: 241800, donors: 2106,
     unit: [100, 'iftar meal'],
@@ -133,7 +135,7 @@ const CAMPAIGNS = [
     updates: [['Yesterday', '412 iftar boxes distributed at Govandi station road.']],
   },
   {
-    id: 3, photo: PHOTO.water, pos: 'center', org: 'ummeed', cat: 'water', zakat: false, city: 'Barmer, Rajasthan', days: 26,
+    id: 3, photo: PHOTO.water, pos: 'center', org: 'ummeed', cat: 'water', zakat: false, featured: true, city: 'Barmer, Rajasthan', days: 26,
     title: 'Clean water well for Sanawada village', caption: 'Women walk 6 km for water',
     goal: 450000, raised: 168500, donors: 640,
     unit: [1500, 'family supplied for a year'],
@@ -143,7 +145,7 @@ const CAMPAIGNS = [
     updates: [['5 hours ago', 'Drilling started. We hit water at 240 ft.']],
   },
   {
-    id: 4, photo: PHOTO.school, pos: 'center', org: 'iqra', cat: 'education', zakat: true, city: 'Malappuram, Kerala', days: 33,
+    id: 4, photo: PHOTO.school, pos: 'center', org: 'iqra', cat: 'education', zakat: true, featured: true, city: 'Malappuram, Kerala', days: 33,
     title: 'Sponsor school fees for 50 orphan girls', caption: '₹12,000 covers a full year',
     goal: 600000, raised: 133200, donors: 402,
     unit: [12000, 'year of school for one girl'],
@@ -163,7 +165,7 @@ const CAMPAIGNS = [
     updates: [['6 days ago', 'Campaign verified by the Muslim Life Pro team.']],
   },
   {
-    id: 5, photo: PHOTO.boy, pos: 'center 30%', org: 'ummeed', cat: 'emergency', zakat: true, featured: true, city: 'Dhemaji, Assam', days: 4,
+    id: 5, photo: PHOTO.boy, pos: 'center 30%', org: 'ummeed', cat: 'emergency', zakat: true, city: 'Dhemaji, Assam', days: 4,
     title: 'Rebuild 40 homes after the Assam floods', caption: 'Families are living in relief camps',
     goal: 1200000, raised: 987000, donors: 3410,
     unit: [30000, 'home rebuilt'],
@@ -224,6 +226,7 @@ const S = {
   user: { name: 'Ayesha Khan', first: 'Ayesha', email: 'ayesha.khan@mail.com' },
   saved: new Set([2]), liked: new Set(),
   points: 0, donated: 0, donations: [], streak: false, last: null,
+  theme: 'classic', userTheme: null, adminTheme: 'classic', themeLocked: false,
   ui: { home: 'all', cat: 'all', comp: 'done', rate: 'league', rateSub: 'donors', news: 'news', dTab: 'story', q: '', sort: 'urgent', zakatOnly: false },
   login: { stage: 'details', role: 'donor', name: '', email: '', phone: '', err: {} },
   donate: null,
@@ -247,6 +250,49 @@ const allDonations = () => [...S.donations.map(d => ({ ...d, status: 'success' }
 const confirmed = () => allDonations().filter(d => d.status === 'success');
 const totalGiven = () => confirmed().reduce((a, d) => a + d.amount, 0);
 const withdrawn = () => S.withdrawals.reduce((a, w) => a + w.amt, 0);
+
+
+/* ---------- themes ---------- */
+// every colour in app.css reads these tokens, so a theme is just a token set
+const BASE_TOKENS = { brand: '#0a9b3c', 'brand-2': '#3ddbbd', 'brand-3': '#1fc95c', 'brand-ink': '#087a30', 'brand-soft': '#dcf7ea', gold: '#e9b52c', 'gold-soft': '#fff5d6', 'gold-ink': '#7a4d00', ink: '#15151f', 'ink-2': '#3d3d4a', muted: '#8a8a96', line: '#ebebf0', bg: '#f1f1f5', card: '#ffffff', chip: '#e8eaf0', soft: '#f2f5f3', 'soft-line': '#c9d4cf', page: '#dcdce3', 'on-brand': '#ffffff' };
+const DARK = { 'gold-soft': '#2c2716', 'gold-ink': '#f1d58b', ink: '#f2f2f5', 'ink-2': '#cfd0d8', muted: '#8f93a3', 'on-brand': '#14110a' };
+const T = (id, name, hi, desc, icon, dark, c, banner) => ({ id, name, hi, desc, icon, dark, banner, c: { ...BASE_TOKENS, ...(dark ? DARK : {}), ...c, raised: c.brand || BASE_TOKENS.brand } });
+const THEMES = [
+  T('classic', 'Classic Green', 'हरा-भरा', 'Fresh green on clean white', 'sprout', false, {}),
+  T('ocean', 'Ocean Teal', 'समंदर', 'Calm teal and sky blue', 'droplet', false, { brand: '#0e8f9e', 'brand-2': '#5fd3e0', 'brand-3': '#149fb0', 'brand-ink': '#0b6f7a', 'brand-soft': '#dff4f6', bg: '#eef4f6', chip: '#e2eaee', soft: '#eef5f7', line: '#e3ebee', 'soft-line': '#c2d3d8', page: '#d5e1e5' }),
+  T('iznik', 'Iznik Blue', 'इज़निक', 'Tile blue with turquoise', 'globe', false, { brand: '#1f4fbf', 'brand-2': '#46c6d8', 'brand-3': '#2f6fe0', 'brand-ink': '#183f99', 'brand-soft': '#e3ebfc', bg: '#f0f3fa', chip: '#e3e8f3', soft: '#eef2fb', line: '#e4e8f2', 'soft-line': '#c3cde3', page: '#d7deee' }),
+  T('sandstone', 'Sandstone', 'रेगिस्तान', 'Warm sand and saffron', 'sun', false, { brand: '#c26a12', 'brand-2': '#f2b54a', 'brand-3': '#d9821c', 'brand-ink': '#8f4c06', 'brand-soft': '#fbeedb', bg: '#f6f1e8', card: '#fffdf9', chip: '#ece4d6', soft: '#f7f0e4', line: '#ece3d4', 'soft-line': '#d6c8b0', page: '#e3d9c7', ink: '#2a2118', 'ink-2': '#4a3f33', muted: '#8d8170' }),
+  T('gulab', 'Gulab Rose', 'गुलाब', 'Soft rose and plum', 'heart', false, { brand: '#c2306a', 'brand-2': '#f58bb1', 'brand-3': '#d9467f', 'brand-ink': '#962252', 'brand-soft': '#fbe4ee', bg: '#f8f1f4', chip: '#efe3e9', soft: '#faf0f4', line: '#efe4ea', 'soft-line': '#dbc4cf', page: '#e8d8e0' }),
+  T('eid', 'Eid Mubarak', 'ईद मुबारक', 'Royal purple with gold', 'gift', false, { brand: '#6b3fc4', 'brand-2': '#b48cf2', 'brand-3': '#7d4fe0', 'brand-ink': '#52299e', 'brand-soft': '#eee6fc', gold: '#e2a72b', bg: '#f3f0fa', chip: '#e7e1f4', soft: '#f3effb', line: '#e8e3f3', 'soft-line': '#cdc3e3', page: '#ddd5ee' },
+    { icon: 'gift', title: 'Eid Mubarak!', sub: 'Share the joy. Gift Eid clothes to an orphan today.', cta: 'Gift Eid', act: 'svcOrphans' }),
+  T('paper', 'Ink & Paper', 'सादगी', 'Minimal black and white', 'pencil', false, { brand: '#1d1d24', 'brand-2': '#55555f', 'brand-3': '#2b2b33', 'brand-ink': '#1d1d24', 'brand-soft': '#ececef', gold: '#b08a3e', bg: '#f4f4f5', chip: '#e8e8eb', soft: '#f3f3f4', line: '#e6e6e9', 'soft-line': '#c9c9cf', page: '#dadadd' }),
+  T('midnight', 'Midnight', 'आधी रात', 'Deep navy with silver', 'star', true, { brand: '#5b93ff', 'brand-2': '#8db6ff', 'brand-3': '#4a80ef', 'brand-ink': '#b3cdff', 'brand-soft': '#1c2b4a', gold: '#e9c46a', line: '#263048', bg: '#0d1322', card: '#151d31', chip: '#1e2840', soft: '#1b2439', 'soft-line': '#34405c', page: '#070b14', 'on-brand': '#ffffff' }),
+  T('royal', 'Royal Gold', 'शाही सुनहरा', 'Black & gold, timeless', 'crown', true, { brand: '#d4a72c', 'brand-2': '#f3d27a', 'brand-3': '#c9971f', 'brand-ink': '#f3d27a', 'brand-soft': '#2e2717', gold: '#e9c46a', ink: '#f4efe2', 'ink-2': '#d6cfbd', muted: '#9a927f', line: '#2a2721', bg: '#0e0d0b', card: '#1a1814', chip: '#25221c', soft: '#221f19', 'soft-line': '#3d382d', page: '#050504' }),
+  T('ramzan', 'Ramzan', 'रमज़ान मुबारक', 'Emerald nights, golden lanterns', 'moon', true, { brand: '#34c98e', 'brand-2': '#6ee7b7', 'brand-3': '#22b07a', 'brand-ink': '#8ff0c6', 'brand-soft': '#12392b', gold: '#e9c46a', ink: '#eef7f2', 'ink-2': '#c4d8ce', muted: '#86a297', line: '#1b3a2e', bg: '#061611', card: '#0c241b', chip: '#123126', soft: '#0f2c21', 'soft-line': '#2a4d3f', page: '#030c09', 'on-brand': '#04261a' },
+    { icon: 'moon', title: 'Ramzan Mubarak', sub: 'Feed a fasting person tonight. ₹100 gives one iftar.', cta: 'Give iftar', act: 'svcFood' }),
+  T('diwali', 'Diwali', 'शुभ दीपावली', 'Diyas, marigold & sparkle', 'flame', true, { brand: '#f59e0b', 'brand-2': '#fbbf24', 'brand-3': '#f08a0b', 'brand-ink': '#fcd38a', 'brand-soft': '#3a1d14', gold: '#fbbf24', 'gold-soft': '#3a2412', 'gold-ink': '#fcd38a', ink: '#fbeee6', 'ink-2': '#e3cbbf', muted: '#a98b80', line: '#3a1f1c', bg: '#1a0b0b', card: '#261111', chip: '#331816', soft: '#2e1513', 'soft-line': '#533028', page: '#0d0505', 'on-brand': '#2a1103' },
+    { icon: 'flame', title: 'Shubh Deepavali', sub: 'Light a diya of hope. Gift a family a festive meal.', cta: 'Gift a meal', act: 'svcFood' }),
+];
+const theme = () => THEMES.find(t => t.id === S.theme) || THEMES[0];
+function applyTheme(id) {
+  const t = THEMES.find(x => x.id === id) || THEMES[0];
+  S.theme = t.id;
+  const el = document.getElementById('theme-vars') || document.head.appendChild(Object.assign(document.createElement('style'), { id: 'theme-vars' }));
+  el.textContent = `:root{${Object.entries(t.c).map(([k, v]) => `--${k}:${v}`).join(';')};color-scheme:${t.dark ? 'dark' : 'light'}}`;
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', t.c.card);
+}
+// called by the admin panel: the organisation's default theme, and whether people may pick their own
+window.adminTheme = (id, allowUsers) => {
+  S.adminTheme = id; S.themeLocked = !allowUsers;
+  applyTheme(S.themeLocked || !S.userTheme ? id : S.userTheme);
+  rerender();
+};
+const themeCard = (t, on, locked) => `<button class="theme-card ${on ? 'on' : ''}" ${locked ? 'disabled' : `data-act="pickTheme" data-v="${t.id}"`} style="background:${t.c.card};border-color:${on ? t.c.brand : t.c.line};color:${t.c.ink}">
+  <span class="th-ic" style="background:${t.c['brand-soft']};color:${t.c.brand}">${t.id === 'royal' || t.id === 'classic' ? emblem() : ic(t.icon)}</span>
+  <span class="th-txt"><b>${t.name}</b><span style="color:${t.c.muted}"><span lang="hi">${t.hi}</span> · ${t.desc}</span>
+  <span class="th-dots">${[t.c.bg, t.c.card, t.c.brand, t.c.gold, t.c['brand-2']].map(x => `<i style="background:${x}"></i>`).join('')}</span></span>
+  <span class="th-radio" style="border-color:${on ? t.c.brand : t.c['soft-line']}">${on ? `<i style="background:${t.c.brand}"></i>` : ''}</span></button>`;
+const seasonCard = () => { const b = theme().banner; return b ? `<div class="season-card"><span class="season-ic">${ic(b.icon)}</span><span class="season-txt"><b>${b.title}</b><span>${b.sub}</span></span><button class="btn btn-main" data-act="${b.act}">${b.cta}</button></div>` : ''; };
 
 /* ---------- shared pieces ---------- */
 const thumb = (c, photo = c.photo) => photo ? `<div class="thumb" style="background:url('${photo}') center/cover"></div>` : `<div class="thumb plain">${ic(CATS[c.cat].icon)}</div>`;
@@ -335,7 +381,7 @@ const SERVICES = [
 ];
 const servicesBlock = () => `<section class="services">${secTitle('Our services', 'हमारी सेवाएँ')}<div class="svc-grid">${SERVICES.map(([i, l, a]) => `<button class="svc" data-act="${a}"><span class="svc-ic">${ic(i)}</span>${l}</button>`).join('')}</div></section>`;
 const duaBlock = () => `<section class="home-sec">${secTitle('Feed a madrasa child', 'बच्चों के लिए भोजन')}
-  <div class="dua"><div class="dua-head"><div><h3>Dua karein, aur karein donation</h3><p>Your dua and a small gift give a meal to children studying in our madrasas.</p></div>${ic('bowl')}</div>
+  <div class="dua"><div class="dua-photo" style="background-image:url('${PHOTO.school}')"></div><div class="dua-head"><div><h3>Dua karein, aur karein donation</h3><p>Your dua and a small gift give a meal to children studying in our madrasas.</p></div>${ic('bowl')}</div>
   <div class="dua-amts">${[10, 20, 50, 100].map(a => `<button data-act="quickGive" data-v="${a}">₹${a}</button>`).join('')}</div></div></section>`;
 const HADITH = [
   ['The best of people are those who are most beneficial to people.', 'Hadith, al-Mu‘jam al-Awsat'],
@@ -356,7 +402,7 @@ V.home = () => {
   const cards = list.map(campaignCard);
   if (S.ui.home === 'all' && S.ui.cat === 'all') { cards.splice(1, 0, duaBlock()); cards.splice(3, 0, hadithBlock()); cards.splice(5, 0, membersBlock()); cards.splice(6, 0, creatorNudge()); }
   return { nav: 'home', html: header(seg('home', [['all', 'All campaigns'], ['fav', 'My favorites']])) +
-    (S.ui.home === 'all' && S.ui.cat === 'all' ? `<div class="home-top">${tierStrip()}</div>` + servicesBlock() : '') +
+    (S.ui.home === 'all' && S.ui.cat === 'all' ? `<div class="home-top">${tierStrip()}${seasonCard()}</div>` + servicesBlock() : '') +
     (S.ui.home === 'all' ? `<div class="chips">${cats.map(([k, l, i]) => `<button class="chip ${S.ui.cat === k ? 'on' : ''}" data-act="ui" data-k="cat" data-v="${k}">${ic(i)}${l}</button>`).join('')}</div>` : '') +
     `<div class="feed">${cards.join('') || `<div class="empty">${ic('bookmark')}<p>Tap the bookmark on any campaign to keep it here.</p><button class="btn btn-soft" data-act="ui" data-k="home" data-v="all">Browse campaigns</button></div>`}</div>` };
 };
@@ -477,7 +523,7 @@ V.profile = () => {
     </section>
     ${menu([['receipt', 'Donation history', '#/history'], ['globe', 'Language and region', 'region', 'English · ₹ INR'], ['calendar', 'Monthly giving', 'monthly'], ['card', 'Payment methods', 'payments']])}
     ${menu([['bookmark', 'Favorites', 'favs'], ['wallet', 'Fundraiser dashboard & withdrawals', '#/my'], ['shield', 'KYC & bank account', '#/kyc', 'Verified'], ['link', 'Your personal link', 'mylink']])}
-    ${menu([['megaphone', 'Affiliate & Creator', '#/creator', S.creator ? S.creator.code : 'Earn halal'], ['hands', 'Verified NGOs', '#/ngos', String(Object.values(ORGS).filter(o => o.ngo).length)], ['bell', 'Notifications & email', '#/settings']])}
+    ${menu([['megaphone', 'Affiliate & Creator', '#/creator', S.creator ? S.creator.code : 'Earn halal'], ['hands', 'Verified NGOs', '#/ngos', String(Object.values(ORGS).filter(o => o.ngo).length)], ['palette', 'App theme', '#/settings', theme().name], ['bell', 'Notifications & email', '#/settings']])}
     ${menu([['hands', 'About us', '#/info/about'], ['help', 'How it works', '#/info/how'], ['info', 'FAQs', '#/info/faq']])}
     <section class="section">
       <div class="thanks"><div style="flex:1"><h3>Thank you for being with us</h3><p>Write to us if you have a question, feedback, an idea, or something isn’t working.</p><a href="#/info/contact" data-go="#/info/contact">Write to us</a></div><div class="logo" style="flex-direction:column;font-size:20px;gap:2px">${LOGO.replace('viewBox', 'style="width:54px;height:54px" viewBox')}${APP}</div></div>
@@ -727,6 +773,9 @@ V.settings = () => {
   const u = S.user;
   const sw = (k, t, d) => `<div class="switch-row"><div class="txt"><b>${t}</b><span>${d}</span></div><button class="switch ${S.prefs[k] ? 'on' : ''}" data-act="pref" data-k="${k}" role="switch" aria-checked="${S.prefs[k]}" aria-label="${t}"></button></div>`;
   return { html: pageHead('Profile settings') + `<form class="wrap" data-form="profile">
+    <section class="section"><div class="sec-head"><h2>App theme</h2><span class="small muted">${THEMES.length} themes</span></div>
+      <p class="small muted" style="margin:-4px 0 12px">${S.themeLocked ? 'Your organisation has set the theme for everyone.' : 'Switch the whole app to a new look. Festive themes add a seasonal card on Home.'}</p>
+      <div class="theme-list">${THEMES.map(t => themeCard(t, t.id === S.theme, S.themeLocked)).join('')}</div></section>
     <section class="section center" style="display:grid;justify-items:center;gap:10px">${avatar(u.name, 'big')}<label class="text-link" for="avatar-in">Change photo<input type="file" id="avatar-in" accept="image/*" hidden></label></section>
     <section class="section" style="display:grid;gap:14px">
       <div class="field"><label for="s-name">Full name</label><input class="input" id="s-name" name="name" value="${esc(u.name)}" required></div>
@@ -985,6 +1034,7 @@ const A = {
   mylink: () => sheet(`<h2>Your personal link</h2><p class="muted small">Share it anywhere. Donations made through it count toward your Inspirer rank.</p><p style="margin-top:12px;font-weight:700;user-select:all">${SITE}/u/ayesha-khan</p><button class="btn btn-main btn-block" style="margin-top:14px" data-act="copy" data-v="${SITE}/u/ayesha-khan">${ic('link')} Copy link</button>`),
   logout: () => { S.login = { stage: 'details', role: 'donor', name: '', email: '', phone: '', err: {} }; replaceRoute('#/intro'); },
   splashNext: () => replaceRoute('#/intro'),
+  pickTheme: el => { S.userTheme = el.dataset.v; applyTheme(el.dataset.v); try { localStorage.setItem('mlp-theme', el.dataset.v); } catch { /* storage blocked: theme lasts for this session */ } toast(theme().name + ' theme on'); rerender(); },
   joinCreator: () => sheet(`<h2>Join as creator</h2><p class="muted small">Tell us where you share. We review new creators within a day.</p>
     <form data-form="creator" style="display:grid;gap:10px;margin-top:12px">
       <div class="field"><label for="cr-handle">Main channel or profile link</label><input class="input" id="cr-handle" name="handle" required placeholder="youtube.com/@yourchannel"></div>
@@ -1091,5 +1141,7 @@ document.addEventListener('submit', e => {
   }
 });
 
+try { S.userTheme = localStorage.getItem('mlp-theme'); } catch { /* no storage: default theme */ }
+applyTheme(S.userTheme || S.adminTheme);
 if (!location.hash) replaceRoute('#/splash');
 render();

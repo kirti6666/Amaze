@@ -94,6 +94,13 @@ td .sub { display: block; color: var(--muted); font-size: 12px; }
 .p-review, .p-pending, .p-requested { background: var(--amber-soft); color: var(--amber); }
 .p-paid, .p-completed { background: var(--blue-soft); color: var(--blue); }
 .p-rejected, .p-suspended, .p-blocked { background: var(--danger-soft); color: var(--danger); }
+.theme-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+.th-admin { border: 1.5px solid; border-radius: 16px; padding: 12px; display: grid; gap: 6px; align-content: start; }
+.th-admin.on { border-width: 2px; }
+.th-admin > span:not(.pill) { font-size: 12.5px; }
+.th-admin .b, .th-admin .pill { justify-self: start; }
+.th-prev { height: 64px; border-radius: 10px; display: flex; align-items: flex-end; gap: 6px; padding: 8px; }
+.th-prev span { width: 22px; height: 22px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgb(127 127 127 / 0.3); }
 .clip { display: block; max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .acts { display: flex; gap: 6px; justify-content: flex-end; }
 .b { height: 32px; padding: 0 12px; border-radius: 8px; font-weight: 600; font-size: 12.5px; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
@@ -206,6 +213,11 @@ td .sub { display: block; color: var(--muted); font-size: 12px; }
   --bg: #f1f1f5;
   --card: #ffffff;
   --chip: #e8eaf0;
+  --soft: #f2f5f3;
+  --soft-line: #c9d4cf;
+  --gold-ink: #7a4d00;
+  --page: #dcdce3;
+  --on-brand: #ffffff;
   --violet: #8a4fd8;
   --danger: #d9434b;
   --wa: #1fae55;
@@ -218,7 +230,7 @@ td .sub { display: block; color: var(--muted); font-size: 12px; }
 }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html { padding-top: var(--safe-area-inset-top, 0px); }
-body { margin: 0; background: #dcdce3; color: var(--ink); font: 14px/1.5 var(--font); font-feature-settings: "tnum" 0; -webkit-font-smoothing: antialiased; }
+body { margin: 0; background: var(--page); color: var(--ink); font: 14px/1.5 var(--font); font-feature-settings: "tnum" 0; -webkit-font-smoothing: antialiased; }
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: var(--sat); z-index: 40; background: var(--card); }
 button, input, textarea, select { font: inherit; color: inherit; }
 button { cursor: pointer; border: 0; background: none; padding: 0; }
@@ -244,13 +256,14 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 .spacer { flex: 1; }
 .heart-btn { width: 50px; height: 46px; display: grid; place-items: center; color: #fff; position: relative; }
 .heart-btn svg.bg { position: absolute; inset: 0; width: 100%; height: 100%; filter: drop-shadow(0 3px 6px rgb(10 155 60 / 0.3)); }
+.heart-btn { color: var(--on-brand); }
 .heart-btn svg.i { position: relative; width: 20px; height: 20px; stroke-width: 3; margin-top: -3px; }
 .icon-btn { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%; color: var(--ink-2); position: relative; }
 .icon-btn:active { background: var(--chip); }
 .dot-badge { position: absolute; top: 6px; right: 7px; min-width: 17px; height: 17px; border-radius: 9px; background: var(--danger); color: #fff; font-size: 10px; font-weight: 700; display: grid; place-items: center; border: 2px solid var(--card); }
 .page-title { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; }
-.points { display: inline-flex; align-items: center; gap: 6px; background: var(--brand); color: #fff; font-weight: 700; padding: 5px 6px 5px 14px; border-radius: 99px; font-size: 17px; }
-.points .coin { width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(145deg, #ffd66b, var(--gold)); display: grid; place-items: center; color: #7a4d00; }
+.points { display: inline-flex; align-items: center; gap: 6px; background: var(--brand); color: var(--on-brand); font-weight: 700; padding: 5px 6px 5px 14px; border-radius: 99px; font-size: 17px; }
+.points .coin { width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(145deg, #ffd66b, var(--gold)); display: grid; place-items: center; color: var(--gold-ink); }
 .points .coin svg { width: 15px; height: 15px; fill: currentColor; stroke: none; }
 
 /* segmented control */
@@ -262,7 +275,7 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 .chips::-webkit-scrollbar { display: none; }
 .chip { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; height: 32px; padding: 0 12px; border-radius: 99px; background: var(--card); font-weight: 500; font-size: 13px; color: var(--ink-2); border: 1px solid var(--line); }
 .chip svg.i { width: 15px; height: 15px; }
-.chip.on { background: var(--ink); border-color: var(--ink); color: #fff; }
+.chip.on { background: var(--ink); border-color: var(--ink); color: var(--card); }
 
 .feed { display: grid; gap: 10px; padding: 10px; }
 
@@ -285,8 +298,8 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 .glass.on svg.i { fill: #fff; }
 .tags { position: absolute; left: 14px; bottom: 12px; display: flex; gap: 6px; }
 .tag { font-size: 11.5px; font-weight: 700; padding: 4px 9px; border-radius: 99px; background: rgb(255 255 255 / 0.92); color: var(--ink); display: inline-flex; gap: 4px; align-items: center; }
-.tag.gold { background: var(--gold-soft); color: #7a4d00; }
-.feat-pill { display: inline-flex; align-items: center; gap: 3px; height: 24px; padding: 0 9px; border-radius: 99px; background: rgb(255 255 255 / 0.94); color: var(--ink); font-size: 11.5px; font-weight: 600; flex: none; }
+.tag.gold { background: var(--gold-soft); color: var(--gold-ink); }
+.feat-pill { display: inline-flex; align-items: center; gap: 3px; height: 24px; padding: 0 9px; border-radius: 99px; background: rgb(255 255 255 / 0.94); color: #15151f; font-size: 11.5px; font-weight: 600; flex: none; }
 .feat-pill svg.i { width: 12px; height: 12px; fill: var(--gold); stroke: var(--gold); }
 .dots { position: absolute; bottom: 14px; left: 0; right: 0; display: flex; justify-content: center; gap: 6px; }
 .dots i { width: 7px; height: 7px; border-radius: 50%; background: rgb(255 255 255 / 0.6); }
@@ -296,8 +309,8 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 .actions { display: flex; gap: 8px; align-items: center; }
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 44px; padding: 0 18px; border-radius: 99px; font-weight: 600; font-size: 14.5px; white-space: nowrap; }
 .btn svg.i { width: 18px; height: 18px; }
-.btn-soft { background: #f1f3f2; color: var(--ink); }
-.btn-main { background: var(--brand); color: #fff; }
+.btn-soft { background: var(--soft); color: var(--ink); }
+.btn-main { background: var(--brand); color: var(--on-brand); }
 .btn-main:active { transform: translateY(1px); }
 .btn-main[disabled] { opacity: .45; box-shadow: none; }
 .btn-gray { background: var(--chip); color: var(--ink); }
@@ -363,7 +376,7 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 .mini-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .mini-chip { font-size: 12.5px; font-weight: 600; padding: 4px 10px; border-radius: 99px; background: var(--chip); color: var(--ink-2); display: inline-flex; gap: 4px; align-items: center; }
 .mini-chip svg.i { width: 14px; height: 14px; }
-.mini-chip.gold { background: var(--gold-soft); color: #7a4d00; }
+.mini-chip.gold { background: var(--gold-soft); color: var(--gold-ink); }
 .mini-chip.green { background: var(--brand-soft); color: var(--brand-ink); }
 .big-raise { margin-top: 14px; }
 .big-raise .raised { font-size: 24px; font-weight: 700; color: var(--raised); letter-spacing: -0.02em; }
@@ -387,7 +400,7 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 .tl { display: grid; grid-template-columns: 22px 1fr; gap: 10px; }
 .tl .rail { display: grid; justify-items: center; grid-template-rows: auto 1fr; }
 .tl .rail i { width: 12px; height: 12px; border-radius: 50%; background: var(--brand); box-shadow: 0 0 0 4px var(--brand-soft); margin-top: 4px; }
-.tl .rail i.off { background: #c9d3ce; box-shadow: 0 0 0 4px var(--chip); }
+.tl .rail i.off { background: var(--soft-line); box-shadow: 0 0 0 4px var(--chip); }
 .tl .rail b { width: 2px; background: var(--line); margin: 6px 0 0; }
 .tl .tl-body { padding-bottom: 16px; }
 .tl .tl-body small { color: var(--muted); font-size: 12.5px; }
@@ -415,21 +428,21 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 .amounts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .amounts button { height: 44px; border-radius: 12px; border: 1.5px solid var(--line); font-weight: 600; font-size: 15px; background: var(--card); }
 .amounts button.on { border-color: var(--brand); background: var(--brand-soft); color: var(--brand-ink); }
-.impact { display: flex; gap: 10px; align-items: center; background: var(--gold-soft); color: #6b4500; padding: 10px 12px; border-radius: 14px; font-size: 13.5px; font-weight: 600; margin-top: 10px; }
+.impact { display: flex; gap: 10px; align-items: center; background: var(--gold-soft); color: var(--gold-ink); padding: 10px 12px; border-radius: 14px; font-size: 13.5px; font-weight: 600; margin-top: 10px; }
 .radio-list { display: grid; gap: 8px; }
 .radio { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1.5px solid var(--line); border-radius: 18px; text-align: left; width: 100%; background: var(--card); }
-.radio.on { border-color: var(--brand); background: #f6fbf8; }
+.radio.on { border-color: var(--brand); background: var(--soft); }
 .radio .ic { width: 36px; height: 36px; border-radius: 12px; display: grid; place-items: center; background: var(--chip); color: var(--ink-2); flex: none; }
 .radio .txt { flex: 1; min-width: 0; }
 .radio .txt b { display: block; font-size: 15px; font-weight: 600; }
 .radio .txt span { font-size: 12.5px; color: var(--muted); }
-.radio .rd { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #c4cec9; flex: none; }
+.radio .rd { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--soft-line); flex: none; }
 .radio.on .rd { border: 7px solid var(--brand); }
 .switch-row { display: flex; align-items: center; gap: 12px; padding: 6px 0; }
 .switch-row .txt { flex: 1; }
 .switch-row .txt b { display: block; font-weight: 600; font-size: 15px; }
 .switch-row .txt span { font-size: 12.5px; color: var(--muted); }
-.switch { width: 48px; height: 28px; border-radius: 99px; background: #cfd8d4; position: relative; flex: none; transition: background .2s; }
+.switch { width: 48px; height: 28px; border-radius: 99px; background: var(--soft-line); position: relative; flex: none; transition: background .2s; }
 .switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; transition: transform .2s; box-shadow: 0 1px 3px rgb(0 0 0 / 0.2); }
 .switch.on { background: var(--brand); }
 .switch.on::after { transform: translateX(20px); }
@@ -444,13 +457,13 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 
 /* success */
 .success { padding: 26px 16px 18px; text-align: center; background: var(--card); border-radius: 0 0 30px 30px; }
-.tick { width: 76px; height: 76px; border-radius: 50%; margin: 0 auto 18px; display: grid; place-items: center; background: linear-gradient(140deg, var(--brand-2), var(--brand-3)); color: #fff; box-shadow: 0 0 0 12px var(--brand-soft); animation: pop .5s cubic-bezier(.2, 1.4, .4, 1) both; }
+.tick { width: 76px; height: 76px; border-radius: 50%; margin: 0 auto 18px; display: grid; place-items: center; background: linear-gradient(140deg, var(--brand-2), var(--brand-3)); color: var(--on-brand); box-shadow: 0 0 0 12px var(--brand-soft); animation: pop .5s cubic-bezier(.2, 1.4, .4, 1) both; }
 .tick svg.i { width: 36px; height: 36px; stroke-width: 3; }
 @keyframes pop { from { transform: scale(.4); opacity: 0; } }
 .success h1 { font-size: 21px; font-weight: 700; }
 .success p { color: var(--ink-2); margin-top: 8px; }
-.earn { display: flex; align-items: center; gap: 14px; background: linear-gradient(120deg, #fff7e3, #fff); border: 1px solid #f3dfae; border-radius: 22px; padding: 14px; }
-.earn .coin { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(145deg, #ffd66b, var(--gold)); display: grid; place-items: center; color: #7a4d00; flex: none; }
+.earn { display: flex; align-items: center; gap: 14px; background: var(--gold-soft); border: 1px solid var(--line); border-radius: 22px; padding: 14px; }
+.earn .coin { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(145deg, #ffd66b, var(--gold)); display: grid; place-items: center; color: var(--gold-ink); flex: none; }
 .earn .coin svg.i { fill: currentColor; stroke: none; }
 
 /* leaders */
@@ -469,14 +482,14 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 .subtabs button.on { color: var(--brand); border-color: var(--ink); }
 .rank-row { display: flex; align-items: center; gap: 10px; padding: 7px 14px; }
 .rank-row .rk { width: 52px; font-weight: 600; font-size: 15px; font-variant-numeric: tabular-nums; }
-.rank-row .rk.medal span { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--gold-soft); color: #8a5a00; font-size: 13px; }
+.rank-row .rk.medal span { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--gold-soft); color: var(--gold-ink); font-size: 13px; }
 .rank-row .nm { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .rank-row .nm small { display: block; color: var(--muted); font-size: 12.5px; }
 .rank-row .val { font-weight: 700; font-variant-numeric: tabular-nums; }
 .rank-row.me { background: var(--brand-soft); }
-.rank-row.me .rk span { background: #c7ebd8; color: var(--brand-ink); padding: 3px 8px; border-radius: 99px; }
+.rank-row.me .rk span { background: var(--brand-soft); color: var(--brand-ink); padding: 3px 8px; border-radius: 99px; }
 .me-sticky { bottom: calc(62px + var(--sab)); z-index: 25; }
-.me-sticky .rank-row { border-top: 1px solid #cfe9db; }
+.me-sticky .rank-row { border-top: 1px solid var(--soft-line); }
 .zone { font-size: 12px; font-weight: 700; color: var(--brand); padding: 8px 16px 2px; text-transform: uppercase; letter-spacing: .06em; }
 .season { display: flex; align-items: center; gap: 12px; background: var(--brand-soft); color: var(--brand-ink); padding: 12px 14px; border-radius: 18px; font-weight: 600; font-size: 14px; }
 
@@ -500,14 +513,14 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 .notif p { font-size: 14px; color: var(--ink-2); }
 .notif p b { color: var(--ink); }
 .notif small { color: var(--muted); font-size: 12.5px; }
-.notif.unread { background: #f7fcf9; }
+.notif.unread { background: var(--soft); }
 
 /* profile */
 .prof { display: flex; align-items: center; gap: 14px; }
 .prof .av { width: 54px; height: 54px; font-size: 19px; }
 .prof h1 { font-size: 19px; font-weight: 700; }
 .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
-.tile { background: #f4f5f8; border-radius: 16px; padding: 9px; text-align: center; }
+.tile { background: var(--soft); border-radius: 16px; padding: 9px; text-align: center; }
 .tile b { display: flex; gap: 6px; justify-content: center; align-items: center; font-size: 15.5px; font-weight: 700; min-height: 24px; }
 .tile b svg.i { width: 20px; height: 20px; }
 .tile span { font-size: 12.5px; color: var(--muted); }
@@ -517,34 +530,34 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 .money-tile b { display: block; font-size: 19px; color: var(--brand); font-weight: 700; letter-spacing: -0.02em; margin-top: 4px; }
 .week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin: 4px 0 14px; }
 .week div { display: grid; justify-items: center; gap: 6px; font-size: 12px; color: var(--muted); font-weight: 600; }
-.week i { width: 32px; height: 32px; border-radius: 50%; background: var(--chip); display: grid; place-items: center; color: #b7c2bd; }
+.week i { width: 32px; height: 32px; border-radius: 50%; background: var(--chip); display: grid; place-items: center; color: var(--soft-line); }
 .week i.on { background: linear-gradient(145deg, #ffb347, #f06a1b); color: #fff; }
 .week i.today { box-shadow: 0 0 0 2px var(--brand); }
 .week i svg.i { width: 18px; height: 18px; }
 .badges { display: flex; gap: 14px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; }
 .badges::-webkit-scrollbar { display: none; }
 .badge { flex: none; width: 86px; display: grid; justify-items: center; gap: 8px; text-align: center; font-size: 12.5px; font-weight: 600; color: var(--ink-2); }
-.badge .disc { width: 76px; height: 76px; border-radius: 50%; display: grid; place-items: center; position: relative; background: radial-gradient(circle at 35% 30%, #f4f6f5, #d4dbd8); color: #9aa6a0; }
+.badge .disc { width: 76px; height: 76px; border-radius: 50%; display: grid; place-items: center; position: relative; background: radial-gradient(circle at 35% 30%, var(--soft), var(--soft-line)); color: #9aa6a0; }
 .badge .disc svg.i { width: 32px; height: 32px; stroke-width: 1.6; }
-.badge .disc .lock { position: absolute; bottom: 4px; right: 4px; width: 30px; height: 30px; border-radius: 50%; background: #fff; display: grid; place-items: center; color: var(--ink-2); box-shadow: 0 1px 4px rgb(0 0 0 / 0.15); }
+.badge .disc .lock { position: absolute; bottom: 4px; right: 4px; width: 30px; height: 30px; border-radius: 50%; background: var(--card); display: grid; place-items: center; color: var(--ink-2); box-shadow: 0 1px 4px rgb(0 0 0 / 0.15); }
 .badge .disc .lock svg.i { width: 15px; height: 15px; stroke-width: 2.2; }
-.badge.got .disc { background: radial-gradient(circle at 35% 30%, #fff1c9, var(--gold)); color: #7a4d00; }
+.badge.got .disc { background: radial-gradient(circle at 35% 30%, var(--gold-soft), var(--gold)); color: var(--gold-ink); }
 .menu { background: var(--card); border-radius: 20px; padding: 0 14px; }
 .menu button { width: 100%; display: flex; align-items: center; gap: 12px; height: 48px; font-size: 14.5px; text-align: left; color: var(--ink); }
 .menu button + button { border-top: 1px solid var(--line); }
 .menu button svg.i:first-child { color: var(--muted); }
-.menu button .chev { margin-left: auto; color: #b4beb9; width: 18px; height: 18px; }
+.menu button .chev { margin-left: auto; color: var(--soft-line); width: 18px; height: 18px; }
 .menu .meta { margin-left: auto; color: var(--muted); font-size: 13.5px; }
 .status { font-size: 12px; font-weight: 700; padding: 3px 9px; border-radius: 99px; display: inline-block; white-space: nowrap; }
 .st-live { background: var(--brand-soft); color: var(--brand-ink); }
-.st-review { background: #fff1d6; color: #8a5a00; }
-.st-paid { background: #e3eefc; color: #1f5fbf; }
+.st-review { background: var(--gold-soft); color: var(--gold-ink); }
+.st-paid { background: var(--chip); color: var(--ink); }
 .st-done { background: var(--chip); color: var(--ink-2); }
-.thanks { display: flex; gap: 12px; background: #f4f7f5; border-radius: 22px; padding: 16px; align-items: center; }
+.thanks { display: flex; gap: 12px; background: var(--soft); border-radius: 22px; padding: 16px; align-items: center; }
 .thanks h3 { font-size: 17px; font-weight: 700; }
 .thanks p { font-size: 13.5px; color: var(--muted); margin: 4px 0 8px; }
 .thanks a, .text-link { color: var(--brand); font-weight: 700; }
-.balance { background: linear-gradient(135deg, #078a34, var(--brand) 50%, var(--brand-2)); color: #fff; border-radius: 22px; padding: 16px; position: relative; overflow: hidden; }
+.balance { background: linear-gradient(135deg, #078a34, var(--brand) 50%, var(--brand-2)); color: var(--on-brand); border-radius: 22px; padding: 16px; position: relative; overflow: hidden; }
 .balance small { opacity: .85; }
 .balance b { display: block; font-size: 27px; font-weight: 700; letter-spacing: -0.02em; margin: 2px 0 14px; }
 .balance .pattern { position: absolute; inset: 0; opacity: .12; }
@@ -559,7 +572,7 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 .my-camp .bar { height: 6px; margin-top: 8px; }
 .steps3 { display: flex; align-items: center; gap: 4px; margin-top: 10px; font-size: 11.5px; color: var(--muted); font-weight: 600; }
 .steps3 i { width: 18px; height: 18px; border-radius: 50%; background: var(--chip); display: grid; place-items: center; flex: none; }
-.steps3 i.on { background: var(--brand); color: #fff; }
+.steps3 i.on { background: var(--brand); color: var(--on-brand); }
 .steps3 i svg.i { width: 12px; height: 12px; stroke-width: 3; }
 .steps3 em { flex: 1; height: 2px; background: var(--line); }
 .steps3 em.on { background: var(--brand); }
@@ -574,27 +587,27 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 .who-grid button { border: 1.5px solid var(--line); border-radius: 18px; padding: 14px 12px; text-align: left; display: grid; gap: 6px; background: var(--card); }
 .who-grid button b { font-size: 14.5px; }
 .who-grid button span { font-size: 12px; color: var(--muted); }
-.who-grid button.on { border-color: var(--brand); background: #f6fbf8; }
+.who-grid button.on { border-color: var(--brand); background: var(--soft); }
 .who-grid button svg.i { color: var(--brand); }
 .cat-grid { display: flex; flex-wrap: wrap; gap: 8px; }
 .uploads { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.up { aspect-ratio: 1; max-width: 100%; border-radius: 18px; border: 2px dashed #c9d4cf; display: grid; place-items: center; align-content: center; gap: 4px; color: var(--muted); font-size: 12px; font-weight: 600; background: #f8faf9; }
+.up { aspect-ratio: 1; max-width: 100%; border-radius: 18px; border: 2px dashed var(--soft-line); display: grid; place-items: center; align-content: center; gap: 4px; color: var(--muted); font-size: 12px; font-weight: 600; background: var(--soft); }
 .up.filled { border: 0; color: #fff; position: relative; }
 .up.filled .ok { position: absolute; top: 6px; right: 6px; width: 22px; height: 22px; border-radius: 50%; background: #fff; color: var(--brand); display: grid; place-items: center; }
 .up.filled .ok svg.i { width: 14px; height: 14px; stroke-width: 3; }
-.doc-up { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 1.5px dashed #c9d4cf; border-radius: 16px; width: 100%; text-align: left; background: #f8faf9; }
-.doc-up.done { border-style: solid; border-color: #bfe3cf; background: #f3fbf6; }
+.doc-up { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 1.5px dashed var(--soft-line); border-radius: 16px; width: 100%; text-align: left; background: var(--soft); }
+.doc-up.done { border-style: solid; border-color: var(--soft-line); background: var(--soft); }
 .doc-up .txt { flex: 1; }
 .doc-up .txt b { display: block; font-size: 14.5px; font-weight: 600; }
 .doc-up .txt span { font-size: 12.5px; color: var(--muted); }
 .check { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: var(--ink-2); text-align: left; }
-.check i { width: 22px; height: 22px; border-radius: 7px; border: 2px solid #c4cec9; display: grid; place-items: center; flex: none; color: #fff; }
+.check i { width: 22px; height: 22px; border-radius: 7px; border: 2px solid var(--soft-line); display: grid; place-items: center; flex: none; color: #fff; }
 .check.on i { background: var(--brand); border-color: var(--brand); }
 .check i svg.i { width: 14px; height: 14px; stroke-width: 3; }
 
 /* splash + onboarding (curved green header, content below) */
 .splash { width: 100%; min-height: 100vh; display: grid; place-items: center; background: linear-gradient(170deg, var(--brand-2), var(--brand-3)); padding: 0 12%; }
-.brand-lockup { position: relative; display: grid; justify-items: center; gap: 4px; color: #fff; text-align: center; }
+.brand-lockup { position: relative; display: grid; justify-items: center; gap: 4px; color: var(--on-brand); text-align: center; }
 .brand-lockup .emblem { width: 92px; height: 92px; margin-bottom: 6px; filter: drop-shadow(0 4px 10px rgb(0 60 20 / 0.25)); }
 .brand-lockup b { font-size: 30px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
 .brand-lockup span { font-size: 13.5px; opacity: .9; }
@@ -636,8 +649,8 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 .share-grid .ic { width: 56px; height: 56px; border-radius: 18px; display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 20px; }
 @keyframes fade { from { opacity: 0; } }
 @keyframes up { from { transform: translateY(40px); opacity: 0; } }
-.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(100px + var(--sab)); z-index: 80; background: var(--ink); color: #fff; padding: 11px 18px; border-radius: 99px; font-weight: 600; font-size: 14px; box-shadow: 0 8px 20px rgb(0 0 0 / 0.2); animation: up .25s both; max-width: calc(100% - 32px); text-align: center; }
-.processing { position: fixed; inset: 0; z-index: 70; background: rgb(255 255 255 / 0.94); display: grid; place-items: center; align-content: center; gap: 16px; text-align: center; font-weight: 600; }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(100px + var(--sab)); z-index: 80; background: var(--ink); color: var(--card); padding: 11px 18px; border-radius: 99px; font-weight: 600; font-size: 14px; box-shadow: 0 8px 20px rgb(0 0 0 / 0.2); animation: up .25s both; max-width: calc(100% - 32px); text-align: center; }
+.processing { position: fixed; inset: 0; z-index: 70; background: var(--card); display: grid; place-items: center; align-content: center; gap: 16px; text-align: center; font-weight: 600; }
 .spin { width: 54px; height: 54px; border-radius: 50%; border: 5px solid var(--brand-soft); border-top-color: var(--brand); animation: rot .8s linear infinite; }
 @keyframes rot { to { transform: rotate(360deg); } }
 .util-row { display: grid; gap: 4px; margin-top: 10px; font-size: 14px; }
@@ -675,7 +688,7 @@ a.btn { text-decoration: none; }
 .services { background: var(--card); margin: 10px 10px 0; border-radius: 20px; padding: 14px 10px 12px; }
 .svc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px 4px; }
 .svc { display: grid; grid-template-rows: auto 2.6em; justify-items: center; align-items: start; gap: 7px; font-size: 11.5px; font-weight: 500; color: var(--ink-2); line-height: 1.3; text-align: center; }
-.svc-ic { width: 50px; height: 50px; border-radius: 16px; display: grid; place-items: center; background: #f2f5f3; color: var(--brand); border: 1px solid #e7ece9; }
+.svc-ic { width: 50px; height: 50px; border-radius: 16px; display: grid; place-items: center; background: var(--soft); color: var(--brand); border: 1px solid var(--soft-line); }
 .svc-ic svg.i { width: 22px; height: 22px; }
 .home-sec { padding: 6px 0 2px; }
 .dua { background: var(--card); border-radius: 20px; padding: 14px; }
@@ -703,8 +716,8 @@ a.btn { text-decoration: none; }
 .zakat-out div { display: flex; justify-content: space-between; }
 .zakat-out .total { font-weight: 700; font-size: 16px; color: var(--brand-ink); }
 .greet { top: calc(8px + var(--sat)); z-index: 90; padding: 0 10px; animation: drop .35s cubic-bezier(.2, .9, .3, 1) both; cursor: pointer; }
-.greet-card { display: flex; gap: 12px; align-items: flex-start; background: rgb(255 255 255 / 0.97); border-radius: 18px; padding: 12px 14px; box-shadow: 0 10px 30px rgb(20 20 40 / 0.18); backdrop-filter: blur(10px); }
-.greet-ic { width: 38px; height: 38px; border-radius: 11px; background: linear-gradient(150deg, var(--brand-2), var(--brand-3)); color: #fff; display: grid; place-items: center; flex: none; }
+.greet-card { display: flex; gap: 12px; align-items: flex-start; background: var(--card); border-radius: 18px; padding: 12px 14px; box-shadow: 0 10px 30px rgb(20 20 40 / 0.18); backdrop-filter: blur(10px); }
+.greet-ic { width: 38px; height: 38px; border-radius: 11px; background: linear-gradient(150deg, var(--brand-2), var(--brand-3)); color: var(--on-brand); display: grid; place-items: center; flex: none; }
 .greet-ic svg { width: 24px; height: 24px; }
 .greet-ic svg { color: #fff; }
 .greet-card b { font-size: 14.5px; }
@@ -717,7 +730,7 @@ a.btn { text-decoration: none; }
 .eyebrow { display: block; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--brand); }
 .home-top { padding: 10px 10px 0; }
 .tier-strip { width: 100%; display: flex; align-items: center; gap: 12px; background: var(--card); border-radius: 20px; padding: 12px 12px 12px 14px; text-align: left; }
-.tier-strip > svg.i { color: #b4beb9; width: 18px; height: 18px; }
+.tier-strip > svg.i { color: var(--soft-line); width: 18px; height: 18px; }
 .ts-body { flex: 1; min-width: 0; display: grid; gap: 4px; }
 .ts-body > b { font-size: 17px; }
 .ts-body > b span { font-size: 13px; font-weight: 500; color: var(--muted); }
@@ -727,7 +740,7 @@ a.btn { text-decoration: none; }
 .tier-badge { flex: none; filter: drop-shadow(0 2px 4px rgb(0 0 0 / 0.12)); }
 .dot-badge:empty { min-width: 10px; width: 10px; height: 10px; top: 8px; right: 9px; }
 .nav-fab { position: relative; }
-.nav-fab .fab { width: 54px; height: 54px; margin: -26px 0 -2px; border-radius: 50%; background: var(--brand); color: #fff; display: grid; place-items: center; box-shadow: 0 6px 16px rgb(10 155 60 / 0.35); border: 4px solid var(--card); }
+.nav-fab .fab { width: 54px; height: 54px; margin: -26px 0 -2px; border-radius: 50%; background: var(--brand); color: var(--on-brand); display: grid; place-items: center; box-shadow: 0 6px 16px rgb(10 155 60 / 0.35); border: 4px solid var(--card); }
 .nav-fab .fab svg.i { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; }
 .tier-card { display: grid; gap: 10px; }
 .tc-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
@@ -743,7 +756,7 @@ a.btn { text-decoration: none; }
 .chal { display: grid; gap: 10px; }
 .chal-row { display: flex; align-items: center; gap: 12px; }
 .chal-row > div { flex: 1; min-width: 0; display: grid; }
-.chal-ic { width: 40px; height: 40px; border-radius: 12px; background: #f2f5f3; color: var(--brand); display: grid; place-items: center; flex: none; }
+.chal-ic { width: 40px; height: 40px; border-radius: 12px; background: var(--soft); color: var(--brand); display: grid; place-items: center; flex: none; }
 .chal-pct { color: var(--brand); }
 .chal .bar { margin: 0; }
 .dh-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; }
@@ -753,13 +766,13 @@ a.btn { text-decoration: none; }
 .dh-body { flex: 1; min-width: 0; display: grid; }
 .dh-body b { font-size: 14px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .st-fail { background: #fdeaea; color: var(--danger); }
-.creator-nudge { width: 100%; display: flex; align-items: center; gap: 12px; background: var(--card); border: 1px dashed #bfe3cf; border-radius: 20px; padding: 14px; text-align: left; }
+.creator-nudge { width: 100%; display: flex; align-items: center; gap: 12px; background: var(--card); border: 1px dashed var(--soft-line); border-radius: 20px; padding: 14px; text-align: left; }
 .creator-nudge > span:nth-child(2) { flex: 1; display: grid; }
 .creator-nudge b { font-size: 15px; }
 .creator-nudge > span:nth-child(2) span { font-size: 12.5px; color: var(--muted); }
-.creator-nudge > svg.i { color: #b4beb9; width: 18px; height: 18px; }
-.cn-ic { width: 42px; height: 42px; border-radius: 14px; background: var(--brand); color: #fff; display: grid; place-items: center; flex: none; }
-.creator-hero { position: relative; overflow: hidden; border-radius: 22px; padding: 20px 18px; color: #fff; background: linear-gradient(140deg, #087a30, var(--brand)); display: grid; gap: 8px; }
+.creator-nudge > svg.i { color: var(--soft-line); width: 18px; height: 18px; }
+.cn-ic { width: 42px; height: 42px; border-radius: 14px; background: var(--brand); color: var(--on-brand); display: grid; place-items: center; flex: none; }
+.creator-hero { position: relative; overflow: hidden; border-radius: 22px; padding: 20px 18px; color: var(--on-brand); background: linear-gradient(140deg, #087a30, var(--brand)); display: grid; gap: 8px; }
 .creator-hero .pattern { position: absolute; inset: 0; opacity: .12; }
 .creator-hero > svg.i { width: 34px; height: 34px; position: relative; }
 .creator-hero h2 { font-size: 24px; position: relative; }
@@ -770,9 +783,31 @@ a.btn { text-decoration: none; }
 .how > div { display: grid; }
 .how b { font-size: 14.5px; }
 .how-ic { width: 42px; height: 42px; border-radius: 50%; background: var(--brand-soft); color: var(--brand-ink); display: grid; place-items: center; flex: none; }
-.code-box { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #f2f5f3; border: 1px dashed #bfe3cf; border-radius: 14px; padding: 10px 10px 10px 14px; }
+.code-box { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--soft); border: 1px dashed var(--soft-line); border-radius: 14px; padding: 10px 10px 10px 14px; }
 .code-box b { font-size: 20px; letter-spacing: .04em; }
 .code-box .btn { height: 38px; font-size: 13.5px; }
+/* themes */
+.theme-list { display: grid; gap: 8px; }
+.theme-card { width: 100%; display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 18px; border: 1.5px solid; text-align: left; }
+.theme-card.on { border-width: 2px; }
+.theme-card[disabled] { opacity: .6; cursor: default; }
+.th-ic { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; flex: none; }
+.th-ic svg { width: 26px; height: 26px; }
+.th-txt { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.th-txt b { font-size: 15px; }
+.th-txt > span:not(.th-dots) { font-size: 12px; }
+.th-dots { display: flex; gap: 5px; margin-top: 6px; }
+.th-dots i { width: 14px; height: 14px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgb(127 127 127 / 0.35); }
+.th-radio { width: 22px; height: 22px; border-radius: 50%; border: 2px solid; display: grid; place-items: center; flex: none; }
+.th-radio i { width: 10px; height: 10px; border-radius: 50%; }
+.season-card { display: flex; align-items: center; gap: 12px; margin-top: 10px; background: var(--brand-soft); border-radius: 20px; padding: 12px 12px 12px 14px; }
+.season-ic { width: 40px; height: 40px; border-radius: 12px; background: var(--brand); color: var(--on-brand); display: grid; place-items: center; flex: none; }
+.season-txt { flex: 1; min-width: 0; display: grid; }
+.season-txt b { font-size: 15px; color: var(--brand-ink); }
+.season-txt span { font-size: 12.5px; color: var(--ink-2); }
+.season-card .btn { height: 38px; padding: 0 14px; font-size: 13.5px; }
+.dua { overflow: hidden; padding-top: 0; }
+.dua-photo { height: 120px; margin: 0 -14px 12px; background-size: cover; background-position: center 40%; }
 </script>
 <script type="text/plain" id="app-js">/* Muslim Life Pro: clickable Android UI demo for a donation / fundraising platform.
    Everything is in-memory sample data; no backend calls. Hash routes give the Android back button for free. */
@@ -847,23 +882,25 @@ const P = {
   userplus: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/>',
   code: '<path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/>',
   xcircle: '<circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>',
+  palette: '<circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.55-2.5 5.55-5.55C21.97 6.01 17.46 2 12 2z"/>',
   hands: '<path d="M11 14h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 16"/><path d="m7 20 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"/><path d="m2 15 6 6"/><path d="M19.5 8.5c.7-.7 1.5-1.6 1.5-2.7A2.73 2.73 0 0 0 16 4a2.78 2.78 0 0 0-5 1.8c0 1.2.8 2 1.5 2.8L16 12Z"/>',
 };
 const ic = (n, cls = '') => `<svg class="i ${cls}" viewBox="0 0 24 24" aria-hidden="true">${P[n]}</svg>`;
 
 /* Solid tab-bar glyphs, drawn to match the filled style of the reference app */
 const NAV_ICONS = {
-  home: '<path d="M5 3h14a1.5 1.5 0 0 1 0 3H5a1.5 1.5 0 0 1 0-3Z"/><path d="M3.5 8h17v10.5A3.5 3.5 0 0 1 17 22H7a3.5 3.5 0 0 1-3.5-3.5Z"/><path fill="#fff" d="M12 19.2l-3.3-3.1a2.1 2.1 0 0 1 3-3l.3.3.3-.3a2.1 2.1 0 0 1 3 3Z"/>',
-  completed: '<path d="M6 2.5h12A3.5 3.5 0 0 1 21.5 6v12a3.5 3.5 0 0 1-3.5 3.5H6A3.5 3.5 0 0 1 2.5 18V6A3.5 3.5 0 0 1 6 2.5Z"/><path d="M8 13l3 3 5-6" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>',
+  home: '<path d="M5 3h14a1.5 1.5 0 0 1 0 3H5a1.5 1.5 0 0 1 0-3Z"/><path d="M3.5 8h17v10.5A3.5 3.5 0 0 1 17 22H7a3.5 3.5 0 0 1-3.5-3.5Z"/><path style="fill:var(--card)" d="M12 19.2l-3.3-3.1a2.1 2.1 0 0 1 3-3l.3.3.3-.3a2.1 2.1 0 0 1 3 3Z"/>',
+  completed: '<path d="M6 2.5h12A3.5 3.5 0 0 1 21.5 6v12a3.5 3.5 0 0 1-3.5 3.5H6A3.5 3.5 0 0 1 2.5 18V6A3.5 3.5 0 0 1 6 2.5Z"/><path d="M8 13l3 3 5-6" fill="none" style="stroke:var(--card)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>',
   rating: '<path d="M6 2h12v7a6 6 0 0 1-12 0Z"/><path d="M6 4H3.5a1 1 0 0 0-1 1.2C3 8.5 4.6 10 6.5 10.4M18 4h2.5a1 1 0 0 1 1 1.2c-.5 3.3-2.1 4.8-4 5.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10.5 14.5h3v3.5h-3z"/><path d="M7 19.5h10V22H7z"/>',
   news: '<path d="M12 2.5a6.5 6.5 0 0 0-6.5 6.5v4.3L3.7 16.6a1 1 0 0 0 .9 1.4h14.8a1 1 0 0 0 .9-1.4l-1.8-3.3V9A6.5 6.5 0 0 0 12 2.5Z"/><path d="M9.2 19.5h5.6a2.8 2.8 0 0 1-5.6 0Z"/>',
-  profile: '<circle cx="10" cy="6.5" r="4"/><path d="M2.5 19.5a7.5 7.5 0 0 1 12.2-5.8A5 5 0 0 0 13 21.5H4a1.5 1.5 0 0 1-1.5-2Z"/><circle cx="18.5" cy="17.5" r="4.5"/><path fill="#fff" d="M18.5 20.2l-2-1.9a1.2 1.2 0 0 1 1.7-1.8l.3.3.3-.3a1.2 1.2 0 0 1 1.7 1.8Z"/>',
+  profile: '<circle cx="10" cy="6.5" r="4"/><path d="M2.5 19.5a7.5 7.5 0 0 1 12.2-5.8A5 5 0 0 0 13 21.5H4a1.5 1.5 0 0 1-1.5-2Z"/><circle cx="18.5" cy="17.5" r="4.5"/><path style="fill:var(--card)" d="M18.5 20.2l-2-1.9a1.2 1.2 0 0 1 1.7-1.8l.3.3.3-.3a1.2 1.2 0 0 1 1.7 1.8Z"/>',
 };
 
 // app emblem: dome with crescent finial, two minarets, open Quran as the base
 const emblem = (cls = '') => `<svg class="emblem ${cls}" viewBox="0 0 64 64" aria-hidden="true"><path fill="#e9b52c" d="M33.6 2.2a4.2 4.2 0 1 0 2.6 6.9 3.4 3.4 0 1 1-2.6-6.9Z"/><g fill="currentColor"><path d="M31 9.5h2v3.2h-2z"/><path d="M17.5 33.5c0-9.6 6.6-15.6 14.5-20.5 7.9 4.9 14.5 10.9 14.5 20.5Z"/><rect x="15.5" y="33.5" width="33" height="3.2" rx="1"/><path d="M18.5 37.5h27v10h-9.5v-4.2a4 4 0 0 0-8 0v4.2h-9.5Z"/><path d="M7.5 47.5V24.5l3-6.5 3 6.5v23Z"/><path d="M50.5 47.5V24.5l3-6.5 3 6.5v23Z"/><path d="M4 50.2c9.3-2.6 19-2 28 2.6 9-4.6 18.7-5.2 28-2.6v6.6c-9.3-2.6-19-2-28 2.6-9-4.6-18.7-5.2-28-2.6Z"/></g></svg>`;
 const LOGO = emblem();
-const HEART_BG = `<svg class="bg" viewBox="0 0 54 50" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5fe0a0"/><stop offset="1" stop-color="#0a9b3c"/></linearGradient></defs><path fill="url(#hg)" d="M27 48 6.5 28.2A13.2 13.2 0 0 1 27 11.4a13.2 13.2 0 0 1 20.5 16.8Z"/></svg>`;
+const HEART_BG = `<svg class="bg" viewBox="0 0 54 50" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--brand-2)"/><stop offset="1" style="stop-color:var(--brand)"/></linearGradient></defs><path fill="url(#hg)" d="M27 48 6.5 28.2A13.2 13.2 0 0 1 27 11.4a13.2 13.2 0 0 1 20.5 16.8Z"/></svg>`;
 
 /* ---------- sample data ---------- */
 // sample photos; swap for the NGO's own images per campaign
@@ -889,7 +926,7 @@ const ORGS = {
 
 const CAMPAIGNS = [
   {
-    id: 1, photo: PHOTO.hospital, pos: '30% center', org: 'shifa', cat: 'medical', zakat: true, featured: true, city: 'Hyderabad, Telangana', days: 18,
+    id: 1, photo: PHOTO.hospital, pos: '30% center', org: 'shifa', cat: 'medical', zakat: true, city: 'Hyderabad, Telangana', days: 18,
     title: 'Help 6-year-old Ayaan beat leukaemia', caption: 'Ayaan has 4 chemo cycles left',
     goal: 800000, raised: 512400, donors: 1284,
     unit: [5000, 'day of chemotherapy'],
@@ -899,7 +936,7 @@ const CAMPAIGNS = [
     updates: [['3 days ago', 'Cycle 3 completed. Ayaan is responding well and his blood counts are improving.'], ['2 weeks ago', 'Hospital bill of ₹1,85,000 paid from the funds raised. Receipt uploaded.']],
   },
   {
-    id: 2, photo: PHOTO.family, pos: 'center', org: 'noor', cat: 'food', zakat: true, featured: true, city: 'Mumbai, Maharashtra', days: 9,
+    id: 2, photo: PHOTO.family, pos: 'center', org: 'noor', cat: 'food', zakat: true, city: 'Mumbai, Maharashtra', days: 9,
     title: 'Give an Iftar to 1,000 families this Ramadan', caption: '₹100 feeds one fasting person',
     goal: 300000, raised: 241800, donors: 2106,
     unit: [100, 'iftar meal'],
@@ -909,7 +946,7 @@ const CAMPAIGNS = [
     updates: [['Yesterday', '412 iftar boxes distributed at Govandi station road.']],
   },
   {
-    id: 3, photo: PHOTO.water, pos: 'center', org: 'ummeed', cat: 'water', zakat: false, city: 'Barmer, Rajasthan', days: 26,
+    id: 3, photo: PHOTO.water, pos: 'center', org: 'ummeed', cat: 'water', zakat: false, featured: true, city: 'Barmer, Rajasthan', days: 26,
     title: 'Clean water well for Sanawada village', caption: 'Women walk 6 km for water',
     goal: 450000, raised: 168500, donors: 640,
     unit: [1500, 'family supplied for a year'],
@@ -919,7 +956,7 @@ const CAMPAIGNS = [
     updates: [['5 hours ago', 'Drilling started. We hit water at 240 ft.']],
   },
   {
-    id: 4, photo: PHOTO.school, pos: 'center', org: 'iqra', cat: 'education', zakat: true, city: 'Malappuram, Kerala', days: 33,
+    id: 4, photo: PHOTO.school, pos: 'center', org: 'iqra', cat: 'education', zakat: true, featured: true, city: 'Malappuram, Kerala', days: 33,
     title: 'Sponsor school fees for 50 orphan girls', caption: '₹12,000 covers a full year',
     goal: 600000, raised: 133200, donors: 402,
     unit: [12000, 'year of school for one girl'],
@@ -939,7 +976,7 @@ const CAMPAIGNS = [
     updates: [['6 days ago', 'Campaign verified by the Muslim Life Pro team.']],
   },
   {
-    id: 5, photo: PHOTO.boy, pos: 'center 30%', org: 'ummeed', cat: 'emergency', zakat: true, featured: true, city: 'Dhemaji, Assam', days: 4,
+    id: 5, photo: PHOTO.boy, pos: 'center 30%', org: 'ummeed', cat: 'emergency', zakat: true, city: 'Dhemaji, Assam', days: 4,
     title: 'Rebuild 40 homes after the Assam floods', caption: 'Families are living in relief camps',
     goal: 1200000, raised: 987000, donors: 3410,
     unit: [30000, 'home rebuilt'],
@@ -1000,6 +1037,7 @@ const S = {
   user: { name: 'Ayesha Khan', first: 'Ayesha', email: 'ayesha.khan@mail.com' },
   saved: new Set([2]), liked: new Set(),
   points: 0, donated: 0, donations: [], streak: false, last: null,
+  theme: 'classic', userTheme: null, adminTheme: 'classic', themeLocked: false,
   ui: { home: 'all', cat: 'all', comp: 'done', rate: 'league', rateSub: 'donors', news: 'news', dTab: 'story', q: '', sort: 'urgent', zakatOnly: false },
   login: { stage: 'details', role: 'donor', name: '', email: '', phone: '', err: {} },
   donate: null,
@@ -1023,6 +1061,49 @@ const allDonations = () => [...S.donations.map(d => ({ ...d, status: 'success' }
 const confirmed = () => allDonations().filter(d => d.status === 'success');
 const totalGiven = () => confirmed().reduce((a, d) => a + d.amount, 0);
 const withdrawn = () => S.withdrawals.reduce((a, w) => a + w.amt, 0);
+
+
+/* ---------- themes ---------- */
+// every colour in app.css reads these tokens, so a theme is just a token set
+const BASE_TOKENS = { brand: '#0a9b3c', 'brand-2': '#3ddbbd', 'brand-3': '#1fc95c', 'brand-ink': '#087a30', 'brand-soft': '#dcf7ea', gold: '#e9b52c', 'gold-soft': '#fff5d6', 'gold-ink': '#7a4d00', ink: '#15151f', 'ink-2': '#3d3d4a', muted: '#8a8a96', line: '#ebebf0', bg: '#f1f1f5', card: '#ffffff', chip: '#e8eaf0', soft: '#f2f5f3', 'soft-line': '#c9d4cf', page: '#dcdce3', 'on-brand': '#ffffff' };
+const DARK = { 'gold-soft': '#2c2716', 'gold-ink': '#f1d58b', ink: '#f2f2f5', 'ink-2': '#cfd0d8', muted: '#8f93a3', 'on-brand': '#14110a' };
+const T = (id, name, hi, desc, icon, dark, c, banner) => ({ id, name, hi, desc, icon, dark, banner, c: { ...BASE_TOKENS, ...(dark ? DARK : {}), ...c, raised: c.brand || BASE_TOKENS.brand } });
+const THEMES = [
+  T('classic', 'Classic Green', 'हरा-भरा', 'Fresh green on clean white', 'sprout', false, {}),
+  T('ocean', 'Ocean Teal', 'समंदर', 'Calm teal and sky blue', 'droplet', false, { brand: '#0e8f9e', 'brand-2': '#5fd3e0', 'brand-3': '#149fb0', 'brand-ink': '#0b6f7a', 'brand-soft': '#dff4f6', bg: '#eef4f6', chip: '#e2eaee', soft: '#eef5f7', line: '#e3ebee', 'soft-line': '#c2d3d8', page: '#d5e1e5' }),
+  T('iznik', 'Iznik Blue', 'इज़निक', 'Tile blue with turquoise', 'globe', false, { brand: '#1f4fbf', 'brand-2': '#46c6d8', 'brand-3': '#2f6fe0', 'brand-ink': '#183f99', 'brand-soft': '#e3ebfc', bg: '#f0f3fa', chip: '#e3e8f3', soft: '#eef2fb', line: '#e4e8f2', 'soft-line': '#c3cde3', page: '#d7deee' }),
+  T('sandstone', 'Sandstone', 'रेगिस्तान', 'Warm sand and saffron', 'sun', false, { brand: '#c26a12', 'brand-2': '#f2b54a', 'brand-3': '#d9821c', 'brand-ink': '#8f4c06', 'brand-soft': '#fbeedb', bg: '#f6f1e8', card: '#fffdf9', chip: '#ece4d6', soft: '#f7f0e4', line: '#ece3d4', 'soft-line': '#d6c8b0', page: '#e3d9c7', ink: '#2a2118', 'ink-2': '#4a3f33', muted: '#8d8170' }),
+  T('gulab', 'Gulab Rose', 'गुलाब', 'Soft rose and plum', 'heart', false, { brand: '#c2306a', 'brand-2': '#f58bb1', 'brand-3': '#d9467f', 'brand-ink': '#962252', 'brand-soft': '#fbe4ee', bg: '#f8f1f4', chip: '#efe3e9', soft: '#faf0f4', line: '#efe4ea', 'soft-line': '#dbc4cf', page: '#e8d8e0' }),
+  T('eid', 'Eid Mubarak', 'ईद मुबारक', 'Royal purple with gold', 'gift', false, { brand: '#6b3fc4', 'brand-2': '#b48cf2', 'brand-3': '#7d4fe0', 'brand-ink': '#52299e', 'brand-soft': '#eee6fc', gold: '#e2a72b', bg: '#f3f0fa', chip: '#e7e1f4', soft: '#f3effb', line: '#e8e3f3', 'soft-line': '#cdc3e3', page: '#ddd5ee' },
+    { icon: 'gift', title: 'Eid Mubarak!', sub: 'Share the joy. Gift Eid clothes to an orphan today.', cta: 'Gift Eid', act: 'svcOrphans' }),
+  T('paper', 'Ink & Paper', 'सादगी', 'Minimal black and white', 'pencil', false, { brand: '#1d1d24', 'brand-2': '#55555f', 'brand-3': '#2b2b33', 'brand-ink': '#1d1d24', 'brand-soft': '#ececef', gold: '#b08a3e', bg: '#f4f4f5', chip: '#e8e8eb', soft: '#f3f3f4', line: '#e6e6e9', 'soft-line': '#c9c9cf', page: '#dadadd' }),
+  T('midnight', 'Midnight', 'आधी रात', 'Deep navy with silver', 'star', true, { brand: '#5b93ff', 'brand-2': '#8db6ff', 'brand-3': '#4a80ef', 'brand-ink': '#b3cdff', 'brand-soft': '#1c2b4a', gold: '#e9c46a', line: '#263048', bg: '#0d1322', card: '#151d31', chip: '#1e2840', soft: '#1b2439', 'soft-line': '#34405c', page: '#070b14', 'on-brand': '#ffffff' }),
+  T('royal', 'Royal Gold', 'शाही सुनहरा', 'Black & gold, timeless', 'crown', true, { brand: '#d4a72c', 'brand-2': '#f3d27a', 'brand-3': '#c9971f', 'brand-ink': '#f3d27a', 'brand-soft': '#2e2717', gold: '#e9c46a', ink: '#f4efe2', 'ink-2': '#d6cfbd', muted: '#9a927f', line: '#2a2721', bg: '#0e0d0b', card: '#1a1814', chip: '#25221c', soft: '#221f19', 'soft-line': '#3d382d', page: '#050504' }),
+  T('ramzan', 'Ramzan', 'रमज़ान मुबारक', 'Emerald nights, golden lanterns', 'moon', true, { brand: '#34c98e', 'brand-2': '#6ee7b7', 'brand-3': '#22b07a', 'brand-ink': '#8ff0c6', 'brand-soft': '#12392b', gold: '#e9c46a', ink: '#eef7f2', 'ink-2': '#c4d8ce', muted: '#86a297', line: '#1b3a2e', bg: '#061611', card: '#0c241b', chip: '#123126', soft: '#0f2c21', 'soft-line': '#2a4d3f', page: '#030c09', 'on-brand': '#04261a' },
+    { icon: 'moon', title: 'Ramzan Mubarak', sub: 'Feed a fasting person tonight. ₹100 gives one iftar.', cta: 'Give iftar', act: 'svcFood' }),
+  T('diwali', 'Diwali', 'शुभ दीपावली', 'Diyas, marigold & sparkle', 'flame', true, { brand: '#f59e0b', 'brand-2': '#fbbf24', 'brand-3': '#f08a0b', 'brand-ink': '#fcd38a', 'brand-soft': '#3a1d14', gold: '#fbbf24', 'gold-soft': '#3a2412', 'gold-ink': '#fcd38a', ink: '#fbeee6', 'ink-2': '#e3cbbf', muted: '#a98b80', line: '#3a1f1c', bg: '#1a0b0b', card: '#261111', chip: '#331816', soft: '#2e1513', 'soft-line': '#533028', page: '#0d0505', 'on-brand': '#2a1103' },
+    { icon: 'flame', title: 'Shubh Deepavali', sub: 'Light a diya of hope. Gift a family a festive meal.', cta: 'Gift a meal', act: 'svcFood' }),
+];
+const theme = () => THEMES.find(t => t.id === S.theme) || THEMES[0];
+function applyTheme(id) {
+  const t = THEMES.find(x => x.id === id) || THEMES[0];
+  S.theme = t.id;
+  const el = document.getElementById('theme-vars') || document.head.appendChild(Object.assign(document.createElement('style'), { id: 'theme-vars' }));
+  el.textContent = `:root{${Object.entries(t.c).map(([k, v]) => `--${k}:${v}`).join(';')};color-scheme:${t.dark ? 'dark' : 'light'}}`;
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', t.c.card);
+}
+// called by the admin panel: the organisation's default theme, and whether people may pick their own
+window.adminTheme = (id, allowUsers) => {
+  S.adminTheme = id; S.themeLocked = !allowUsers;
+  applyTheme(S.themeLocked || !S.userTheme ? id : S.userTheme);
+  rerender();
+};
+const themeCard = (t, on, locked) => `<button class="theme-card ${on ? 'on' : ''}" ${locked ? 'disabled' : `data-act="pickTheme" data-v="${t.id}"`} style="background:${t.c.card};border-color:${on ? t.c.brand : t.c.line};color:${t.c.ink}">
+  <span class="th-ic" style="background:${t.c['brand-soft']};color:${t.c.brand}">${t.id === 'royal' || t.id === 'classic' ? emblem() : ic(t.icon)}</span>
+  <span class="th-txt"><b>${t.name}</b><span style="color:${t.c.muted}"><span lang="hi">${t.hi}</span> · ${t.desc}</span>
+  <span class="th-dots">${[t.c.bg, t.c.card, t.c.brand, t.c.gold, t.c['brand-2']].map(x => `<i style="background:${x}"></i>`).join('')}</span></span>
+  <span class="th-radio" style="border-color:${on ? t.c.brand : t.c['soft-line']}">${on ? `<i style="background:${t.c.brand}"></i>` : ''}</span></button>`;
+const seasonCard = () => { const b = theme().banner; return b ? `<div class="season-card"><span class="season-ic">${ic(b.icon)}</span><span class="season-txt"><b>${b.title}</b><span>${b.sub}</span></span><button class="btn btn-main" data-act="${b.act}">${b.cta}</button></div>` : ''; };
 
 /* ---------- shared pieces ---------- */
 const thumb = (c, photo = c.photo) => photo ? `<div class="thumb" style="background:url('${photo}') center/cover"></div>` : `<div class="thumb plain">${ic(CATS[c.cat].icon)}</div>`;
@@ -1111,7 +1192,7 @@ const SERVICES = [
 ];
 const servicesBlock = () => `<section class="services">${secTitle('Our services', 'हमारी सेवाएँ')}<div class="svc-grid">${SERVICES.map(([i, l, a]) => `<button class="svc" data-act="${a}"><span class="svc-ic">${ic(i)}</span>${l}</button>`).join('')}</div></section>`;
 const duaBlock = () => `<section class="home-sec">${secTitle('Feed a madrasa child', 'बच्चों के लिए भोजन')}
-  <div class="dua"><div class="dua-head"><div><h3>Dua karein, aur karein donation</h3><p>Your dua and a small gift give a meal to children studying in our madrasas.</p></div>${ic('bowl')}</div>
+  <div class="dua"><div class="dua-photo" style="background-image:url('${PHOTO.school}')"></div><div class="dua-head"><div><h3>Dua karein, aur karein donation</h3><p>Your dua and a small gift give a meal to children studying in our madrasas.</p></div>${ic('bowl')}</div>
   <div class="dua-amts">${[10, 20, 50, 100].map(a => `<button data-act="quickGive" data-v="${a}">₹${a}</button>`).join('')}</div></div></section>`;
 const HADITH = [
   ['The best of people are those who are most beneficial to people.', 'Hadith, al-Mu‘jam al-Awsat'],
@@ -1132,7 +1213,7 @@ V.home = () => {
   const cards = list.map(campaignCard);
   if (S.ui.home === 'all' && S.ui.cat === 'all') { cards.splice(1, 0, duaBlock()); cards.splice(3, 0, hadithBlock()); cards.splice(5, 0, membersBlock()); cards.splice(6, 0, creatorNudge()); }
   return { nav: 'home', html: header(seg('home', [['all', 'All campaigns'], ['fav', 'My favorites']])) +
-    (S.ui.home === 'all' && S.ui.cat === 'all' ? `<div class="home-top">${tierStrip()}</div>` + servicesBlock() : '') +
+    (S.ui.home === 'all' && S.ui.cat === 'all' ? `<div class="home-top">${tierStrip()}${seasonCard()}</div>` + servicesBlock() : '') +
     (S.ui.home === 'all' ? `<div class="chips">${cats.map(([k, l, i]) => `<button class="chip ${S.ui.cat === k ? 'on' : ''}" data-act="ui" data-k="cat" data-v="${k}">${ic(i)}${l}</button>`).join('')}</div>` : '') +
     `<div class="feed">${cards.join('') || `<div class="empty">${ic('bookmark')}<p>Tap the bookmark on any campaign to keep it here.</p><button class="btn btn-soft" data-act="ui" data-k="home" data-v="all">Browse campaigns</button></div>`}</div>` };
 };
@@ -1253,7 +1334,7 @@ V.profile = () => {
     </section>
     ${menu([['receipt', 'Donation history', '#/history'], ['globe', 'Language and region', 'region', 'English · ₹ INR'], ['calendar', 'Monthly giving', 'monthly'], ['card', 'Payment methods', 'payments']])}
     ${menu([['bookmark', 'Favorites', 'favs'], ['wallet', 'Fundraiser dashboard & withdrawals', '#/my'], ['shield', 'KYC & bank account', '#/kyc', 'Verified'], ['link', 'Your personal link', 'mylink']])}
-    ${menu([['megaphone', 'Affiliate & Creator', '#/creator', S.creator ? S.creator.code : 'Earn halal'], ['hands', 'Verified NGOs', '#/ngos', String(Object.values(ORGS).filter(o => o.ngo).length)], ['bell', 'Notifications & email', '#/settings']])}
+    ${menu([['megaphone', 'Affiliate & Creator', '#/creator', S.creator ? S.creator.code : 'Earn halal'], ['hands', 'Verified NGOs', '#/ngos', String(Object.values(ORGS).filter(o => o.ngo).length)], ['palette', 'App theme', '#/settings', theme().name], ['bell', 'Notifications & email', '#/settings']])}
     ${menu([['hands', 'About us', '#/info/about'], ['help', 'How it works', '#/info/how'], ['info', 'FAQs', '#/info/faq']])}
     <section class="section">
       <div class="thanks"><div style="flex:1"><h3>Thank you for being with us</h3><p>Write to us if you have a question, feedback, an idea, or something isn’t working.</p><a href="#/info/contact" data-go="#/info/contact">Write to us</a></div><div class="logo" style="flex-direction:column;font-size:20px;gap:2px">${LOGO.replace('viewBox', 'style="width:54px;height:54px" viewBox')}${APP}</div></div>
@@ -1503,6 +1584,9 @@ V.settings = () => {
   const u = S.user;
   const sw = (k, t, d) => `<div class="switch-row"><div class="txt"><b>${t}</b><span>${d}</span></div><button class="switch ${S.prefs[k] ? 'on' : ''}" data-act="pref" data-k="${k}" role="switch" aria-checked="${S.prefs[k]}" aria-label="${t}"></button></div>`;
   return { html: pageHead('Profile settings') + `<form class="wrap" data-form="profile">
+    <section class="section"><div class="sec-head"><h2>App theme</h2><span class="small muted">${THEMES.length} themes</span></div>
+      <p class="small muted" style="margin:-4px 0 12px">${S.themeLocked ? 'Your organisation has set the theme for everyone.' : 'Switch the whole app to a new look. Festive themes add a seasonal card on Home.'}</p>
+      <div class="theme-list">${THEMES.map(t => themeCard(t, t.id === S.theme, S.themeLocked)).join('')}</div></section>
     <section class="section center" style="display:grid;justify-items:center;gap:10px">${avatar(u.name, 'big')}<label class="text-link" for="avatar-in">Change photo<input type="file" id="avatar-in" accept="image/*" hidden></label></section>
     <section class="section" style="display:grid;gap:14px">
       <div class="field"><label for="s-name">Full name</label><input class="input" id="s-name" name="name" value="${esc(u.name)}" required></div>
@@ -1761,6 +1845,7 @@ const A = {
   mylink: () => sheet(`<h2>Your personal link</h2><p class="muted small">Share it anywhere. Donations made through it count toward your Inspirer rank.</p><p style="margin-top:12px;font-weight:700;user-select:all">${SITE}/u/ayesha-khan</p><button class="btn btn-main btn-block" style="margin-top:14px" data-act="copy" data-v="${SITE}/u/ayesha-khan">${ic('link')} Copy link</button>`),
   logout: () => { S.login = { stage: 'details', role: 'donor', name: '', email: '', phone: '', err: {} }; replaceRoute('#/intro'); },
   splashNext: () => replaceRoute('#/intro'),
+  pickTheme: el => { S.userTheme = el.dataset.v; applyTheme(el.dataset.v); try { localStorage.setItem('mlp-theme', el.dataset.v); } catch { /* storage blocked: theme lasts for this session */ } toast(theme().name + ' theme on'); rerender(); },
   joinCreator: () => sheet(`<h2>Join as creator</h2><p class="muted small">Tell us where you share. We review new creators within a day.</p>
     <form data-form="creator" style="display:grid;gap:10px;margin-top:12px">
       <div class="field"><label for="cr-handle">Main channel or profile link</label><input class="input" id="cr-handle" name="handle" required placeholder="youtube.com/@yourchannel"></div>
@@ -1867,6 +1952,8 @@ document.addEventListener('submit', e => {
   }
 });
 
+try { S.userTheme = localStorage.getItem('mlp-theme'); } catch { /* no storage: default theme */ }
+applyTheme(S.userTheme || S.adminTheme);
 if (!location.hash) replaceRoute('#/splash');
 render();
 </script>
@@ -1882,6 +1969,7 @@ const P = {
   chart: '<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>', users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
   tag: '<path d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.7 8.7a2.4 2.4 0 0 0 3.4 0l6.6-6.6a2.4 2.4 0 0 0 0-3.4Z"/><circle cx="7.5" cy="7.5" r="1.5"/>',
   file: '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8M16 17H8"/>',
+  palette: '<circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.55-2.5 5.55-5.55C21.97 6.01 17.46 2 12 2z"/>',
   sliders: '<path d="M21 4h-7M10 4H3M21 12h-9M8 12H3M21 20h-5M12 20H3M14 2v4M8 10v4M16 18v4"/>', bank: '<path d="M3 22h18M6 18v-7M10 18v-7M14 18v-7M18 18v-7"/><path d="m12 2 8 5H4z"/>',
   clock: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>', download: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/>',
 };
@@ -1911,7 +1999,7 @@ const SCREENS = [
   ['Tabs', [['Campaigns (home)', '#/home'], ['Donations (centre button)', '#/donations'], ['Affiliate & Creator', '#/creator'], ['Welcome notification', 'greet'], ['Zakat calculator', 'zakat'], ['Completed', '#/completed'], ['Completed reports', 'reports'], ['Rating · your league', '#/rating'], ['Rating · overall', 'overall'], ['News', '#/news'], ['Notifications', '#/news/notifications'], ['Profile', '#/profile']]],
   ['Giving', [['Search & filters', '#/search'], ['Campaign page', '#/c/1'], ['Campaign donors', 'donors'], ['Share sheet', 'share'], ['Donate', '#/donate/1'], ['Payment success', 'success'], ['Donation history', '#/history']]],
   ['Fundraising', [['Start a fundraiser', '#/start'], ['Beneficiary & uploads', 'step2'], ['Submitted for review', '#/submitted'], ['Organiser dashboard', '#/my'], ['Post an update', 'update'], ['Request withdrawal', '#/withdraw'], ['KYC & bank account', '#/kyc']]],
-  ['Account & info', [['Profile settings', '#/settings'], ['Verified NGOs', '#/ngos'], ['About us', '#/info/about'], ['How it works', '#/info/how'], ['FAQs', '#/info/faq'], ['Contact us', '#/info/contact'], ['Terms & Conditions', '#/info/terms'], ['Privacy Policy', '#/info/privacy'], ['Refund Policy', '#/info/refund']]],
+  ['Account & info', [['Profile settings & themes', '#/settings'], ['Verified NGOs', '#/ngos'], ['About us', '#/info/about'], ['How it works', '#/info/how'], ['FAQs', '#/info/faq'], ['Contact us', '#/info/contact'], ['Terms & Conditions', '#/info/terms'], ['Privacy Policy', '#/info/privacy'], ['Refund Policy', '#/info/refund']]],
 ];
 function go(target) {
   setMode('app');
@@ -1923,11 +2011,11 @@ $('#screen-list').innerHTML = SCREENS.map(([g, items]) => `<div class="group">${
 
 const FEATURES = [
   ['1. Website & fundraiser listings', [['Home with featured fundraisers and cause categories', '#/home'], ['Listing with search and filters', '#/search'], ['Campaign page: story, beneficiary, images, target, raised, progress', '#/c/1']]],
-  ['2. Registration & dashboard', [['Login and registration for donors and organisers', '#/login'], ['Profile management', '#/settings'], ['Dashboard: campaigns, donations, withdrawals', '#/my'], ['Donor contribution history', '#/history']]],
+  ['2. Registration & dashboard', [['Login and registration for donors and organisers', '#/login'], ['Profile management', '#/settings'], ['App theme picker (11 themes)', '#/settings'], ['Dashboard: campaigns, donations, withdrawals', '#/my'], ['Donor contribution history', '#/history']]],
   ['3. Fundraiser creation & management', [['Title, category, story and target amount', '#/start'], ['Beneficiary details, images and documents', 'step2'], ['Submit for admin review', '#/submitted'], ['Publish campaign updates', 'update'], ['Share on WhatsApp and social media', 'share']]],
   ['4. Donations & payments', [['UPI, cards and net banking', '#/donate/1'], ['Confirmation, receipt and acknowledgement', 'success'], ['Campaign donation records', 'donors'], ['Optional platform tip / voluntary contribution', '#/donate/1']]],
   ['5. Verification & withdrawals', [['KYC and supporting documents', '#/kyc'], ['Beneficiary bank account', '#/kyc'], ['Admin verification of campaigns and recipients', 'admin:verification'], ['Withdrawal requests with approval and payment status', '#/withdraw']]],
-  ['6. Admin panel', [['Manage users', 'admin:users'], ['Manage fundraisers: approve, reject, suspend', 'admin:campaigns'], ['Categories and website content', 'admin:categories'], ['Review documents and withdrawals', 'admin:withdrawals'], ['Donations, transactions and reports', 'admin:donations'], ['Platform fee and voluntary contribution settings', 'admin:settings']]],
+  ['6. Admin panel', [['Manage users', 'admin:users'], ['Manage fundraisers: approve, reject, suspend', 'admin:campaigns'], ['Categories and website content', 'admin:categories'], ['Review documents and withdrawals', 'admin:withdrawals'], ['Donations, transactions and reports', 'admin:donations'], ['Platform fee and voluntary contribution settings', 'admin:settings'], ['App themes for everyone', 'admin:appearance']]],
   ['7. Supporting pages & notifications', [['About, How it works, FAQs, Contact', '#/info/about'], ['Privacy, Terms and Refund policy pages', '#/info/privacy'], ['Email notification preferences', '#/settings'], ['In-app notifications', '#/news/notifications']]],
 ];
 const total = FEATURES.reduce((a, [, f]) => a + f.length, 0);
@@ -1949,7 +2037,7 @@ function setMode(m) {
 const AV = ['#1d63b0', '#0a8a52', '#e0602a', '#5634c0', '#cf4778', '#0e8fa6', '#b5651d'];
 const avatar = n => `<span class="av" style="background:${AV[[...n].reduce((a, c) => a + c.charCodeAt(0), 0) % AV.length]}">${esc(n.split(' ').map(w => w[0]).join('').slice(0, 2))}</span>`;
 const DB = {
-  section: 'overview', campFilter: 'all',
+  section: 'overview', campFilter: 'all', themeDefault: 'classic', allowUsers: true, autoRamzan: true, autoEid: true,
   campaigns: [
     { id: 9, title: 'Help my neighbour Salma with eye surgery', org: 'Ayesha Khan', cat: 'Medical', goal: 150000, raised: 0, status: 'review', submitted: 'Today' },
     { id: 10, title: 'Ration kits for 200 widows in Bhiwandi', org: 'Al-Noor Welfare Society', cat: 'Food & Iftar', goal: 400000, raised: 0, status: 'review', submitted: 'Yesterday' },
@@ -1990,7 +2078,7 @@ const DB = {
   settings: { fee: 0, tips: true, tipDefault: 5, upi: true, card: true, nb: true, intl: false, mReceipt: true, mStatus: true, mWithdraw: true, mWeekly: false },
 };
 const pending = () => ({ campaigns: DB.campaigns.filter(c => c.status === 'review').length, verification: DB.verify.filter(v => v.status === 'pending').length, withdrawals: DB.withdrawals.filter(w => w.status === 'requested').length });
-const NAV = [['overview', 'Overview', 'grid'], ['campaigns', 'Fundraisers', 'flag'], ['verification', 'Verification', 'shield'], ['withdrawals', 'Withdrawals', 'wallet'], ['donations', 'Donations & reports', 'chart'], ['users', 'Users', 'users'], ['categories', 'Categories', 'tag'], ['content', 'Website content', 'file'], ['settings', 'Fees & settings', 'sliders']];
+const NAV = [['overview', 'Overview', 'grid'], ['campaigns', 'Fundraisers', 'flag'], ['verification', 'Verification', 'shield'], ['withdrawals', 'Withdrawals', 'wallet'], ['donations', 'Donations & reports', 'chart'], ['users', 'Users', 'users'], ['categories', 'Categories', 'tag'], ['content', 'Website content', 'file'], ['appearance', 'App themes', 'palette'], ['settings', 'Fees & settings', 'sliders']];
 const pill = s => `<span class="pill p-${s}">${{ review: 'Pending review', live: 'Live', suspended: 'Suspended', completed: 'Completed', rejected: 'Rejected', pending: 'Pending', approved: 'Approved', requested: 'Requested', paid: 'Paid', active: 'Active', blocked: 'Blocked', verified: 'Verified' }[s] || s}</span>`;
 const head = (t, d, right = '') => `<div class="work-head"><h1>${t}</h1><span style="margin-left:auto;display:flex;gap:8px">${right}</span><p>${d}</p></div>`;
 
@@ -2040,6 +2128,16 @@ const ADMIN = {
   content: () => head('Website content', 'Pages shown in the app and on the website. Policy pages wait for the approved text.') + `<div class="card"><div class="table-wrap"><table><thead><tr><th>Page</th><th>Last updated</th><th class="r">Actions</th></tr></thead><tbody>
     ${DB.pages.map((p, i) => `<tr><td><b>${p[0]}</b></td><td class="${p[1].startsWith('Awaiting') ? '' : 'num'}">${p[1].startsWith('Awaiting') ? pill('pending').replace('Pending', p[1]) : p[1]}</td><td><div class="acts"><button class="b b-soft" data-a="edit" data-v="${i}">Edit</button></div></td></tr>`).join('')}
     </tbody></table></div></div>`,
+  appearance: () => {
+    let themes = [];
+    try { themes = win().eval('THEMES'); } catch { /* app frame not ready */ }
+    const sw = (k, t, d) => `<div class="toggle-row"><span class="t"><b>${t}</b><span>${d}</span></span><button class="sw ${DB[k] ? 'on' : ''}" data-a="themeOpt" data-v="${k}" role="switch" aria-checked="${DB[k]}" aria-label="${t}"></button></div>`;
+    return head('App themes', 'Pick the theme everyone sees. Changes apply to the app instantly; watch the phone in Mobile app mode.') + `
+    <div class="theme-grid">${themes.map(t => { const on = t.id === DB.themeDefault; return `<div class="th-admin ${on ? 'on' : ''}" style="background:${t.c.card};color:${t.c.ink};border-color:${on ? t.c.brand : t.c.line}">
+      <div class="th-prev" style="background:${t.c.bg}"><span style="background:${t.c.brand}"></span><span style="background:${t.c.card}"></span><span style="background:${t.c.gold}"></span></div>
+      <b>${esc(t.name)}</b><span style="color:${t.c.muted}">${esc(t.desc)}${t.dark ? ' · dark' : ''}${t.banner ? ' · seasonal card' : ''}</span>
+      ${on ? `<span class="pill p-live">Default for everyone</span>` : `<button class="b b-soft" data-a="setTheme" data-v="${t.id}">Set as default</button>`}</div>`; }).join('')}</div>
+    <div class="card" style="max-width:640px"><h2>Rules</h2>${sw('allowUsers', 'Let people choose their own theme', 'Off: everyone sees the default theme and the picker is locked')}${sw('autoRamzan', 'Switch to Ramzan during Ramadan', 'Turns on at the start of Ramadan and back after Eid')}${sw('autoEid', 'Switch to Eid Mubarak on Eid days', 'Eid al-Fitr and Eid al-Adha')}</div>`; },
   settings: () => { const s = DB.settings; const sw = (k, t, d) => `<div class="toggle-row"><span class="t"><b>${t}</b><span>${d}</span></span><button class="sw ${s[k] ? 'on' : ''}" data-a="set" data-v="${k}" role="switch" aria-checked="${s[k]}" aria-label="${t}"></button></div>`;
     return head('Fees & settings', 'Platform fee, voluntary contributions, payment methods and emails.') + `<div class="cols">
     <div class="card"><h2>Fees</h2><div class="form">
@@ -2060,7 +2158,10 @@ function renderAdmin() {
 }
 function adminGo(s) { DB.section = s; renderAdmin(); window.scrollTo(0, 0); }
 function modal(html) { const m = document.createElement('div'); m.className = 'modal-scrim'; m.innerHTML = `<div class="modal" role="dialog" aria-modal="true">${html}</div>`; m.addEventListener('click', e => { if (e.target === m || e.target.closest('[data-close]')) m.remove(); }); document.body.appendChild(m); return m; }
+const pushTheme = () => { try { win().adminTheme(DB.themeDefault, DB.allowUsers); } catch { /* app frame not ready */ } };
 const ACT = {
+  setTheme: v => { DB.themeDefault = v; pushTheme(); toast('Default theme updated for everyone'); renderAdmin(); },
+  themeOpt: v => { DB[v] = !DB[v]; if (v === 'allowUsers') pushTheme(); renderAdmin(); },
   nav: v => adminGo(v),
   campFilter: v => { DB.campFilter = v; renderAdmin(); },
   camp: (v, el) => { const c = DB.campaigns.find(x => x.id === Number(v)); c.status = el.dataset.s; delete c.submitted; toast({ live: 'Approved. The organiser has been emailed.', rejected: 'Rejected. The organiser has been emailed the reason.', suspended: 'Suspended. Donations are paused.' }[c.status]); renderAdmin(); },

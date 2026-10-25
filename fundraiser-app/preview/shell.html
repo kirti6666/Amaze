@@ -94,6 +94,13 @@ td .sub { display: block; color: var(--muted); font-size: 12px; }
 .p-review, .p-pending, .p-requested { background: var(--amber-soft); color: var(--amber); }
 .p-paid, .p-completed { background: var(--blue-soft); color: var(--blue); }
 .p-rejected, .p-suspended, .p-blocked { background: var(--danger-soft); color: var(--danger); }
+.theme-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+.th-admin { border: 1.5px solid; border-radius: 16px; padding: 12px; display: grid; gap: 6px; align-content: start; }
+.th-admin.on { border-width: 2px; }
+.th-admin > span:not(.pill) { font-size: 12.5px; }
+.th-admin .b, .th-admin .pill { justify-self: start; }
+.th-prev { height: 64px; border-radius: 10px; display: flex; align-items: flex-end; gap: 6px; padding: 8px; }
+.th-prev span { width: 22px; height: 22px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgb(127 127 127 / 0.3); }
 .clip { display: block; max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .acts { display: flex; gap: 6px; justify-content: flex-end; }
 .b { height: 32px; padding: 0 12px; border-radius: 8px; font-weight: 600; font-size: 12.5px; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
@@ -203,6 +210,7 @@ const P = {
   chart: '<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>', users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
   tag: '<path d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.7 8.7a2.4 2.4 0 0 0 3.4 0l6.6-6.6a2.4 2.4 0 0 0 0-3.4Z"/><circle cx="7.5" cy="7.5" r="1.5"/>',
   file: '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8M16 17H8"/>',
+  palette: '<circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.55-2.5 5.55-5.55C21.97 6.01 17.46 2 12 2z"/>',
   sliders: '<path d="M21 4h-7M10 4H3M21 12h-9M8 12H3M21 20h-5M12 20H3M14 2v4M8 10v4M16 18v4"/>', bank: '<path d="M3 22h18M6 18v-7M10 18v-7M14 18v-7M18 18v-7"/><path d="m12 2 8 5H4z"/>',
   clock: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>', download: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/>',
 };
@@ -232,7 +240,7 @@ const SCREENS = [
   ['Tabs', [['Campaigns (home)', '#/home'], ['Donations (centre button)', '#/donations'], ['Affiliate & Creator', '#/creator'], ['Welcome notification', 'greet'], ['Zakat calculator', 'zakat'], ['Completed', '#/completed'], ['Completed reports', 'reports'], ['Rating · your league', '#/rating'], ['Rating · overall', 'overall'], ['News', '#/news'], ['Notifications', '#/news/notifications'], ['Profile', '#/profile']]],
   ['Giving', [['Search & filters', '#/search'], ['Campaign page', '#/c/1'], ['Campaign donors', 'donors'], ['Share sheet', 'share'], ['Donate', '#/donate/1'], ['Payment success', 'success'], ['Donation history', '#/history']]],
   ['Fundraising', [['Start a fundraiser', '#/start'], ['Beneficiary & uploads', 'step2'], ['Submitted for review', '#/submitted'], ['Organiser dashboard', '#/my'], ['Post an update', 'update'], ['Request withdrawal', '#/withdraw'], ['KYC & bank account', '#/kyc']]],
-  ['Account & info', [['Profile settings', '#/settings'], ['Verified NGOs', '#/ngos'], ['About us', '#/info/about'], ['How it works', '#/info/how'], ['FAQs', '#/info/faq'], ['Contact us', '#/info/contact'], ['Terms & Conditions', '#/info/terms'], ['Privacy Policy', '#/info/privacy'], ['Refund Policy', '#/info/refund']]],
+  ['Account & info', [['Profile settings & themes', '#/settings'], ['Verified NGOs', '#/ngos'], ['About us', '#/info/about'], ['How it works', '#/info/how'], ['FAQs', '#/info/faq'], ['Contact us', '#/info/contact'], ['Terms & Conditions', '#/info/terms'], ['Privacy Policy', '#/info/privacy'], ['Refund Policy', '#/info/refund']]],
 ];
 function go(target) {
   setMode('app');
@@ -244,11 +252,11 @@ $('#screen-list').innerHTML = SCREENS.map(([g, items]) => `<div class="group">${
 
 const FEATURES = [
   ['1. Website & fundraiser listings', [['Home with featured fundraisers and cause categories', '#/home'], ['Listing with search and filters', '#/search'], ['Campaign page: story, beneficiary, images, target, raised, progress', '#/c/1']]],
-  ['2. Registration & dashboard', [['Login and registration for donors and organisers', '#/login'], ['Profile management', '#/settings'], ['Dashboard: campaigns, donations, withdrawals', '#/my'], ['Donor contribution history', '#/history']]],
+  ['2. Registration & dashboard', [['Login and registration for donors and organisers', '#/login'], ['Profile management', '#/settings'], ['App theme picker (11 themes)', '#/settings'], ['Dashboard: campaigns, donations, withdrawals', '#/my'], ['Donor contribution history', '#/history']]],
   ['3. Fundraiser creation & management', [['Title, category, story and target amount', '#/start'], ['Beneficiary details, images and documents', 'step2'], ['Submit for admin review', '#/submitted'], ['Publish campaign updates', 'update'], ['Share on WhatsApp and social media', 'share']]],
   ['4. Donations & payments', [['UPI, cards and net banking', '#/donate/1'], ['Confirmation, receipt and acknowledgement', 'success'], ['Campaign donation records', 'donors'], ['Optional platform tip / voluntary contribution', '#/donate/1']]],
   ['5. Verification & withdrawals', [['KYC and supporting documents', '#/kyc'], ['Beneficiary bank account', '#/kyc'], ['Admin verification of campaigns and recipients', 'admin:verification'], ['Withdrawal requests with approval and payment status', '#/withdraw']]],
-  ['6. Admin panel', [['Manage users', 'admin:users'], ['Manage fundraisers: approve, reject, suspend', 'admin:campaigns'], ['Categories and website content', 'admin:categories'], ['Review documents and withdrawals', 'admin:withdrawals'], ['Donations, transactions and reports', 'admin:donations'], ['Platform fee and voluntary contribution settings', 'admin:settings']]],
+  ['6. Admin panel', [['Manage users', 'admin:users'], ['Manage fundraisers: approve, reject, suspend', 'admin:campaigns'], ['Categories and website content', 'admin:categories'], ['Review documents and withdrawals', 'admin:withdrawals'], ['Donations, transactions and reports', 'admin:donations'], ['Platform fee and voluntary contribution settings', 'admin:settings'], ['App themes for everyone', 'admin:appearance']]],
   ['7. Supporting pages & notifications', [['About, How it works, FAQs, Contact', '#/info/about'], ['Privacy, Terms and Refund policy pages', '#/info/privacy'], ['Email notification preferences', '#/settings'], ['In-app notifications', '#/news/notifications']]],
 ];
 const total = FEATURES.reduce((a, [, f]) => a + f.length, 0);
@@ -270,7 +278,7 @@ function setMode(m) {
 const AV = ['#1d63b0', '#0a8a52', '#e0602a', '#5634c0', '#cf4778', '#0e8fa6', '#b5651d'];
 const avatar = n => `<span class="av" style="background:${AV[[...n].reduce((a, c) => a + c.charCodeAt(0), 0) % AV.length]}">${esc(n.split(' ').map(w => w[0]).join('').slice(0, 2))}</span>`;
 const DB = {
-  section: 'overview', campFilter: 'all',
+  section: 'overview', campFilter: 'all', themeDefault: 'classic', allowUsers: true, autoRamzan: true, autoEid: true,
   campaigns: [
     { id: 9, title: 'Help my neighbour Salma with eye surgery', org: 'Ayesha Khan', cat: 'Medical', goal: 150000, raised: 0, status: 'review', submitted: 'Today' },
     { id: 10, title: 'Ration kits for 200 widows in Bhiwandi', org: 'Al-Noor Welfare Society', cat: 'Food & Iftar', goal: 400000, raised: 0, status: 'review', submitted: 'Yesterday' },
@@ -311,7 +319,7 @@ const DB = {
   settings: { fee: 0, tips: true, tipDefault: 5, upi: true, card: true, nb: true, intl: false, mReceipt: true, mStatus: true, mWithdraw: true, mWeekly: false },
 };
 const pending = () => ({ campaigns: DB.campaigns.filter(c => c.status === 'review').length, verification: DB.verify.filter(v => v.status === 'pending').length, withdrawals: DB.withdrawals.filter(w => w.status === 'requested').length });
-const NAV = [['overview', 'Overview', 'grid'], ['campaigns', 'Fundraisers', 'flag'], ['verification', 'Verification', 'shield'], ['withdrawals', 'Withdrawals', 'wallet'], ['donations', 'Donations & reports', 'chart'], ['users', 'Users', 'users'], ['categories', 'Categories', 'tag'], ['content', 'Website content', 'file'], ['settings', 'Fees & settings', 'sliders']];
+const NAV = [['overview', 'Overview', 'grid'], ['campaigns', 'Fundraisers', 'flag'], ['verification', 'Verification', 'shield'], ['withdrawals', 'Withdrawals', 'wallet'], ['donations', 'Donations & reports', 'chart'], ['users', 'Users', 'users'], ['categories', 'Categories', 'tag'], ['content', 'Website content', 'file'], ['appearance', 'App themes', 'palette'], ['settings', 'Fees & settings', 'sliders']];
 const pill = s => `<span class="pill p-${s}">${{ review: 'Pending review', live: 'Live', suspended: 'Suspended', completed: 'Completed', rejected: 'Rejected', pending: 'Pending', approved: 'Approved', requested: 'Requested', paid: 'Paid', active: 'Active', blocked: 'Blocked', verified: 'Verified' }[s] || s}</span>`;
 const head = (t, d, right = '') => `<div class="work-head"><h1>${t}</h1><span style="margin-left:auto;display:flex;gap:8px">${right}</span><p>${d}</p></div>`;
 
@@ -361,6 +369,16 @@ const ADMIN = {
   content: () => head('Website content', 'Pages shown in the app and on the website. Policy pages wait for the approved text.') + `<div class="card"><div class="table-wrap"><table><thead><tr><th>Page</th><th>Last updated</th><th class="r">Actions</th></tr></thead><tbody>
     ${DB.pages.map((p, i) => `<tr><td><b>${p[0]}</b></td><td class="${p[1].startsWith('Awaiting') ? '' : 'num'}">${p[1].startsWith('Awaiting') ? pill('pending').replace('Pending', p[1]) : p[1]}</td><td><div class="acts"><button class="b b-soft" data-a="edit" data-v="${i}">Edit</button></div></td></tr>`).join('')}
     </tbody></table></div></div>`,
+  appearance: () => {
+    let themes = [];
+    try { themes = win().eval('THEMES'); } catch { /* app frame not ready */ }
+    const sw = (k, t, d) => `<div class="toggle-row"><span class="t"><b>${t}</b><span>${d}</span></span><button class="sw ${DB[k] ? 'on' : ''}" data-a="themeOpt" data-v="${k}" role="switch" aria-checked="${DB[k]}" aria-label="${t}"></button></div>`;
+    return head('App themes', 'Pick the theme everyone sees. Changes apply to the app instantly; watch the phone in Mobile app mode.') + `
+    <div class="theme-grid">${themes.map(t => { const on = t.id === DB.themeDefault; return `<div class="th-admin ${on ? 'on' : ''}" style="background:${t.c.card};color:${t.c.ink};border-color:${on ? t.c.brand : t.c.line}">
+      <div class="th-prev" style="background:${t.c.bg}"><span style="background:${t.c.brand}"></span><span style="background:${t.c.card}"></span><span style="background:${t.c.gold}"></span></div>
+      <b>${esc(t.name)}</b><span style="color:${t.c.muted}">${esc(t.desc)}${t.dark ? ' · dark' : ''}${t.banner ? ' · seasonal card' : ''}</span>
+      ${on ? `<span class="pill p-live">Default for everyone</span>` : `<button class="b b-soft" data-a="setTheme" data-v="${t.id}">Set as default</button>`}</div>`; }).join('')}</div>
+    <div class="card" style="max-width:640px"><h2>Rules</h2>${sw('allowUsers', 'Let people choose their own theme', 'Off: everyone sees the default theme and the picker is locked')}${sw('autoRamzan', 'Switch to Ramzan during Ramadan', 'Turns on at the start of Ramadan and back after Eid')}${sw('autoEid', 'Switch to Eid Mubarak on Eid days', 'Eid al-Fitr and Eid al-Adha')}</div>`; },
   settings: () => { const s = DB.settings; const sw = (k, t, d) => `<div class="toggle-row"><span class="t"><b>${t}</b><span>${d}</span></span><button class="sw ${s[k] ? 'on' : ''}" data-a="set" data-v="${k}" role="switch" aria-checked="${s[k]}" aria-label="${t}"></button></div>`;
     return head('Fees & settings', 'Platform fee, voluntary contributions, payment methods and emails.') + `<div class="cols">
     <div class="card"><h2>Fees</h2><div class="form">
@@ -381,7 +399,10 @@ function renderAdmin() {
 }
 function adminGo(s) { DB.section = s; renderAdmin(); window.scrollTo(0, 0); }
 function modal(html) { const m = document.createElement('div'); m.className = 'modal-scrim'; m.innerHTML = `<div class="modal" role="dialog" aria-modal="true">${html}</div>`; m.addEventListener('click', e => { if (e.target === m || e.target.closest('[data-close]')) m.remove(); }); document.body.appendChild(m); return m; }
+const pushTheme = () => { try { win().adminTheme(DB.themeDefault, DB.allowUsers); } catch { /* app frame not ready */ } };
 const ACT = {
+  setTheme: v => { DB.themeDefault = v; pushTheme(); toast('Default theme updated for everyone'); renderAdmin(); },
+  themeOpt: v => { DB[v] = !DB[v]; if (v === 'allowUsers') pushTheme(); renderAdmin(); },
   nav: v => adminGo(v),
   campFilter: v => { DB.campFilter = v; renderAdmin(); },
   camp: (v, el) => { const c = DB.campaigns.find(x => x.id === Number(v)); c.status = el.dataset.s; delete c.submitted; toast({ live: 'Approved. The organiser has been emailed.', rejected: 'Rejected. The organiser has been emailed the reason.', suspended: 'Suspended. Donations are paused.' }[c.status]); renderAdmin(); },
