@@ -1,6 +1,6 @@
 {
-  "appId": "app.barakah.demo",
-  "appName": "Barakah",
+  "appId": "app.giving.demo",
+  "appName": "MuslimPro Giving",
   "webDir": "www",
   "plugins": {
     "SystemBars": { "insetsHandling": "css", "initialViewportFitValueHint": "cover" }

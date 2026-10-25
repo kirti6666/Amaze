@@ -1,9 +1,9 @@
-/* Barakah Giving: clickable Android UI demo for a donation / fundraising platform.
+/* MuslimPro Giving: clickable Android UI demo for a donation / fundraising platform.
    Everything is in-memory sample data; no backend calls. Hash routes give the Android back button for free. */
 'use strict';
 
-const APP = 'barakah';
-const SITE = 'https://barakah.app';
+const APP = 'MuslimPro';
+const SITE = 'https://give.muslimpro.demo';
 const inr = n => '₹' + Math.round(n).toLocaleString('en-IN');
 const esc = s => String(s ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 const pct = c => Math.min(100, Math.round((c.raised / c.goal) * 100));
@@ -146,7 +146,7 @@ const CAMPAIGNS = [
     ben: { Beneficiary: 'Rashid Khan, 58 yrs', Relation: 'Father of organiser', Hospital: 'SGPGI Lucknow', Location: 'Lucknow' },
     docs: ['Transplant cost estimate', 'Nephrologist letter', 'Organiser KYC'],
     story: ['My father Rashid has been on dialysis three times a week for a year. His brother is a matching donor and the surgery is set for next month.', 'We have arranged ₹2 lakh ourselves. Please help with the remaining amount.'],
-    updates: [['6 days ago', 'Campaign verified by the Barakah team.']],
+    updates: [['6 days ago', 'Campaign verified by the MuslimPro team.']],
   },
   {
     id: 5, org: 'ummeed', cat: 'emergency', zakat: true, featured: true, city: 'Dhemaji, Assam', days: 4,
@@ -223,6 +223,7 @@ function cover(c, opts = {}) {
       <div class="org-av" style="color:${org.color}">${org.short}</div>
       <div class="org-name"><span>${esc(org.name)}</span>${org.ngo ? ic('verified') : ''}</div>
       <span class="spacer"></span>
+      ${c.featured && !c.done ? `<span class="feat-pill">${ic('star')}Featured</span>` : ''}
       <button class="glass ${S.saved.has(c.id) ? 'on' : ''}" data-act="save" data-id="${c.id}" aria-label="Save campaign">${ic('bookmark')}</button>
     </div>`}
     ${opts.dots ? `<div class="dots"><i class="on"></i><i></i><i></i></div>` : ''}
@@ -252,14 +253,12 @@ function campaignCard(c) {
 }
 
 function header(seg) {
-  const unread = S.notifs.filter(n => n.unread).length;
   return `<header class="top">
     <div class="top-row">
       <div class="logo">${LOGO}${APP}</div>
       <div class="helped"><b class="num">2,481</b>helped today</div>
       <span class="spacer"></span>
       <button class="heart-btn" data-go="#/start" aria-label="Start a fundraiser">${HEART_BG}${ic('plus')}</button>
-      <button class="icon-btn" data-go="#/news/notifications" aria-label="Notifications">${ic('bell')}${unread ? `<span class="dot-badge">${unread}</span>` : ''}</button>
       <button class="icon-btn" data-go="#/search" aria-label="Search">${ic('search')}</button>
     </div>
     ${seg || ''}
@@ -278,9 +277,8 @@ const V = {};
 
 V.home = () => {
   const cats = [['all', 'All', 'heart'], ...Object.entries(CATS).map(([k, c]) => [k, c.label, c.icon])];
-  let list = S.ui.home === 'fav' ? CAMPAIGNS.filter(c => S.saved.has(c.id)) : active().filter(c => S.ui.cat === 'all' || c.cat === S.ui.cat);
+  let list = S.ui.home === 'fav' ? CAMPAIGNS.filter(c => S.saved.has(c.id)) : active().filter(c => S.ui.cat === 'all' || c.cat === S.ui.cat).sort((a, b) => !!b.featured - !!a.featured);
   return { nav: 'home', html: header(seg('home', [['all', 'All campaigns'], ['fav', 'My favorites']])) +
-    (S.ui.home === 'all' && S.ui.cat === 'all' ? `<div class="rail-head"><h2>Featured</h2><span class="small muted">Verified and urgent</span></div><div class="featured">${active().filter(c => c.featured).map(c => `<button class="feat" data-go="#/c/${c.id}"><span class="feat-cover" style="background:linear-gradient(150deg,${CATS[c.cat].g.join(',')})"><span class="pattern"></span>${ic(CATS[c.cat].icon)}</span><span class="feat-body"><b>${esc(c.title)}</b><span class="bar"><i style="width:${pct(c)}%"></i></span><span class="feat-meta"><span class="num">${inr(c.raised)}</span><span>${pct(c)}%</span></span></span></button>`).join('')}</div>` : '') +
     (S.ui.home === 'all' ? `<div class="chips">${cats.map(([k, l, i]) => `<button class="chip ${S.ui.cat === k ? 'on' : ''}" data-act="ui" data-k="cat" data-v="${k}">${ic(i)}${l}</button>`).join('')}</div>` : '') +
     `<div class="feed">${list.map(campaignCard).join('') || `<div class="empty">${ic('bookmark')}<p>Tap the bookmark on any campaign to keep it here.</p><button class="btn btn-soft" data-act="ui" data-k="home" data-v="all">Browse campaigns</button></div>`}</div>` };
 };
@@ -406,7 +404,7 @@ V.profile = () => {
       <div class="thanks"><div style="flex:1"><h3>Thank you for being with us</h3><p>Write to us if you have a question, feedback, an idea, or something isn’t working.</p><a href="#/info/contact" data-go="#/info/contact">Write to us</a></div><div class="logo" style="flex-direction:column;font-size:20px;gap:2px">${LOGO.replace('viewBox', 'style="width:54px;height:54px" viewBox')}${APP}</div></div>
       <div class="menu" style="padding:4px 0 0">${[['headset', 'Support', '#/info/contact'], ['file', 'Terms & Conditions', '#/info/terms'], ['shield', 'Privacy Policy', '#/info/privacy'], ['receipt', 'Refund Policy', '#/info/refund']].map(([i, l, h]) => `<button data-go="${h}">${ic(i)}<span>${l}</span>${ic('right', 'chev')}</button>`).join('')}<button data-act="logout" style="color:var(--danger)">${ic('logout')}<span>Log out</span></button></div>
     </section>
-    <p class="center small muted">Barakah Giving · demo build 0.1</p>
+    <p class="center small muted">MuslimPro Giving · demo build 0.2</p>
   </div>` };
 };
 
@@ -433,7 +431,7 @@ V.c = (id, sub) => {
     </div>
     <div style="background:var(--card);padding:6px 16px 18px;display:grid;gap:12px">
       <div class="box"><h3>${ic('user')} Beneficiary details</h3><dl class="kv">${Object.entries(c.ben).map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl></div>
-      ${c.docs.length ? `<div class="box"><h3>${ic('shield')} Verified documents</h3>${c.docs.map(d => `<div class="doc-row">${ic('file')}<span>${d}</span><span class="ok">${ic('check')}Checked</span></div>`).join('')}<p class="small muted" style="margin-top:8px">Reviewed by the Barakah team. Funds are released only against bills.</p></div>` : ''}
+      ${c.docs.length ? `<div class="box"><h3>${ic('shield')} Verified documents</h3>${c.docs.map(d => `<div class="doc-row">${ic('file')}<span>${d}</span><span class="ok">${ic('check')}Checked</span></div>`).join('')}<p class="small muted" style="margin-top:8px">Reviewed by the MuslimPro team. Funds are released only against bills.</p></div>` : ''}
       ${c.util ? `<div class="box"><h3>${ic('receipt')} Utilisation report</h3>${c.util.map(([l, v]) => `<div class="util-row"><div><span>${l}</span><b class="num">${v}%</b></div><div class="bar"><i style="width:${v}%"></i></div></div>`).join('')}</div>` : ''}
       <div class="seg" style="margin-top:4px">${[['story', 'Story'], ['updates', `Updates (${c.updates.length})`], ['donors', 'Donors']].map(([v, l]) => `<button class="${tab === v ? 'on' : ''}" data-act="ui" data-k="dTab" data-v="${v}">${l}</button>`).join('')}</div>
       <div>${tabBody}</div>
@@ -449,7 +447,7 @@ V.c = (id, sub) => {
   return { html, cta, bare: false };
 };
 
-const shareText = c => `Please support "${c.title}" on Barakah. Every share helps: ${SITE}/c/${c.id}`;
+const shareText = c => `Please support "${c.title}" on MuslimPro. Every share helps: ${SITE}/c/${c.id}`;
 const waLink = c => 'https://wa.me/?text=' + encodeURIComponent(shareText(c));
 
 const AMOUNTS = [500, 1000, 2500, 5000, 10000];
@@ -478,7 +476,7 @@ V.donate = id => {
       <div class="switch-row" style="margin-top:12px"><div class="txt"><b>Donate anonymously</b><span>Your name won’t appear in the donor list</span></div><button class="switch ${d.anon ? 'on' : ''}" data-act="dtoggle" data-k="anon" role="switch" aria-checked="${d.anon}" aria-label="Donate anonymously"></button></div>
     </section>
     <section class="section">
-      <div class="sec-head"><h2>Support Barakah</h2><span class="small muted">optional</span></div>
+      <div class="sec-head"><h2>Support MuslimPro</h2><span class="small muted">optional</span></div>
       <p class="small muted" style="margin-bottom:10px">We charge NGOs 0% platform fee. A small tip keeps the app running.</p>
       <div class="amounts" style="grid-template-columns:repeat(4,1fr)">${TIPS.map(t => `<button class="${d.tip === t ? 'on' : ''}" data-act="dset" data-k="tip" data-v="${t}">${t}%</button>`).join('')}</div>
     </section>
@@ -491,7 +489,7 @@ V.donate = id => {
   return { html, cta: `<button class="btn btn-main btn-block" id="paybtn" data-act="pay">${payLabel()}</button>` };
 };
 const impactLine = c => { const n = Math.floor(dAmount() / c.unit[0]); return n >= 1 ? `${ic('heart')} ${inr(dAmount())} covers ${n.toLocaleString('en-IN')} ${c.unit[1]}${n > 1 && !c.unit[1].includes(' of ') && !c.unit[1].includes(' for ') ? 's' : ''}` : `${ic('heart')} Every rupee counts. ${inr(c.unit[0])} covers one ${c.unit[1]}.`; };
-const summary = () => `<div><span>Donation (${S.donate.type})</span><b class="num">${inr(dAmount())}</b></div><div><span>Tip to Barakah</span><b class="num">${inr(dTip())}</b></div><div class="total"><span>Total</span><span class="num">${inr(dAmount() + dTip())}</span></div>`;
+const summary = () => `<div><span>Donation (${S.donate.type})</span><b class="num">${inr(dAmount())}</b></div><div><span>Tip to MuslimPro</span><b class="num">${inr(dTip())}</b></div><div class="total"><span>Total</span><span class="num">${inr(dAmount() + dTip())}</span></div>`;
 const payLabel = () => dAmount() >= 10 ? `Pay ${inr(dAmount() + dTip())}` : 'Enter at least ₹10';
 
 V.success = () => {
@@ -676,10 +674,10 @@ V.history = () => {
 };
 
 const INFO = {
-  about: ['About us', `<p>Barakah connects people who want to give with verified NGOs and families who need help. Every fundraiser is checked by our team, and funds are released against bills.</p><p>We charge 0% platform fee to NGOs. Optional tips from donors keep the service running.</p>`],
+  about: ['About us', `<p>MuslimPro Giving connects people who want to give with verified NGOs and families who need help. Every fundraiser is checked by our team, and funds are released against bills.</p><p>We charge 0% platform fee to NGOs. Optional tips from donors keep the service running.</p>`],
   how: ['How it works', `<div class="timeline">${[['Start a fundraiser', 'Add the story, target, beneficiary details, photos and documents.'], ['We verify', 'Our team reviews documents and KYC within 48 hours.'], ['Share and raise', 'Share your link on WhatsApp and social media. Donors pay by UPI, card or net banking.'], ['Withdraw against bills', 'Request a withdrawal to a verified bank account. Track it until it is paid.']].map(([t, s], i) => `<div class="tl"><div class="rail"><i></i>${i < 3 ? '<b></b>' : ''}</div><div class="tl-body"><b>${t}</b><p>${s}</p></div></div>`).join('')}</div>`],
   faq: ['FAQs', [['Is my donation tax deductible?', 'Donations to NGOs with 80G registration get an 80G receipt by email right after payment.'], ['Can I give Zakat?', 'Yes. Campaigns marked “Zakat eligible” keep Zakat funds separate and use them only for eligible beneficiaries.'], ['How do I know a campaign is genuine?', 'Every campaign is reviewed with documents and KYC before it goes live. Look for the verified tick.'], ['When can organisers withdraw money?', 'After KYC and bank verification. Each withdrawal needs a bill or invoice and is approved by our team.'], ['Can I get a refund?', 'Refunds are possible within 7 days for duplicate or failed payments. See the Refund Policy.']].map(([q, a]) => `<details class="faq"><summary>${q}${ic('down')}</summary><p>${a}</p></details>`).join('')],
-  contact: ['Contact us', `<p>We usually reply within one working day.</p><p><b>Email</b><br><span style="user-select:all">support@barakah.app</span></p><p><b>Phone (10 am – 6 pm IST)</b><br><span style="user-select:all">+91 80 4000 1234</span></p>
+  contact: ['Contact us', `<p>We usually reply within one working day.</p><p><b>Email</b><br><span style="user-select:all">support@give.muslimpro.demo</span></p><p><b>Phone (10 am – 6 pm IST)</b><br><span style="user-select:all">+91 80 4000 1234</span></p>
     <form data-form="contact" style="display:grid;gap:10px;margin-top:14px"><input class="input" id="c-name" required placeholder="Your name"><input class="input" id="c-email" type="email" required placeholder="Email"><textarea class="textarea" id="c-msg" required placeholder="How can we help?"></textarea><button class="btn btn-main">Send message</button></form>`],
   terms: ['Terms & Conditions', '<p>The approved Terms & Conditions will be shown here. This page is ready for the final legal text.</p>'],
   privacy: ['Privacy Policy', '<p>The approved Privacy Policy will be shown here, including how donor and beneficiary data is stored and used.</p>'],
