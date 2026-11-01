@@ -70,7 +70,6 @@ svg.i { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-widt
 .tcur .tmock { width: 120px; flex: none; }
 .tcur b { display: block; font-size: 17px; } .tcur span:not(.eyebrow) { color: var(--muted); font-size: 13px; }
 .tbar { display: grid; gap: 10px; }
-.tbar .input { max-width: 340px; }
 .tgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; }
 .tcard { background: var(--card); border: 1px solid var(--a-line); border-radius: 14px; padding: 10px; display: grid; gap: 8px; align-content: start; }
 .tcard.on { border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-soft); }
@@ -298,7 +297,7 @@ const FEATURES = [
   ['3. Fundraiser creation & management', [['Title, category, story and target amount', '#/start'], ['Beneficiary details, images and documents', 'step2'], ['Submit for admin review', '#/submitted'], ['Publish campaign updates', 'update'], ['Share on WhatsApp and social media', 'share']]],
   ['4. Donations & payments', [['UPI, cards and net banking', '#/donate/1'], ['Confirmation, receipt and acknowledgement', 'success'], ['Campaign donation records', 'donors'], ['Optional platform tip / voluntary contribution', '#/donate/1']]],
   ['5. Verification & withdrawals', [['KYC and supporting documents', '#/kyc'], ['Beneficiary bank account', '#/kyc'], ['Admin verification of campaigns and recipients', 'admin:verification'], ['Withdrawal requests with approval and payment status', '#/withdraw']]],
-  ['6. Admin panel', [['Manage users', 'admin:users'], ['Manage fundraisers: approve, reject, suspend', 'admin:campaigns'], ['Categories and website content', 'admin:categories'], ['Review documents and withdrawals', 'admin:withdrawals'], ['Donations, transactions and reports', 'admin:donations'], ['Platform fee and voluntary contribution settings', 'admin:settings'], ['Themes (110) for everyone', 'admin:themes'], ['Button gallery (8 styles) and text size', 'admin:buttons'], ['Home one-tap campaigns', 'admin:quick'], ['Aaj ki khaas baat messages', 'admin:khaas']]],
+  ['6. Admin panel', [['Manage users', 'admin:users'], ['Manage fundraisers: approve, reject, suspend', 'admin:campaigns'], ['Categories and website content', 'admin:categories'], ['Review documents and withdrawals', 'admin:withdrawals'], ['Donations, transactions and reports', 'admin:donations'], ['Platform fee and voluntary contribution settings', 'admin:settings'], ['Themes (15) for everyone', 'admin:themes'], ['Button gallery (8 styles) and text size', 'admin:buttons'], ['Home one-tap campaigns', 'admin:quick'], ['Aaj ki khaas baat messages', 'admin:khaas']]],
   ['7. Supporting pages & notifications', [['About, How it works, FAQs, Contact', '#/info/about'], ['Privacy, Terms and Refund policy pages', '#/info/privacy'], ['Email notification preferences', '#/settings'], ['In-app notifications', '#/news/notifications']]],
 ];
 const total = FEATURES.reduce((a, [, f]) => a + f.length, 0);
@@ -322,7 +321,7 @@ function setMode(m) {
 const AV = ['#1d63b0', '#0a8a52', '#e0602a', '#5634c0', '#cf4778', '#0e8fa6', '#b5651d'];
 const avatar = n => `<span class="av" style="background:${AV[[...n].reduce((a, c) => a + c.charCodeAt(0), 0) % AV.length]}">${esc(n.split(' ').map(w => w[0]).join('').slice(0, 2))}</span>`;
 const DB = {
-  section: 'overview', campFilter: 'all', themeCat: 'all', themeQ: '', themeDefault: 'classic', autoRamzan: true, autoEid: true, look: { btn: 'classic', text: 'm', saver: false },
+  section: 'overview', campFilter: 'all', themeCat: 'all', themeDefault: 'classic', autoRamzan: true, autoEid: true, look: { btn: 'classic', text: 'm', saver: false },
   campaigns: [
     { id: 9, title: 'Help my neighbour Salma with eye surgery', org: 'Ayesha Khan', cat: 'Medical', goal: 150000, raised: 0, status: 'review', submitted: 'Today' },
     { id: 10, title: 'Ration kits for 200 widows in Bhiwandi', org: 'Al-Noor Welfare Society', cat: 'Food & Iftar', goal: 400000, raised: 0, status: 'review', submitted: 'Yesterday' },
@@ -416,14 +415,13 @@ const ADMIN = {
   themes: () => {
     let themes = [];
     try { themes = win().eval('THEMES'); } catch { /* app frame not ready */ }
-    const cats = [['all', 'All'], ['curated', 'Curated'], ...Object.entries({ l: 'Foundation icons', n: 'Button-style', w: 'Festival wallpapers', m: 'Muslim festivals', r: 'Spiritual', o: 'Other festivals', d: 'Prayer & Namaz', h: 'Hajj & Kaaba', s: 'Mosque & school', c: 'Classic' })];
-    const q = DB.themeQ.trim().toLowerCase();
-    const list = themes.filter(t => (DB.themeCat === 'all' || (DB.themeCat === 'curated' ? !t.cat : t.cat === DB.themeCat)) && (!q || (t.name + ' ' + t.desc).toLowerCase().includes(q)));
+    const cats = [['all', 'All'], ['light', 'Light'], ['dark', 'Dark']];
+    const list = themes.filter(t => DB.themeCat === 'all' || (DB.themeCat === 'dark') === !!t.dark);
     const cur = themes.find(t => t.id === DB.themeDefault);
     const mock = t => `<span class="tmock" style="background:${t.c.bg}"><span class="tm-bar" style="background:${t.c.card};border-color:${t.c.line}"><i style="background:${t.c.brand}"></i></span><span class="tm-card" style="background:${t.c.card};border-color:${t.c.line}"><i style="background:${t.c.chip}"></i><i style="background:${t.c.chip};width:60%"></i></span><span class="tm-btn" style="background:${t.c.brand};color:${t.c['on-brand']}">Donate</span></span>`;
     return head('Themes', `${themes.length} themes. The one you apply is what everyone sees; people can only switch between light and dark.`) + `
     ${cur ? `<div class="tcur">${mock(cur)}<div><span class="eyebrow">Live for everyone</span><b>${esc(cur.name)}</b><span>${esc(cur.desc)}${cur.dark ? ' · dark' : ''}</span></div></div>` : ''}
-    <div class="tbar"><input class="input" placeholder="Search themes" value="${esc(DB.themeQ)}" data-a-input="themeQ" aria-label="Search themes"><div class="filters">${cats.map(([k, l]) => `<button class="${DB.themeCat === k ? 'on' : ''}" data-a="themeCat" data-v="${k}">${l}</button>`).join('')}</div></div>
+    <div class="tbar"><div class="filters">${cats.map(([k, l]) => `<button class="${DB.themeCat === k ? 'on' : ''}" data-a="themeCat" data-v="${k}">${l}</button>`).join('')}</div></div>
     <div class="tgrid">${list.map(t => { const on = t.id === DB.themeDefault; return `<div class="tcard ${on ? 'on' : ''}">${mock(t)}<div class="tc-meta"><b>${esc(t.name)}</b><span>${esc(t.desc)}${t.dark ? ' · dark' : ''}</span></div>${on ? '<span class="pill p-live">Applied</span>' : `<button class="b b-soft" data-a="setTheme" data-v="${t.id}">Apply</button>`}</div>`; }).join('') || '<p class="hint">No theme matches that search.</p>'}</div>
     <div class="card" style="max-width:640px"><h2>Automatic seasons</h2>${['autoRamzan', 'autoEid'].map(k => `<div class="toggle-row"><span class="t"><b>${k === 'autoRamzan' ? 'Switch to Ramzan during Ramadan' : 'Switch to Eid Mubarak on Eid days'}</b><span>${k === 'autoRamzan' ? 'Back to your theme after Eid' : 'Eid al-Fitr and Eid al-Adha'}</span></span><button class="sw ${DB[k] ? 'on' : ''}" data-a="themeOpt" data-v="${k}" role="switch" aria-checked="${DB[k]}" aria-label="${k}"></button></div>`).join('')}</div>`; },
   buttons: () => {
@@ -504,7 +502,6 @@ const ACT = {
   },
 };
 document.addEventListener('click', e => { const el = e.target.closest('[data-a]'); if (el && ACT[el.dataset.a]) { e.preventDefault(); ACT[el.dataset.a](el.dataset.v, el); } });
-document.addEventListener('input', e => { if (e.target.dataset.aInput === 'themeQ') { DB.themeQ = e.target.value; const pos = e.target.selectionStart; renderAdmin(); const el = document.querySelector('[data-a-input=themeQ]'); el.focus(); el.setSelectionRange(pos, pos); } });
 document.addEventListener('submit', e => {
   e.preventDefault(); const f = e.target;
   if (f.dataset.f === 'cat') { DB.cats.push([f.querySelector('input').value.trim(), '#3d3d4a', 0, true]); toast('Category added'); renderAdmin(); }
