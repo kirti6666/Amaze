@@ -831,3 +831,13 @@ a.btn { text-decoration: none; }
 .pc-tier .ts-next { font-size: 11.5px; }
 .hero-actions .btn { height: 44px; }
 .top .logo { font-size: 18px; }
+/* hero buttons and live voting, after the client's layout */
+.hero-actions .btn { height: 50px; font-weight: 700; font-size: 15.5px; border-radius: 18px; }
+.hero-actions .btn-main { background: linear-gradient(135deg, var(--brand-3), var(--brand) 55%, color-mix(in srgb, var(--brand-2) 55%, var(--brand))); box-shadow: 0 10px 22px -10px color-mix(in srgb, var(--brand) 80%, transparent), inset 0 1px 0 rgb(255 255 255 / 0.18); }
+.hero-actions .btn-soft { background: linear-gradient(180deg, var(--card), var(--soft)); color: var(--ink); box-shadow: 0 10px 22px -12px rgb(0 0 0 / 0.28), inset 0 1px 0 rgb(255 255 255 / 0.9); }
+.lv-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 4px 12px; }
+.lv-head h2 { display: flex; align-items: center; font-size: 16px; font-weight: 800; text-transform: uppercase; letter-spacing: .02em; }
+.lv-all { height: 36px; padding: 0 16px; border-radius: 99px; border: 1.5px solid var(--brand); color: var(--brand); font-weight: 700; font-size: 13px; background: var(--card); }
+.vrings { gap: 16px; padding: 4px 4px 12px; }
+.vring { width: 76px; font-size: 12px; font-weight: 700; color: var(--ink); }
+.vring i { width: 64px; height: 64px; font-style: normal; font-size: 28px; background: radial-gradient(circle at 50% 40%, #13744b, #062a1f); box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px var(--gold), 0 6px 14px rgb(0 0 0 / 0.18); }

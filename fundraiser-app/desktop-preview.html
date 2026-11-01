@@ -1029,6 +1029,16 @@ a.btn { text-decoration: none; }
 .pc-tier .ts-next { font-size: 11.5px; }
 .hero-actions .btn { height: 44px; }
 .top .logo { font-size: 18px; }
+/* hero buttons and live voting, after the client's layout */
+.hero-actions .btn { height: 50px; font-weight: 700; font-size: 15.5px; border-radius: 18px; }
+.hero-actions .btn-main { background: linear-gradient(135deg, var(--brand-3), var(--brand) 55%, color-mix(in srgb, var(--brand-2) 55%, var(--brand))); box-shadow: 0 10px 22px -10px color-mix(in srgb, var(--brand) 80%, transparent), inset 0 1px 0 rgb(255 255 255 / 0.18); }
+.hero-actions .btn-soft { background: linear-gradient(180deg, var(--card), var(--soft)); color: var(--ink); box-shadow: 0 10px 22px -12px rgb(0 0 0 / 0.28), inset 0 1px 0 rgb(255 255 255 / 0.9); }
+.lv-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 4px 12px; }
+.lv-head h2 { display: flex; align-items: center; font-size: 16px; font-weight: 800; text-transform: uppercase; letter-spacing: .02em; }
+.lv-all { height: 36px; padding: 0 16px; border-radius: 99px; border: 1.5px solid var(--brand); color: var(--brand); font-weight: 700; font-size: 13px; background: var(--card); }
+.vrings { gap: 16px; padding: 4px 4px 12px; }
+.vring { width: 76px; font-size: 12px; font-weight: 700; color: var(--ink); }
+.vring i { width: 64px; height: 64px; font-style: normal; font-size: 28px; background: radial-gradient(circle at 50% 40%, #13744b, #062a1f); box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px var(--gold), 0 6px 14px rgb(0 0 0 / 0.18); }
 </script>
 <script type="text/plain" id="app-js">/* Muslim Life Pro: clickable Android UI demo for a donation / fundraising platform.
    Everything is in-memory sample data; no backend calls. Hash routes give the Android back button for free. */
@@ -1516,7 +1526,7 @@ const heroBlock = () => { const t = totalGiven(), tr = tierOf(t), pb = S.profile
     <button class="pc-av ${pb ? 'framed' : ''}" style="${pb ? `--f1:${pb[5][0]};--f2:${pb[5][1]}` : ''}" data-go="#/profile" aria-label="Profile">${avatar(S.user.name)}</button></section>
   <div class="profile-card">
     <button class="pc-tier" data-go="#/donations">${tierBadge(tr.i, 30)}<span class="ts-body"><span class="pc-line"><b>${tr.name} member</b><span class="num">${inr(t)} donated</span></span><span class="bar"><i style="width:${tierProgress(t)}%"></i></span><span class="ts-next">${tr.next ? `${inr(tr.next[1] - t)} more to reach ${tr.next[0]}` : 'Highest badge reached'}</span></span></button>
-    <div class="hero-actions"><button class="btn btn-main" data-go="#/campaigns">${ic('heart')} Donate</button><button class="btn btn-soft" data-go="#/help">${ic('hands')} Ask for help</button></div>
+    <div class="hero-actions"><button class="btn btn-main" data-go="#/campaigns">Donate</button><button class="btn btn-soft" data-go="#/help">Ask for help</button></div>
   </div>`; };
 const HOME_SERVICES = [['scale', 'Legal aid', '#2f3fa8', 'go:#/help'], ['school', 'School', '#4338ca', 'cat:education'], ['mosque', 'Madrasa upgrade', '#0b7a4c', 'camp:15'], ['ring', 'Orphan girls’ nikah', '#b0461f', 'camp:11'], ['pulse', 'Treatment', '#1d7cc4', 'cat:medical'], ['eye', 'Eye surgery', '#0e8fa6', 'camp:13'], ['utensils', 'Ration', '#c2410c', 'camp:10'], ['snow', 'Winter relief', '#2563eb', 'camp:12'], ['book', 'Education & clothes', '#6d28d9', 'cat:education'], ['buoy', 'Disaster relief', '#c33838', 'cat:emergency'], ['calc', 'Zakat calculator', '#0a9b3c', 'act:zakatCalc'], ['calendar', 'Qurbani', '#a16207', 'act:qurbani']];
 const servicesBlock = () => `<section class="home-sec">${secTitle('Our services', 'हमारी सेवाएँ')}<div class="svc-pills">${HOME_SERVICES.map(([i, l, c, a]) => `<button class="svc-pill" data-act="svc" data-v="${a}" style="--sc:${c}"><span>${l}</span><i>${ic(i)}</i></button>`).join('')}</div></section>`;
@@ -2010,7 +2020,7 @@ const chandSitare = () => `<div class="decor" aria-hidden="true">${sparkles(SKY)
 const onbHero = cls => `<div class="onb-hero ${cls || ''}"><div class="pattern"></div>${chandSitare()}${WORDMARK}</div>`;
 
 V.splash = () => {
-  setTimeout(() => location.hash === '#/splash' && replaceRoute('#/intro'), 1400);
+  setTimeout(() => location.hash === '#/splash' && replaceRoute(S.signed ? '#/home' : '#/intro'), 1400);
   return { bare: true, html: `<button class="splash" data-act="splashNext" aria-label="Continue"><div class="pattern"></div>${chandSitare()}${WORDMARK}</button>` };
 };
 
@@ -2053,16 +2063,16 @@ V.login = () => {
 /* ---------- voting ---------- */
 // sample polls; in the real app these come from the admin panel
 const POLLS = [
-  { id: 'aw', cat: 'Award', icon: 'trophy', color: '#0b5a3f', status: 'live', end: '2027-01-31', results: 'live', price: 10, maxPaid: 100,
+  { id: 'aw', emoji: '🏆', cat: 'Award', icon: 'trophy', color: '#0b5a3f', status: 'live', end: '2027-01-31', results: 'live', price: 10, maxPaid: 100,
     title: 'National Social Service Excellence Award 2027', desc: 'Choose the person who deserves this year’s award for service to the community.',
     cand: [['Dr. Salma Begum', 'Free medical camps in Mewat'], ['Imran Shaikh', 'Free coaching for 300 students'], ['Adv. Rizwan Ahmed', 'Free legal aid in 120 cases'], ['Fatima Noor', 'Education for orphan girls']], votes: [412, 368, 455, 290] },
-  { id: 'sc', cat: 'School location', icon: 'school', color: '#16695a', status: 'live', end: '2027-02-28', results: 'after_vote', price: 10, maxPaid: 100,
+  { id: 'sc', emoji: '🏫', cat: 'School location', icon: 'school', color: '#16695a', status: 'live', end: '2027-02-28', results: 'after_vote', price: 10, maxPaid: 100,
     title: 'Where should our next school be built?', desc: 'Vote for the city that should get priority. Final approval needs land, cost and verification checks.',
     cand: [['Ghaziabad', 'Local demand to be verified'], ['Meerut', 'Local demand to be verified'], ['Delhi', 'Local demand to be verified'], ['Noida', 'Local demand to be verified']], votes: [620, 540, 410, 380] },
-  { id: 'md', cat: 'Project priority', icon: 'mosque', color: '#5634c0', status: 'upcoming', start: '2026-11-15', end: '2026-12-31', results: 'live', price: 10, maxPaid: 50,
+  { id: 'md', emoji: '🕌', cat: 'Project priority', icon: 'mosque', color: '#5634c0', status: 'upcoming', start: '2026-11-15', end: '2026-12-31', results: 'live', price: 10, maxPaid: 50,
     title: 'Which madrasa should be upgraded first?', desc: 'Help the committee decide which madrasa gets new classrooms and digital boards first.',
     cand: [['Faiz-ul-Uloom, Bahraich', '210 students'], ['Darul Quran, Malappuram', '160 students'], ['Jamia Noor, Murshidabad', '240 students']], votes: [0, 0, 0] },
-  { id: 'vl', cat: 'Social worker', icon: 'heart', color: '#b0461f', status: 'closed', end: '2026-04-10', results: 'live', price: 10, maxPaid: 100,
+  { id: 'vl', emoji: '🤝', cat: 'Social worker', icon: 'heart', color: '#b0461f', status: 'closed', end: '2026-04-10', results: 'live', price: 10, maxPaid: 100,
     title: 'Best volunteer of Ramzan 2026', desc: 'Members chose the volunteer who served the most during Ramzan.',
     cand: [['Bilal Qureshi', 'Iftar drives on 40 nights'], ['Mariam Siddiqui', 'Ration kits for 600 families'], ['Yusuf Patel', 'Blood donation camps']], votes: [812, 934, 506],
     final: { o: 1, reason: 'Highest verified service hours, matching the member vote.', by: 'Foundation committee', date: '12 Apr 2026' } },
@@ -2075,9 +2085,9 @@ const pollWhen = p => p.status === 'live' ? `${daysTo(p.end)} days left` : p.sta
 const canSeeResults = p => p.status === 'closed' || p.results === 'live' || (p.results === 'after_vote' && myVotes(p.id).rec.length > 0);
 const pollBanner = (p, cls = '') => `<span class="vban ${cls}" style="background:linear-gradient(135deg, ${p.color}, #062a1f)"><span class="vpill ${p.status}">${p.status === 'live' ? '● LIVE' : p.status === 'upcoming' ? 'COMING SOON' : 'CLOSED'}</span>${ic(p.icon)}</span>`;
 const pollCard = p => `<button class="vcard" data-go="#/poll/${p.id}">${pollBanner(p)}<span class="vbody"><small>${p.cat}</small><b>${esc(p.title)}</b><small class="num">${p.cand.length} options${canSeeResults(p) ? ` · ${pollTotal(p).toLocaleString('en-IN')} votes` : ''}</small><small>${ic('clock')} ${pollWhen(p)}</small><span class="btn btn-main vgo">${p.status === 'live' ? 'Vote now' : 'View details'}</span></span></button>`;
-const pollRing = p => `<button class="vring" data-go="#/poll/${p.id}"><i style="background:linear-gradient(135deg, ${p.color}, #062a1f)">${ic(p.icon)}</i>${p.cat}</button>`;
-const liveVotingBlock = () => { const L = POLLS.filter(p => p.status === 'live'); return L.length ? `<section class="home-sec">${secTitle('<i class="live-dot"></i>Live voting', '', `<button class="text-link small" data-go="#/vote">View all ${ic('right')}</button>`)}
-  <div class="vrings">${L.map(pollRing).join('')}<button class="vring" data-go="#/vote"><i class="more">${ic('ballot')}</i>All polls</button></div>
+const pollRing = p => `<button class="vring" data-go="#/poll/${p.id}"><i>${p.emoji}</i>${p.cat}</button>`;
+const liveVotingBlock = () => { const L = POLLS.filter(p => p.status === 'live'); return L.length ? `<section class="home-sec"><div class="lv-head"><h2><i class="live-dot"></i>Live voting</h2><button class="lv-all" data-go="#/vote">View all voting</button></div>
+  <div class="vrings">${L.map(pollRing).join('')}</div>
   <div class="hscroll">${L.map(pollCard).join('')}</div></section>` : ''; };
 
 V.vote = () => {
@@ -2343,8 +2353,8 @@ const A = {
   monthly: () => sheet(`<h2>Monthly giving</h2><p class="muted">Give a fixed amount every month by UPI AutoPay. You can pause or stop anytime.</p><div class="amounts" style="margin-top:14px">${[300, 500, 1000].map(a => `<button>${inr(a)}</button>`).join('')}</div><button class="btn btn-main btn-block" style="margin-top:14px" data-close data-act="toast" data-msg="Monthly giving set up (demo)">Set up monthly giving</button>`),
   favs: () => { S.ui.home = 'fav'; go('#/home'); },
   mylink: () => sheet(`<h2>Your personal link</h2><p class="muted small">Share it anywhere. Donations made through it count toward your Inspirer rank.</p><p style="margin-top:12px;font-weight:700;user-select:all">${SITE}/u/ayesha-khan</p><button class="btn btn-main btn-block" style="margin-top:14px" data-act="copy" data-v="${SITE}/u/ayesha-khan">${ic('link')} Copy link</button>`),
-  logout: () => { S.login = { stage: 'details', role: 'donor', name: '', email: '', phone: '', err: {} }; replaceRoute('#/intro'); },
-  splashNext: () => replaceRoute('#/intro'),
+  logout: () => { S.signed = false; try { localStorage.removeItem('mlp-user'); } catch { /* nothing stored */ } S.login = { stage: 'details', role: 'donor', name: '', email: '', phone: '', err: {} }; replaceRoute('#/intro'); },
+  splashNext: () => replaceRoute(S.signed ? '#/home' : '#/intro'),
   svc: el => { const [k, v] = el.dataset.v.split(/:(.+)/); if (k === 'go') go(v); else if (k === 'camp') go('#/c/' + v); else if (k === 'cat') { S.ui.cat = v; S.ui.home = 'all'; go('#/campaigns'); } else A[v](el); },
   pickCand: el => { S.ui.pollSel[el.dataset.p] = Number(el.dataset.v); rerender(); },
   castFree: el => {
@@ -2437,7 +2447,10 @@ const A = {
     const l = S.login;
     if (l.name.trim()) { S.user.name = l.name.trim(); S.user.first = S.user.name.split(' ')[0]; }
     if (l.email.trim()) S.user.email = l.email.trim();
-    l.stage = 'details'; S.greet = true; replaceRoute('#/home');
+    l.stage = 'details'; S.greet = true;
+    S.signed = true;
+    try { localStorage.setItem('mlp-user', JSON.stringify(S.user)); } catch { /* storage blocked: sign in again next time */ }
+    replaceRoute('#/home');
   },
 };
 
@@ -2533,7 +2546,10 @@ try { S.userTheme = localStorage.getItem('mlp-theme'); } catch { /* no storage: 
 applyTheme(S.userTheme || S.adminTheme);
 try { Object.assign(S.look, JSON.parse(localStorage.getItem('mlp-look')) || {}); } catch { /* no storage: default look */ }
 applyLook();
-if (!location.hash) replaceRoute('#/splash');
+let signedIn = false;
+try { const u = JSON.parse(localStorage.getItem('mlp-user')); if (u && u.name) { Object.assign(S.user, u); signedIn = S.signed = true; } } catch { /* not signed in */ }
+// a signed-in person skips the welcome and sign-up screens on every later launch
+if (!location.hash || (signedIn && /^#\/(splash|intro|login)?$/.test(location.hash))) replaceRoute(signedIn ? '#/home' : '#/splash');
 render();
 </script>
 <script>
