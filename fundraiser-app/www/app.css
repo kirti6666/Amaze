@@ -12,13 +12,14 @@
   --ink-2: #38463f;
   --muted: #84918a;
   --line: #e3e9e5;
-  --bg: #f1f4f2;
+  --bg: #ffffff;
   --card: #ffffff;
   --chip: #e6ece9;
   --soft: #eef4f1;
   --soft-line: #c5d3cb;
   --gold-ink: #6e5410;
-  --page: #d7e0db;
+  --page: #ffffff;
+  --card-shadow: 0 2px 16px rgb(16 40 28 / 0.08);
   --on-brand: #ffffff;
   --hero-1: #1a7f55;
   --hero-2: #0b5d3b;
@@ -896,3 +897,6 @@ a.btn { text-decoration: none; }
 .ev-main p { -webkit-line-clamp: 2; }
 .ev-foot { position: relative; z-index: 1; }
 .ev-photo { background-size: 140% auto; background-position: 85% 14%; }
+/* on a white page, cards are set apart by a soft shadow instead of a grey background */
+.section, .card, .ev, .vcard, .menu, .money-tile, .members, .creator-nudge, .tier-ladder, .tg, .sponsor-strip { box-shadow: var(--card-shadow); }
+.top, .stories-band { box-shadow: none; border: 0; }
