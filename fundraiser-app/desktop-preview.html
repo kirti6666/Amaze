@@ -1529,6 +1529,16 @@ body::before { background: var(--bg); }
 :root[data-btn="skeu"] .btn-soft { background: linear-gradient(180deg, #fff, var(--soft)); box-shadow: 0 3px 0 var(--soft-line), inset 0 1px 0 #fff; }
 :root[data-btn="gbar"] .btn-main { border-radius: 99px; background: linear-gradient(90deg, var(--brand-2), var(--brand) 55%, var(--brand-3)); box-shadow: inset 0 12px 14px -10px rgb(255 255 255 / 0.55), 0 8px 18px -8px var(--brand); }
 :root[data-btn="gbar"] .btn-soft { border-radius: 99px; background: linear-gradient(90deg, var(--soft), var(--card)); box-shadow: inset 0 10px 12px -10px rgb(255 255 255 / 0.9); }
+
+/* vote banner: one slim, flat row */
+.rose-hero { margin: 8px 12px 0; padding: 8px 8px 8px 10px; gap: 10px; border-radius: 14px; background: var(--card); border: 1px solid var(--line); box-shadow: none; }
+.rh-ic { flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: color-mix(in srgb, #d6283b 10%, var(--card)); }
+.rh-text { gap: 0; }
+.rh-text b { font-size: 13.5px; font-weight: 600; }
+.rh-text b, .rh-text span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rh-text span { font-size: 12px; line-height: 1.35; }
+.rh-btn { height: 30px; padding: 0 12px; font-size: 12.5px; font-weight: 600; background: color-mix(in srgb, #d6283b 12%, var(--card)); color: #d6283b; }
+.rh-btn.on { background: var(--chip); color: var(--ink); }
 </script>
 <script type="text/plain" id="app-js">/* Muslim Life Pro: clickable Android UI demo for a donation / fundraising platform.
    Everything is in-memory sample data; no backend calls. Hash routes give the Android back button for free. */
@@ -2668,7 +2678,7 @@ V.vote = () => {
   const mine = POLLS.flatMap(p => myVotes(p.id).rec.map(r => ({ ...r, p })));
   const sent = mine.reduce((a, r) => a + r.n, 0);
   return { nav: 'vote', html: `<header class="top"><div class="top-row"><h1 class="page-title">Vote with roses</h1><span class="spacer"></span>${planChip()}<div class="hbtns"><button class="hbtn" data-act="voteRules" aria-label="How roses work">${ic('info')}</button></div></div></header>
-  <div class="rose-hero">${ROSE(34)}<div class="rh-text"><b>Send a rose, choose the winner</b><span>${S.plan === 'basic' ? 'The option with the most roses wins. Get a package to start sending.' : `You’re on ${plan().name} · ${S.roses} roses left this month.`}</span></div>
+  <div class="rose-hero"><span class="rh-ic">${ROSE(20)}</span><div class="rh-text"><b>Most roses wins</b><span>${S.plan === 'basic' ? 'Get a package to start sending' : `${plan().name} · ${S.roses} roses left`}</span></div>
     <button class="rh-btn ${tab === 'plans' ? 'on' : ''}" data-act="ui" data-k="vote" data-v="${tab === 'plans' ? 'live' : 'plans'}">${tab === 'plans' ? 'Contests' : 'Packages'}</button></div>
   <div class="wrap" style="padding-top:0">${tab === 'plans' ? '' : seg('vote', [['live', 'Live'], ['upcoming', 'Upcoming'], ['done', 'Winners'], ['mine', 'My roses']])}
   ${tab === 'plans' ? `<div class="pkg-grid">${PLANS.map(x => planCard(x)).join('')}</div><p class="small muted center">Demo prices. Roses refresh on the 1st of every month and do not carry over.</p>` : ''}
