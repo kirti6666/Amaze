@@ -1426,6 +1426,9 @@ a.btn { text-decoration: none; }
 body::before { background: var(--bg); }
 .nav { border-top: 1px solid var(--line); }
 .rose-hero { background: linear-gradient(120deg, color-mix(in srgb, #d6283b 12%, var(--card)), var(--card)); }
+.vrings { gap: 18px; padding: 2px 4px 14px; }
+.vring i.more { background: var(--card); box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px var(--gold), 0 6px 14px rgb(0 0 0 / 0.12); }
+.vrings { padding-top: 8px; }
 </script>
 <script type="text/plain" id="app-js">/* Muslim Life Pro: clickable Android UI demo for a donation / fundraising platform.
    Everything is in-memory sample data; no backend calls. Hash routes give the Android back button for free. */
@@ -2528,6 +2531,7 @@ const pollCard = p => { const w = leader(p), tot = pollTotal(p), live = p.status
   <span class="pc2-cta">${live ? `${ROSE(15)} Send roses` : 'See results'}</span></button>`; };
 const pollRing = p => `<button class="vring" data-go="#/poll/${p.id}"><i>${p.emoji}</i>${p.cat}</button>`;
 const liveVotingBlock = () => { const L = POLLS.filter(p => p.status === 'live'); return L.length ? `<section class="home-sec"><div class="lv-head"><h2>${ROSE(20)}Rose contests</h2><button class="lv-all" data-go="#/vote">View all</button></div>
+  <div class="vrings">${L.map(pollRing).join('')}<button class="vring" data-go="#/vote"><i class="more">${ROSE(26)}</i>All contests</button></div>
   <div class="hscroll">${L.map(pollCard).join('')}</div></section>` : ''; };
 
 V.vote = () => {

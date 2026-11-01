@@ -1099,6 +1099,7 @@ const pollCard = p => { const w = leader(p), tot = pollTotal(p), live = p.status
   <span class="pc2-cta">${live ? `${ROSE(15)} Send roses` : 'See results'}</span></button>`; };
 const pollRing = p => `<button class="vring" data-go="#/poll/${p.id}"><i>${p.emoji}</i>${p.cat}</button>`;
 const liveVotingBlock = () => { const L = POLLS.filter(p => p.status === 'live'); return L.length ? `<section class="home-sec"><div class="lv-head"><h2>${ROSE(20)}Rose contests</h2><button class="lv-all" data-go="#/vote">View all</button></div>
+  <div class="vrings">${L.map(pollRing).join('')}<button class="vring" data-go="#/vote"><i class="more">${ROSE(26)}</i>All contests</button></div>
   <div class="hscroll">${L.map(pollCard).join('')}</div></section>` : ''; };
 
 V.vote = () => {

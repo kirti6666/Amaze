@@ -1225,3 +1225,6 @@ a.btn { text-decoration: none; }
 body::before { background: var(--bg); }
 .nav { border-top: 1px solid var(--line); }
 .rose-hero { background: linear-gradient(120deg, color-mix(in srgb, #d6283b 12%, var(--card)), var(--card)); }
+.vrings { gap: 18px; padding: 2px 4px 14px; }
+.vring i.more { background: var(--card); box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px var(--gold), 0 6px 14px rgb(0 0 0 / 0.12); }
+.vrings { padding-top: 8px; }
