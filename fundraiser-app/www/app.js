@@ -74,6 +74,15 @@ const P = {
   sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>',
   palette: '<circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.55-2.5 5.55-5.55C21.97 6.01 17.46 2 12 2z"/>',
   gem: '<path d="M6 3h12l4 6-10 12L2 9Z"/><path d="M11 3 8 9l4 12 4-12-3-6"/><path d="M2 9h20"/>',
+  scale: '<path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>',
+  eye: '<path d="M2.06 12.35a1 1 0 0 1 0-.7 10.75 10.75 0 0 1 19.88 0 1 1 0 0 1 0 .7 10.75 10.75 0 0 1-19.88 0"/><circle cx="12" cy="12" r="3"/>',
+  snow: '<path d="M12 2v20M4.93 4.93l14.14 14.14M2 12h20M4.93 19.07 19.07 4.93"/><path d="m9 3 3 3 3-3M9 21l3-3 3 3M3 9l3 3-3 3M21 9l-3 3 3 3"/>',
+  ring: '<circle cx="12" cy="15" r="6"/><path d="m9 5 3-3 3 3-3 4Z"/>',
+  school: '<path d="M14 22v-4a2 2 0 1 0-4 0v4"/><path d="m18 10 3.45 1.73A1 1 0 0 1 22 12.62V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7.38a1 1 0 0 1 .55-.89L6 10"/><path d="M18 5v17M4 6l7.11-3.56a2 2 0 0 1 1.78 0L20 6M6 5v17"/><circle cx="12" cy="9" r="2"/>',
+  ballot: '<path d="m9 12 2 2 4-4"/><path d="M5 7c0-1.1.9-2 2-2h10a2 2 0 0 1 2 2v12H5V7Z"/><path d="M22 19H2"/>',
+  image: '<rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.09-3.09a2 2 0 0 0-2.82 0L6 21"/>',
+  video: '<path d="m16 13 5.22 3.48a.5.5 0 0 0 .78-.42V7.87a.5.5 0 0 0-.75-.43L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/>',
+  medal: '<path d="M7.21 15 2.66 7.14a2 2 0 0 1 .13-2.2L4.4 2.8A2 2 0 0 1 6 2h12a2 2 0 0 1 1.6.8l1.6 2.14a2 2 0 0 1 .14 2.2L16.79 15"/><path d="M11 12 5.12 2.2M13 12l5.88-9.8M8 7h8"/><circle cx="12" cy="17" r="5"/>',
   hands: '<path d="M11 14h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 16"/><path d="m7 20 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"/><path d="m2 15 6 6"/><path d="M19.5 8.5c.7-.7 1.5-1.6 1.5-2.7A2.73 2.73 0 0 0 16 4a2.78 2.78 0 0 0-5 1.8c0 1.2.8 2 1.5 2.8L16 12Z"/>',
 };
 const ic = (n, cls = '') => `<svg class="i ${cls}" viewBox="0 0 24 24" aria-hidden="true">${P[n]}</svg>`;
@@ -85,6 +94,8 @@ const NAV_ICONS = {
   rating: '<path d="M6 2h12v7a6 6 0 0 1-12 0Z"/><path d="M6 4H3.5a1 1 0 0 0-1 1.2C3 8.5 4.6 10 6.5 10.4M18 4h2.5a1 1 0 0 1 1 1.2c-.5 3.3-2.1 4.8-4 5.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10.5 14.5h3v3.5h-3z"/><path d="M7 19.5h10V22H7z"/>',
   news: '<path d="M12 2.5a6.5 6.5 0 0 0-6.5 6.5v4.3L3.7 16.6a1 1 0 0 0 .9 1.4h14.8a1 1 0 0 0 .9-1.4l-1.8-3.3V9A6.5 6.5 0 0 0 12 2.5Z"/><path d="M9.2 19.5h5.6a2.8 2.8 0 0 1-5.6 0Z"/>',
   profile: '<circle cx="10" cy="6.5" r="4"/><path d="M2.5 19.5a7.5 7.5 0 0 1 12.2-5.8A5 5 0 0 0 13 21.5H4a1.5 1.5 0 0 1-1.5-2Z"/><circle cx="18.5" cy="17.5" r="4.5"/><path style="fill:var(--card)" d="M18.5 20.2l-2-1.9a1.2 1.2 0 0 1 1.7-1.8l.3.3.3-.3a1.2 1.2 0 0 1 1.7 1.8Z"/>',
+  vote: '<path d="M3.5 13.5h17v6.5A1.5 1.5 0 0 1 19 21.5H5A1.5 1.5 0 0 1 3.5 20Z"/><path d="M7 2.5h10v10H7z"/><path d="m9.4 7.6 1.8 1.8 3.6-3.6" fill="none" style="stroke:var(--card)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.5 17.5h7" style="stroke:var(--card)" stroke-width="1.6" stroke-linecap="round"/>',
+  stories: '<path d="M12 1.5a10.5 10.5 0 1 1 0 21 10.5 10.5 0 0 1 0-21Z"/><path d="M10 8.2v7.6l6.2-3.8Z" style="fill:var(--card)"/>'
 };
 
 // app emblem: dome with crescent finial, two minarets, open Quran as the base
@@ -101,8 +112,9 @@ const CATS = {
   water: { label: 'Water', icon: 'droplet', g: ['#4fcbee', '#2774d1'] },
   education: { label: 'Education', icon: 'book', g: ['#9a7cf4', '#5634c0'] },
   orphans: { label: 'Orphans', icon: 'baby', g: ['#f585a8', '#cf4778'] },
-  masjid: { label: 'Masjid', icon: 'mosque', g: ['#38d39f', '#0a8a52'] },
+  masjid: { label: 'Masjid & madrasa', icon: 'mosque', g: ['#38d39f', '#0a8a52'] },
   emergency: { label: 'Emergency', icon: 'buoy', g: ['#f6735a', '#c33838'] },
+  legal: { label: 'Legal aid', icon: 'scale', g: ['#7a8cff', '#2f3fa8'] },
 };
 
 const ORGS = {
@@ -110,6 +122,7 @@ const ORGS = {
   noor: { name: 'Al-Noor Welfare Society', short: 'AN', color: '#0a8a52', ngo: true },
   ummeed: { name: 'Ummeed Foundation', short: 'UF', color: '#e0602a', ngo: true },
   iqra: { name: 'Iqra Education Trust', short: 'IQ', color: '#5634c0', ngo: true },
+  insaaf: { name: 'Insaaf Legal Aid Cell', short: 'IL', color: '#2f3fa8', ngo: true },
   me: { name: 'Ayesha Khan', short: 'AK', color: '#cf4778', ngo: false },
 };
 
@@ -185,6 +198,54 @@ const CAMPAIGNS = [
     updates: [['2 days ago', 'Rations delivered to 6 madrasas in Bahraich.']],
   },
   {
+    id: 10, photo: PHOTO.family, pos: 'center', org: 'noor', cat: 'food', zakat: true, featured: true, city: 'Bhiwandi, Maharashtra', days: 18,
+    title: 'Be a support for widowed sisters', caption: 'Ration and shelter for widows',
+    goal: 150000, raised: 96400, donors: 412, unit: [1500, 'month of ration for one family'],
+    ben: { Beneficiary: '120 widows and their children', Covers: 'Monthly ration, rent support', Partner: 'Al-Noor volunteers', Location: 'Bhiwandi' },
+    docs: ['Widow list (verified)', 'Ration vendor quotation', 'NGO 80G certificate'],
+    story: ['Many widows in Bhiwandi raise their children alone on daily wages. A monthly ration kit means one less worry.', 'Kits include atta, rice, dal, oil, sugar and milk powder, delivered to the home.'], updates: [['4 days ago', 'October kits delivered to 118 families.']],
+  },
+  {
+    id: 11, photo: PHOTO.school, pos: '30% center', org: 'iqra', cat: 'orphans', zakat: true, city: 'Lucknow, Uttar Pradesh', days: 22,
+    title: 'Nikah support for adult orphan girls', caption: 'Only for daughters above 18',
+    goal: 200000, raised: 143000, donors: 520, unit: [25000, 'nikah arrangement'],
+    ben: { Beneficiary: '8 orphan daughters, all above 18', Covers: 'Simple nikah, essentials, no dowry', Partner: 'Local masjid committee', Location: 'Lucknow' },
+    docs: ['Age proof (18+)', 'Guardian consent', 'Masjid committee letter'],
+    story: ['Every daughter deserves a dignified, simple nikah. Families of these orphan girls cannot afford even the basics.', 'Funds cover the nikah gathering and household essentials. No dowry is paid.'], updates: [],
+  },
+  {
+    id: 12, photo: PHOTO.water, pos: 'center', org: 'ummeed', cat: 'emergency', zakat: false, city: 'Delhi NCR', days: 12,
+    title: 'Stand with your own in winter', caption: 'Blankets, jackets and socks',
+    goal: 250000, raised: 181500, donors: 760, unit: [600, 'winter kit'],
+    ben: { Beneficiary: '400 street families', Covers: 'Blankets, jackets, shoes, socks', Partner: 'Ummeed night teams', Location: 'Delhi NCR' },
+    docs: ['Distribution plan', 'Vendor quotation'],
+    story: ['When night temperatures drop to 4°C, families on footpaths need more than one thin blanket.', 'Each ₹600 kit has a blanket, jacket, socks and a cap.'], updates: [['Yesterday', 'First 150 kits handed out near Jama Masjid.']],
+  },
+  {
+    id: 13, photo: PHOTO.hospital, pos: '60% center', org: 'shifa', cat: 'medical', zakat: true, city: 'Hyderabad, Telangana', days: 15,
+    title: 'Free eye check-ups and cataract surgery', caption: 'Give the gift of sight',
+    goal: 150000, raised: 88500, donors: 372, unit: [3500, 'cataract surgery'],
+    ben: { Beneficiary: 'Elderly patients from 9 villages', Covers: 'Check-ups, surgery, medicines', Hospital: 'Shifa Eye Centre', Location: 'Hyderabad' },
+    docs: ['Hospital cost estimate', 'Camp permission'],
+    story: ['Cataract is the most common cause of blindness among the elderly, and it is curable.', 'A ₹3,500 surgery gives a grandparent their sight back in one day.'], updates: [],
+  },
+  {
+    id: 14, photo: PHOTO.boy, pos: 'center 30%', org: 'insaaf', cat: 'legal', zakat: true, city: 'Across India', days: 16,
+    title: 'Free legal aid and help for bail', caption: 'A free advocate for those who cannot pay',
+    goal: 100000, raised: 67300, donors: 310, unit: [2500, 'court hearing with a free advocate'],
+    ben: { Beneficiary: 'Poor families facing court cases', Covers: 'Advocate fees, court costs, documents', Partner: 'Insaaf Legal Aid Cell', Location: 'Delhi, Lucknow, Mumbai' },
+    docs: ['Advocate panel list', 'Bar Council registrations'],
+    story: ['Many poor families cannot afford a lawyer, even for a simple bail hearing. The court decides bail; we make sure every person has a free advocate and proper legal advice.'], updates: [['1 week ago', '14 families given free advocates this month.']],
+  },
+  {
+    id: 15, photo: PHOTO.school, pos: 'center', org: 'iqra', cat: 'masjid', zakat: true, featured: true, city: 'UP & Bihar', days: 40,
+    title: 'Madrasa improvement campaign', caption: 'Better rooms, teachers and digital boards',
+    goal: 500000, raised: 214000, donors: 603, unit: [15000, 'digital board for one classroom'],
+    ben: { Beneficiary: '6 madrasas, 900 students', Covers: 'Classrooms, teachers, digital boards', Partner: 'Iqra Education Trust', Location: 'UP & Bihar' },
+    docs: ['Madrasa list (verified)', 'Contractor estimate'],
+    story: ['Madrasa students deserve the same good classrooms as any school. This campaign repairs rooms, trains teachers and adds digital boards.'], updates: [],
+  },
+  {
     id: 7, photo: PHOTO.family, pos: 'center', org: 'noor', cat: 'food', zakat: false, done: true, city: 'Delhi', title: 'Winter blankets for 2,000 street families',
     goal: 600000, raised: 640000, donors: 2312, unit: [300, 'blanket'], ben: { Beneficiary: '2,000 families', Location: 'Delhi' }, docs: [], story: ['Thanks to you, 2,000 families received warm blankets before the cold wave.'], updates: [],
     util: [['Blankets (2,000 pcs)', 78], ['Transport & storage', 12], ['Distribution volunteers', 6], ['Platform & payment fees', 4]],
@@ -227,7 +288,9 @@ const S = {
   saved: new Set([2]), liked: new Set(),
   points: 0, donated: 0, donations: [], streak: false, last: null,
   theme: 'classic', userTheme: null, adminTheme: 'classic', themeLocked: false,
-  ui: { home: 'all', cat: 'all', comp: 'done', rate: 'league', rateSub: 'donors', news: 'news', dTab: 'story', q: '', sort: 'urgent', zakatOnly: false },
+  votes: {}, wallet: 500, posts: [], likedPosts: new Set(), compose: { txt: '', file: '', kind: '', promo: false },
+  bookings: [], helpReqs: [], profileBadge: null, joins: [], look: { btn: 'classic', text: 'm', saver: false },
+  ui: { vote: 'live', pollSel: {}, extra: 1, help: 'legal', lawyerQ: '', home: 'all', cat: 'all', comp: 'done', rate: 'league', rateSub: 'donors', news: 'news', dTab: 'story', q: '', sort: 'urgent', zakatOnly: false },
   login: { stage: 'details', role: 'donor', name: '', email: '', phone: '', err: {} },
   donate: null,
   draft: null,
@@ -266,6 +329,20 @@ const THEMES = [
   T('eid', 'Eid Mubarak', 'ईद मुबारक', 'Royal purple with gold', 'gift', false, { brand: '#6b3fc4', 'brand-2': '#b48cf2', 'brand-3': '#7d4fe0', 'brand-ink': '#52299e', 'brand-soft': '#eee6fc', gold: '#e2a72b', bg: '#f3f0fa', chip: '#e7e1f4', soft: '#f3effb', line: '#e8e3f3', 'soft-line': '#cdc3e3', page: '#ddd5ee' },
     { icon: 'gift', title: 'Eid Mubarak!', sub: 'Share the joy. Gift Eid clothes to an orphan today.', cta: 'Gift Eid', act: 'svcOrphans' }),
   T('paper', 'Ink & Paper', 'सादगी', 'Minimal black and white', 'pencil', false, { brand: '#1d1d24', 'brand-2': '#55555f', 'brand-3': '#2b2b33', 'brand-ink': '#1d1d24', 'brand-soft': '#ececef', gold: '#b08a3e', bg: '#f4f4f5', chip: '#e8e8eb', soft: '#f3f3f4', line: '#e6e6e9', 'soft-line': '#c9c9cf', page: '#dadadd' }),
+  T('jumma', 'Jumma Mubarak', 'जुम्मा मुबारक', 'White, green and Friday gold', 'mosque', false, { brand: '#0f7a4a', 'brand-2': '#4fd1a0', 'brand-3': '#14915a', 'brand-ink': '#0b5c38', 'brand-soft': '#e2f5ec', gold: '#d4a017', bg: '#f2f6f3', chip: '#e4ece7', soft: '#eef5f0', line: '#e2eae5', 'soft-line': '#c5d6cc', page: '#d6e2db' },
+    { icon: 'mosque', title: 'Jumma Mubarak', sub: 'Friday is a blessed day for Sadaqah. Give a meal today.', cta: 'Give now', act: 'svcFood' }),
+  T('milad', 'Milad-un-Nabi', 'मीलाद-उन-नबी', 'Green and gold garlands', 'star', false, { brand: '#127a4d', 'brand-2': '#e9b52c', 'brand-3': '#0f6b43', 'brand-ink': '#0b5a39', 'brand-soft': '#e3f4ea', gold: '#e9b52c', bg: '#f4f6ef', chip: '#e6ebdf', soft: '#f1f5ec', line: '#e4e9dd', 'soft-line': '#c9d3bd', page: '#dbe2d2', 'hero-1': '#127a4d', 'hero-2': '#0a4a30', 'hero-ink': '#ffe9a8' },
+    { icon: 'star', title: 'Eid Milad-un-Nabi', sub: 'Celebrate with kindness. Feed a family today.', cta: 'Feed a family', act: 'svcFood' }),
+  T('hajj', 'Hajj', 'हज', 'Black, white and Kaaba gold', 'globe', false, { brand: '#1b1b1f', 'brand-2': '#c9a227', 'brand-3': '#2b2b30', 'brand-ink': '#1b1b1f', 'brand-soft': '#f3eedd', gold: '#c9a227', bg: '#f6f4ef', chip: '#ebe7dd', soft: '#f4f1e8', line: '#e8e3d6', 'soft-line': '#d3cab3', page: '#e2ddd0', 'hero-1': '#2b2b30', 'hero-2': '#0e0e10', 'hero-ink': '#f3d27a' },
+    { icon: 'globe', title: 'Hajj Mubarak', sub: 'Remember the pilgrims in your dua and share Qurbani with the needy.', cta: 'Book Qurbani', act: 'qurbani' }),
+  T('lavender', 'Lavender Mint', 'लैवेंडर', 'Soft lavender with mint', 'sprout', false, { brand: '#6d5bd0', 'brand-2': '#7fe0c4', 'brand-3': '#5a48c0', 'brand-ink': '#4a3aa6', 'brand-soft': '#ece8fd', gold: '#e0a83c', bg: '#f4f3fb', chip: '#e8e6f6', soft: '#f3f1fc', line: '#e7e4f5', 'soft-line': '#cdc8ea', page: '#dedbf0' }),
+  T('tiranga', 'Tiranga', 'तिरंगा', 'Saffron, white and green', 'star', false, { brand: '#138808', 'brand-2': '#ff9933', 'brand-3': '#118006', 'brand-ink': '#0e6b06', 'brand-soft': '#e6f4e1', gold: '#ff9933', bg: '#f7f5f0', chip: '#ece8df', soft: '#f6f3ec', line: '#ebe6dc', 'soft-line': '#d6ccb8', page: '#e4ded2', 'hero-1': '#ff9933', 'hero-2': '#138808', 'hero-ink': '#ffffff' },
+    { icon: 'star', title: 'Jai Hind', sub: 'Celebrate the nation by helping a child go to school.', cta: 'Support a school', act: 'svcEdu' }),
+  T('holi', 'Holi', 'होली', 'Pink, saffron and violet', 'heart', false, { brand: '#d6336c', 'brand-2': '#ffb020', 'brand-3': '#7c3aed', 'brand-ink': '#a51d52', 'brand-soft': '#fde7f0', gold: '#ffb020', bg: '#fbf4f7', chip: '#f2e4eb', soft: '#fbf0f5', line: '#f0e2ea', 'soft-line': '#dcc3d1', page: '#ecd9e3', 'hero-1': '#ff6fa5', 'hero-2': '#7c3aed', 'hero-ink': '#ffffff' },
+    { icon: 'heart', title: 'Happy Holi', sub: 'Share the colours of kindness with a child in need.', cta: 'Give now', act: 'svcOrphans' }),
+  T('shabebarat', 'Shab-e-Barat', 'शब-ए-बरात', 'Indigo night with golden lamps', 'star', true, { brand: '#f0c35a', 'brand-2': '#ffe08a', 'brand-3': '#d9a531', 'brand-ink': '#ffe08a', 'brand-soft': '#2a2a4a', gold: '#f0c35a', ink: '#eef0ff', 'ink-2': '#cfd2ee', muted: '#9095b8', line: '#262a4d', bg: '#0b0d24', card: '#141838', chip: '#1d2248', soft: '#191d40', 'soft-line': '#353a68', page: '#05061a', 'on-brand': '#1a1406', 'hero-1': '#23295e', 'hero-2': '#0b0d24', 'hero-ink': '#ffe08a' },
+    { icon: 'star', title: 'Shab-e-Barat', sub: 'A night of forgiveness. Remember those in need in your dua.', cta: 'Give Sadaqah', act: 'svcFood', deco: 'lantern' }),
+  T('jannat', 'Jannat Night', 'जन्नत', 'Deep teal with soft gold', 'moon', true, { brand: '#2dd4bf', 'brand-2': '#5eead4', 'brand-3': '#14b8a6', 'brand-ink': '#99f6e4', 'brand-soft': '#0f3a38', gold: '#e9c46a', ink: '#ecfdfa', 'ink-2': '#c2e3dd', muted: '#83a8a2', line: '#173c39', bg: '#051a19', card: '#0b2725', chip: '#113532', soft: '#0e302d', 'soft-line': '#2a524e', page: '#020d0c', 'on-brand': '#032321', 'hero-1': '#0f4a46', 'hero-2': '#051a19', 'hero-ink': '#ffffff' }),
   T('midnight', 'Midnight', 'आधी रात', 'Deep navy with silver', 'star', true, { brand: '#5b93ff', 'brand-2': '#8db6ff', 'brand-3': '#4a80ef', 'brand-ink': '#b3cdff', 'brand-soft': '#1c2b4a', gold: '#e9c46a', line: '#263048', bg: '#0d1322', card: '#151d31', chip: '#1e2840', soft: '#1b2439', 'soft-line': '#34405c', page: '#070b14', 'on-brand': '#ffffff' , 'hero-1': '#1b2a52', 'hero-2': '#0b1124', 'hero-ink': '#ffffff' }),
   T('royal', 'Royal Gold', 'शाही सुनहरा', 'Black & gold, timeless', 'crown', true, { brand: '#d4a72c', 'brand-2': '#f3d27a', 'brand-3': '#c9971f', 'brand-ink': '#f3d27a', 'brand-soft': '#2e2717', gold: '#e9c46a', ink: '#f4efe2', 'ink-2': '#d6cfbd', muted: '#9a927f', line: '#2a2721', bg: '#0e0d0b', card: '#1a1814', chip: '#25221c', soft: '#221f19', 'soft-line': '#3d382d', page: '#050504' , 'hero-1': '#2b2414', 'hero-2': '#0e0d0b', 'hero-ink': '#f3d27a' }),
   T('ramzan', 'Ramzan', 'रमज़ान मुबारक', 'Emerald nights, golden lanterns', 'moon', true, { brand: '#e2b85c', 'brand-2': '#f3d58f', 'brand-3': '#c99a3a', 'brand-ink': '#f0d28a', 'brand-soft': '#1f3a2a', gold: '#e2b85c', 'gold-soft': '#26372a', 'gold-ink': '#f0d28a', ink: '#f1f6f2', 'ink-2': '#c9dbd1', muted: '#8eaa9d', line: '#1c3d31', bg: '#06191a', card: '#0b2620', chip: '#123329', soft: '#0f2e25', 'soft-line': '#2c5345', page: '#020c0a', 'on-brand': '#1b1506', 'hero-1': '#0f4a37', 'hero-2': '#06231b', 'hero-ink': '#f3d58f' },
@@ -365,7 +442,7 @@ const seg = (key, opts) => `<div class="seg" role="tablist">${opts.map(([v, l]) 
 const pageHead = (title, right = '') => `<header class="phead"><button class="icon-btn" data-act="back" aria-label="Back">${ic('left')}</button><h1>${title}</h1>${right}</header>`;
 
 function navBar(cur) {
-  const tabs = [['home', 'Campaigns'], ['completed', 'Completed'], ['donations', 'Donations'], ['rating', 'Rating'], ['profile', 'Profile']];
+  const tabs = [['home', 'Home'], ['vote', 'Vote'], ['donations', 'Donate'], ['stories', 'Stories'], ['profile', 'Profile']];
   return `<nav class="nav fixed-col">${tabs.map(([k, l]) => k === 'donations' ? `<a href="#/donations" data-go="#/donations" class="nav-fab ${cur === k ? 'on' : ''}"><span class="fab">${ic('hands')}</span>${l}</a>` : `<a href="#/${k}" data-go="#/${k}" class="${cur === k ? 'on' : ''}"><svg class="i" viewBox="0 0 24 24" aria-hidden="true">${NAV_ICONS[k]}</svg>${l}</a>`).join('')}</nav>`;
 }
 
@@ -385,7 +462,6 @@ const SERVICES = [
   ['calc', 'Zakat calculator', 'zakatCalc'], ['star', 'Pay Zakat', 'svcZakat'], ['mosque', 'Sadaqah Jariyah', 'svcJariyah'], ['utensils', 'Iftar & food', 'svcFood'],
   ['baby', 'Orphan care', 'svcOrphans'], ['hands', 'Fidya & Kaffarah', 'fidya'], ['calendar', 'Qurbani', 'qurbani'], ['plus', 'Start fundraiser', 'svcStart'],
 ];
-const servicesBlock = () => `<section class="services">${secTitle('Our services', 'हमारी सेवाएँ')}<div class="svc-grid">${SERVICES.map(([i, l, a]) => `<button class="svc" data-act="${a}"><span class="svc-ic">${ic(i)}</span>${l}</button>`).join('')}</div></section>`;
 const duaBlock = () => `<section class="home-sec">${secTitle('Feed a madrasa child', 'बच्चों के लिए भोजन')}
   <div class="dua"><div class="dua-photo" style="background-image:url('${PHOTO.school}')"></div><div class="dua-head"><div><h3>Dua karein, aur karein donation</h3><p>Your dua and a small gift give a meal to children studying in our madrasas.</p></div>${ic('bowl')}</div>
   <div class="dua-amts">${[10, 20, 50, 100].map(a => `<button data-act="quickGive" data-v="${a}">₹${a}</button>`).join('')}</div></div></section>`;
@@ -402,15 +478,34 @@ const MEMBERS = [['Ayesha Khan', 'Diamond'], ['Rizwan Ahmed', 'Gold'], ['Fatima 
 const membersBlock = () => `<section class="home-sec">${secTitle('Active members', '', `<button class="text-link small" data-go="#/rating">Leaderboard ${ic('right')}</button>`)}
   <div class="members">${MEMBERS.map(([n, l], i) => `<div class="member"><span class="mav">${avatar(n)}${i % 3 !== 2 ? '<i></i>' : ''}</span><b>${esc(n.split(' ')[0])}</b><span>${l}</span></div>`).join('')}</div></section>`;
 
+const DONOR_ID = 'MLP-104582';
+const heroBlock = () => { const t = totalGiven(), tr = tierOf(t), pb = S.profileBadge != null ? BADGES[S.profileBadge] : null; return `<section class="home-hero"><div class="pattern"></div>${sparkles([[8, 22, 9, 0], [24, 64, 6, 1.2], [84, 16, 10, .6], [70, 60, 7, 1.8], [52, 12, 6, 2.4]])}<span class="hero-emblem">${emblem()}</span>
+    <p class="hero-greet">Assalamu alaikum, ${esc(S.user.first)}</p><p class="hero-date">${hijri()}</p></section>
+  <div class="profile-card">
+    <div class="pc-row"><span class="pc-av ${pb ? 'framed' : ''}" style="${pb ? `--f1:${pb[5][0]};--f2:${pb[5][1]}` : ''}">${avatar(S.user.name)}</span>
+      <div class="pc-body"><b>${esc(S.user.name)}</b><span class="num">Donor ID · ${DONOR_ID}</span></div><span class="verified-pill">${ic('verified')} Verified</span></div>
+    <button class="pc-tier" data-go="#/donations"><span class="ts-badge" style="--tc:${TIERS[tr.i][2][0]}">${tierBadge(tr.i, 30)}</span><span class="ts-body"><span class="eyebrow">${tr.name} member · <span class="num">${inr(t)}</span> donated</span><span class="bar"><i style="width:${tierProgress(t)}%"></i></span><span class="ts-next">${tr.next ? `${inr(tr.next[1] - t)} more to reach <b>${tr.next[0]}</b>` : 'Highest badge reached'}</span></span>${ic('right')}</button>
+    <div class="hero-actions"><button class="btn btn-main" data-go="#/campaigns">${ic('heart')} Donate</button><button class="btn btn-soft" data-go="#/help">${ic('hands')} Ask for help</button></div>
+  </div>`; };
+const HOME_SERVICES = [['scale', 'Legal aid', '#2f3fa8', 'go:#/help'], ['school', 'School', '#4338ca', 'cat:education'], ['mosque', 'Madrasa upgrade', '#0b7a4c', 'camp:15'], ['ring', 'Orphan girls’ nikah', '#b0461f', 'camp:11'], ['pulse', 'Treatment', '#1d7cc4', 'cat:medical'], ['eye', 'Eye surgery', '#0e8fa6', 'camp:13'], ['utensils', 'Ration', '#c2410c', 'camp:10'], ['snow', 'Winter relief', '#2563eb', 'camp:12'], ['book', 'Education & clothes', '#6d28d9', 'cat:education'], ['buoy', 'Disaster relief', '#c33838', 'cat:emergency'], ['calc', 'Zakat calculator', '#0a9b3c', 'act:zakatCalc'], ['calendar', 'Qurbani', '#a16207', 'act:qurbani']];
+const servicesBlock = () => `<section class="home-sec">${secTitle('Our services', 'हमारी सेवाएँ')}<div class="svc-pills">${HOME_SERVICES.map(([i, l, c, a]) => `<button class="svc-pill" data-act="svc" data-v="${a}" style="--sc:${c}"><span>${l}</span><i>${ic(i)}</i></button>`).join('')}</div></section>`;
+const posterCard = c => `<button class="poster" data-go="#/c/${c.id}" style="background-image:url('${c.photo}');background-position:${c.pos || 'center'}"><span class="poster-shade"></span><span class="poster-top"><span class="ptag">${ic(CATS[c.cat].icon)}${CATS[c.cat].label}</span><span class="ptag">${c.days} days left</span></span><span class="poster-body"><b>${esc(c.title)}</b><span class="bar"><i style="width:${pct(c)}%"></i></span><span class="poster-meta"><span><b class="num">${inr(c.raised)}</b> raised</span><span class="num">${pct(c)}% of ${inr(c.goal)}</span></span><span class="btn btn-main poster-cta">${ic('heart')} Donate now</span></span></button>`;
+const featuredBlock = () => { const A = active(), r = A.reduce((a, c) => a + c.raised, 0), d = A.reduce((a, c) => a + c.donors, 0); return `<section class="home-sec">${secTitle('Featured campaigns', '', `<button class="text-link small" data-go="#/campaigns">See all ${ic('right')}</button>`)}<p class="fund-sum num">${inr(r)} raised · ${d.toLocaleString('en-IN')} donors · ${A.length} campaigns</p><div class="hscroll posters">${A.filter(c => c.featured).map(posterCard).join('')}</div></section>`; };
+const trophyNudge = () => `<button class="creator-nudge" data-go="#/creator"><span class="cn-ic">${trophyArt(1, 26)}</span><span><b>Trophy & referral</b><span>Share your code. Every 500 people who join earn you a new trophy.</span></span>${ic('right')}</button>`;
+
 V.home = () => {
+  const more = active().filter(c => !c.featured).slice(0, 2);
+  return { nav: 'home', html: header() + heroBlock() + `<div class="home-stack">${seasonCard()}${liveVotingBlock()}${servicesBlock()}${featuredBlock()}${storiesBlock()}${duaBlock()}${hadithBlock()}
+    <section class="home-sec">${secTitle('More campaigns', '', `<button class="text-link small" data-go="#/campaigns">See all ${ic('right')}</button>`)}<div class="feed tight">${more.map(campaignCard).join('')}</div><button class="btn btn-line btn-block" data-go="#/campaigns">See all ${active().length} campaigns</button></section>
+    ${membersBlock()}${trophyNudge()}</div>` };
+};
+
+V.campaigns = () => {
   const cats = [['all', 'All', 'heart'], ...Object.entries(CATS).map(([k, c]) => [k, c.label, c.icon])];
-  let list = S.ui.home === 'fav' ? CAMPAIGNS.filter(c => S.saved.has(c.id)) : active().filter(c => S.ui.cat === 'all' || c.cat === S.ui.cat).sort((a, b) => !!b.featured - !!a.featured);
-  const cards = list.map(campaignCard);
-  if (S.ui.home === 'all' && S.ui.cat === 'all') { cards.splice(1, 0, duaBlock()); cards.splice(3, 0, hadithBlock()); cards.splice(5, 0, membersBlock()); cards.splice(6, 0, creatorNudge()); }
-  return { nav: 'home', html: header(seg('home', [['all', 'All campaigns'], ['fav', 'My favorites']])) +
-    (S.ui.home === 'all' && S.ui.cat === 'all' ? `<div class="home-top">${tierStrip()}${seasonCard()}</div>` + servicesBlock() : '') +
+  const list = S.ui.home === 'fav' ? CAMPAIGNS.filter(c => S.saved.has(c.id)) : active().filter(c => S.ui.cat === 'all' || c.cat === S.ui.cat).sort((a, b) => !!b.featured - !!a.featured);
+  return { nav: 'home', html: `<header class="top"><div class="top-row"><button class="hbtn" data-act="back" aria-label="Back">${ic('left')}</button><h1 class="page-title" style="font-size:20px">Campaigns</h1><span class="spacer"></span><div class="hbtns"><button class="hbtn" data-go="#/completed" aria-label="Completed campaigns">${ic('check')}</button><button class="hbtn" data-go="#/search" aria-label="Search">${ic('search')}</button></div></div>${seg('home', [['all', 'All campaigns'], ['fav', 'My favorites']])}</header>` +
     (S.ui.home === 'all' ? `<div class="chips">${cats.map(([k, l, i]) => `<button class="chip ${S.ui.cat === k ? 'on' : ''}" data-act="ui" data-k="cat" data-v="${k}">${ic(i)}${l}</button>`).join('')}</div>` : '') +
-    `<div class="feed">${cards.join('') || `<div class="empty">${ic('bookmark')}<p>Tap the bookmark on any campaign to keep it here.</p><button class="btn btn-soft" data-act="ui" data-k="home" data-v="all">Browse campaigns</button></div>`}</div>` };
+    `<div class="feed">${list.map(campaignCard).join('') || `<div class="empty">${ic('bookmark')}<p>${S.ui.home === 'fav' ? 'Tap the bookmark on any campaign to keep it here.' : 'No campaigns in this cause yet.'}</p><button class="btn btn-soft" data-act="ui" data-k="home" data-v="all">Browse campaigns</button></div>`}</div>` };
 };
 
 V.completed = () => {
@@ -512,6 +607,7 @@ V.profile = () => {
       <button class="money-tile" data-go="#/history"><span>My donations ${ic('right')}</span><b class="num">${inr(totalGiven())}</b></button>
       <button class="money-tile" data-go="#/my"><span>Raised by my fundraisers ${ic('right')}</span><b class="num">${inr(myRaised())}</b></button>
     </div>
+    ${badgesBlock()}
     <section class="section">
       <div class="sec-head"><h2>My fundraisers</h2><button class="pill-link green" data-go="#/my">Dashboard ${ic('right')}</button></div>
       ${mine.map(m => `<div class="my-camp" data-go="#/my">${thumb(m.c, m.photo)}<div class="info"><b>${esc(m.c.title)}</b><span class="small muted num">${inr(m.c.raised)} of ${inr(m.c.goal)}</span> <span class="status ${m.status === 'live' ? 'st-live' : 'st-review'}">${m.status === 'live' ? 'Live' : 'Under review'}</span><div class="bar"><i style="width:${pct(m.c)}%"></i></div></div></div>`).join('')}
@@ -529,7 +625,8 @@ V.profile = () => {
     </section>
     ${menu([['receipt', 'Donation history', '#/history'], ['globe', 'Language and region', 'region', 'English · ₹ INR'], ['calendar', 'Monthly giving', 'monthly'], ['card', 'Payment methods', 'payments']])}
     ${menu([['bookmark', 'Favorites', 'favs'], ['wallet', 'Fundraiser dashboard & withdrawals', '#/my'], ['shield', 'KYC & bank account', '#/kyc', 'Verified'], ['link', 'Your personal link', 'mylink']])}
-    ${menu([['megaphone', 'Affiliate & Creator', '#/creator', S.creator ? S.creator.code : 'Earn halal'], ['hands', 'Verified NGOs', '#/ngos', String(Object.values(ORGS).filter(o => o.ngo).length)], ['palette', 'App theme', '#/settings', theme().name], ['bell', 'Notifications & email', '#/settings']])}
+    ${menu([['trophy', 'Rating & leaderboard', '#/rating'], ['check', 'Completed campaigns', '#/completed'], ['bell', 'News & notifications', '#/news'], ['scale', 'Ask for help', '#/help']])}
+    ${menu([['medal', 'Trophy & referral', '#/creator', S.creator ? S.creator.code : 'Earn trophies'], ['hands', 'Verified NGOs', '#/ngos', String(Object.values(ORGS).filter(o => o.ngo).length)], ['palette', 'Appearance', '#/settings', theme().name], ['bell', 'Notifications & email', '#/settings']])}
     ${menu([['hands', 'About us', '#/info/about'], ['help', 'How it works', '#/info/how'], ['info', 'FAQs', '#/info/faq']])}
     <section class="section">
       <div class="thanks"><div style="flex:1"><h3>Thank you for being with us</h3><p>Write to us if you have a question, feedback, an idea, or something isn’t working.</p><a href="#/info/contact" data-go="#/info/contact">Write to us</a></div><div class="logo" style="flex-direction:column;font-size:20px;gap:2px">${LOGO.replace('viewBox', 'style="width:54px;height:54px" viewBox')}${APP}</div></div>
@@ -775,13 +872,24 @@ V.kyc = () => {
 };
 
 S.prefs = { receipts: true, status: true, withdrawals: true, updates: true, news: false };
+const BTN_STYLES = [['classic', 'Classic'], ['clay', 'Clay'], ['glass', '3D glass'], ['neu', 'Neumorphic'], ['capsule', 'Capsule']];
+function applyLook() {
+  const r = document.documentElement;
+  r.dataset.btn = S.look.btn; r.dataset.text = S.look.text; r.classList.toggle('saver', !!S.look.saver);
+  try { localStorage.setItem('mlp-look', JSON.stringify(S.look)); } catch { /* storage blocked: look lasts for this session */ }
+}
 V.settings = () => {
   const u = S.user;
   const sw = (k, t, d) => `<div class="switch-row"><div class="txt"><b>${t}</b><span>${d}</span></div><button class="switch ${S.prefs[k] ? 'on' : ''}" data-act="pref" data-k="${k}" role="switch" aria-checked="${S.prefs[k]}" aria-label="${t}"></button></div>`;
-  return { html: pageHead('Profile settings') + `<form class="wrap" data-form="profile">
+  return { html: pageHead('Settings & appearance') + `<form class="wrap" data-form="profile">
     <section class="section"><div class="sec-head"><h2>App theme</h2><span class="small muted">${THEMES.length} themes</span></div>
       <p class="small muted" style="margin:-4px 0 12px">${S.themeLocked ? 'Your organisation has set the theme for everyone.' : 'Switch the whole app to a new look. Festive themes add a seasonal card on Home.'}</p>
       <div class="theme-list">${THEMES.map(t => themeCard(t, t.id === S.theme, S.themeLocked)).join('')}</div></section>
+    <section class="section"><div class="sec-head"><h2>Button style</h2></div><p class="small muted" style="margin:-4px 0 12px">Applies to every button in the app.</p>
+      <div class="bs-grid">${BTN_STYLES.map(([k, l]) => `<button type="button" class="bs ${S.look.btn === k ? 'on' : ''}" data-act="setLook" data-k="btn" data-v="${k}"><span class="btn btn-main bs-demo bs-${k}">Donate</span>${l}</button>`).join('')}</div>
+      <div class="sec-head" style="margin-top:16px"><h2>Text size</h2></div>
+      <div class="seg" style="margin-top:0">${[['s', 'Small'], ['m', 'Default'], ['l', 'Large']].map(([k, l]) => `<button type="button" class="${S.look.text === k ? 'on' : ''}" data-act="setLook" data-k="text" data-v="${k}">${l}</button>`).join('')}</div>
+      <div class="switch-row" style="margin-top:12px"><div class="txt"><b>Battery saver</b><span>Stops animations and blur effects</span></div><button type="button" class="switch ${S.look.saver ? 'on' : ''}" data-act="setLook" data-k="saver" data-v="${!S.look.saver}" role="switch" aria-checked="${S.look.saver}" aria-label="Battery saver"></button></div></section>
     <section class="section center" style="display:grid;justify-items:center;gap:10px">${avatar(u.name, 'big')}<label class="text-link" for="avatar-in">Change photo<input type="file" id="avatar-in" accept="image/*" hidden></label></section>
     <section class="section" style="display:grid;gap:14px">
       <div class="field"><label for="s-name">Full name</label><input class="input" id="s-name" name="name" value="${esc(u.name)}" required></div>
@@ -821,18 +929,22 @@ V.donations = () => {
 };
 
 V.creator = () => {
-  const cr = S.creator;
-  const does = ['Unique promo code for every creator', 'Earn from membership plans', 'Track social media and offline promotion', 'Automatic commission and reward calculation', 'Dashboard, reports, payments and invoices', 'Admin keeps full control'];
-  const steps = [['userplus', 'Register', 'Create your creator account'], ['code', 'Get your code', 'A unique promo code is generated'], ['megaphone', 'Promote', 'YouTube, Facebook, Instagram or offline'], ['users', 'Members join', 'They buy a plan with your code'], ['rupee', 'Earn', 'Commission is credited automatically']];
-  return { html: `<header class="phead"><button class="icon-btn" data-act="back" aria-label="Back">${ic('left')}</button><div style="flex:1;min-width:0"><h1>Affiliate & Creator</h1><span class="small muted">Aapki mehnat · hamari tarakki · sabka saath</span></div></header>
+  const cr = S.creator, joined = cr ? S.joins.filter(j => j.code === cr.code).length : 0, lv = Math.floor(joined / 500), next = Math.min(lv + 1, 8), sel = S.ui.trophy || next;
+  return { html: `<header class="phead"><button class="icon-btn" data-act="back" aria-label="Back">${ic('left')}</button><div style="flex:1;min-width:0"><h1>Trophy & referral</h1><span class="small muted">Aapki mehnat · hamari tarakki · sabka saath</span></div></header>
   <div class="wrap">
-    <section class="creator-hero"><div class="pattern"></div>${sparkles([[70, 18, 12, 0], [84, 52, 8, 1], [62, 74, 7, 1.8], [92, 22, 6, .5]])}${ic('megaphone')}<h2>Share good, earn halal</h2><p>“Aap prachar karein, log jodein, hum aapki mehnat ka samman karein.”</p></section>
-    ${cr ? `<section class="section"><div class="sec-head"><h2>Your creator code</h2><span class="status st-live">Active</span></div>
-      <div class="code-box"><b class="num">${cr.code}</b><button class="btn btn-soft" data-act="copy" data-v="${SITE}/join?ref=${cr.code}">${ic('link')} Copy link</button></div>
-      <div class="stats3"><div><b class="num">0</b><span>clicks</span></div><div><b class="num">0</b><span>members joined</span></div><div><b class="num">₹0</b><span>earned</span></div></div></section>` : ''}
-    <section class="section">${secTitle('What this does')}${does.map(d => `<div class="does">${ic('check')}<span>${d}</span></div>`).join('')}</section>
-    <section class="section">${secTitle('How it works', 'कैसे काम करता है')}${steps.map(([i, t, d], k) => `<div class="how"><span class="how-ic">${ic(i)}</span><div><b>${k + 1}. ${t}</b><span class="small muted">${d}</span></div></div>`).join('')}</section>
-  </div>`, cta: cr ? `<a class="btn btn-wa btn-block" href="https://wa.me/?text=${encodeURIComponent(`Join ${APP} with my code ${cr.code}: ${SITE}/join?ref=${cr.code}`)}" target="_blank" rel="noopener">${ic('share')} Share my code</a>` : `<button class="btn btn-main btn-block" data-act="joinCreator">${ic('star')} Join as creator</button>` };
+    <section class="creator-hero"><div class="pattern"></div>${sparkles([[70, 18, 12, 0], [84, 52, 8, 1], [62, 74, 7, 1.8], [92, 22, 6, .5]])}${ic('megaphone')}<h2>Share good, earn trophies</h2><p>Join the foundation, share your code and bring people to the app. Every 500 people who join earn you a new trophy.</p></section>
+    <section class="section trophy-stage"><div class="ts-art">${trophyArt(sel, 120)}</div><b class="ts-name">${trophyName(sel)} trophy</b><span class="muted small">When ${(sel * 500).toLocaleString('en-IN')} people join with your code</span><span class="status ${lv >= sel ? 'st-live' : 'st-review'}">${lv >= sel ? 'Earned' : `${ic('lock')} Locked`}</span>
+      <div class="pills-row">${[1, 2, 3, 4, 5, 6, 7, 8].map(n => `<button class="${n === sel ? 'on' : ''}" data-act="pickTrophy" data-v="${n}">${(n * 500).toLocaleString('en-IN')}</button>`).join('')}</div></section>
+    <div class="trophy-grid">${[1, 2, 3, 4, 5, 6, 7, 8].map(n => `<button class="tg ${n === sel ? 'on' : ''} ${lv >= n ? 'got' : ''}" data-act="pickTrophy" data-v="${n}">${trophyArt(n, 54)}<b>${trophyName(n)}</b><span class="num">${(n * 500).toLocaleString('en-IN')} people${lv >= n ? ' ✓' : ''}</span></button>`).join('')}</div>
+    ${cr ? `<section class="section"><div class="sec-head"><h2>Your referral code</h2><span class="status st-live">Active</span></div>
+      <div class="code-box"><b class="num">${cr.code}</b><button class="btn btn-soft" data-act="copy" data-v="${cr.code}">${ic('link')} Copy</button></div>
+      <div class="stats3"><div><b class="num">${joined}</b><span>people joined</span></div><div><b class="num">${500 - (joined % 500)}</b><span>to next trophy</span></div><div><b class="num">${lv}</b><span>trophies</span></div></div></section>
+      <section class="cert"><span class="eyebrow">${APP}</span><h3>Certificate of appreciation</h3>${avatar(S.user.name, 'big')}<b>${esc(cr.name || S.user.name)}</b><span class="muted small">Honoured member for spreading the foundation’s work and serving the community</span><span class="muted small">${cr.date}</span></section>`
+    : `<section class="section"><div class="sec-head"><h2>Register for trophies</h2></div><p class="small muted">Get your own code to share with family and friends.</p><button class="btn btn-main btn-block" style="margin-top:10px" data-act="joinCreator">${ic('star')} Register and get my code</button></section>`}
+    <form class="section" data-form="joinCode" style="display:grid;gap:10px"><div class="sec-head" style="margin:0"><h2>Joined with someone’s code?</h2></div>
+      <input class="input" name="name" placeholder="Your name" required><input class="input num" name="phone" inputmode="numeric" maxlength="10" placeholder="Mobile number" required><input class="input" name="code" placeholder="Referral code (MLP-XXXXXX)" required style="text-transform:uppercase">
+      <span class="err" id="join-err"></span><button class="btn btn-soft">Join with this code</button></form>
+  </div>`, cta: cr ? `<a class="btn btn-wa btn-block" href="https://wa.me/?text=${encodeURIComponent(`Download ${APP} and join with my code ${cr.code}: ${SITE}/join?ref=${cr.code}`)}" target="_blank" rel="noopener">${ic('share')} Share my code on WhatsApp</a>` : undefined };
 };
 
 V.history = () => {
@@ -906,6 +1018,160 @@ V.login = () => {
     <button class="text-link onb-skip" data-act="toast" data-msg="New code sent">Resend code</button>`;
   return { bare: true, html: `<div class="onb">${onbHero('short')}<div class="onb-body">${body}</div></div>` };
 };
+
+/* ---------- voting ---------- */
+// sample polls; in the real app these come from the admin panel
+const POLLS = [
+  { id: 'aw', cat: 'Award', icon: 'trophy', color: '#0b5a3f', status: 'live', end: '2027-01-31', results: 'live', price: 10, maxPaid: 100,
+    title: 'National Social Service Excellence Award 2027', desc: 'Choose the person who deserves this year’s award for service to the community.',
+    cand: [['Dr. Salma Begum', 'Free medical camps in Mewat'], ['Imran Shaikh', 'Free coaching for 300 students'], ['Adv. Rizwan Ahmed', 'Free legal aid in 120 cases'], ['Fatima Noor', 'Education for orphan girls']], votes: [412, 368, 455, 290] },
+  { id: 'sc', cat: 'School location', icon: 'school', color: '#16695a', status: 'live', end: '2027-02-28', results: 'after_vote', price: 10, maxPaid: 100,
+    title: 'Where should our next school be built?', desc: 'Vote for the city that should get priority. Final approval needs land, cost and verification checks.',
+    cand: [['Ghaziabad', 'Local demand to be verified'], ['Meerut', 'Local demand to be verified'], ['Delhi', 'Local demand to be verified'], ['Noida', 'Local demand to be verified']], votes: [620, 540, 410, 380] },
+  { id: 'md', cat: 'Project priority', icon: 'mosque', color: '#5634c0', status: 'upcoming', start: '2026-11-15', end: '2026-12-31', results: 'live', price: 10, maxPaid: 50,
+    title: 'Which madrasa should be upgraded first?', desc: 'Help the committee decide which madrasa gets new classrooms and digital boards first.',
+    cand: [['Faiz-ul-Uloom, Bahraich', '210 students'], ['Darul Quran, Malappuram', '160 students'], ['Jamia Noor, Murshidabad', '240 students']], votes: [0, 0, 0] },
+  { id: 'vl', cat: 'Social worker', icon: 'heart', color: '#b0461f', status: 'closed', end: '2026-04-10', results: 'live', price: 10, maxPaid: 100,
+    title: 'Best volunteer of Ramzan 2026', desc: 'Members chose the volunteer who served the most during Ramzan.',
+    cand: [['Bilal Qureshi', 'Iftar drives on 40 nights'], ['Mariam Siddiqui', 'Ration kits for 600 families'], ['Yusuf Patel', 'Blood donation camps']], votes: [812, 934, 506],
+    final: { o: 1, reason: 'Highest verified service hours, matching the member vote.', by: 'Foundation committee', date: '12 Apr 2026' } },
+];
+const poll = id => POLLS.find(p => p.id === id);
+const myVotes = id => (S.votes[id] || (S.votes[id] = { free: null, paid: 0, rec: [] }));
+const pollTotal = p => p.votes.reduce((a, v) => a + v, 0);
+const daysTo = d => Math.max(0, Math.ceil((new Date(d + 'T23:59:59') - Date.now()) / 864e5));
+const pollWhen = p => p.status === 'live' ? `${daysTo(p.end)} days left` : p.status === 'upcoming' ? `Starts ${new Date(p.start).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}` : 'Voting closed';
+const canSeeResults = p => p.status === 'closed' || p.results === 'live' || (p.results === 'after_vote' && myVotes(p.id).rec.length > 0);
+const pollBanner = (p, cls = '') => `<span class="vban ${cls}" style="background:linear-gradient(135deg, ${p.color}, #062a1f)"><span class="vpill ${p.status}">${p.status === 'live' ? '● LIVE' : p.status === 'upcoming' ? 'COMING SOON' : 'CLOSED'}</span>${ic(p.icon)}</span>`;
+const pollCard = p => `<button class="vcard" data-go="#/poll/${p.id}">${pollBanner(p)}<span class="vbody"><small>${p.cat}</small><b>${esc(p.title)}</b><small class="num">${p.cand.length} options${canSeeResults(p) ? ` · ${pollTotal(p).toLocaleString('en-IN')} votes` : ''}</small><small>${ic('clock')} ${pollWhen(p)}</small><span class="btn btn-main vgo">${p.status === 'live' ? 'Vote now' : 'View details'}</span></span></button>`;
+const pollRing = p => `<button class="vring" data-go="#/poll/${p.id}"><i style="background:linear-gradient(135deg, ${p.color}, #062a1f)">${ic(p.icon)}</i>${p.cat}</button>`;
+const liveVotingBlock = () => { const L = POLLS.filter(p => p.status === 'live'); return L.length ? `<section class="home-sec">${secTitle('<i class="live-dot"></i>Live voting', '', `<button class="text-link small" data-go="#/vote">View all ${ic('right')}</button>`)}
+  <div class="vrings">${L.map(pollRing).join('')}<button class="vring" data-go="#/vote"><i class="more">${ic('ballot')}</i>All polls</button></div>
+  <div class="hscroll">${L.map(pollCard).join('')}</div></section>` : ''; };
+
+V.vote = () => {
+  const tab = S.ui.vote;
+  const list = tab === 'mine' ? [] : POLLS.filter(p => (tab === 'live' ? p.status === 'live' : tab === 'upcoming' ? p.status === 'upcoming' : p.status === 'closed'));
+  const mine = POLLS.flatMap(p => myVotes(p.id).rec.map(r => ({ ...r, p })));
+  return { nav: 'vote', html: `<header class="top"><div class="top-row"><h1 class="page-title">Voting</h1><span class="spacer"></span><div class="hbtns"><button class="hbtn" data-act="voteRules" aria-label="Voting rules">${ic('info')}</button></div></div>${seg('vote', [['live', 'Live'], ['upcoming', 'Upcoming'], ['done', 'Completed'], ['mine', 'My votes']])}</header>
+  <div class="wrap">${tab === 'mine'
+    ? (mine.length ? `<section class="section">${mine.reverse().map(r => `<div class="dh-row"><span class="dh-ic">${ic('ballot')}</span><div class="dh-body"><b>${esc(r.p.cand[r.o][0])}</b><span class="small muted">${esc(r.p.title)} · ${r.type === 'free' ? 'Free vote' : `${r.n} extra vote${r.n > 1 ? 's' : ''} · ${inr(r.amt)}`} · ${r.id}</span></div></div>`).join('')}</section>` : `<div class="empty">${ic('ballot')}<p>You have not voted yet. Every verified member gets one free vote in each poll.</p><button class="btn btn-main" data-act="ui" data-k="vote" data-v="live">See live polls</button></div>`)
+    : (list.length ? list.map(pollCard).join('') : `<div class="empty">${ic('ballot')}<p>No polls here right now.</p></div>`)}
+    <section class="section rules"><b>Voting rules</b><span>One free vote for every verified member in each poll</span><span>Extra votes cost ₹10 each and count only after the payment is verified</span><span>The admin’s final decision is always shown separately from the member result</span></section>
+  </div>` };
+};
+
+V.poll = id => {
+  const p = poll(id); if (!p) return V.vote();
+  const mv = myVotes(p.id), sel = S.ui.pollSel[p.id] ?? mv.free ?? null, show = canSeeResults(p), tot = pollTotal(p);
+  const order = p.cand.map((c, i) => i).sort((a, b) => p.votes[b] - p.votes[a]);
+  const winner = order[0];
+  const cands = p.cand.map(([n, note], i) => `<button class="cand ${sel === i ? 'on' : ''}" ${p.status === 'live' ? `data-act="pickCand" data-p="${p.id}" data-v="${i}"` : 'disabled'}>${avatar(n)}<span class="who"><b>${esc(n)}</b><span>${esc(note)}</span></span>${mv.free === i ? '<span class="status st-live">Your vote</span>' : p.status === 'live' ? '<span class="rd"></span>' : ''}</button>`).join('');
+  const results = show ? `<section class="section"><div class="sec-head"><h2>${p.status === 'closed' ? 'Final result' : 'Live results'}</h2><span class="small muted num">${tot.toLocaleString('en-IN')} votes</span></div>${order.map(i => { const pc = tot ? Math.round(p.votes[i] * 100 / tot) : 0; return `<div class="res"><div><b>${esc(p.cand[i][0])}</b><b class="num">${pc}%</b></div><div class="bar"><i style="width:${pc}%"></i></div><small class="muted num">${p.votes[i].toLocaleString('en-IN')} votes</small></div>`; }).join('')}</section>`
+    : `<section class="section"><p class="muted small">Results for this poll appear after you vote.</p></section>`;
+  const decision = p.status === 'closed' ? `<section class="section decision"><div class="sec-head"><h2>Final decision</h2></div>
+    <dl class="kv"><dt>Member vote winner</dt><dd>${esc(p.cand[winner][0])}</dd>${p.final ? `<dt>Admin final selection</dt><dd>${esc(p.cand[p.final.o][0])}</dd><dt>Reason</dt><dd>${esc(p.final.reason)}</dd><dt>Decided by</dt><dd>${esc(p.final.by)} · ${p.final.date}</dd>` : ''}</dl></section>` : '';
+  const freeLeft = mv.free === null;
+  const cta = p.status !== 'live' ? '' : freeLeft
+    ? `<button class="btn btn-main btn-block" data-act="castFree" data-p="${p.id}" ${sel === null ? 'disabled' : ''}>${ic('ballot')} ${sel === null ? 'Choose an option to vote' : 'Cast my free vote'}</button>`
+    : `<div class="buyrow"><div class="stepper"><button data-act="stepVotes" data-v="-1" aria-label="Fewer votes">−</button><b class="num">${S.ui.extra}</b><button data-act="stepVotes" data-v="1" aria-label="More votes">+</button></div><button class="btn btn-main grow" data-act="buyVotes" data-p="${p.id}">Buy ${S.ui.extra} extra vote${S.ui.extra > 1 ? 's' : ''} · ${inr(S.ui.extra * p.price)}</button></div>`;
+  return { html: pageHead(p.cat) + `<div class="wrap">
+    <section class="section poll-head">${pollBanner(p, 'big')}<h1 class="d-title">${esc(p.title)}</h1><p class="muted">${esc(p.desc)}</p>
+      <div class="mini-chips" style="margin-top:10px"><span class="mini-chip">${ic('clock')}${pollWhen(p)}</span><span class="mini-chip">${ic('users')}${p.cand.length} options</span>${p.status === 'live' ? `<span class="mini-chip green">${freeLeft ? '1 free vote left' : mv.paid ? `Free vote used · ${mv.paid} extra` : 'Free vote used'}</span>` : ''}</div></section>
+    <section class="section"><div class="sec-head"><h2>${p.status === 'live' ? (freeLeft ? 'Choose your option' : 'Add more votes') : 'Options'}</h2></div><div class="cands">${cands}</div>
+      ${p.status === 'live' && !freeLeft ? `<p class="small muted" style="margin-top:10px">Extra votes go to <b>${esc(p.cand[sel ?? mv.free][0])}</b>. ₹${p.price} per vote, up to ${p.maxPaid}.</p>` : ''}</section>
+    ${results}${decision}
+  </div>`, cta: cta || undefined };
+};
+
+/* ---------- stories ---------- */
+const STORY_USERS = [
+  ['Abdul Rehman', PHOTO.family, 'Gave iftar to 40 families tonight. Alhamdulillah, may Allah accept it.'],
+  ['Salma Begum', PHOTO.hospital, 'My mother’s eye surgery was done free at the Shifa camp. JazakAllah to every donor.'],
+  ['Mohammad Arif', PHOTO.water, 'Clean water reached Sanawada today. The children were so happy.'],
+  ['Fatima Khan', PHOTO.school, 'Our madrasa got its first digital board. Shukriya!'],
+  ['Imran Ansari', PHOTO.boy, 'Winter kits are going out tonight. Join us if you can.'],
+];
+const BASE_POSTS = [
+  { who: 'Iqra Education Trust', org: true, t: '2h', txt: 'Students of Faiz-ul-Uloom saying thank you for the new classroom. Your Sadaqah Jariyah at work.', photo: PHOTO.school, likes: 214 },
+  { who: 'Al-Hilal Caterers, Mumbai', t: '5h', txt: 'Iftar boxes for gatherings of 50 to 500. 10% of every order goes to the madrasa meal campaign.', photo: PHOTO.family, likes: 86, sponsored: true },
+  { who: 'Mohammad Arif', t: '1d', txt: 'Visited the Sanawada well with my family. Alhamdulillah for this blessing.', photo: PHOTO.water, likes: 132 },
+];
+const storyRings = (big) => `<div class="srings ${big ? 'big' : ''}"><button class="sring you" data-go="#/stories">${avatar(S.user.name)}<i class="plus">${ic('plus')}</i><span>Your story</span></button>${STORY_USERS.map(([n, ph], i) => `<button class="sring" data-act="openStory" data-v="${i}"><span class="sframe" style="background-image:url('${ph}')"></span><span>${esc(n.split(' ')[0])}</span></button>`).join('')}</div>`;
+const storiesBlock = () => `<section class="home-sec">${secTitle('Donor stories', '', `<button class="text-link small" data-go="#/stories">Open ${ic('right')}</button>`)}${storyRings()}
+  <button class="sponsor-strip" data-go="#/stories"><span class="eyebrow">Sponsored</span><b>Promote your business to the community</b>${ic('right')}</button></section>`;
+
+V.stories = () => {
+  const c = S.compose, fee = c.promo ? (c.kind === 'video' ? 100 : 50) : 0;
+  return { nav: 'stories', html: `<header class="top"><div class="top-row"><h1 class="page-title">Stories</h1><span class="spacer"></span><button class="wallet-chip" data-act="wallet">${ic('wallet')} <span class="num">${inr(S.wallet)}</span></button></div></header>
+  <div class="wrap">
+    ${storyRings(true)}
+    <section class="section compose">
+      <div class="compose-row">${avatar(S.user.name)}<textarea class="textarea" id="post-txt" rows="2" placeholder="Share your story, a dua or a business update" data-model="compose.txt">${esc(c.txt)}</textarea></div>
+      ${c.file ? `<div class="attach">${c.kind === 'video' ? ic('video') : ic('image')}<span>${esc(c.file)}</span><button data-act="clearAttach" aria-label="Remove attachment">${ic('x')}</button></div>` : ''}
+      <div class="compose-tools"><label class="tool" for="post-photo">${ic('image')} Photo<input type="file" id="post-photo" accept="image/*" hidden></label><label class="tool" for="post-video">${ic('video')} Video<input type="file" id="post-video" accept="video/*" hidden></label>
+        <span class="spacer"></span><button class="btn btn-main post-btn" data-act="postStory">Post</button></div>
+      <div class="switch-row"><div class="txt"><b>Business promotion</b><span>Photo ₹50 · video ₹100, paid from your wallet. Videos go live after admin approval.</span></div><button class="switch ${c.promo ? 'on' : ''}" data-act="togglePromo" role="switch" aria-checked="${c.promo}" aria-label="Business promotion"></button></div>
+      ${fee ? `<p class="small muted">${inr(fee)} will be taken from your wallet (balance ${inr(S.wallet)}).</p>` : ''}
+    </section>
+    ${secTitle('Community feed')}
+    ${[...S.posts, ...BASE_POSTS].map((p, i) => `<article class="card post">
+      <div class="post-head">${p.org ? `<div class="org-av" style="color:var(--brand)">${initials(p.who)}</div>` : avatar(p.who)}<div><b>${esc(p.who)}</b><div class="small muted">${p.t}${p.sponsored ? ' · <span class="spons">Sponsored</span>' : ''}</div></div></div>
+      ${p.txt ? `<p class="post-text">${esc(p.txt)}</p>` : ''}
+      ${p.pending ? `<div class="pending">${ic('clock')} Video waiting for admin approval</div>` : p.photo ? `<div class="post-photo" style="background-image:url('${p.photo}')"></div>` : ''}
+      <div class="post-foot"><button class="${S.likedPosts.has(i) ? 'liked' : ''}" data-act="likePost" data-i="${i}">${ic('heart')} ${(p.likes || 0) + (S.likedPosts.has(i) ? 1 : 0)}</button><a href="https://wa.me/?text=${encodeURIComponent((p.txt || '') + ' — via ' + APP)}" target="_blank" rel="noopener">${ic('share')} Share</a></div>
+    </article>`).join('')}
+  </div>` };
+};
+
+/* ---------- ask for help / legal aid ---------- */
+const LAWYERS = [['Adv. Rizwan Ahmed', 'Criminal & bail · 12 yrs', 'Delhi', 'Hindi, Urdu, English'], ['Adv. Sana Qureshi', 'Family & property · 9 yrs', 'Lucknow', 'Hindi, Urdu'], ['Adv. Imran Ansari', 'Civil & consumer · 15 yrs', 'Mumbai', 'Hindi, Marathi, English'], ['Adv. Nida Khan', 'Women & child rights · 7 yrs', 'Hyderabad', 'Urdu, Telugu, English']];
+const HELP_TYPES = [['legal', 'Legal aid', 'scale'], ['medical', 'Treatment', 'pulse'], ['ration', 'Ration', 'utensils'], ['education', 'Education', 'book'], ['other', 'Other help', 'hands']];
+V.help = () => {
+  const t = S.ui.help, q = S.ui.lawyerQ.trim().toLowerCase();
+  const lawyers = LAWYERS.filter(l => !q || l.join(' ').toLowerCase().includes(q));
+  const body = t === 'legal' ? `
+    <section class="section"><div class="sec-head"><h2>Free legal aid</h2><span class="status st-live">Free</span></div>
+      <div class="steps-row">${['Share documents', 'Choose a lawyer', 'Get an appointment'].map((s, i) => `<div><i>${i + 1}</i><span>${s}</span></div>`).join('')}</div>
+      <label class="search-bar" style="margin-top:12px">${ic('search')}<input id="lawyer-q" placeholder="Find a lawyer by name, city or case type" value="${esc(S.ui.lawyerQ)}" data-model="ui.lawyerQ" data-live="lawyers" autocomplete="off"></label></section>
+    <section class="section" id="lawyer-list">${lawyerRows(lawyers)}</section>
+    <p class="small muted" style="padding:0 4px">The court decides bail. We provide a free advocate and legal advice.</p>
+    ${S.bookings.length ? `<section class="section"><div class="sec-head"><h2>My appointments</h2></div>${S.bookings.map(b => `<div class="dh-row"><span class="dh-ic">${ic('calendar')}</span><div class="dh-body"><b>${esc(b.lawyer)}</b><span class="small muted">${b.day} · ${b.slot} · ${esc(b.type)}</span></div><span class="status st-review">Requested</span></div>`).join('')}</section>` : ''}`
+    : `<form class="section" data-form="helpReq" style="display:grid;gap:12px">
+      <div class="field"><label for="h-name">Name of the person who needs help</label><input class="input" id="h-name" name="name" required value="${esc(S.user.name)}"></div>
+      <div class="field"><label for="h-phone">Mobile number</label><input class="input num" id="h-phone" name="phone" inputmode="numeric" maxlength="10" required placeholder="98765 43210"></div>
+      <div class="field"><label for="h-city">City</label><input class="input" id="h-city" name="city" required></div>
+      <div class="field"><label for="h-need">What do you need?</label><textarea class="textarea" id="h-need" name="need" required placeholder="Tell us what happened and what help is needed"></textarea></div>
+      <label class="doc-up" for="h-doc">${ic('upload')}<span class="txt"><b>Supporting document (optional)</b><span>Prescription, school letter, ration card…</span></span><input type="file" id="h-doc" accept="image/*,application/pdf" hidden></label>
+      <button class="btn btn-main">Send request</button></form>
+      ${S.helpReqs.length ? `<section class="section"><div class="sec-head"><h2>My requests</h2></div>${S.helpReqs.map(r => `<div class="dh-row"><span class="dh-ic">${ic('hands')}</span><div class="dh-body"><b>${esc(r.type)}</b><span class="small muted">${esc(r.city)} · ${r.date}</span></div><span class="status st-review">Under review</span></div>`).join('')}</section>` : ''}`;
+  return { html: pageHead('Ask for help') + `<div class="chips">${HELP_TYPES.map(([k, l, i]) => `<button class="chip ${t === k ? 'on' : ''}" data-act="ui" data-k="help" data-v="${k}">${ic(i)}${l}</button>`).join('')}</div><div class="wrap">${body}</div>` };
+};
+function lawyerRows(list) {
+  return list.length ? list.map(([n, spec, city, lang], i) => `<div class="person">${avatar(n)}<div class="who"><b>${esc(n)}</b><span>${spec} · ${city} · ${lang}</span></div><button class="btn btn-main book-btn" data-act="bookLawyer" data-v="${LAWYERS.findIndex(l => l[0] === n)}">Book</button></div>`).join('') : '<p class="muted small">No lawyer matches that search.</p>';
+}
+
+/* ---------- badges ---------- */
+// membership badges unlock by total confirmed giving; identity badges by giving to a cause
+const BADGES = [
+  ['New member', 'Membership', 100, null, 'user', ['#d7dce4', '#7f8899']], ['Active member', 'Membership', 500, null, 'sprout', ['#8fe8b2', '#169a52']],
+  ['Top contributor', 'Membership', 1000, null, 'star', ['#ffe28f', '#cf940c']], ['Diamond member', 'Membership', 5000, null, 'gem', ['#a8ecff', '#1592d0']],
+  ['Royal member', 'Membership', 10000, null, 'crown', ['#e2c4ff', '#7536cf']], ['Elite member', 'Membership', 25000, null, 'medal', ['#ffd0b0', '#c4561d']],
+  ['Food supporter', 'Cause', 0, 'food', 'utensils', ['#ffd9a0', '#d9822b']], ['Health hero', 'Cause', 0, 'medical', 'pulse', ['#b5e3ff', '#1d7cc4']],
+  ['Education champion', 'Cause', 0, 'education', 'book', ['#d8c8ff', '#6040c8']], ['Madrasa supporter', 'Cause', 0, 'masjid', 'mosque', ['#a6edc8', '#0d8a58']],
+  ['Legal supporter', 'Cause', 0, 'legal', 'scale', ['#c6ccff', '#3446b8']], ['Water bearer', 'Cause', 0, 'water', 'droplet', ['#aee8ff', '#1a8cc8']],
+];
+const badgeUnlocked = b => b[3] ? confirmed().some(d => camp(d.cid)?.cat === b[3]) : totalGiven() >= b[2];
+const badgeArt = (b, size, locked) => { const [lt, dk] = locked ? ['#e6e8ec', '#a3a8b2'] : b[5]; return `<span class="badge-art" style="width:${size}px;height:${size}px;background:radial-gradient(circle at 35% 30%, ${lt}, ${dk})">${ic(b[4])}${locked ? `<i class="blk">${ic('lock')}</i>` : ''}</span>`; };
+const badgesBlock = () => { const got = BADGES.filter(badgeUnlocked).length; return `<section class="section">
+  <div class="sec-head"><h2>My badges</h2><span class="pill-link green">${got}/${BADGES.length} earned</span></div>
+  <p class="small muted" style="margin:-4px 0 10px">Badges unlock when your donation is confirmed. Tap “Set on profile” to show one around your photo.</p>
+  <div class="badge-grid">${BADGES.map((b, i) => { const ok = badgeUnlocked(b); return `<div class="bdg ${ok ? '' : 'off'}">${badgeArt(b, 56, !ok)}<b>${b[0]}</b><span>${b[3] ? 'Give to ' + CATS[b[3]].label.toLowerCase() : inr(b[2]) + ' given'}</span>${ok ? (S.profileBadge === i ? '<span class="status st-live">On profile</span>' : `<button class="text-link small" data-act="setBadge" data-v="${i}">Set on profile</button>`) : ''}</div>`; }).join('')}</div></section>`; };
+
+/* ---------- trophy & referral ---------- */
+const TROPHIES = [['Silver Pearl', ['#f4f6fa', '#9aa3b2']], ['Emerald Gold', ['#7fe0b0', '#0b7a4c']], ['Ruby Rose', ['#ffb3c2', '#b0123e']], ['Royal Black-Gold', ['#f3d27a', '#2a2418']]];
+const trophyName = n => TROPHIES[(n - 1) % 4][0] + (n > 4 ? ' II' : '');
+const trophyArt = (n, size) => { const [lt, dk] = TROPHIES[(n - 1) % 4][1]; const id = `tr${n}`; return `<svg class="trophy-art" viewBox="0 0 64 72" width="${size}" height="${size * 72 / 64}" aria-hidden="true"><defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${lt}"/><stop offset="1" stop-color="${dk}"/></linearGradient></defs><path d="M18 6h28v18a14 14 0 0 1-28 0Z" fill="url(#${id})" stroke="#fff" stroke-width="2"/><path d="M18 11H9a9 9 0 0 0 10 12M46 11h9a9 9 0 0 1-10 12" fill="none" stroke="url(#${id})" stroke-width="4"/><path d="M28 37h8v10h-8z" fill="url(#${id})"/><path d="M19 47h26l3 9H16Z" fill="url(#${id})" stroke="#fff" stroke-width="1.5"/><rect x="13" y="56" width="38" height="9" rx="2" fill="${dk}"/><path d="M32 12l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.6-4.8 2.6.9-5.4-3.9-3.8 5.4-.8Z" fill="#fff" opacity=".85"/><path d="M22 9h6l-4 16h-2Z" fill="#fff" opacity=".35"/></svg>`; };
 
 /* ---------- router ---------- */
 const app = document.getElementById('app');
@@ -1048,18 +1314,72 @@ const A = {
   mylink: () => sheet(`<h2>Your personal link</h2><p class="muted small">Share it anywhere. Donations made through it count toward your Inspirer rank.</p><p style="margin-top:12px;font-weight:700;user-select:all">${SITE}/u/ayesha-khan</p><button class="btn btn-main btn-block" style="margin-top:14px" data-act="copy" data-v="${SITE}/u/ayesha-khan">${ic('link')} Copy link</button>`),
   logout: () => { S.login = { stage: 'details', role: 'donor', name: '', email: '', phone: '', err: {} }; replaceRoute('#/intro'); },
   splashNext: () => replaceRoute('#/intro'),
+  svc: el => { const [k, v] = el.dataset.v.split(/:(.+)/); if (k === 'go') go(v); else if (k === 'camp') go('#/c/' + v); else if (k === 'cat') { S.ui.cat = v; S.ui.home = 'all'; go('#/campaigns'); } else A[v](el); },
+  pickCand: el => { S.ui.pollSel[el.dataset.p] = Number(el.dataset.v); rerender(); },
+  castFree: el => {
+    const p = poll(el.dataset.p), mv = myVotes(p.id), o = S.ui.pollSel[p.id];
+    if (o == null) return toast('Choose an option first');
+    mv.free = o; p.votes[o] += 1; mv.rec.push({ o, type: 'free', n: 1, amt: 0, id: 'V' + Date.now().toString(36).toUpperCase() });
+    S.ui.extra = 1; toast('Your free vote is counted. JazakAllah Khair!'); rerender();
+  },
+  stepVotes: el => { const p = poll(location.hash.split('/')[2]), left = p.maxPaid - myVotes(p.id).paid; S.ui.extra = Math.max(1, Math.min(left, S.ui.extra + Number(el.dataset.v))); rerender(); },
+  buyVotes: el => {
+    const p = poll(el.dataset.p), mv = myVotes(p.id), n = S.ui.extra, o = S.ui.pollSel[p.id] ?? mv.free;
+    if (mv.paid + n > p.maxPaid) return toast(`You can buy up to ${p.maxPaid} extra votes in this poll`);
+    const ov = document.createElement('div'); ov.className = 'processing';
+    ov.innerHTML = `<div class="spin"></div><div>Waiting for UPI approval…<div class="small muted" style="margin-top:4px">Demo payment of ${inr(n * p.price)}, no money is charged</div></div>`;
+    document.body.appendChild(ov);
+    setTimeout(() => { ov.remove(); mv.paid += n; p.votes[o] += n; mv.rec.push({ o, type: 'paid', n, amt: n * p.price, id: 'V' + Date.now().toString(36).toUpperCase() }); S.ui.extra = 1; toast(`Payment verified. ${n} extra vote${n > 1 ? 's' : ''} added.`); rerender(); }, 1200);
+  },
+  voteRules: () => sheet(`<h2>Voting rules</h2><div class="rules" style="margin-top:10px"><span>Every verified member gets one free vote in each poll.</span><span>Extra votes cost ₹10 each and count only after the payment is verified.</span><span>Some polls show results only after you vote or after voting closes.</span><span>For some polls the committee records a final selection. It is always shown separately from the member result, with the reason.</span></div><button class="btn btn-soft btn-block" style="margin-top:14px" data-close>Got it</button>`),
+  openStory: el => {
+    let i = Number(el.dataset.v); const v = document.createElement('div'); v.className = 'story-view';
+    const show = () => { const [n, ph, txt] = STORY_USERS[i]; v.innerHTML = `<div class="sv-img" style="background-image:url('${ph}')"></div><div class="sv-bars">${STORY_USERS.map((x, k) => `<i class="${k < i ? 'done' : k === i ? 'run' : ''}"></i>`).join('')}</div><div class="sv-top">${avatar(n)}<b>${esc(n)}</b><button class="sv-x" aria-label="Close">${ic('x')}</button></div><p class="sv-txt">${esc(txt)}</p>`; };
+    const next = () => { i += 1; if (i >= STORY_USERS.length) { clearInterval(t); v.remove(); } else show(); };
+    show(); document.body.appendChild(v); const t = setInterval(next, 4500);
+    v.addEventListener('click', e => { if (e.target.closest('.sv-x')) { clearInterval(t); v.remove(); } else next(); });
+  },
+  togglePromo: () => { S.compose.promo = !S.compose.promo; rerender(); },
+  clearAttach: () => { Object.assign(S.compose, { file: '', kind: '', data: '' }); rerender(); },
+  postStory: () => {
+    const c = S.compose, fee = c.promo ? (c.kind === 'video' ? 100 : 50) : 0;
+    if (!c.txt.trim() && !c.file) return toast('Write something or add a photo or video');
+    if (fee > S.wallet) { toast(`Your wallet needs ${inr(fee - S.wallet)} more`); return A.wallet(); }
+    S.wallet -= fee;
+    S.posts.unshift({ who: S.user.name, t: 'Just now', txt: c.txt.trim(), photo: c.kind === 'image' ? c.data : null, pending: c.kind === 'video', sponsored: c.promo, likes: 0 });
+    toast(c.kind === 'video' ? 'Posted. Your video goes live after admin approval.' : fee ? `Posted as a promotion. ${inr(fee)} paid from your wallet.` : 'Posted to the community feed');
+    S.compose = { txt: '', file: '', kind: '', promo: false }; rerender();
+  },
+  likePost: el => { const i = Number(el.dataset.i); S.likedPosts.has(i) ? S.likedPosts.delete(i) : S.likedPosts.add(i); rerender(); },
+  wallet: () => sheet(`<h2>Wallet</h2><p class="muted small">Used for business promotions and extra votes.</p><div class="wallet-bal"><span class="muted small">Balance</span><b class="num">${inr(S.wallet)}</b></div>
+    <div class="amounts" style="grid-template-columns:repeat(4,1fr);margin-top:12px">${[100, 500, 1000, 5000].map(a => `<button data-act="recharge" data-v="${a}" data-close>+${inr(a)}</button>`).join('')}</div>
+    <p class="small muted" style="margin-top:10px">Demo recharge. The real app adds money through UPI or card.</p>`),
+  recharge: el => { S.wallet += Number(el.dataset.v); toast(`${inr(Number(el.dataset.v))} added to your wallet`); rerender(); },
+  bookLawyer: el => { const l = LAWYERS[Number(el.dataset.v)], days = [1, 2, 3, 4, 5].map(k => new Date(Date.now() + k * 864e5).toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' }));
+    sheet(`<h2>Book ${esc(l[0])}</h2><p class="muted small">${l[1]} · ${l[2]} · free first consultation</p>
+    <form data-form="booking" data-v="${el.dataset.v}" style="display:grid;gap:10px;margin-top:12px">
+      <div class="field"><label for="b-day">Day</label><select class="select" id="b-day" name="day">${days.map(d => `<option>${d}</option>`).join('')}</select></div>
+      <div class="field"><label for="b-slot">Time</label><select class="select" id="b-slot" name="slot">${['10:00 am', '11:30 am', '2:00 pm', '4:30 pm'].map(t => `<option>${t}</option>`).join('')}</select></div>
+      <div class="field"><label for="b-type">Case type</label><select class="select" id="b-type" name="type">${['Bail', 'Family', 'Property', 'Consumer', 'Other'].map(t => `<option>${t}</option>`).join('')}</select></div>
+      <div class="field"><label for="b-brief">Short description</label><textarea class="textarea" id="b-brief" name="brief" style="min-height:90px" placeholder="What is the case about?"></textarea></div>
+      <button class="btn btn-main">Request appointment</button></form>`); },
+  setBadge: el => { S.profileBadge = Number(el.dataset.v); toast(BADGES[S.profileBadge][0] + ' badge set on your profile'); rerender(); },
+  setLook: el => { const k = el.dataset.k, v = el.dataset.v; S.look[k] = k === 'saver' ? v === 'true' : v; applyLook(); rerender(); },
+  pickTrophy: el => { S.ui.trophy = Number(el.dataset.v); rerender(); },
   pickTheme: el => { S.userTheme = el.dataset.v; applyTheme(el.dataset.v); try { localStorage.setItem('mlp-theme', el.dataset.v); } catch { /* storage blocked: theme lasts for this session */ } toast(theme().name + ' theme on'); rerender(); },
-  joinCreator: () => sheet(`<h2>Join as creator</h2><p class="muted small">Tell us where you share. We review new creators within a day.</p>
+  joinCreator: () => sheet(`<h2>Register for trophies</h2><p class="muted small">Your code lets us count everyone who joins through you.</p>
     <form data-form="creator" style="display:grid;gap:10px;margin-top:12px">
-      <div class="field"><label for="cr-handle">Main channel or profile link</label><input class="input" id="cr-handle" name="handle" required placeholder="youtube.com/@yourchannel"></div>
-      <div class="field"><label for="cr-size">Audience size</label><select class="select" id="cr-size" name="size"><option>Under 1,000</option><option>1,000 – 10,000</option><option>10,000 – 1 lakh</option><option>Over 1 lakh</option></select></div>
-      <button class="btn btn-main">Create my code</button></form>`),
+      <div class="field"><label for="cr-name">Full name</label><input class="input" id="cr-name" name="name" required value="${esc(S.user.name)}"></div>
+      <div class="field"><label for="cr-city">City</label><input class="input" id="cr-city" name="city" required></div>
+      <div class="field"><label for="cr-phone">Mobile number</label><input class="input num" id="cr-phone" name="phone" inputmode="numeric" maxlength="10" required placeholder="98765 43210"></div>
+      <span class="err" id="cr-err"></span><button class="btn btn-main">Register and get my code</button></form>`),
   quickGive: el => { S.donate = { cid: 9, amount: 1000, custom: el.dataset.v, other: true, type: 'Sadaqah', anon: false, tip: 0, pay: 'upi' }; go('#/donate/9'); },
   svcZakat: () => { S.ui.zakatOnly = true; S.ui.cat = 'all'; go('#/search'); },
-  svcJariyah: () => { S.ui.cat = 'water'; S.ui.home = 'all'; rerender(); document.querySelector('.chips')?.scrollIntoView({ block: 'start' }); },
-  svcFood: () => { S.ui.cat = 'food'; S.ui.home = 'all'; rerender(); document.querySelector('.chips')?.scrollIntoView({ block: 'start' }); },
-  svcOrphans: () => { S.ui.cat = 'orphans'; S.ui.home = 'all'; rerender(); document.querySelector('.chips')?.scrollIntoView({ block: 'start' }); },
+  svcJariyah: () => { S.ui.cat = 'water'; S.ui.home = 'all'; go('#/campaigns'); },
+  svcFood: () => { S.ui.cat = 'food'; S.ui.home = 'all'; go('#/campaigns'); },
+  svcOrphans: () => { S.ui.cat = 'orphans'; S.ui.home = 'all'; go('#/campaigns'); },
   svcStart: () => go('#/start'),
+  svcEdu: () => { S.ui.cat = 'education'; S.ui.home = 'all'; go('#/campaigns'); },
   fidya: () => sheet(`<h2>Fidya & Kaffarah</h2><p class="muted">Missed fasts you cannot make up? Fidya feeds one person for each missed fast. Kaffarah for a broken fast feeds 60 people.</p>
     <div class="summary" style="margin-top:14px"><div><span>Fidya, per fast</span><b class="num">₹150</b></div><div><span>Kaffarah, per broken fast (60 × ₹150)</span><b class="num">₹9,000</b></div></div>
     <button class="btn btn-main btn-block" style="margin-top:16px" data-close data-act="quickGive" data-v="150">Give Fidya for 1 fast</button>`),
@@ -1117,12 +1437,18 @@ document.addEventListener('input', e => {
   const live = el.dataset.live;
   if (live === 'donate') { const c = camp(S.donate.cid); document.getElementById('impact').innerHTML = impactLine(c); document.getElementById('summary').innerHTML = summary(); document.getElementById('paybtn').textContent = payLabel(); }
   if (live === 'search') document.getElementById('results').innerHTML = results();
+  if (live === 'lawyers') { const q = S.ui.lawyerQ.trim().toLowerCase(); document.getElementById('lawyer-list').innerHTML = lawyerRows(LAWYERS.filter(l => !q || l.join(' ').toLowerCase().includes(q))); }
   if (live === 'count') document.getElementById('count').textContent = `${el.value.length} characters · at least 50`;
 });
 document.addEventListener('change', e => {
   const el = e.target;
   if (el.dataset.model && el.tagName === 'SELECT') setPath(el.dataset.model, el.value);
   if (el.type !== 'file' || !el.files.length) return;
+  if (el.id === 'post-photo' || el.id === 'post-video') {
+    const f = el.files[0]; Object.assign(S.compose, { file: f.name, kind: el.id === 'post-video' ? 'video' : 'image', data: '' });
+    if (S.compose.kind === 'image') { const r = new FileReader(); r.onload = () => { S.compose.data = r.result; rerender(); }; r.readAsDataURL(f); } else rerender();
+    return;
+  }
   if (el.id === 'photo-in') {
     const files = [...el.files].slice(0, 6 - S.draft.photos.length);
     Promise.all(files.map(f => new Promise(res => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = () => res(null); r.readAsDataURL(f); })))
@@ -1146,8 +1472,25 @@ document.addEventListener('submit', e => {
     S.user.name = f.name.value.trim() || S.user.name; S.user.first = S.user.name.split(' ')[0]; S.user.email = f.email.value.trim() || S.user.email;
     toast('Profile saved'); history.back();
   } else if (kind === 'creator') {
-    S.creator = { code: 'MLP-' + S.user.first.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 6) + '25', handle: f.handle.value.trim() };
-    f.closest('.scrim').remove(); toast('Your creator code is ready'); rerender();
+    if (!/^[6-9]\d{9}$/.test(f.phone.value.replace(/\D/g, ''))) { f.querySelector('#cr-err').textContent = 'Enter a valid 10-digit mobile number.'; return; }
+    const A = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    S.creator = { code: 'MLP-' + Array.from({ length: 6 }, () => A[Math.floor(Math.random() * A.length)]).join(''), name: f.name.value.trim(), city: f.city.value.trim(), date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) };
+    f.closest('.scrim').remove(); toast('Your referral code is ready'); rerender();
+  } else if (kind === 'joinCode') {
+    const ph = f.phone.value.replace(/\D/g, ''), code = f.code.value.trim().toUpperCase(), err = t => { f.querySelector('#join-err').textContent = t; };
+    const known = [S.creator?.code, 'MLP-RIZWAN', 'MLP-SALMA2'].filter(Boolean);
+    if (!/^[6-9]\d{9}$/.test(ph)) return err('Enter a valid 10-digit mobile number.');
+    if (!known.includes(code)) return err('This code was not found. Check it with the person who shared it.');
+    if (S.joins.some(j => j.phone === ph)) return err('This mobile number has already joined.');
+    S.joins.push({ name: f.name.value.trim(), phone: ph, code }); toast('Welcome! You joined with code ' + code); rerender();
+  } else if (kind === 'helpReq') {
+    if (!/^[6-9]\d{9}$/.test(f.phone.value.replace(/\D/g, ''))) { toast('Enter a valid 10-digit mobile number'); return; }
+    S.helpReqs.unshift({ type: HELP_TYPES.find(h => h[0] === S.ui.help)[1], city: f.city.value.trim(), date: 'Today' });
+    toast('Request sent. Our team will call you within 48 hours.'); rerender();
+  } else if (kind === 'booking') {
+    const l = LAWYERS[Number(f.dataset.v)];
+    S.bookings.unshift({ lawyer: l[0], day: f.day.value, slot: f.slot.value, type: f.type.value });
+    f.closest('.scrim').remove(); toast('Appointment requested. The lawyer’s office will call you.'); rerender();
   } else if (kind === 'contact') { f.reset(); toast('Message sent. We’ll reply by email.'); }
   else if (kind === 'update') {
     const c = camp(6); c.updates.unshift(['Just now', f.querySelector('textarea').value.trim()]);
@@ -1157,5 +1500,7 @@ document.addEventListener('submit', e => {
 
 try { S.userTheme = localStorage.getItem('mlp-theme'); } catch { /* no storage: default theme */ }
 applyTheme(S.userTheme || S.adminTheme);
+try { Object.assign(S.look, JSON.parse(localStorage.getItem('mlp-look')) || {}); } catch { /* no storage: default look */ }
+applyLook();
 if (!location.hash) replaceRoute('#/splash');
 render();
