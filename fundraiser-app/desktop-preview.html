@@ -1539,6 +1539,18 @@ body::before { background: var(--bg); }
 .rh-text span { font-size: 12px; line-height: 1.35; }
 .rh-btn { height: 30px; padding: 0 12px; font-size: 12.5px; font-weight: 600; background: color-mix(in srgb, #d6283b 12%, var(--card)); color: #d6283b; }
 .rh-btn.on { background: var(--chip); color: var(--ink); }
+
+/* section header: title, Get roses and View all on one centred line */
+.lv-head { gap: 8px; padding: 0 4px 10px; }
+.lv-head h2 { flex: 1; min-width: 0; line-height: 30px; white-space: nowrap; }
+.lv-head .plan-chip { height: 30px; margin: 0; padding: 0 10px; font-size: 12.5px; }
+.lv-head .lv-all { height: 30px; padding: 0 2px 0 6px; border: 0; background: none; font-size: 13px; font-weight: 600; }
+.lv-head .spacer { display: none; }
+/* package sheet: full feature lists, a little tighter */
+.pkg-list .pkg { padding: 14px; gap: 6px; }
+.pkg-list .pkg-price b { font-size: 22px; }
+.pkg-list .pkg-feats li { font-size: 13px; }
+.pkg.basic .pkg-tag { display: none; }
 </script>
 <script type="text/plain" id="app-js">/* Muslim Life Pro: clickable Android UI demo for a donation / fundraising platform.
    Everything is in-memory sample data; no backend calls. Hash routes give the Android back button for free. */
@@ -2651,7 +2663,7 @@ const planCard = (x, compact) => { const cur = S.plan === x.id, rank = PLANS.ind
   <div class="pkg-price">${x.price ? `<b class="num">₹${x.price}</b><span>/ month</span>` : '<b>Free</b>'}</div>
   ${compact ? `<span class="pkg-sum">${x.roses ? `${x.roses} roses a month` : 'Watch and follow only'}</span>` : `<ul class="pkg-feats">${x.feats.map(([t, ok]) => `<li class="${ok ? '' : 'no'}">${ic(ok ? 'check' : 'x')}${t}</li>`).join('')}</ul>`}
   ${cur ? '<span class="pkg-btn cur">Current plan</span>' : rank > mine ? `<button class="pkg-btn" data-act="buyPlan" data-v="${x.id}">Get ${x.name}</button>` : '<span class="pkg-btn cur">Included</span>'}</div>`; };
-const packagesSheet = (why) => sheet(`<h2>Rose packages</h2><p class="muted small">${why || 'Choose a package to send roses. Cancel any time.'}</p><div class="pkg-list">${PLANS.map(x => planCard(x, true)).join('')}</div><button class="text-link small" style="margin-top:12px" data-close data-go="#/vote">Compare all features</button>`);
+const packagesSheet = (why) => sheet(`<h2>Rose packages</h2><p class="muted small">${why || 'Choose a package to send roses. Cancel any time.'}</p><div class="pkg-list">${PLANS.map(x => planCard(x)).join('')}</div><p class="small muted center" style="margin-top:10px">Demo prices. Roses refresh on the 1st of every month.</p>`);
 const planChip = () => `<button class="plan-chip ${S.plan}" data-act="packages">${S.plan === 'vip' ? ic('crown') : ROSE(14)}<span>${S.plan === 'basic' ? 'Get roses' : `${S.roses} roses`}</span></button>`;
 
 const poll = id => POLLS.find(p => p.id === id);

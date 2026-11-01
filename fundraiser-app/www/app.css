@@ -1300,3 +1300,15 @@ body::before { background: var(--bg); }
 .rh-text span { font-size: 12px; line-height: 1.35; }
 .rh-btn { height: 30px; padding: 0 12px; font-size: 12.5px; font-weight: 600; background: color-mix(in srgb, #d6283b 12%, var(--card)); color: #d6283b; }
 .rh-btn.on { background: var(--chip); color: var(--ink); }
+
+/* section header: title, Get roses and View all on one centred line */
+.lv-head { gap: 8px; padding: 0 4px 10px; }
+.lv-head h2 { flex: 1; min-width: 0; line-height: 30px; white-space: nowrap; }
+.lv-head .plan-chip { height: 30px; margin: 0; padding: 0 10px; font-size: 12.5px; }
+.lv-head .lv-all { height: 30px; padding: 0 2px 0 6px; border: 0; background: none; font-size: 13px; font-weight: 600; }
+.lv-head .spacer { display: none; }
+/* package sheet: full feature lists, a little tighter */
+.pkg-list .pkg { padding: 14px; gap: 6px; }
+.pkg-list .pkg-price b { font-size: 22px; }
+.pkg-list .pkg-feats li { font-size: 13px; }
+.pkg.basic .pkg-tag { display: none; }

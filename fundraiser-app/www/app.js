@@ -1109,7 +1109,7 @@ const planCard = (x, compact) => { const cur = S.plan === x.id, rank = PLANS.ind
   <div class="pkg-price">${x.price ? `<b class="num">₹${x.price}</b><span>/ month</span>` : '<b>Free</b>'}</div>
   ${compact ? `<span class="pkg-sum">${x.roses ? `${x.roses} roses a month` : 'Watch and follow only'}</span>` : `<ul class="pkg-feats">${x.feats.map(([t, ok]) => `<li class="${ok ? '' : 'no'}">${ic(ok ? 'check' : 'x')}${t}</li>`).join('')}</ul>`}
   ${cur ? '<span class="pkg-btn cur">Current plan</span>' : rank > mine ? `<button class="pkg-btn" data-act="buyPlan" data-v="${x.id}">Get ${x.name}</button>` : '<span class="pkg-btn cur">Included</span>'}</div>`; };
-const packagesSheet = (why) => sheet(`<h2>Rose packages</h2><p class="muted small">${why || 'Choose a package to send roses. Cancel any time.'}</p><div class="pkg-list">${PLANS.map(x => planCard(x, true)).join('')}</div><button class="text-link small" style="margin-top:12px" data-close data-go="#/vote">Compare all features</button>`);
+const packagesSheet = (why) => sheet(`<h2>Rose packages</h2><p class="muted small">${why || 'Choose a package to send roses. Cancel any time.'}</p><div class="pkg-list">${PLANS.map(x => planCard(x)).join('')}</div><p class="small muted center" style="margin-top:10px">Demo prices. Roses refresh on the 1st of every month.</p>`);
 const planChip = () => `<button class="plan-chip ${S.plan}" data-act="packages">${S.plan === 'vip' ? ic('crown') : ROSE(14)}<span>${S.plan === 'basic' ? 'Get roses' : `${S.roses} roses`}</span></button>`;
 
 const poll = id => POLLS.find(p => p.id === id);
