@@ -1105,6 +1105,12 @@ a.btn { text-decoration: none; }
 .fund-stats b { font-size: 16px; font-weight: 700; color: var(--brand); letter-spacing: -0.01em; }
 /* sharp event photo: shown at its own size, fading into the card */
 .ev-photo { width: 46%; height: 172px; background-size: cover; background-position: center 30%; }
+/* event photo back in its own box: rounded, sharp, with a soft shadow */
+.ev { grid-template-columns: 1fr 112px; grid-template-areas: "main photo" "foot foot"; gap: 14px 14px; }
+.ev-photo { position: relative; grid-area: photo; top: auto; right: auto; width: 112px; height: 132px; border-radius: 18px; background-size: cover; background-position: center 25%; box-shadow: 0 6px 16px rgb(16 40 28 / 0.16); cursor: pointer; }
+.ev-photo::after { content: ""; position: absolute; inset: 55% 0 0; border-radius: 0 0 18px 18px; background: linear-gradient(transparent, rgb(0 0 0 / 0.45)); }
+.ev-photo span { position: absolute; left: 8px; right: 8px; bottom: 8px; z-index: 1; text-align: center; color: #fff; font-size: 11px; font-weight: 700; text-shadow: 0 1px 3px rgb(0 0 0 / 0.4); }
+.ev-main { max-width: none; min-height: 0; }
 </script>
 <script type="text/plain" id="app-js">/* Muslim Life Pro: clickable Android UI demo for a donation / fundraising platform.
    Everything is in-memory sample data; no backend calls. Hash routes give the Android back button for free. */
@@ -1608,8 +1614,8 @@ const heroBlock = () => `<section class="banner-card"><video src="data:video/mp4
   <div class="banner-actions"><button class="btn btn-main" data-go="#/campaigns">${ic('heart')} Donate</button><button class="btn banner-ghost" data-go="#/help">Ask for help</button></div></section>`;
 const HOME_SERVICES = [['scale', 'Legal aid', '#2f3fa8', 'go:#/help'], ['school', 'School', '#4338ca', 'cat:education'], ['mosque', 'Madrasa upgrade', '#0b7a4c', 'camp:15'], ['ring', 'Orphan girls’ nikah', '#b0461f', 'camp:11'], ['pulse', 'Treatment', '#1d7cc4', 'cat:medical'], ['eye', 'Eye surgery', '#0e8fa6', 'camp:13'], ['utensils', 'Ration', '#c2410c', 'camp:10'], ['snow', 'Winter relief', '#2563eb', 'camp:12'], ['book', 'Education & clothes', '#6d28d9', 'cat:education'], ['buoy', 'Disaster relief', '#c33838', 'cat:emergency'], ['calc', 'Zakat calculator', '#0a9b3c', 'act:zakatCalc'], ['calendar', 'Qurbani', '#a16207', 'act:qurbani']];
 const servicesBlock = () => `<section class="home-sec">${secTitle('Our services', 'हमारी सेवाएँ')}<div class="svc-pills">${HOME_SERVICES.map(([i, l, c, a]) => `<button class="svc-pill" data-act="svc" data-v="${a}" style="--sc:${c}"><span>${l}</span><i>${ic(i)}</i></button>`).join('')}</div></section>`;
-const evCard = c => `<div class="ev"><div class="ev-photo" style="background-image:url('${c.thumb || c.photo}')"></div>
-  <div class="ev-main" data-go="#/c/${c.id}"><span class="ev-tag">${CATS[c.cat].label} · ${c.days} days left</span><b>${esc(c.title)}</b><p>${esc(c.caption)}</p></div>
+const evCard = c => `<div class="ev"><div class="ev-photo" data-go="#/c/${c.id}" style="background-image:url('${c.thumb || c.photo}')"><span>${c.days} days left</span></div>
+  <div class="ev-main" data-go="#/c/${c.id}"><span class="ev-tag">${CATS[c.cat].label}</span><b>${esc(c.title)}</b><p>${esc(c.caption)}</p></div>
   <div class="ev-foot"><span class="bar"><i style="width:${pct(c)}%"></i></span><span class="ev-nums"><span><b class="num">${inr(c.raised)}</b> raised</span><span class="num">${pct(c)}% of ${inr(c.goal)}</span></span><button class="btn btn-main" data-go="#/donate/${c.id}">Donate</button></div></div>`;
 const eventsBlock = () => { const A = active().filter(c => c.thumb), r = A.reduce((a, c) => a + c.raised, 0), d = A.reduce((a, c) => a + c.donors, 0); return `<section class="home-sec">${secTitle('Fundraiser events', '', `<button class="text-link small" data-go="#/campaigns">See all ${ic('right')}</button>`)}<div class="fund-stats"><span><b class="num">${inr(r)}</b>raised</span><span><b class="num">${d.toLocaleString('en-IN')}</b>donors</span><span><b class="num">${A.length}</b>campaigns</span></div>
   <div class="ev-track" id="ev-track">${A.map(evCard).join('')}</div><div class="ev-dots" id="ev-dots">${A.map((c, i) => `<i class="${i ? '' : 'on'}"></i>`).join('')}</div></section>`; };

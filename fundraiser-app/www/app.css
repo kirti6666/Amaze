@@ -908,3 +908,9 @@ a.btn { text-decoration: none; }
 .fund-stats b { font-size: 16px; font-weight: 700; color: var(--brand); letter-spacing: -0.01em; }
 /* sharp event photo: shown at its own size, fading into the card */
 .ev-photo { width: 46%; height: 172px; background-size: cover; background-position: center 30%; }
+/* event photo back in its own box: rounded, sharp, with a soft shadow */
+.ev { grid-template-columns: 1fr 112px; grid-template-areas: "main photo" "foot foot"; gap: 14px 14px; }
+.ev-photo { position: relative; grid-area: photo; top: auto; right: auto; width: 112px; height: 132px; border-radius: 18px; background-size: cover; background-position: center 25%; box-shadow: 0 6px 16px rgb(16 40 28 / 0.16); cursor: pointer; }
+.ev-photo::after { content: ""; position: absolute; inset: 55% 0 0; border-radius: 0 0 18px 18px; background: linear-gradient(transparent, rgb(0 0 0 / 0.45)); }
+.ev-photo span { position: absolute; left: 8px; right: 8px; bottom: 8px; z-index: 1; text-align: center; color: #fff; font-size: 11px; font-weight: 700; text-shadow: 0 1px 3px rgb(0 0 0 / 0.4); }
+.ev-main { max-width: none; min-height: 0; }
