@@ -900,3 +900,11 @@ a.btn { text-decoration: none; }
 /* on a white page, cards are set apart by a soft shadow instead of a grey background */
 .section, .card, .ev, .vcard, .menu, .money-tile, .members, .creator-nudge, .tier-ladder, .tg, .sponsor-strip { box-shadow: var(--card-shadow); }
 .top, .stories-band { box-shadow: none; border: 0; }
+/* story rings in brand green instead of gold */
+.sframe { box-shadow: 0 0 0 2.5px var(--card), 0 0 0 5px var(--brand-2), 0 0 0 5.5px var(--brand); }
+/* fundraiser totals as three small stats */
+.fund-stats { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 8px; margin: -4px 0 12px; }
+.fund-stats span { display: grid; gap: 1px; padding: 8px 12px; border-radius: 14px; background: var(--brand-soft); color: var(--brand-ink); font-size: 11.5px; font-weight: 500; }
+.fund-stats b { font-size: 16px; font-weight: 700; color: var(--brand); letter-spacing: -0.01em; }
+/* sharp event photo: shown at its own size, fading into the card */
+.ev-photo { width: 46%; height: 172px; background-size: cover; background-position: center 30%; }
