@@ -365,6 +365,7 @@ const THEMES = [
   T('shabebarat', 'Shab-e-Barat', 'शब-ए-बरात', 'Indigo night with golden lamps', 'star', true, { brand: '#f0c35a', 'brand-2': '#ffe08a', 'brand-3': '#d9a531', 'brand-ink': '#ffe08a', 'brand-soft': '#2a2a4a', gold: '#f0c35a', ink: '#eef0ff', 'ink-2': '#cfd2ee', muted: '#9095b8', line: '#262a4d', bg: '#0b0d24', card: '#141838', chip: '#1d2248', soft: '#191d40', 'soft-line': '#353a68', page: '#05061a', 'on-brand': '#1a1406', 'hero-1': '#23295e', 'hero-2': '#0b0d24', 'hero-ink': '#ffe08a' },
     { icon: 'star', title: 'Shab-e-Barat', sub: 'A night of forgiveness. Remember those in need in your dua.', cta: 'Give Sadaqah', act: 'svcFood', deco: 'lantern' }),
   T('jannat', 'Jannat Night', 'जन्नत', 'Deep teal with soft gold', 'moon', true, { brand: '#2dd4bf', 'brand-2': '#5eead4', 'brand-3': '#14b8a6', 'brand-ink': '#99f6e4', 'brand-soft': '#0f3a38', gold: '#e9c46a', ink: '#ecfdfa', 'ink-2': '#c2e3dd', muted: '#83a8a2', line: '#173c39', bg: '#051a19', card: '#0b2725', chip: '#113532', soft: '#0e302d', 'soft-line': '#2a524e', page: '#020d0c', 'on-brand': '#032321', 'hero-1': '#0f4a46', 'hero-2': '#051a19', 'hero-ink': '#ffffff' }),
+  T('night', 'Night Green', 'रात', 'Classic green, dark', 'moon', true, { brand: '#3fbf7f', 'brand-2': '#6fdca6', 'brand-3': '#2fa86c', 'brand-ink': '#8fe6b9', 'brand-soft': '#163a2a', gold: '#e2b85c', line: '#1e3329', bg: '#0b1612', card: '#13221c', chip: '#1b2e25', soft: '#172a21', 'soft-line': '#2f4a3d', page: '#060d0a', 'on-brand': '#062417', 'hero-1': '#145a3c', 'hero-2': '#0b1612', 'hero-ink': '#ffffff', 'card-shadow': 'none' }),
   T('midnight', 'Midnight', 'आधी रात', 'Deep navy with silver', 'star', true, { brand: '#5b93ff', 'brand-2': '#8db6ff', 'brand-3': '#4a80ef', 'brand-ink': '#b3cdff', 'brand-soft': '#1c2b4a', gold: '#e9c46a', line: '#263048', bg: '#0d1322', card: '#151d31', chip: '#1e2840', soft: '#1b2439', 'soft-line': '#34405c', page: '#070b14', 'on-brand': '#ffffff' , 'hero-1': '#1b2a52', 'hero-2': '#0b1124', 'hero-ink': '#ffffff' }),
   T('royal', 'Royal Gold', 'शाही सुनहरा', 'Black & gold, timeless', 'crown', true, { brand: '#d4a72c', 'brand-2': '#f3d27a', 'brand-3': '#c9971f', 'brand-ink': '#f3d27a', 'brand-soft': '#2e2717', gold: '#e9c46a', ink: '#f4efe2', 'ink-2': '#d6cfbd', muted: '#9a927f', line: '#2a2721', bg: '#0e0d0b', card: '#1a1814', chip: '#25221c', soft: '#221f19', 'soft-line': '#3d382d', page: '#050504' , 'hero-1': '#2b2414', 'hero-2': '#0e0d0b', 'hero-ink': '#f3d27a' }),
   T('ramzan', 'Ramzan', 'रमज़ान मुबारक', 'Emerald nights, golden lanterns', 'moon', true, { brand: '#e2b85c', 'brand-2': '#f3d58f', 'brand-3': '#c99a3a', 'brand-ink': '#f0d28a', 'brand-soft': '#1f3a2a', gold: '#e2b85c', 'gold-soft': '#26372a', 'gold-ink': '#f0d28a', ink: '#f1f6f2', 'ink-2': '#c9dbd1', muted: '#8eaa9d', line: '#1c3d31', bg: '#06191a', card: '#0b2620', chip: '#123329', soft: '#0f2e25', 'soft-line': '#2c5345', page: '#020c0a', 'on-brand': '#1b1506', 'hero-1': '#0f4a37', 'hero-2': '#06231b', 'hero-ink': '#f3d58f' },
@@ -381,11 +382,12 @@ function applyTheme(id) {
   document.querySelector('meta[name="theme-color"]')?.setAttribute('content', t.c.card);
 }
 // called by the admin panel: the organisation's default theme, and whether people may pick their own
-window.adminTheme = (id, allowUsers) => {
-  S.adminTheme = id; S.themeLocked = !allowUsers;
-  applyTheme(S.themeLocked || !S.userTheme ? id : S.userTheme);
-  rerender();
-};
+const themeFor = () => { const t = THEMES.find(x => x.id === S.adminTheme) || THEMES[0]; return S.mode === 'dark' ? (t.dark ? t.id : 'night') : (t.dark ? 'classic' : t.id); };
+// called by the admin panel
+window.adminTheme = id => { S.adminTheme = id; applyTheme(themeFor()); rerender(); };
+window.adminLook = look => { Object.assign(S.look, look); applyLook(); rerender(); };
+window.adminQuick = list => { QUICK.splice(0, QUICK.length, ...list); rerender(); };
+window.adminHadith = list => { HADITH.splice(0, HADITH.length, ...list); S.ui.hq = 0; rerender(); };
 const themeCard = (t, on, locked) => `<button class="theme-card ${on ? 'on' : ''}" ${locked ? 'disabled' : `data-act="pickTheme" data-v="${t.id}"`} style="background:${t.c.card};border-color:${on ? t.c.brand : t.c.line};color:${t.c.ink}">
   <span class="th-ic" style="background:${t.c['brand-soft']};color:${t.c.brand}">${t.id === 'royal' || t.id === 'classic' ? emblem() : ic(t.icon)}</span>
   <span class="th-txt"><b>${t.name}</b><span style="color:${t.c.muted}"><span lang="hi">${t.hi}</span> · ${t.desc}</span>
@@ -484,18 +486,28 @@ const SERVICES = [
   ['calc', 'Zakat', 'zakatCalc'], ['star', 'Pay Zakat', 'svcZakat'], ['mosque', 'Sadaqah Jariyah', 'svcJariyah'], ['utensils', 'Iftar & food', 'svcFood'],
   ['baby', 'Orphan care', 'svcOrphans'], ['hands', 'Fidya & Kaffarah', 'fidya'], ['calendar', 'Qurbani', 'qurbani'], ['plus', 'Start fundraiser', 'svcStart'],
 ];
-const duaBlock = () => `<section class="home-sec">${secTitle('Feed a madrasa child', 'बच्चों के लिए भोजन')}
-  <div class="dua"><div class="dua-photo" style="background-image:url('${PHOTO.school}')"></div><div class="dua-head"><div><h3>Dua karein, aur karein donation</h3><p>Your dua and a small gift give a meal to children studying in our madrasas.</p></div>${ic('bowl')}</div>
-  <div class="dua-amts">${[10, 20, 50, 100].map(a => `<button data-act="quickGive" data-v="${a}">₹${a}</button>`).join('')}</div></div></section>`;
+const QUICK = [
+  { title: 'Feed a madrasa child', hi: 'बच्चों के लिए भोजन', head: 'Dua karein, aur karein donation', text: 'Your dua and a small gift give a meal to children studying in our madrasas.', photo: PHOTO.school, amounts: [10, 20, 50, 100], cid: 9 },
+  { title: 'Iftar for a fasting family', hi: 'रोज़ेदार परिवार के लिए इफ़्तार', head: 'Share the reward of their fast', text: 'Every iftar you give carries the reward of the fast it opens.', photo: 'img/fx-ration.jpg', amounts: [100, 250, 500, 1000], cid: 2 },
+];
+const quickCard = (q, i) => `<div class="dua"><div class="dua-photo" style="background-image:url('${q.photo}')"></div><div class="dua-head"><div><h3>${esc(q.head)}</h3><p>${esc(q.text)}</p></div>${ic('bowl')}</div>
+  <div class="dua-amts">${q.amounts.map(a => `<button data-act="quickGive" data-c="${q.cid}" data-v="${a}">₹${a.toLocaleString('en-IN')}</button>`).join('')}</div></div>`;
+const duaBlock = () => QUICK.length ? `<section class="home-sec">${secTitle(esc(QUICK.length === 1 ? QUICK[0].title : 'Give in one tap'), QUICK.length === 1 ? QUICK[0].hi : 'एक टैप में दान')}
+  ${QUICK.length === 1 ? quickCard(QUICK[0], 0) : `<div class="hscroll quick-row">${QUICK.map((q, i) => `<div class="quick-item"><b class="qi-title">${esc(q.title)}</b>${quickCard(q, i)}</div>`).join('')}</div>`}</section>` : '';
 const HADITH = [
   ['The best of people are those who are most beneficial to people.', 'Hadith, al-Mu‘jam al-Awsat'],
   ['Charity does not decrease wealth.', 'Hadith, Sahih Muslim 2588'],
   ['Protect yourself from the Fire, even with half a date given in charity.', 'Hadith, Sahih al-Bukhari 1417'],
   ['Those who spend their wealth in the way of Allah are like a seed that grows seven ears, in each ear a hundred grains.', 'Quran, Al-Baqarah 2:261'],
+  ['The believer’s shade on the Day of Resurrection will be his charity.', 'Hadith, Musnad Ahmad'],
 ];
 const todayHadith = () => HADITH[Math.floor(Date.now() / 864e5) % HADITH.length];
-const hadithBlock = () => { const [q, src] = todayHadith(); return `<section class="home-sec">${secTitle('Aaj ki khaas baat', 'आज की खास बात')}
-  <div class="hadith">${ic('quote')}<p class="hq">“${q}”</p><p class="hs">— ${src}</p><a class="btn hadith-share" href="https://wa.me/?text=${encodeURIComponent(`“${q}” — ${src}\nShared from ${APP}`)}" target="_blank" rel="noopener">${ic('share')} Share</a></div></section>`; };
+const hadithBlock = () => { if (!HADITH.length) return ''; const n = HADITH.length, i = ((S.ui.hq ?? Math.floor(Date.now() / 864e5) % n) % n + n) % n, [q, src] = HADITH[i];
+  return `<section class="home-sec"><div class="khaas"><div class="pattern"></div><svg class="kh-moon" viewBox="0 0 24 24" aria-hidden="true">${P.moon}</svg>
+    <div class="kh-top"><span class="eyebrow">Aaj ki khaas baat</span><span lang="hi">आज की खास बात</span></div>
+    <p class="kh-q">${esc(q)}</p><span class="kh-src">${esc(src)}</span>
+    <div class="kh-foot"><a class="kh-btn" href="https://wa.me/?text=${encodeURIComponent(`“${q}” — ${src}\nShared from ${APP}`)}" target="_blank" rel="noopener">${ic('share')} Share</a><button class="kh-btn" data-act="copy" data-v="${esc(`“${q}” — ${src}`)}">${ic('link')} Copy</button>
+      <span class="spacer"></span><button class="kh-nav" data-act="hq" data-v="-1" aria-label="Previous">${ic('left')}</button><span class="kh-count num">${i + 1}/${n}</span><button class="kh-nav" data-act="hq" data-v="1" aria-label="Next">${ic('right')}</button></div></div></section>`; };
 const MEMBERS = [['Ayesha Khan', 'Diamond'], ['Rizwan Ahmed', 'Gold'], ['Fatima Noor', 'Platinum'], ['Imran Shaikh', 'Silver'], ['Zahra Ali', 'Royal Crown'], ['Bilal Qureshi', 'Starter'], ['Mariam Siddiqui', 'Supporter']];
 const membersBlock = () => `<section class="home-sec">${secTitle('Active members', '', `<button class="text-link small" data-go="#/rating">Leaderboard ${ic('right')}</button>`)}
   <div class="members">${MEMBERS.map(([n, l], i) => `<div class="member"><span class="mav">${avatar(n)}${i % 3 !== 2 ? '<i></i>' : ''}</span><b>${esc(n.split(' ')[0])}</b><span>${l}</span></div>`).join('')}</div></section>`;
@@ -516,7 +528,7 @@ const postersBlock = () => `<section class="home-sec">${secTitle('Featured campa
 const trophyBlock = () => { const cr = S.creator, joined = cr ? S.joins.filter(j => j.code === cr.code).length : 0, lv = Math.floor(joined / 500), next = Math.min(lv + 1, 8);
   return `<section class="home-sec">${secTitle('Trophy & referral', '', `<button class="text-link small" data-go="#/creator">View all ${ic('right')}</button>`)}
   <button class="trophy-card" data-go="#/creator"><span class="tc-art">${trophyArt(next, 58)}</span><span class="tc-body"><b>${trophyName(next)} trophy</b><span class="muted small">When ${(next * 500).toLocaleString('en-IN')} people join with your code</span><span class="bar"><i style="width:${(joined % 500) / 5}%"></i></span><span class="tc-cta">${cr ? `${joined} of ${(next * 500).toLocaleString('en-IN')} joined · code ${cr.code}` : 'Register and get your code'}</span></span></button>
-  <div class="trophy-row">${[1, 2, 3, 4].map(n => `<button data-act="pickTrophy" data-v="${n}" data-go="#/creator" class="${lv >= n ? 'got' : ''}">${trophyArt(n, 30)}<span>${(n * 500).toLocaleString('en-IN')}</span></button>`).join('')}</div></section>`; };
+  <div class="trophy-row">${[1, 2, 3, 4].map(n => `<button data-act="pickTrophy" data-v="${n}" data-go="#/creator" class="${lv >= n ? 'got' : ''}"><span class="tr-pic">${trophyArt(n, 44)}${lv >= n ? '' : `<i>${ic('lock')}</i>`}</span><span>${lv >= n ? 'Earned' : `Unlocks at ${(n * 500).toLocaleString('en-IN')}`}</span></button>`).join('')}</div></section>`; };
 const trophyNudge = () => `<button class="creator-nudge" data-go="#/creator"><span class="cn-ic">${trophyArt(1, 26)}</span><span><b>Trophy & referral</b><span>Share your code. Every 500 people who join earn you a new trophy.</span></span>${ic('right')}</button>`;
 
 V.home = () => ({ nav: 'home', html: header() + `<div class="stories-band">${storiesBlock()}</div>` + heroBlock() + `<div class="home-stack">${seasonCard()}${postersBlock()}${eventsBlock()}${liveVotingBlock()}${servicesBlock()}${trophyBlock()}${duaBlock()}${hadithBlock()}${membersBlock()}</div>` });
@@ -622,7 +634,7 @@ V.profile = () => {
     <div class="pquick">${[['receipt', 'History', '#/history'], ['wallet', 'Fundraisers', '#/my'], ['check', 'Completed', '#/completed'], ['scale', 'Get help', '#/help']].map(([i, l, h]) => `<button data-go="${h}"><i>${ic(i)}</i><span>${l}</span></button>`).join('')}</div>
     <section class="section"><div class="sec-head"><h2>Badges</h2><span class="small muted">${got} of ${BADGES.length} earned</span></div>
       <div class="badge-row">${BADGES.map((b, i) => { const ok = badgeUnlocked(b); return `<button class="bdg2 ${ok ? '' : 'off'}" ${ok ? `data-act="setBadge" data-v="${i}"` : 'disabled'}>${badgeArt(b, 48, !ok)}<span>${b[0]}</span>${S.profileBadge === i ? '<em>On profile</em>' : ''}</button>`; }).join('')}</div></section>
-    ${menu('Account', [['user', 'Settings & appearance', '#/settings', theme().name], ['shield', 'KYC & bank account', '#/kyc', 'Verified'], ['card', 'Payment methods', 'payments'], ['calendar', 'Monthly giving', 'monthly'], ['globe', 'Language', 'region', 'English']])}
+    ${menu('Account', [['user', 'Settings & appearance', '#/settings', S.mode === 'dark' ? 'Dark' : 'Light'], ['shield', 'KYC & bank account', '#/kyc', 'Verified'], ['card', 'Payment methods', 'payments'], ['calendar', 'Monthly giving', 'monthly'], ['globe', 'Language', 'region', 'English']])}
     ${menu('Activity', [['trophy', 'Rating & leaderboard', '#/rating'], ['heart', 'Rose contests', '#/vote'], ['search', 'All campaigns', '#/campaigns'], ['bookmark', 'Favorites', 'favs'], ['bell', 'News & notifications', '#/news'], ['hands', 'Verified NGOs', '#/ngos']])}
     ${menu('Help', [['headset', 'Contact support', '#/info/contact'], ['info', 'About, FAQs & how it works', '#/info/faq'], ['file', 'Terms, privacy & refunds', '#/info/terms']])}
     <button class="logout-btn" data-act="logout">${ic('logout')} Log out</button>
@@ -876,14 +888,8 @@ V.settings = () => {
   const u = S.user;
   const sw = (k, t, d) => `<div class="switch-row"><div class="txt"><b>${t}</b><span>${d}</span></div><button class="switch ${S.prefs[k] ? 'on' : ''}" data-act="pref" data-k="${k}" role="switch" aria-checked="${S.prefs[k]}" aria-label="${t}"></button></div>`;
   return { html: pageHead('Settings & appearance') + `<form class="wrap" data-form="profile">
-    <section class="section"><div class="sec-head"><h2>App theme</h2><span class="small muted">${THEMES.length} themes</span></div>
-      <p class="small muted" style="margin:-4px 0 12px">${S.themeLocked ? 'Your organisation has set the theme for everyone.' : 'Switch the whole app to a new look. Festive themes add a seasonal card on Home.'}</p>
-      <div class="theme-list">${THEMES.map(t => themeCard(t, t.id === S.theme, S.themeLocked)).join('')}</div></section>
-    <section class="section"><div class="sec-head"><h2>Button style</h2></div><p class="small muted" style="margin:-4px 0 12px">Applies to every button in the app.</p>
-      <div class="bs-grid">${BTN_STYLES.map(([k, l]) => `<button type="button" class="bs ${S.look.btn === k ? 'on' : ''}" data-act="setLook" data-k="btn" data-v="${k}"><span class="btn btn-main bs-demo bs-${k}">Donate</span>${l}</button>`).join('')}</div>
-      <div class="sec-head" style="margin-top:16px"><h2>Text size</h2></div>
-      <div class="seg" style="margin-top:0">${[['s', 'Small'], ['m', 'Default'], ['l', 'Large']].map(([k, l]) => `<button type="button" class="${S.look.text === k ? 'on' : ''}" data-act="setLook" data-k="text" data-v="${k}">${l}</button>`).join('')}</div>
-      <div class="switch-row" style="margin-top:12px"><div class="txt"><b>Battery saver</b><span>Stops animations and blur effects</span></div><button type="button" class="switch ${S.look.saver ? 'on' : ''}" data-act="setLook" data-k="saver" data-v="${!S.look.saver}" role="switch" aria-checked="${S.look.saver}" aria-label="Battery saver"></button></div></section>
+    <section class="section"><div class="sec-head"><h2>Appearance</h2></div>
+      <div class="mode-pick">${[['light', 'Light', 'sun'], ['dark', 'Dark', 'moon']].map(([k, l, i]) => `<button type="button" class="${S.mode === k ? 'on' : ''}" data-act="setMode" data-v="${k}"><span class="mp-prev ${k}"><i></i><i></i><i></i></span>${ic(i)} ${l}</button>`).join('')}</div></section>
     <section class="section center" style="display:grid;justify-items:center;gap:10px">${avatar(u.name, 'big')}<label class="text-link" for="avatar-in">Change photo<input type="file" id="avatar-in" accept="image/*" hidden></label></section>
     <section class="section" style="display:grid;gap:14px">
       <div class="field"><label for="s-name">Full name</label><input class="input" id="s-name" name="name" value="${esc(u.name)}" required></div>
@@ -1441,6 +1447,8 @@ const A = {
   toRegister: () => document.getElementById('reg-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
   trophyHelp: () => sheet(`<h2>How trophies work</h2><div class="rules" style="margin-top:10px"><span>Register and get your own referral code.</span><span>Share it with family and friends. They enter it when they join the app.</span><span>Every 500 people who join with your code earn you the next trophy and a certificate.</span><span>Trophies are permanent and shown on your profile.</span></div><button class="btn btn-soft btn-block" style="margin-top:14px" data-close>Got it</button>`),
   pickTrophy: el => { S.ui.trophy = Number(el.dataset.v); rerender(); },
+  hq: el => { const n = HADITH.length, cur = S.ui.hq ?? Math.floor(Date.now() / 864e5) % n; S.ui.hq = (cur + Number(el.dataset.v) + n) % n; rerender(); },
+  setMode: el => { S.mode = el.dataset.v; try { localStorage.setItem('mlp-mode', S.mode); } catch { /* storage blocked: lasts this session */ } applyTheme(themeFor()); rerender(); },
   pickTheme: el => { S.userTheme = el.dataset.v; applyTheme(el.dataset.v); try { localStorage.setItem('mlp-theme', el.dataset.v); } catch { /* storage blocked: theme lasts for this session */ } toast(theme().name + ' theme on'); rerender(); },
   joinCreator: () => sheet(`<h2>Register for trophies</h2><p class="muted small">Your code lets us count everyone who joins through you.</p>
     <form data-form="creator" style="display:grid;gap:10px;margin-top:12px">
@@ -1448,7 +1456,7 @@ const A = {
       <div class="field"><label for="cr-city">City</label><input class="input" id="cr-city" name="city" required></div>
       <div class="field"><label for="cr-phone">Mobile number</label><input class="input num" id="cr-phone" name="phone" inputmode="numeric" maxlength="10" required placeholder="98765 43210"></div>
       <span class="err" id="cr-err"></span><button class="btn btn-main">Register and get my code</button></form>`),
-  quickGive: el => { S.donate = { cid: 9, amount: 1000, custom: el.dataset.v, other: true, type: 'Sadaqah', anon: false, tip: 0, pay: 'upi' }; go('#/donate/9'); },
+  quickGive: el => { S.donate = { cid: Number(el.dataset.c) || 9, amount: 1000, custom: el.dataset.v, other: true, type: 'Sadaqah', anon: false, tip: 0, pay: 'upi' }; go('#/donate/' + (Number(el.dataset.c) || 9)); },
   svcZakat: () => { S.ui.zakatOnly = true; S.ui.cat = 'all'; go('#/search'); },
   svcJariyah: () => { S.ui.cat = 'water'; S.ui.home = 'all'; go('#/campaigns'); },
   svcFood: () => { S.ui.cat = 'food'; S.ui.home = 'all'; go('#/campaigns'); },
@@ -1578,8 +1586,8 @@ document.addEventListener('submit', e => {
   }
 });
 
-try { S.userTheme = localStorage.getItem('mlp-theme'); } catch { /* no storage: default theme */ }
-applyTheme(S.userTheme || S.adminTheme);
+try { S.mode = localStorage.getItem('mlp-mode') || 'light'; } catch { S.mode = 'light'; }
+applyTheme(themeFor());
 try { Object.assign(S.look, JSON.parse(localStorage.getItem('mlp-look')) || {}); } catch { /* no storage: default look */ }
 applyLook();
 let signedIn = false;

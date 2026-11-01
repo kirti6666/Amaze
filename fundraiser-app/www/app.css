@@ -1130,3 +1130,41 @@ a.btn { text-decoration: none; }
 .cert-ph.sm { width: 36px; height: 36px; box-shadow: none; flex: none; }
 .trophy-share { position: fixed; z-index: 29; left: 50%; transform: translateX(-50%); bottom: calc(76px + var(--sab)); width: min(calc(100% - 24px), calc(var(--col) - 24px)); }
 .comm-seg { margin-top: 6px; } .top .seg.comm-seg { margin-bottom: 8px; }
+/* light / dark choice */
+.mode-pick { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.mode-pick button { display: grid; justify-items: center; gap: 8px; padding: 10px; border-radius: 16px; border: 1.5px solid var(--line); font-weight: 600; font-size: 14px; background: var(--card); }
+.mode-pick button.on { border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-soft); }
+.mode-pick button svg.i { width: 16px; height: 16px; vertical-align: -3px; }
+.mp-prev { width: 100%; height: 64px; border-radius: 10px; display: grid; gap: 5px; padding: 8px; align-content: start; }
+.mp-prev.light { background: #f3f6f4; } .mp-prev.dark { background: #0b1612; }
+.mp-prev i { height: 9px; border-radius: 4px; }
+.mp-prev.light i { background: #fff; box-shadow: 0 1px 3px rgb(0 0 0 / 0.08); } .mp-prev.dark i { background: #1b2e25; }
+.mp-prev i:first-child { width: 55%; background: #0b5d3b; } .mp-prev.dark i:first-child { background: #3fbf7f; }
+/* several one-tap campaigns side by side */
+.quick-row { gap: 12px; }
+.quick-item { width: 86%; display: grid; gap: 6px; }
+.qi-title { font-size: 14px; padding: 0 4px; }
+/* Aaj ki khaas baat */
+.khaas { position: relative; overflow: hidden; border-radius: 22px; padding: 18px 18px 14px; color: #fff; background: linear-gradient(140deg, #0e6b45, #0b4a31 60%, #08331f); box-shadow: var(--card-shadow); }
+.khaas .pattern { position: absolute; inset: 0; opacity: .1; }
+.kh-moon { position: absolute; right: -18px; top: -18px; width: 110px; height: 110px; fill: rgb(243 210 122 / 0.16); }
+.kh-top { position: relative; display: flex; align-items: baseline; gap: 8px; }
+.kh-top .eyebrow { color: #f3d27a; }
+.kh-top span[lang] { font-size: 12px; opacity: .75; }
+.kh-q { position: relative; margin-top: 12px; font-family: Georgia, "Noto Serif", "Times New Roman", serif; font-size: 19px; line-height: 1.45; }
+.kh-q::before { content: "“"; position: absolute; left: -6px; top: -26px; font-size: 56px; color: #f3d27a; opacity: .55; }
+.kh-src { position: relative; display: inline-block; margin-top: 10px; padding: 4px 10px; border-radius: 99px; background: rgb(243 210 122 / 0.16); color: #f3d27a; font-size: 12px; font-weight: 600; }
+.kh-foot { position: relative; display: flex; align-items: center; gap: 6px; margin-top: 14px; }
+.kh-btn { display: inline-flex; align-items: center; gap: 5px; height: 34px; padding: 0 12px; border-radius: 99px; background: rgb(255 255 255 / 0.12); color: #fff; font-size: 13px; font-weight: 600; text-decoration: none; }
+.kh-btn svg.i { width: 15px; height: 15px; }
+.kh-nav { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: rgb(255 255 255 / 0.12); color: #fff; }
+.kh-nav svg.i { width: 16px; height: 16px; }
+.kh-count { font-size: 12px; opacity: .8; min-width: 28px; text-align: center; }
+/* trophy row: full colour with a lock */
+.trophy-row button { padding: 10px 4px 8px; }
+.trophy-row button:not(.got) .trophy-art { filter: none; }
+.tr-pic { position: relative; display: block; }
+.tr-pic img { margin: 0 auto; border-radius: 8px; }
+.tr-pic i { position: absolute; right: -6px; bottom: -4px; width: 22px; height: 22px; border-radius: 50%; background: var(--card); color: var(--gold-ink); display: grid; place-items: center; box-shadow: 0 2px 6px rgb(0 0 0 / 0.2); }
+.tr-pic i svg.i { width: 12px; height: 12px; }
+.trophy-row button > span:last-child { font-size: 10.5px; line-height: 1.2; text-align: center; }

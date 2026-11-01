@@ -93,6 +93,10 @@ td .sub { display: block; color: var(--muted); font-size: 12px; }
 .p-review, .p-pending, .p-requested { background: var(--amber-soft); color: var(--amber); }
 .p-paid, .p-completed { background: var(--blue-soft); color: var(--blue); }
 .p-rejected, .p-suspended, .p-blocked { background: var(--danger-soft); color: var(--danger); }
+.bs-admin { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
+.bsa { display: grid; justify-items: center; gap: 8px; padding: 12px 6px; border-radius: 12px; border: 1.5px solid var(--line); font-size: 12.5px; font-weight: 600; background: #fff; }
+.bsa.on { border-color: var(--brand); background: var(--brand-soft); }
+.bsa span { display: inline-grid; place-items: center; height: 34px; padding: 0 18px; font-weight: 700; font-size: 13px; }
 .theme-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
 .th-admin { border: 1.5px solid; border-radius: 16px; padding: 12px; display: grid; gap: 6px; align-content: start; }
 .th-admin.on { border-width: 2px; }
@@ -252,11 +256,11 @@ $('#screen-list').innerHTML = SCREENS.map(([g, items]) => `<div class="group">${
 
 const FEATURES = [
   ['1. Website & fundraiser listings', [['Home with featured fundraisers and cause categories', '#/home'], ['Listing with search and filters', '#/search'], ['Campaign page: story, beneficiary, images, target, raised, progress', '#/c/1']]],
-  ['2. Registration & dashboard', [['Login and registration for donors and organisers', '#/login'], ['Profile management', '#/settings'], ['App theme picker (11 themes)', '#/settings'], ['Dashboard: campaigns, donations, withdrawals', '#/my'], ['Donor contribution history', '#/history']]],
+  ['2. Registration & dashboard', [['Login and registration for donors and organisers', '#/login'], ['Profile management', '#/settings'], ['Light / dark switch', '#/settings'], ['Dashboard: campaigns, donations, withdrawals', '#/my'], ['Donor contribution history', '#/history']]],
   ['3. Fundraiser creation & management', [['Title, category, story and target amount', '#/start'], ['Beneficiary details, images and documents', 'step2'], ['Submit for admin review', '#/submitted'], ['Publish campaign updates', 'update'], ['Share on WhatsApp and social media', 'share']]],
   ['4. Donations & payments', [['UPI, cards and net banking', '#/donate/1'], ['Confirmation, receipt and acknowledgement', 'success'], ['Campaign donation records', 'donors'], ['Optional platform tip / voluntary contribution', '#/donate/1']]],
   ['5. Verification & withdrawals', [['KYC and supporting documents', '#/kyc'], ['Beneficiary bank account', '#/kyc'], ['Admin verification of campaigns and recipients', 'admin:verification'], ['Withdrawal requests with approval and payment status', '#/withdraw']]],
-  ['6. Admin panel', [['Manage users', 'admin:users'], ['Manage fundraisers: approve, reject, suspend', 'admin:campaigns'], ['Categories and website content', 'admin:categories'], ['Review documents and withdrawals', 'admin:withdrawals'], ['Donations, transactions and reports', 'admin:donations'], ['Platform fee and voluntary contribution settings', 'admin:settings'], ['App themes for everyone', 'admin:appearance']]],
+  ['6. Admin panel', [['Manage users', 'admin:users'], ['Manage fundraisers: approve, reject, suspend', 'admin:campaigns'], ['Categories and website content', 'admin:categories'], ['Review documents and withdrawals', 'admin:withdrawals'], ['Donations, transactions and reports', 'admin:donations'], ['Platform fee and voluntary contribution settings', 'admin:settings'], ['Themes, button style and text size', 'admin:appearance'], ['Home one-tap campaigns', 'admin:quick'], ['Aaj ki khaas baat messages', 'admin:khaas']]],
   ['7. Supporting pages & notifications', [['About, How it works, FAQs, Contact', '#/info/about'], ['Privacy, Terms and Refund policy pages', '#/info/privacy'], ['Email notification preferences', '#/settings'], ['In-app notifications', '#/news/notifications']]],
 ];
 const total = FEATURES.reduce((a, [, f]) => a + f.length, 0);
@@ -280,7 +284,7 @@ function setMode(m) {
 const AV = ['#1d63b0', '#0a8a52', '#e0602a', '#5634c0', '#cf4778', '#0e8fa6', '#b5651d'];
 const avatar = n => `<span class="av" style="background:${AV[[...n].reduce((a, c) => a + c.charCodeAt(0), 0) % AV.length]}">${esc(n.split(' ').map(w => w[0]).join('').slice(0, 2))}</span>`;
 const DB = {
-  section: 'overview', campFilter: 'all', themeDefault: 'classic', allowUsers: true, autoRamzan: true, autoEid: true,
+  section: 'overview', campFilter: 'all', themeDefault: 'classic', autoRamzan: true, autoEid: true, look: { btn: 'classic', text: 'm', saver: false },
   campaigns: [
     { id: 9, title: 'Help my neighbour Salma with eye surgery', org: 'Ayesha Khan', cat: 'Medical', goal: 150000, raised: 0, status: 'review', submitted: 'Today' },
     { id: 10, title: 'Ration kits for 200 widows in Bhiwandi', org: 'Al-Noor Welfare Society', cat: 'Food & Iftar', goal: 400000, raised: 0, status: 'review', submitted: 'Yesterday' },
@@ -321,7 +325,7 @@ const DB = {
   settings: { fee: 0, tips: true, tipDefault: 5, upi: true, card: true, nb: true, intl: false, mReceipt: true, mStatus: true, mWithdraw: true, mWeekly: false },
 };
 const pending = () => ({ campaigns: DB.campaigns.filter(c => c.status === 'review').length, verification: DB.verify.filter(v => v.status === 'pending').length, withdrawals: DB.withdrawals.filter(w => w.status === 'requested').length });
-const NAV = [['overview', 'Overview', 'grid'], ['campaigns', 'Fundraisers', 'flag'], ['verification', 'Verification', 'shield'], ['withdrawals', 'Withdrawals', 'wallet'], ['donations', 'Donations & reports', 'chart'], ['users', 'Users', 'users'], ['categories', 'Categories', 'tag'], ['content', 'Website content', 'file'], ['appearance', 'App themes', 'palette'], ['settings', 'Fees & settings', 'sliders']];
+const NAV = [['overview', 'Overview', 'grid'], ['campaigns', 'Fundraisers', 'flag'], ['verification', 'Verification', 'shield'], ['withdrawals', 'Withdrawals', 'wallet'], ['donations', 'Donations & reports', 'chart'], ['users', 'Users', 'users'], ['categories', 'Categories', 'tag'], ['content', 'Website content', 'file'], ['appearance', 'Look & feel', 'palette'], ['quick', 'Home campaigns', 'flag'], ['khaas', 'Aaj ki khaas baat', 'file'], ['settings', 'Fees & settings', 'sliders']];
 const pill = s => `<span class="pill p-${s}">${{ review: 'Pending review', live: 'Live', suspended: 'Suspended', completed: 'Completed', rejected: 'Rejected', pending: 'Pending', approved: 'Approved', requested: 'Requested', paid: 'Paid', active: 'Active', blocked: 'Blocked', verified: 'Verified' }[s] || s}</span>`;
 const head = (t, d, right = '') => `<div class="work-head"><h1>${t}</h1><span style="margin-left:auto;display:flex;gap:8px">${right}</span><p>${d}</p></div>`;
 
@@ -375,12 +379,38 @@ const ADMIN = {
     let themes = [];
     try { themes = win().eval('THEMES'); } catch { /* app frame not ready */ }
     const sw = (k, t, d) => `<div class="toggle-row"><span class="t"><b>${t}</b><span>${d}</span></span><button class="sw ${DB[k] ? 'on' : ''}" data-a="themeOpt" data-v="${k}" role="switch" aria-checked="${DB[k]}" aria-label="${t}"></button></div>`;
-    return head('App themes', 'Pick the theme everyone sees. Changes apply to the app instantly; watch the phone in Mobile app mode.') + `
+    return head('Look & feel', 'Theme, button style and text size for everyone. Changes apply to the app instantly; people can only switch light or dark.') + `
     <div class="theme-grid">${themes.map(t => { const on = t.id === DB.themeDefault; return `<div class="th-admin ${on ? 'on' : ''}" style="background:${t.c.card};color:${t.c.ink};border-color:${on ? t.c.brand : t.c.line}">
       <div class="th-prev" style="background:${t.c.bg}"><span style="background:${t.c.brand}"></span><span style="background:${t.c.card}"></span><span style="background:${t.c.gold}"></span></div>
       <b>${esc(t.name)}</b><span style="color:${t.c.muted}">${esc(t.desc)}${t.dark ? ' · dark' : ''}${t.banner ? ' · seasonal card' : ''}</span>
       ${on ? `<span class="pill p-live">Default for everyone</span>` : `<button class="b b-soft" data-a="setTheme" data-v="${t.id}">Set as default</button>`}</div>`; }).join('')}</div>
-    <div class="card" style="max-width:640px"><h2>Rules</h2>${sw('allowUsers', 'Let people choose their own theme', 'Off: everyone sees the default theme and the picker is locked')}${sw('autoRamzan', 'Switch to Ramzan during Ramadan', 'Turns on at the start of Ramadan and back after Eid')}${sw('autoEid', 'Switch to Eid Mubarak on Eid days', 'Eid al-Fitr and Eid al-Adha')}</div>`; },
+    <div class="cols"><div class="card"><h2>Button style</h2><p class="hint" style="margin:-4px 0 10px;color:var(--muted)">Applies to every button in the app.</p><div class="bs-admin">${BTN.map(([k, l, css]) => `<button class="bsa ${DB.look.btn === k ? 'on' : ''}" data-a="look" data-v="btn:${k}"><span style="${css}">Donate</span>${l}</button>`).join('')}</div>
+      <h2 style="margin-top:16px">Text size</h2><div class="filters">${[['s', 'Small'], ['m', 'Default'], ['l', 'Large']].map(([k, l]) => `<button class="${DB.look.text === k ? 'on' : ''}" data-a="look" data-v="text:${k}">${l}</button>`).join('')}</div>
+      <div class="toggle-row" style="margin-top:10px"><span class="t"><b>Battery saver for everyone</b><span>Stops animations and blur effects</span></span><button class="sw ${DB.look.saver ? 'on' : ''}" data-a="look" data-v="saver:${!DB.look.saver}" role="switch" aria-checked="${DB.look.saver}" aria-label="Battery saver"></button></div></div>
+    <div class="card"><h2>Rules</h2><p class="hint" style="margin:-4px 0 10px;color:var(--muted)">People can only switch between light and dark in the app.</p>${sw('autoRamzan', 'Switch to Ramzan during Ramadan', 'Turns on at the start of Ramadan and back after Eid')}${sw('autoEid', 'Switch to Eid Mubarak on Eid days', 'Eid al-Fitr and Eid al-Adha')}</div></div>`; },
+  quick: () => {
+    let list = [], camps = [];
+    try { list = win().eval('QUICK'); camps = win().eval('active()').map(c => [c.id, c.title]); } catch { /* app frame not ready */ }
+    return head('Home campaigns', 'One-tap giving cards on the app’s Home, like “Feed a madrasa child”. Changes show in the app instantly.') + `
+    <div class="cols"><div class="card"><h2>On Home now</h2>${list.length ? list.map((q, i) => `<div class="attn"><span class="ic" style="background:#dcf7ea;color:#087a30">${ic('flag')}</span><span class="t"><b>${esc(q.title)}</b><span>${esc(q.hi || '')} · ${q.amounts.map(a => '₹' + a).join(' / ')}</span></span><button class="b b-danger" data-a="quickDel" data-v="${i}">Remove</button></div>`).join('') : '<p class="hint">No one-tap campaigns yet.</p>'}</div>
+    <div class="card"><h2>Add a campaign</h2><form class="form" data-f="quick">
+      <div class="field"><label for="q-title">Title</label><input class="input" id="q-title" name="title" required placeholder="Feed a madrasa child"></div>
+      <div class="field"><label for="q-hi">Hindi or Urdu line (optional)</label><input class="input" id="q-hi" name="hi" placeholder="बच्चों के लिए भोजन"></div>
+      <div class="field"><label for="q-head">Headline</label><input class="input" id="q-head" name="head" required placeholder="Dua karein, aur karein donation"></div>
+      <div class="field"><label for="q-text">Short description</label><input class="input" id="q-text" name="text" required></div>
+      <div class="field"><label for="q-amts">Amount buttons (₹, comma separated)</label><input class="input" id="q-amts" name="amts" required value="50, 100, 250, 500"></div>
+      <div class="field"><label for="q-photo">Photo</label><select class="select" id="q-photo" name="photo">${['school', 'family', 'water', 'hospital', 'boy'].map(k => `<option value="${k}">${k}</option>`).join('')}</select></div>
+      <div class="field"><label for="q-cid">Money goes to</label><select class="select" id="q-cid" name="cid">${camps.map(([id, t]) => `<option value="${id}">${esc(t)}</option>`).join('')}</select></div>
+      <button class="b b-main b-lg" style="justify-self:start">Add to Home</button></form></div></div>`; },
+  khaas: () => {
+    let list = [];
+    try { list = win().eval('HADITH'); } catch { /* app frame not ready */ }
+    return head('Aaj ki khaas baat', 'Daily hadith or Quran lines shown on Home, one per day. Please have every line checked by a scholar before adding.') + `
+    <div class="cols"><div class="card"><h2>Messages (${list.length})</h2>${list.map(([q, src], i) => `<div class="attn"><span class="ic" style="background:#fff5d6;color:#7a4d00">${ic('file')}</span><span class="t"><b style="font-weight:500">“${esc(q)}”</b><span>${esc(src)}</span></span><button class="b b-danger" data-a="khaasDel" data-v="${i}">Remove</button></div>`).join('')}</div>
+    <div class="card"><h2>Add a message</h2><form class="form" data-f="khaas">
+      <div class="field"><label for="k-q">Text</label><textarea class="textarea" id="k-q" name="q" required style="height:110px"></textarea></div>
+      <div class="field"><label for="k-src">Source</label><input class="input" id="k-src" name="src" required placeholder="Hadith, Sahih Muslim 2588"></div>
+      <button class="b b-main b-lg" style="justify-self:start">Add message</button></form></div></div>`; },
   settings: () => { const s = DB.settings; const sw = (k, t, d) => `<div class="toggle-row"><span class="t"><b>${t}</b><span>${d}</span></span><button class="sw ${s[k] ? 'on' : ''}" data-a="set" data-v="${k}" role="switch" aria-checked="${s[k]}" aria-label="${t}"></button></div>`;
     return head('Fees & settings', 'Platform fee, voluntary contributions, payment methods and emails.') + `<div class="cols">
     <div class="card"><h2>Fees</h2><div class="form">
@@ -401,10 +431,14 @@ function renderAdmin() {
 }
 function adminGo(s) { DB.section = s; renderAdmin(); window.scrollTo(0, 0); }
 function modal(html) { const m = document.createElement('div'); m.className = 'modal-scrim'; m.innerHTML = `<div class="modal" role="dialog" aria-modal="true">${html}</div>`; m.addEventListener('click', e => { if (e.target === m || e.target.closest('[data-close]')) m.remove(); }); document.body.appendChild(m); return m; }
-const pushTheme = () => { try { win().adminTheme(DB.themeDefault, DB.allowUsers); } catch { /* app frame not ready */ } };
+const pushTheme = () => { try { win().adminTheme(DB.themeDefault); } catch { /* app frame not ready */ } };
+const BTN = [['classic', 'Classic', 'background:#0b5d3b;color:#fff;border-radius:99px'], ['clay', 'Clay', 'background:#0b5d3b;color:#fff;border-radius:16px;box-shadow:inset 0 -4px 0 rgb(0 0 0 / .2),inset 0 3px 0 rgb(255 255 255 / .3)'], ['glass', '3D glass', 'background:linear-gradient(180deg,#5aa386,#0b5d3b 55%,#073d27);color:#fff;border-radius:99px;box-shadow:inset 0 1px 0 rgb(255 255 255 / .6)'], ['neu', 'Neumorphic', 'background:#fff;color:#0b5d3b;border-radius:99px;box-shadow:4px 4px 10px rgb(0 0 0 / .14),-4px -4px 10px #fff'], ['capsule', 'Capsule', 'background:linear-gradient(90deg,#3faf7f,#0b5d3b);color:#fff;border-radius:99px']];
 const ACT = {
   setTheme: v => { DB.themeDefault = v; pushTheme(); toast('Default theme updated for everyone'); renderAdmin(); },
-  themeOpt: v => { DB[v] = !DB[v]; if (v === 'allowUsers') pushTheme(); renderAdmin(); },
+  themeOpt: v => { DB[v] = !DB[v]; renderAdmin(); },
+  look: v => { const [k, x] = v.split(':'); DB.look[k] = k === 'saver' ? x === 'true' : x; try { win().adminLook(DB.look); } catch { /* app frame not ready */ } toast('Applied to the app for everyone'); renderAdmin(); },
+  quickDel: v => { try { const l = win().eval('QUICK').slice(); l.splice(Number(v), 1); win().adminQuick(l); } catch { /* app frame not ready */ } toast('Removed from Home'); renderAdmin(); },
+  khaasDel: v => { try { const l = win().eval('HADITH').slice(); l.splice(Number(v), 1); win().adminHadith(l); } catch { /* app frame not ready */ } toast('Message removed'); renderAdmin(); },
   nav: v => adminGo(v),
   campFilter: v => { DB.campFilter = v; renderAdmin(); },
   camp: (v, el) => { const c = DB.campaigns.find(x => x.id === Number(v)); c.status = el.dataset.s; delete c.submitted; toast({ live: 'Approved. The organiser has been emailed.', rejected: 'Rejected. The organiser has been emailed the reason.', suspended: 'Suspended. Donations are paused.' }[c.status]); renderAdmin(); },
@@ -427,6 +461,16 @@ document.addEventListener('click', e => { const el = e.target.closest('[data-a]'
 document.addEventListener('submit', e => {
   e.preventDefault(); const f = e.target;
   if (f.dataset.f === 'cat') { DB.cats.push([f.querySelector('input').value.trim(), '#3d3d4a', 0, true]); toast('Category added'); renderAdmin(); }
+  if (f.dataset.f === 'quick') {
+    const amounts = f.amts.value.split(',').map(x => Math.round(Number(x.replace(/[^\d.]/g, '')))).filter(x => x > 0).slice(0, 4);
+    if (!amounts.length) return toast('Add at least one amount');
+    try { const w = win(), l = w.eval('QUICK').slice(); l.push({ title: f.title.value.trim(), hi: f.hi.value.trim(), head: f.head.value.trim(), text: f.text.value.trim(), photo: w.eval('PHOTO')[f.photo.value], amounts, cid: Number(f.cid.value) }); w.adminQuick(l); } catch { /* app frame not ready */ }
+    toast('Added to the app’s Home'); renderAdmin();
+  }
+  if (f.dataset.f === 'khaas') {
+    try { const l = win().eval('HADITH').slice(); l.push([f.q.value.trim(), f.src.value.trim()]); win().adminHadith(l); } catch { /* app frame not ready */ }
+    toast('Message added'); renderAdmin();
+  }
   if (f.dataset.f === 'page') { DB.pages[Number(f.dataset.v)][1] = '25 Oct 2026'; f.closest('.modal-scrim').remove(); toast('Page published'); renderAdmin(); }
 });
 </script>
