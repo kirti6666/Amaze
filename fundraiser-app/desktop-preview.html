@@ -1475,6 +1475,14 @@ body::before { background: var(--bg); }
 .rose-qty button[disabled] { opacity: .35; }
 .lv-head .lv-all { flex: none; }
 .lv-head h2 { flex: none; }
+/* vote page alignment */
+.rose-hero { margin: 10px 10px 0; padding: 12px 12px 12px 14px; gap: 10px; }
+.rh-text { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.rh-text b { font-size: 14.5px; }
+.rh-text span { font-size: 12px; color: var(--muted); line-height: 1.4; }
+.rh-btn { flex: none; height: 34px; padding: 0 14px; border-radius: 99px; background: #d6283b; color: #fff; font-weight: 700; font-size: 13px; }
+.rh-btn.on { background: var(--chip); color: var(--ink); }
+.seg button { white-space: nowrap; }
 </script>
 <script type="text/plain" id="app-js">/* Muslim Life Pro: clickable Android UI demo for a donation / fundraising platform.
    Everything is in-memory sample data; no backend calls. Hash routes give the Android back button for free. */
@@ -2601,8 +2609,9 @@ V.vote = () => {
   const mine = POLLS.flatMap(p => myVotes(p.id).rec.map(r => ({ ...r, p })));
   const sent = mine.reduce((a, r) => a + r.n, 0);
   return { nav: 'vote', html: `<header class="top"><div class="top-row"><h1 class="page-title">Vote with roses</h1><span class="spacer"></span>${planChip()}<div class="hbtns"><button class="hbtn" data-act="voteRules" aria-label="How roses work">${ic('info')}</button></div></div></header>
-  <div class="rose-hero">${ROSE(34)}<div><b>Send a rose, choose the winner</b><span>${S.plan === 'basic' ? 'Get Premium or VIP to send roses. The option with the most roses wins.' : `You’re on ${plan().name} · ${S.roses} roses left this month.`}</span></div></div>
-  <div class="wrap" style="padding-top:0">${seg('vote', [['live', 'Live'], ['upcoming', 'Upcoming'], ['done', 'Winners'], ['mine', 'My roses'], ['plans', 'Packages']])}
+  <div class="rose-hero">${ROSE(34)}<div class="rh-text"><b>Send a rose, choose the winner</b><span>${S.plan === 'basic' ? 'The option with the most roses wins. Get a package to start sending.' : `You’re on ${plan().name} · ${S.roses} roses left this month.`}</span></div>
+    <button class="rh-btn ${tab === 'plans' ? 'on' : ''}" data-act="ui" data-k="vote" data-v="${tab === 'plans' ? 'live' : 'plans'}">${tab === 'plans' ? 'Contests' : 'Packages'}</button></div>
+  <div class="wrap" style="padding-top:0">${tab === 'plans' ? '' : seg('vote', [['live', 'Live'], ['upcoming', 'Upcoming'], ['done', 'Winners'], ['mine', 'My roses']])}
   ${tab === 'plans' ? `<div class="pkg-grid">${PLANS.map(x => planCard(x)).join('')}</div><p class="small muted center">Demo prices. Roses refresh on the 1st of every month and do not carry over.</p>` : ''}
   ${tab === 'plans' ? '' : tab === 'mine'
     ? (mine.length ? `<section class="section"><div class="sec-head"><h2>You sent ${roseCount(sent)}</h2></div>${mine.reverse().map(r => `<div class="dh-row"><span class="dh-ic rose-ic">${ROSE(20)}</span><div class="dh-body"><b>${roseCount(r.n)} to ${esc(r.p.cand[r.o][0])}</b><span class="small muted">${esc(r.p.title)} · ${r.amt ? inr(r.amt) : 'free rose'} · ${r.id}</span></div></div>`).join('')}</section>` : `<div class="empty">${ROSE(40)}<p>You have not sent any roses yet. Get Premium or VIP to start sending roses.</p><button class="btn btn-main" data-act="ui" data-k="vote" data-v="live">See live contests</button></div>`)

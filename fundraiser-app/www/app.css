@@ -1274,3 +1274,11 @@ body::before { background: var(--bg); }
 .rose-qty button[disabled] { opacity: .35; }
 .lv-head .lv-all { flex: none; }
 .lv-head h2 { flex: none; }
+/* vote page alignment */
+.rose-hero { margin: 10px 10px 0; padding: 12px 12px 12px 14px; gap: 10px; }
+.rh-text { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.rh-text b { font-size: 14.5px; }
+.rh-text span { font-size: 12px; color: var(--muted); line-height: 1.4; }
+.rh-btn { flex: none; height: 34px; padding: 0 14px; border-radius: 99px; background: #d6283b; color: #fff; font-weight: 700; font-size: 13px; }
+.rh-btn.on { background: var(--chip); color: var(--ink); }
+.seg button { white-space: nowrap; }
