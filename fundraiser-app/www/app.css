@@ -1210,3 +1210,18 @@ a.btn { text-decoration: none; }
 .pc2-lead > span { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .pc2-cta { grid-area: auto; margin-top: 4px; }
 .wrap > .pcard2 .pc2-title { min-height: 0; }
+/* contest card with a photo box */
+.pcard2 { width: 300px; gap: 12px; }
+.pc2-top { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 12px; align-items: start; }
+.pc2-img { position: relative; height: 96px; border-radius: 14px; background-size: cover; background-position: center 25%; box-shadow: 0 0 0 1.5px rgb(233 181 44 / 0.55); }
+.pc2-img .pc2-pill { position: absolute; left: 6px; top: 6px; }
+.pc2-text { display: grid; gap: 4px; min-width: 0; }
+.pc2-cat { font-size: 11.5px; color: rgb(255 255 255 / 0.68); }
+.pc2-title { min-height: 0; font-size: 15px; }
+.pc2-count { font-size: 11.5px; color: rgb(255 255 255 / 0.6); }
+.pc2-meta, .pc2-ic { display: none; }
+/* one background colour for header, stories band, page and tab bar */
+.top, .stories-band, .nav { background: var(--bg); }
+body::before { background: var(--bg); }
+.nav { border-top: 1px solid var(--line); }
+.rose-hero { background: linear-gradient(120deg, color-mix(in srgb, #d6283b 12%, var(--card)), var(--card)); }

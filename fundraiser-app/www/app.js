@@ -1068,16 +1068,16 @@ V.login = () => {
 /* ---------- voting ---------- */
 // sample polls; in the real app these come from the admin panel
 const POLLS = [
-  { id: 'aw', emoji: '🏆', cat: 'Award', icon: 'trophy', color: '#0b5a3f', status: 'live', end: '2027-01-31', results: 'live', price: 10, maxPaid: 100,
+  { id: 'aw', photo: 'img/fx-doctor.jpg', emoji: '🏆', cat: 'Award', icon: 'trophy', color: '#0b5a3f', status: 'live', end: '2027-01-31', results: 'live', price: 10, maxPaid: 100,
     title: 'National Social Service Excellence Award 2027', desc: 'Send roses to the person who deserves this year’s award. Most roses wins.',
     cand: [['Dr. Salma Begum', 'Free medical camps in Mewat'], ['Imran Shaikh', 'Free coaching for 300 students'], ['Adv. Rizwan Ahmed', 'Free legal aid in 120 cases'], ['Fatima Noor', 'Education for orphan girls']], votes: [412, 368, 455, 290] },
-  { id: 'sc', emoji: '🏫', cat: 'School location', icon: 'school', color: '#16695a', status: 'live', end: '2027-02-28', results: 'after_vote', price: 10, maxPaid: 100,
+  { id: 'sc', photo: 'img/fx-schoolgirl.jpg', emoji: '🏫', cat: 'School location', icon: 'school', color: '#16695a', status: 'live', end: '2027-02-28', results: 'after_vote', price: 10, maxPaid: 100,
     title: 'Where should our next school be built?', desc: 'Send roses to the city that should get the next school. Most roses wins; land and cost checks follow.',
     cand: [['Ghaziabad', 'Local demand to be verified'], ['Meerut', 'Local demand to be verified'], ['Delhi', 'Local demand to be verified'], ['Noida', 'Local demand to be verified']], votes: [620, 540, 410, 380] },
-  { id: 'md', emoji: '🕌', cat: 'Project priority', icon: 'mosque', color: '#5634c0', status: 'upcoming', start: '2026-11-15', end: '2026-12-31', results: 'live', price: 10, maxPaid: 50,
+  { id: 'md', photo: 'img/fx-madrasa.jpg', emoji: '🕌', cat: 'Project priority', icon: 'mosque', color: '#5634c0', status: 'upcoming', start: '2026-11-15', end: '2026-12-31', results: 'live', price: 10, maxPaid: 50,
     title: 'Which madrasa should be upgraded first?', desc: 'Send roses to the madrasa that should get new classrooms and digital boards first.',
     cand: [['Faiz-ul-Uloom, Bahraich', '210 students'], ['Darul Quran, Malappuram', '160 students'], ['Jamia Noor, Murshidabad', '240 students']], votes: [0, 0, 0] },
-  { id: 'vl', emoji: '🤝', cat: 'Social worker', icon: 'heart', color: '#b0461f', status: 'closed', end: '2026-04-10', results: 'live', price: 10, maxPaid: 100,
+  { id: 'vl', photo: 'img/fx-ration.jpg', emoji: '🤝', cat: 'Social worker', icon: 'heart', color: '#b0461f', status: 'closed', end: '2026-04-10', results: 'live', price: 10, maxPaid: 100,
     title: 'Best volunteer of Ramzan 2026', desc: 'Members sent roses to the volunteer who served the most during Ramzan.',
     cand: [['Bilal Qureshi', 'Iftar drives on 40 nights'], ['Mariam Siddiqui', 'Ration kits for 600 families'], ['Yusuf Patel', 'Blood donation camps']], votes: [812, 934, 506] },
 ];
@@ -1093,9 +1093,9 @@ const leader = p => p.votes.indexOf(Math.max(...p.votes));
 const roseCount = n => `${n.toLocaleString('en-IN')} ${n === 1 ? 'rose' : 'roses'}`;
 const pollBanner = (p, cls = '') => `<span class="vban ${cls}" style="background:linear-gradient(135deg, ${p.color}, #062a1f)"><span class="vpill ${p.status}">${p.status === 'live' ? '● LIVE' : p.status === 'upcoming' ? 'COMING SOON' : 'WINNER CHOSEN'}</span>${ic(p.icon)}</span>`;
 const pollCard = p => { const w = leader(p), tot = pollTotal(p), live = p.status === 'live'; return `<button class="pcard2" data-go="#/poll/${p.id}">
-  <span class="pc2-meta"><span class="pc2-pill ${p.status}">${live ? '● Live' : p.status === 'upcoming' ? 'Soon' : 'Winner'}</span><span class="pc2-cat">${p.cat}</span><span class="pc2-ic">${ic(p.icon)}</span></span>
-  <b class="pc2-title">${esc(p.title)}</b>
-  <span class="pc2-lead">${tot ? `${ROSE(14)}<span>${p.status === 'closed' ? 'Winner' : 'Leading'} <b>${esc(p.cand[w][0])}</b> · ${roseCount(tot)}</span>` : `<span>${p.cand.length} options · ${pollWhen(p)}</span>`}</span>
+  <span class="pc2-top"><span class="pc2-img" style="background-image:url('${p.photo}')"><span class="pc2-pill ${p.status}">${live ? '● Live' : p.status === 'upcoming' ? 'Soon' : 'Winner'}</span></span>
+  <span class="pc2-text"><span class="pc2-cat">${p.cat}</span><b class="pc2-title">${esc(p.title)}</b>
+  <span class="pc2-lead">${tot ? `${ROSE(14)}<span>${p.status === 'closed' ? 'Winner' : 'Leading'} <b>${esc(p.cand[w][0])}</b></span>` : `<span>${pollWhen(p)}</span>`}</span>${tot ? `<span class="pc2-count num">${roseCount(tot)} · ${pollWhen(p)}</span>` : ''}</span></span>
   <span class="pc2-cta">${live ? `${ROSE(15)} Send roses` : 'See results'}</span></button>`; };
 const pollRing = p => `<button class="vring" data-go="#/poll/${p.id}"><i>${p.emoji}</i>${p.cat}</button>`;
 const liveVotingBlock = () => { const L = POLLS.filter(p => p.status === 'live'); return L.length ? `<section class="home-sec"><div class="lv-head"><h2>${ROSE(20)}Rose contests</h2><button class="lv-all" data-go="#/vote">View all</button></div>
