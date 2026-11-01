@@ -872,3 +872,10 @@ a.btn { text-decoration: none; }
 .posters2 { gap: 10px; }
 .poster2 { width: 78%; max-width: 300px; border-radius: 20px; overflow: hidden; box-shadow: 0 6px 18px rgb(0 0 0 / 0.12); }
 .poster2 img { display: block; width: 100%; height: auto; aspect-ratio: 640 / 860; object-fit: cover; }
+/* square header; donor stories sit in the same white band right under it */
+.top { border-radius: 0; box-shadow: none; border-bottom: 1px solid var(--line); }
+.stories-band { background: var(--card); padding: 10px 6px 12px; border-bottom: 1px solid var(--line); }
+.stories-band .sec-title { padding: 0 4px 8px; }
+.stories-band .home-sec { padding: 0; }
+.banner-card { margin: 0; border-radius: 0; }
+.stories-band { border-bottom: 0; }
