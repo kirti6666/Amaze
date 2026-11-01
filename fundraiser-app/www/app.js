@@ -310,7 +310,7 @@ const S = {
   saved: new Set([2]), liked: new Set(),
   points: 0, donated: 0, donations: [], streak: false, last: null,
   theme: 'classic', userTheme: null, adminTheme: 'classic', themeLocked: false,
-  votes: {}, wallet: 500, posts: [], likedPosts: new Set(), compose: { txt: '', file: '', kind: '', promo: false },
+  votes: {}, plan: 'basic', roses: 0, wallet: 500, posts: [], likedPosts: new Set(), compose: { txt: '', file: '', kind: '', promo: false },
   bookings: [], helpReqs: [], profileBadge: null, joins: [], look: { btn: 'classic', text: 'm', saver: false },
   ui: { vote: 'live', pollSel: {}, extra: 1, help: 'legal', lawyerQ: '', home: 'all', cat: 'all', comp: 'done', rate: 'league', rateSub: 'donors', news: 'news', dTab: 'story', q: '', sort: 'urgent', zakatOnly: false },
   login: { stage: 'details', role: 'donor', name: '', email: '', phone: '', err: {}, lang: 'en', interests: ['zakat', 'education'] },
@@ -634,7 +634,7 @@ V.profile = () => {
     <div class="pquick">${[['receipt', 'History', '#/history'], ['wallet', 'Fundraisers', '#/my'], ['check', 'Completed', '#/completed'], ['scale', 'Get help', '#/help']].map(([i, l, h]) => `<button data-go="${h}"><i>${ic(i)}</i><span>${l}</span></button>`).join('')}</div>
     <section class="section"><div class="sec-head"><h2>Badges</h2><span class="small muted">${got} of ${BADGES.length} earned</span></div>
       <div class="badge-row">${BADGES.map((b, i) => { const ok = badgeUnlocked(b); return `<button class="bdg2 ${ok ? '' : 'off'}" ${ok ? `data-act="setBadge" data-v="${i}"` : 'disabled'}>${badgeArt(b, 48, !ok)}<span>${b[0]}</span>${S.profileBadge === i ? '<em>On profile</em>' : ''}</button>`; }).join('')}</div></section>
-    ${menu('Account', [['user', 'Settings & appearance', '#/settings', S.mode === 'dark' ? 'Dark' : 'Light'], ['shield', 'KYC & bank account', '#/kyc', 'Verified'], ['card', 'Payment methods', 'payments'], ['calendar', 'Monthly giving', 'monthly'], ['globe', 'Language', 'region', 'English']])}
+    ${menu('Account', [['user', 'Settings & appearance', '#/settings', S.mode === 'dark' ? 'Dark' : 'Light'], ['heart', 'Rose package', 'packages', plan().name], ['shield', 'KYC & bank account', '#/kyc', 'Verified'], ['card', 'Payment methods', 'payments'], ['calendar', 'Monthly giving', 'monthly'], ['globe', 'Language', 'region', 'English']])}
     ${menu('Activity', [['trophy', 'Rating & leaderboard', '#/rating'], ['heart', 'Rose contests', '#/vote'], ['search', 'All campaigns', '#/campaigns'], ['bookmark', 'Favorites', 'favs'], ['bell', 'News & notifications', '#/news'], ['hands', 'Verified NGOs', '#/ngos']])}
     ${menu('Help', [['headset', 'Contact support', '#/info/contact'], ['info', 'About, FAQs & how it works', '#/info/faq'], ['file', 'Terms, privacy & refunds', '#/info/terms']])}
     <button class="logout-btn" data-act="logout">${ic('logout')} Log out</button>
@@ -1084,6 +1084,21 @@ const POLLS = [
 // Rose contests: members send roses to an option; the option with the most roses wins.
 // Every verified member gets one free rose per contest; more roses cost ₹10 each.
 const ROSE = (size = 22) => `<svg class="rose" viewBox="0 0 32 32" width="${size}" height="${size}" aria-hidden="true"><path d="M15.4 17.5c.3 4.6-.6 8.8-2.6 12.4" fill="none" stroke="#2f8a4a" stroke-width="2" stroke-linecap="round"/><path d="M14.7 23.3c-3.2-.4-5.6-2-6.8-4.6 3.3-.3 5.6.9 6.8 4.6Z" fill="#3aa65a"/><path d="M15.6 21.1c2.6-1.6 5.4-1.8 8.1-.6-2.1 2.3-4.8 2.8-8.1.6Z" fill="#2f8a4a"/><path d="M16 18.6c-5.2 0-8.3-3.4-8.3-7.6 0-2.8 1.4-5.3 3.6-6.4.9 2 2.6 2.9 4.7 2.9s3.8-.9 4.7-2.9c2.2 1.1 3.6 3.6 3.6 6.4 0 4.2-3.1 7.6-8.3 7.6Z" fill="#d6283b"/><path d="M16 7.5c-2.6 0-4.3 1.6-4.3 3.7 0 1.6 1 2.8 2.4 3.3-.4-1.7.6-3.3 2.4-3.6 1.6-.3 3 .6 3.4 2.1.4-.6.5-1.2.5-1.8 0-2.1-1.8-3.7-4.4-3.7Z" fill="#a8152a"/><path d="M12.3 5.2C13 3.4 14.4 2.2 16 2.2s3 1.2 3.7 3c-.9 1.4-2.2 2.2-3.7 2.2s-2.8-.8-3.7-2.2Z" fill="#ee4a5c"/></svg>`;
+// Rose packages: Basic is free (watch and follow); Premium and VIP include a monthly rose balance
+const PLANS = [
+  { id: 'basic', name: 'Basic', price: 0, roses: 0, tag: 'Free', feats: [['Watch every contest and live results', 1], ['Follow contests and get winner alerts', 1], ['Send roses', 0], ['Supporter badge', 0]] },
+  { id: 'premium', name: 'Premium', price: 99, roses: 50, tag: 'Most popular', feats: [['Everything in Basic', 1], ['50 roses every month', 1], ['Send roses in all contests', 1], ['Rose history and receipts', 1], ['Green Premium badge on your profile', 1]] },
+  { id: 'vip', name: 'VIP', price: 299, roses: 200, tag: 'Best value', feats: [['Everything in Premium', 1], ['200 roses every month', 1], ['Gold VIP badge on profile and leaderboards', 1], ['Early access to new contests', 1], ['Your name in Top Supporters', 1], ['Priority support', 1]] },
+];
+const plan = () => PLANS.find(x => x.id === S.plan);
+const planCard = (x, compact) => { const cur = S.plan === x.id, rank = PLANS.indexOf(x), mine = PLANS.indexOf(plan()); return `<div class="pkg ${x.id} ${cur ? 'cur' : ''}">
+  <div class="pkg-top"><span class="pkg-name">${x.id === 'vip' ? ic('crown') : x.id === 'premium' ? ROSE(16) : ic('user')} ${x.name}</span>${x.tag ? `<span class="pkg-tag">${x.tag}</span>` : ''}</div>
+  <div class="pkg-price">${x.price ? `<b class="num">₹${x.price}</b><span>/ month</span>` : '<b>Free</b>'}</div>
+  ${compact ? `<span class="pkg-sum">${x.roses ? `${x.roses} roses a month` : 'Watch and follow only'}</span>` : `<ul class="pkg-feats">${x.feats.map(([t, ok]) => `<li class="${ok ? '' : 'no'}">${ic(ok ? 'check' : 'x')}${t}</li>`).join('')}</ul>`}
+  ${cur ? '<span class="pkg-btn cur">Current plan</span>' : rank > mine ? `<button class="pkg-btn" data-act="buyPlan" data-v="${x.id}">Get ${x.name}</button>` : '<span class="pkg-btn cur">Included</span>'}</div>`; };
+const packagesSheet = (why) => sheet(`<h2>Rose packages</h2><p class="muted small">${why || 'Choose a package to send roses. Cancel any time.'}</p><div class="pkg-list">${PLANS.map(x => planCard(x, true)).join('')}</div><button class="text-link small" style="margin-top:12px" data-close data-go="#/vote">Compare all features</button>`);
+const planChip = () => `<button class="plan-chip ${S.plan}" data-act="packages">${S.plan === 'vip' ? ic('crown') : ROSE(14)}<span>${S.plan === 'basic' ? 'Get roses' : `${S.roses} roses`}</span></button>`;
+
 const poll = id => POLLS.find(p => p.id === id);
 const myVotes = id => (S.votes[id] || (S.votes[id] = { free: null, paid: 0, rec: [] }));
 const pollTotal = p => p.votes.reduce((a, v) => a + v, 0);
@@ -1098,20 +1113,21 @@ const pollCard = p => { const w = leader(p), tot = pollTotal(p), live = p.status
   <span class="pc2-lead">${tot ? `${ROSE(14)}<span>${p.status === 'closed' ? 'Winner' : 'Leading'} <b>${esc(p.cand[w][0])}</b></span>` : `<span>${pollWhen(p)}</span>`}</span>${tot ? `<span class="pc2-count num">${roseCount(tot)} · ${pollWhen(p)}</span>` : ''}</span></span>
   <span class="pc2-cta">${live ? `${ROSE(15)} Send roses` : 'See results'}</span></button>`; };
 const pollRing = p => `<button class="vring2 ${p.status}" data-go="#/poll/${p.id}"><i style="background-image:url('${p.photo}')">${p.status === 'live' ? '<em></em>' : ''}</i><span>${p.cat.split(' ')[0]}</span><small>${p.status === 'live' ? `${(pollTotal(p) / 1000).toFixed(1)}k roses` : p.status === 'upcoming' ? 'Soon' : 'Winner'}</small></button>`;
-const liveVotingBlock = () => { const L = POLLS.filter(p => p.status === 'live'); return L.length ? `<section class="home-sec"><div class="lv-head"><h2>${ROSE(20)}Rose contests</h2><button class="lv-all" data-go="#/vote">View all</button></div>
+const liveVotingBlock = () => { const L = POLLS.filter(p => p.status === 'live'); return L.length ? `<section class="home-sec"><div class="lv-head"><h2>${ROSE(20)}Rose contests</h2><span class="spacer"></span>${planChip()}<button class="lv-all" data-go="#/vote">View all</button></div>
   <div class="vrings2">${POLLS.map(pollRing).join('')}<button class="vring2 all" data-go="#/vote"><i>${ROSE(22)}</i><span>All</span><small>contests</small></button></div>
   <div class="hscroll">${L.map(pollCard).join('')}</div></section>` : ''; };
 
 V.vote = () => {
   const tab = S.ui.vote;
-  const list = tab === 'mine' ? [] : POLLS.filter(p => (tab === 'live' ? p.status === 'live' : tab === 'upcoming' ? p.status === 'upcoming' : p.status === 'closed'));
+  const list = tab === 'mine' || tab === 'plans' ? [] : POLLS.filter(p => (tab === 'live' ? p.status === 'live' : tab === 'upcoming' ? p.status === 'upcoming' : p.status === 'closed'));
   const mine = POLLS.flatMap(p => myVotes(p.id).rec.map(r => ({ ...r, p })));
   const sent = mine.reduce((a, r) => a + r.n, 0);
-  return { nav: 'vote', html: `<header class="top"><div class="top-row"><h1 class="page-title">Vote with roses</h1><span class="spacer"></span><div class="hbtns"><button class="hbtn" data-act="voteRules" aria-label="How roses work">${ic('info')}</button></div></div></header>
-  <div class="rose-hero">${ROSE(34)}<div><b>Send a rose, choose the winner</b><span>Your first rose in every contest is free. The option with the most roses wins.</span></div></div>
-  <div class="wrap" style="padding-top:0">${seg('vote', [['live', 'Live'], ['upcoming', 'Upcoming'], ['done', 'Winners'], ['mine', 'My roses']])}
-  ${tab === 'mine'
-    ? (mine.length ? `<section class="section"><div class="sec-head"><h2>You sent ${roseCount(sent)}</h2></div>${mine.reverse().map(r => `<div class="dh-row"><span class="dh-ic rose-ic">${ROSE(20)}</span><div class="dh-body"><b>${roseCount(r.n)} to ${esc(r.p.cand[r.o][0])}</b><span class="small muted">${esc(r.p.title)} · ${r.amt ? inr(r.amt) : 'free rose'} · ${r.id}</span></div></div>`).join('')}</section>` : `<div class="empty">${ROSE(40)}<p>You have not sent any roses yet. Your first rose in every contest is free.</p><button class="btn btn-main" data-act="ui" data-k="vote" data-v="live">See live contests</button></div>`)
+  return { nav: 'vote', html: `<header class="top"><div class="top-row"><h1 class="page-title">Vote with roses</h1><span class="spacer"></span>${planChip()}<div class="hbtns"><button class="hbtn" data-act="voteRules" aria-label="How roses work">${ic('info')}</button></div></div></header>
+  <div class="rose-hero">${ROSE(34)}<div><b>Send a rose, choose the winner</b><span>${S.plan === 'basic' ? 'Get Premium or VIP to send roses. The option with the most roses wins.' : `You’re on ${plan().name} · ${S.roses} roses left this month.`}</span></div></div>
+  <div class="wrap" style="padding-top:0">${seg('vote', [['live', 'Live'], ['upcoming', 'Upcoming'], ['done', 'Winners'], ['mine', 'My roses'], ['plans', 'Packages']])}
+  ${tab === 'plans' ? `<div class="pkg-grid">${PLANS.map(x => planCard(x)).join('')}</div><p class="small muted center">Demo prices. Roses refresh on the 1st of every month and do not carry over.</p>` : ''}
+  ${tab === 'plans' ? '' : tab === 'mine'
+    ? (mine.length ? `<section class="section"><div class="sec-head"><h2>You sent ${roseCount(sent)}</h2></div>${mine.reverse().map(r => `<div class="dh-row"><span class="dh-ic rose-ic">${ROSE(20)}</span><div class="dh-body"><b>${roseCount(r.n)} to ${esc(r.p.cand[r.o][0])}</b><span class="small muted">${esc(r.p.title)} · ${r.amt ? inr(r.amt) : 'free rose'} · ${r.id}</span></div></div>`).join('')}</section>` : `<div class="empty">${ROSE(40)}<p>You have not sent any roses yet. Get Premium or VIP to start sending roses.</p><button class="btn btn-main" data-act="ui" data-k="vote" data-v="live">See live contests</button></div>`)
     : (list.length ? list.map(pollCard).join('') : `<div class="empty">${ROSE(40)}<p>No contests here right now.</p></div>`)}
   </div>` };
 };
@@ -1125,13 +1141,14 @@ V.poll = id => {
     <span class="rk2 ${rank === 0 && tot ? 'first' : ''}">${rank === 0 && tot ? ic('crown') : rank + 1}</span>${avatar(n)}
     <span class="who"><b>${esc(n)}</b><span>${esc(note)}${mineTo(i) ? ` · you sent ${mineTo(i)}` : ''}</span><span class="rbar"><i style="width:${p.votes[i] / top * 100}%"></i></span></span>
     <span class="rcount">${ROSE(15)}<b class="num">${p.votes[i].toLocaleString('en-IN')}</b></span></button>`; }).join('');
-  const n = S.ui.extra, free = mv.free === null ? 1 : 0, cost = Math.max(0, n - free) * p.price;
-  const cta = p.status !== 'live' ? undefined : `<div class="send-bar"><div class="rose-qty">${[1, 5, 10, 25].map(k => `<button class="${n === k ? 'on' : ''}" data-act="roseQty" data-v="${k}">${k}</button>`).join('')}</div>
-    <button class="btn btn-main send-btn" data-act="sendRoses" data-p="${p.id}" ${sel === null ? 'disabled' : ''}>${ROSE(18)} ${sel === null ? 'Choose who gets your roses' : `Send ${n} to ${esc(p.cand[sel][0].split(',')[0])} · ${cost ? inr(cost) : 'free'}`}</button></div>`;
+  const n = S.ui.extra;
+  const cta = p.status !== 'live' ? undefined : S.plan === 'basic' ? `<button class="btn btn-main send-btn" data-act="sendRoses" data-p="${p.id}">${ROSE(18)} Send roses</button>`
+    : `<div class="send-bar"><div class="rose-qty">${[1, 5, 10, 25].map(k => `<button class="${n === k ? 'on' : ''}" data-act="roseQty" data-v="${k}" ${k > S.roses ? 'disabled' : ''}>${k}</button>`).join('')}</div>
+    <button class="btn btn-main send-btn" data-act="sendRoses" data-p="${p.id}" ${sel === null ? 'disabled' : ''}>${ROSE(18)} ${sel === null ? 'Choose who gets your roses' : `Send ${n} to ${esc(p.cand[sel][0].split(',')[0])}`}</button><span class="send-left">${S.roses} roses left this month · ${plan().name}</span></div>`;
   const winner = p.status === 'closed' && tot ? `<section class="winner">${ic('crown')}<span class="eyebrow">Winner</span><b>${esc(p.cand[order[0]][0])}</b><span class="num">${roseCount(p.votes[order[0]])} · ${Math.round(p.votes[order[0]] * 100 / tot)}% of all roses</span></section>` : '';
   return { html: pageHead(p.cat) + `<div class="wrap">
     <section class="section poll-head">${pollBanner(p, 'big')}<h1 class="d-title">${esc(p.title)}</h1><p class="muted">${esc(p.desc)}</p>
-      <div class="mini-chips" style="margin-top:10px"><span class="mini-chip">${ic('clock')}${pollWhen(p)}</span><span class="mini-chip rosechip">${ROSE(14)}${roseCount(tot)}</span>${p.status === 'live' ? `<span class="mini-chip green">${free ? 'Your first rose is free' : `₹${p.price} per rose`}</span>` : ''}</div></section>
+      <div class="mini-chips" style="margin-top:10px"><span class="mini-chip">${ic('clock')}${pollWhen(p)}</span><span class="mini-chip rosechip">${ROSE(14)}${roseCount(tot)}</span>${p.status === 'live' ? `<span class="mini-chip green">${S.plan === 'basic' ? 'Needs Premium or VIP' : `${S.roses} roses left`}</span>` : ''}</div></section>
     ${winner}
     <section class="section"><div class="sec-head"><h2>${p.status === 'live' ? 'Leaderboard · tap to choose' : 'Final roses'}</h2></div><div class="cands">${rows}</div></section>
   </div>`, cta };
@@ -1403,17 +1420,23 @@ const A = {
   pickCand: el => { S.ui.pollSel[el.dataset.p] = Number(el.dataset.v); rerender(); },
   roseQty: el => { S.ui.extra = Number(el.dataset.v); rerender(); },
   sendRoses: el => {
+    if (S.plan === 'basic') return packagesSheet('Basic lets you watch contests. Get Premium or VIP to send roses.');
     const p = poll(el.dataset.p), mv = myVotes(p.id), o = S.ui.pollSel[p.id] ?? mv.rec.at(-1)?.o, n = S.ui.extra;
     if (o == null) return toast('Choose who gets your roses');
-    const free = mv.free === null ? 1 : 0, cost = Math.max(0, n - free) * p.price;
-    if (mv.paid + n - free > p.maxPaid) return toast(`You can send up to ${p.maxPaid + 1} roses in this contest`);
-    const done = () => { if (free) mv.free = o; mv.paid += n - free; p.votes[o] += n; mv.rec.push({ o, n, amt: cost, id: 'R' + Date.now().toString(36).toUpperCase() }); S.ui.extra = 1; toast(`${roseCount(n)} sent to ${p.cand[o][0]}. JazakAllah Khair!`); rerender(); };
-    if (!cost) return done();
-    const ov = document.createElement('div'); ov.className = 'processing';
-    ov.innerHTML = `<div class="spin"></div><div>Waiting for UPI approval…<div class="small muted" style="margin-top:4px">Demo payment of ${inr(cost)}, no money is charged</div></div>`;
-    document.body.appendChild(ov); setTimeout(() => { ov.remove(); done(); }, 1200);
+    if (n > S.roses) return packagesSheet(`You have ${S.roses} roses left this month. Upgrade for more.`);
+    S.roses -= n; p.votes[o] += n; mv.rec.push({ o, n, amt: 0, id: 'R' + Date.now().toString(36).toUpperCase() });
+    S.ui.extra = 1; toast(`${roseCount(n)} sent to ${p.cand[o][0]}. JazakAllah Khair!`); rerender();
   },
-  voteRules: () => sheet(`<h2>How roses work</h2><div class="rules" style="margin-top:10px"><span>Send roses to the person, place or project you support. The one with the most roses wins.</span><span>Your first rose in every contest is free. Every extra rose costs ₹10, and counts once the payment is verified.</span><span>The rose count is public and updates live.</span><span>Roses are a contribution to the foundation's work.</span></div><button class="btn btn-soft btn-block" style="margin-top:14px" data-close>Got it</button>`),
+  packages: () => packagesSheet(),
+  buyPlan: el => {
+    const x = PLANS.find(k => k.id === el.dataset.v);
+    el.closest('.scrim')?.remove();
+    const ov = document.createElement('div'); ov.className = 'processing';
+    ov.innerHTML = `<div class="spin"></div><div>Waiting for UPI approval…<div class="small muted" style="margin-top:4px">Demo payment of ₹${x.price} for ${x.name}, no money is charged</div></div>`;
+    document.body.appendChild(ov);
+    setTimeout(() => { ov.remove(); S.plan = x.id; S.roses += x.roses; toast(`${x.name} is active. ${x.roses} roses added.`); rerender(); }, 1200);
+  },
+  voteRules: () => sheet(`<h2>How roses work</h2><div class="rules" style="margin-top:10px"><span>Send roses to the person, place or project you support. The one with the most roses wins.</span><span>Basic is free for watching. Premium (₹99) gives 50 roses a month, VIP (₹299) gives 200 roses and extras.</span><span>The rose count is public and updates live.</span><span>Roses are a contribution to the foundation's work.</span></div><button class="btn btn-soft btn-block" style="margin-top:14px" data-close>Got it</button>`),
   openStory: el => {
     let i = Number(el.dataset.v); const v = document.createElement('div'); v.className = 'story-view';
     const show = () => { const [n, ph, txt] = STORY_USERS[i]; v.innerHTML = `<div class="sv-img" style="background-image:url('${ph}')"></div><div class="sv-bars">${STORY_USERS.map((x, k) => `<i class="${k < i ? 'done' : k === i ? 'run' : ''}"></i>`).join('')}</div><div class="sv-top">${avatar(n)}<b>${esc(n)}</b><button class="sv-x" aria-label="Close">${ic('x')}</button></div><p class="sv-txt">${esc(txt)}</p>`; };
