@@ -475,7 +475,7 @@ const zakatDue = net => (net >= NISAB ? Math.round(net * 0.025) : 0);
 console.assert(zakatDue(100000) === 2500 && zakatDue(NISAB - 1) === 0, 'zakatDue');
 
 const SERVICES = [
-  ['calc', 'Zakat calculator', 'zakatCalc'], ['star', 'Pay Zakat', 'svcZakat'], ['mosque', 'Sadaqah Jariyah', 'svcJariyah'], ['utensils', 'Iftar & food', 'svcFood'],
+  ['calc', 'Zakat', 'zakatCalc'], ['star', 'Pay Zakat', 'svcZakat'], ['mosque', 'Sadaqah Jariyah', 'svcJariyah'], ['utensils', 'Iftar & food', 'svcFood'],
   ['baby', 'Orphan care', 'svcOrphans'], ['hands', 'Fidya & Kaffarah', 'fidya'], ['calendar', 'Qurbani', 'qurbani'], ['plus', 'Start fundraiser', 'svcStart'],
 ];
 const duaBlock = () => `<section class="home-sec">${secTitle('Feed a madrasa child', 'बच्चों के लिए भोजन')}
@@ -498,23 +498,28 @@ const DONOR_ID = 'MLP-104582';
 // the foundation's animated banner loops behind the two main actions
 const heroBlock = () => `<section class="banner-card"><video src="img/banner.mp4" poster="img/banner-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="Service, Education, Justice: Education Foundation, Muslim Law Foundation"></video>
   <div class="banner-actions"><button class="btn btn-main" data-go="#/campaigns">${ic('heart')} Donate</button><button class="btn banner-ghost" data-go="#/help">Ask for help</button></div></section>`;
-const HOME_SERVICES = [['scale', 'Legal aid', '#2f3fa8', 'go:#/help'], ['school', 'School', '#4338ca', 'cat:education'], ['mosque', 'Madrasa upgrade', '#0b7a4c', 'camp:15'], ['ring', 'Orphan girls’ nikah', '#b0461f', 'camp:11'], ['pulse', 'Treatment', '#1d7cc4', 'cat:medical'], ['eye', 'Eye surgery', '#0e8fa6', 'camp:13'], ['utensils', 'Ration', '#c2410c', 'camp:10'], ['snow', 'Winter relief', '#2563eb', 'camp:12'], ['book', 'Education & clothes', '#6d28d9', 'cat:education'], ['buoy', 'Disaster relief', '#c33838', 'cat:emergency'], ['calc', 'Zakat calculator', '#0a9b3c', 'act:zakatCalc'], ['calendar', 'Qurbani', '#a16207', 'act:qurbani']];
-const servicesBlock = () => `<section class="home-sec">${secTitle('Our services', 'हमारी सेवाएँ')}<div class="svc-pills">${HOME_SERVICES.map(([i, l, c, a]) => `<button class="svc-pill" data-act="svc" data-v="${a}" style="--sc:${c}"><span>${l}</span><i>${ic(i)}</i></button>`).join('')}</div></section>`;
+const HOME_SERVICES = [['scale', 'Legal aid', '#2f3fa8', 'go:#/help'], ['school', 'School', '#4338ca', 'cat:education'], ['mosque', 'Madrasa upgrade', '#0b7a4c', 'camp:15'], ['ring', 'Nikah support', '#b0461f', 'camp:11'], ['pulse', 'Treatment', '#1d7cc4', 'cat:medical'], ['eye', 'Eye surgery', '#0e8fa6', 'camp:13'], ['utensils', 'Ration', '#c2410c', 'camp:10'], ['snow', 'Winter relief', '#2563eb', 'camp:12'], ['book', 'Education', '#6d28d9', 'cat:education'], ['buoy', 'Disaster relief', '#c33838', 'cat:emergency'], ['calc', 'Zakat calculator', '#0a9b3c', 'act:zakatCalc'], ['calendar', 'Qurbani', '#a16207', 'act:qurbani']];
+const servicesBlock = () => `<section class="home-sec">${secTitle('Our services', 'हमारी सेवाएँ')}<div class="svc-grid2">${HOME_SERVICES.map(([i, l, c, a]) => `<button class="svc2" data-act="svc" data-v="${a}" style="--sc:${c}"><i>${ic(i)}</i><span>${l}</span></button>`).join('')}</div></section>`;
 const evCard = c => `<div class="ev"><div class="ev-photo" data-go="#/c/${c.id}" style="background-image:url('${c.thumb || c.photo}')"><span>${c.days} days left</span></div>
   <div class="ev-main" data-go="#/c/${c.id}"><span class="ev-tag">${CATS[c.cat].label}</span><b>${esc(c.title)}</b><p>${esc(c.caption)}</p></div>
   <div class="ev-foot"><span class="bar"><i style="width:${pct(c)}%"></i></span><span class="ev-nums"><span><b class="num">${inr(c.raised)}</b> raised</span><span class="num">${pct(c)}% of ${inr(c.goal)}</span></span><button class="btn btn-main" data-go="#/donate/${c.id}">Donate</button></div></div>`;
-const eventsBlock = () => { const A = active().filter(c => c.thumb), r = A.reduce((a, c) => a + c.raised, 0), d = A.reduce((a, c) => a + c.donors, 0); return `<section class="home-sec">${secTitle('Fundraiser events', '', `<button class="text-link small" data-go="#/campaigns">See all ${ic('right')}</button>`)}<div class="fund-stats"><span><b class="num">${inr(r)}</b>raised</span><span><b class="num">${d.toLocaleString('en-IN')}</b>donors</span><span><b class="num">${A.length}</b>campaigns</span></div>
+const eventsBlock = () => { const A = active().filter(c => c.thumb); return `<section class="home-sec">${secTitle('Fundraiser events', '', `<button class="text-link small" data-go="#/campaigns">See all ${ic('right')}</button>`)}
   <div class="ev-track" id="ev-track">${A.map(evCard).join('')}</div><div class="ev-dots" id="ev-dots">${A.map((c, i) => `<i class="${i ? '' : 'on'}"></i>`).join('')}</div></section>`; };
 const POSTERS = [[16, 'img/poster-dua.jpg', 'Dua program: food and gifts for 1 lakh children'], [17, 'img/poster-school.jpg', 'School admission campaign']];
 const postersBlock = () => `<section class="home-sec">${secTitle('Featured campaigns')}<div class="hscroll posters2">${POSTERS.map(([id, src, alt]) => `<button class="poster2" data-go="#/c/${id}"><img src="${src}" alt="${esc(alt)}" loading="lazy"></button>`).join('')}</div></section>`;
+const trophyBlock = () => { const cr = S.creator, joined = cr ? S.joins.filter(j => j.code === cr.code).length : 0, lv = Math.floor(joined / 500), next = Math.min(lv + 1, 8);
+  return `<section class="home-sec">${secTitle('Trophy & referral', '', `<button class="text-link small" data-go="#/creator">View all ${ic('right')}</button>`)}
+  <button class="trophy-card" data-go="#/creator"><span class="tc-art">${trophyArt(next, 58)}</span><span class="tc-body"><b>${trophyName(next)} trophy</b><span class="muted small">When ${(next * 500).toLocaleString('en-IN')} people join with your code</span><span class="bar"><i style="width:${(joined % 500) / 5}%"></i></span><span class="tc-cta">${cr ? `${joined} of ${(next * 500).toLocaleString('en-IN')} joined · code ${cr.code}` : 'Register and get your code'}</span></span></button>
+  <div class="trophy-row">${[1, 2, 3, 4].map(n => `<button data-act="pickTrophy" data-v="${n}" data-go="#/creator" class="${lv >= n ? 'got' : ''}">${trophyArt(n, 30)}<span>${(n * 500).toLocaleString('en-IN')}</span></button>`).join('')}</div></section>`; };
 const trophyNudge = () => `<button class="creator-nudge" data-go="#/creator"><span class="cn-ic">${trophyArt(1, 26)}</span><span><b>Trophy & referral</b><span>Share your code. Every 500 people who join earn you a new trophy.</span></span>${ic('right')}</button>`;
 
-V.home = () => ({ nav: 'home', html: header() + `<div class="stories-band">${storiesBlock()}</div>` + heroBlock() + `<div class="home-stack">${seasonCard()}${postersBlock()}${eventsBlock()}${liveVotingBlock()}${servicesBlock()}${duaBlock()}${hadithBlock()}${membersBlock()}${trophyNudge()}</div>` });
+V.home = () => ({ nav: 'home', html: header() + `<div class="stories-band">${storiesBlock()}</div>` + heroBlock() + `<div class="home-stack">${seasonCard()}${postersBlock()}${eventsBlock()}${liveVotingBlock()}${servicesBlock()}${trophyBlock()}${duaBlock()}${hadithBlock()}${membersBlock()}</div>` });
 
 V.campaigns = () => {
   const cats = [['all', 'All', 'heart'], ...Object.entries(CATS).map(([k, c]) => [k, c.label, c.icon])];
   const list = S.ui.home === 'fav' ? CAMPAIGNS.filter(c => S.saved.has(c.id)) : active().filter(c => S.ui.cat === 'all' || c.cat === S.ui.cat).sort((a, b) => !!b.featured - !!a.featured);
   return { nav: 'home', html: `<header class="top"><div class="top-row"><button class="hbtn" data-act="back" aria-label="Back">${ic('left')}</button><h1 class="page-title" style="font-size:20px">Campaigns</h1><span class="spacer"></span><div class="hbtns"><button class="hbtn" data-go="#/completed" aria-label="Completed campaigns">${ic('check')}</button><button class="hbtn" data-go="#/search" aria-label="Search">${ic('search')}</button></div></div>${seg('home', [['all', 'All campaigns'], ['fav', 'My favorites']])}</header>` +
+    (S.ui.home === 'all' ? (() => { const A = active(), r = A.reduce((x, c) => x + c.raised, 0), d = A.reduce((x, c) => x + c.donors, 0); return `<div class="fund-stats list-stats"><span><b class="num">${inr(r)}</b>raised</span><span><b class="num">${d.toLocaleString('en-IN')}</b>donors</span><span><b class="num">${A.length}</b>campaigns</span></div>`; })() : '') +
     (S.ui.home === 'all' ? `<div class="chips">${cats.map(([k, l, i]) => `<button class="chip ${S.ui.cat === k ? 'on' : ''}" data-act="ui" data-k="cat" data-v="${k}">${ic(i)}${l}</button>`).join('')}</div>` : '') +
     `<div class="feed">${list.map(campaignCard).join('') || `<div class="empty">${ic('bookmark')}<p>${S.ui.home === 'fav' ? 'Tap the bookmark on any campaign to keep it here.' : 'No campaigns in this cause yet.'}</p><button class="btn btn-soft" data-act="ui" data-k="home" data-v="all">Browse campaigns</button></div>`}</div>` };
 };
@@ -600,50 +605,22 @@ V.news = arg => {
 };
 
 V.profile = () => {
-  const mine = S.mine.map(m => ({ ...m, c: camp(m.id) })).filter(m => m.c);
-  const today = (new Date().getDay() + 6) % 7;
-  const menu = items => `<div class="menu">${items.map(([i, l, a, meta]) => `<button ${a.startsWith('#') ? `data-go="${a}"` : `data-act="${a}"`}>${ic(i)}<span>${l}</span>${meta ? `<span class="meta">${meta}</span>` : ''}${ic('right', 'chev')}</button>`).join('')}</div>`;
-  return { nav: 'profile', html: `<div class="wrap" style="padding-top:16px">
-    <section class="section" style="border-radius:0 0 26px 26px;margin:-16px -10px 0;padding-top:22px">
-      <div class="prof">${avatar(S.user.name)}<div style="flex:1;min-width:0"><h1>${S.user.name}</h1><button class="muted" data-go="#/settings" style="display:flex;align-items:center;gap:2px;font-size:15px">Profile settings ${ic('right')}</button></div><button class="icon-btn" data-go="#/settings" aria-label="Edit profile">${ic('pencil')}</button></div>
-      <div style="margin-top:12px">${tierStrip()}</div>
-      <div class="tiles">
-        <div class="tile"><b style="font-size:15px">Seedling League <svg viewBox="0 0 120 138" style="width:20px;height:23px">${archBadge(LEAGUES[0], 9, false, true).replace(/^<svg[^>]*>|<\/svg>$/g, '')}</svg></b><span>${S.points ? S.points + ' pts this season' : 'Season open'}</span></div>
-        <div class="tile"><b class="num">${Math.max(11, 15840 - S.points * 9).toLocaleString('en-IN')} <span style="color:var(--violet)">${ic('trophy')}</span></b><span>Top leaders</span></div>
-        <div class="tile"><b class="num">${Math.max(11, 15842 - Math.floor(S.donated / 2)).toLocaleString('en-IN')} <span style="color:var(--brand)">${ic('hands')}</span></b><span>Top donors</span></div>
-        <div class="tile"><b class="num">9,210 <span style="color:var(--gold)">${ic('users')}</span></b><span>Top inspirers</span></div>
-      </div>
+  const t = totalGiven(), tr = tierOf(t), got = BADGES.filter(badgeUnlocked).length;
+  const menu = (title, items) => `<section class="pmenu"><h3>${title}</h3>${items.map(([i, l, a, meta]) => `<button ${a.startsWith('#') ? `data-go="${a}"` : `data-act="${a}"`}>${ic(i)}<span>${l}</span>${meta ? `<span class="meta">${meta}</span>` : ''}${ic('right', 'chev')}</button>`).join('')}</section>`;
+  return { nav: 'profile', html: `<div class="wrap prof2">
+    <section class="pcard">
+      <div class="pc-top">${framed(avatar(S.user.name), tr.i, 84)}<div class="pc-id"><h1>${esc(S.user.name)}</h1><span class="pc-tierline">${tr.name} member</span><span class="muted small num">Donor ID · ${DONOR_ID}</span></div><button class="hbtn" data-go="#/settings" aria-label="Edit profile">${ic('pencil')}</button></div>
+      <div class="pc-prog"><span class="bar"><i style="width:${tierProgress(t)}%"></i></span><span class="small muted">${tr.next ? `${inr(tr.next[1] - t)} more to reach <b>${tr.next[0]}</b>` : 'Highest level reached'}</span></div>
+      <div class="pstats"><button data-go="#/donations"><b class="num">${inr(t)}</b><span>Donated</span></button><button data-go="#/my"><b class="num">${inr(myRaised())}</b><span>Raised</span></button><button data-go="#/creator"><b class="num">${got}/${BADGES.length}</b><span>Badges</span></button></div>
     </section>
-    <div class="money-tiles">
-      <button class="money-tile" data-go="#/history"><span>My donations ${ic('right')}</span><b class="num">${inr(totalGiven())}</b></button>
-      <button class="money-tile" data-go="#/my"><span>Raised by my fundraisers ${ic('right')}</span><b class="num">${inr(myRaised())}</b></button>
-    </div>
-    ${badgesBlock()}
-    <section class="section">
-      <div class="sec-head"><h2>My fundraisers</h2><button class="pill-link green" data-go="#/my">Dashboard ${ic('right')}</button></div>
-      ${mine.map(m => `<div class="my-camp" data-go="#/my">${thumb(m.c, m.photo)}<div class="info"><b>${esc(m.c.title)}</b><span class="small muted num">${inr(m.c.raised)} of ${inr(m.c.goal)}</span> <span class="status ${m.status === 'live' ? 'st-live' : 'st-review'}">${m.status === 'live' ? 'Live' : 'Under review'}</span><div class="bar"><i style="width:${pct(m.c)}%"></i></div></div></div>`).join('')}
-      <div class="actions" style="margin-top:10px"><button class="btn btn-soft grow" data-go="#/start">${ic('plus')} Start new</button><button class="btn btn-line grow" data-go="#/withdraw">${ic('wallet')} Withdraw</button></div>
-    </section>
-    <section class="section">
-      <div class="sec-head"><h2>Kindness Streak</h2><button class="pill-link" data-act="earn">More ${ic('right')}</button></div>
-      <div class="week">${['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((d, i) => `<div><i class="${S.streak && i === today ? 'on' : ''} ${i === today ? 'today' : ''}">${ic('flame')}</i>${d}</div>`).join('')}</div>
-      <p class="center" style="color:var(--ink-2);margin-bottom:14px">${S.streak ? '1-day streak. Give again tomorrow to keep it going.' : 'Start helping easily and begin your Kindness streak!'}</p>
-      <button class="btn btn-soft btn-block" data-go="#/home">Go to campaigns</button>
-    </section>
-    <section class="section">
-      <div class="sec-head"><h2>Achievements</h2><button class="pill-link green">Earned ${S.donations.length ? 1 : 0}/8 ${ic('right')}</button></div>
-      <div class="badges">${ACHIEVEMENTS.map(([l, i], k) => { const got = k === 0 && S.donations.length; return `<div class="badge ${got ? 'got' : ''}"><div class="disc">${ic(i)}${got ? '' : `<span class="lock">${ic('lock')}</span>`}</div>${l}</div>`; }).join('')}</div>
-    </section>
-    ${menu([['receipt', 'Donation history', '#/history'], ['globe', 'Language and region', 'region', 'English · ₹ INR'], ['calendar', 'Monthly giving', 'monthly'], ['card', 'Payment methods', 'payments']])}
-    ${menu([['bookmark', 'Favorites', 'favs'], ['wallet', 'Fundraiser dashboard & withdrawals', '#/my'], ['shield', 'KYC & bank account', '#/kyc', 'Verified'], ['link', 'Your personal link', 'mylink']])}
-    ${menu([['trophy', 'Rating & leaderboard', '#/rating'], ['check', 'Completed campaigns', '#/completed'], ['bell', 'News & notifications', '#/news'], ['scale', 'Ask for help', '#/help']])}
-    ${menu([['medal', 'Trophy & referral', '#/creator', S.creator ? S.creator.code : 'Earn trophies'], ['hands', 'Verified NGOs', '#/ngos', String(Object.values(ORGS).filter(o => o.ngo).length)], ['palette', 'Appearance', '#/settings', theme().name], ['bell', 'Notifications & email', '#/settings']])}
-    ${menu([['hands', 'About us', '#/info/about'], ['help', 'How it works', '#/info/how'], ['info', 'FAQs', '#/info/faq']])}
-    <section class="section">
-      <div class="thanks"><div style="flex:1"><h3>Thank you for being with us</h3><p>Write to us if you have a question, feedback, an idea, or something isn’t working.</p><a href="#/info/contact" data-go="#/info/contact">Write to us</a></div><div class="logo" style="flex-direction:column;font-size:20px;gap:2px">${LOGO.replace('viewBox', 'style="width:54px;height:54px" viewBox')}${APP}</div></div>
-      <div class="menu" style="padding:4px 0 0">${[['headset', 'Support', '#/info/contact'], ['file', 'Terms & Conditions', '#/info/terms'], ['shield', 'Privacy Policy', '#/info/privacy'], ['receipt', 'Refund Policy', '#/info/refund']].map(([i, l, h]) => `<button data-go="${h}">${ic(i)}<span>${l}</span>${ic('right', 'chev')}</button>`).join('')}<button data-act="logout" style="color:var(--danger)">${ic('logout')}<span>Log out</span></button></div>
-    </section>
-    <p class="center small muted">Muslim Life Pro · demo build 0.2</p>
+    <div class="pquick">${[['receipt', 'History', '#/history'], ['wallet', 'Fundraisers', '#/my'], ['medal', 'Trophy', '#/creator'], ['scale', 'Get help', '#/help']].map(([i, l, h]) => `<button data-go="${h}"><i>${ic(i)}</i><span>${l}</span></button>`).join('')}</div>
+    <section class="section"><div class="sec-head"><h2>Badges</h2><span class="small muted">${got} of ${BADGES.length} earned</span></div>
+      <div class="badge-row">${BADGES.map((b, i) => { const ok = badgeUnlocked(b); return `<button class="bdg2 ${ok ? '' : 'off'}" ${ok ? `data-act="setBadge" data-v="${i}"` : 'disabled'}>${badgeArt(b, 48, !ok)}<span>${b[0]}</span>${S.profileBadge === i ? '<em>On profile</em>' : ''}</button>`; }).join('')}</div></section>
+    ${menu('Account', [['user', 'Settings & appearance', '#/settings', theme().name], ['shield', 'KYC & bank account', '#/kyc', 'Verified'], ['card', 'Payment methods', 'payments'], ['calendar', 'Monthly giving', 'monthly'], ['globe', 'Language', 'region', 'English']])}
+    ${menu('Activity', [['trophy', 'Rating & leaderboard', '#/rating'], ['check', 'Completed campaigns', '#/completed'], ['bookmark', 'Favorites', 'favs'], ['bell', 'News & notifications', '#/news'], ['hands', 'Verified NGOs', '#/ngos']])}
+    ${menu('Help', [['headset', 'Contact support', '#/info/contact'], ['info', 'About, FAQs & how it works', '#/info/faq'], ['file', 'Terms, privacy & refunds', '#/info/terms']])}
+    <button class="logout-btn" data-act="logout">${ic('logout')} Log out</button>
+    <p class="center small muted">${APP} · demo build 0.3</p>
   </div>` };
 };
 
@@ -1108,7 +1085,12 @@ const BASE_POSTS = [
   { who: 'Al-Hilal Caterers, Mumbai', t: '5h', txt: 'Iftar boxes for gatherings of 50 to 500. 10% of every order goes to the madrasa meal campaign.', photo: PHOTO.family, likes: 86, sponsored: true },
   { who: 'Mohammad Arif', t: '1d', txt: 'Visited the Sanawada well with my family. Alhamdulillah for this blessing.', photo: PHOTO.water, likes: 132 },
 ];
-const storyRings = (big) => `<div class="srings ${big ? 'big' : ''}"><button class="sring you" data-go="#/stories">${avatar(S.user.name)}<i class="plus">${ic('plus')}</i><span>Your story</span></button>${STORY_USERS.map(([n, ph], i) => `<button class="sring" data-act="openStory" data-v="${i}"><span class="sframe" style="background-image:url('${ph}')"></span><span>${esc(n.split(' ')[0])}</span></button>`).join('')}</div>`;
+// the foundation's ornamental frames, one per member tier; [x, y, size] of the photo hole in %
+const FRAMES = [['img/frame-visitor.png', 49.1, 49.6, 51.3], ['img/frame-starter.png', 50.4, 50.9, 49.9], ['img/frame-supporter.png', 47.3, 51.5, 51.3], ['img/frame-silver.png', 47.3, 53.3, 44.2], ['img/frame-gold.png', 50.4, 55.1, 51.3], ['img/frame-platinum.png', 50.5, 54.6, 45.5], ['img/frame-diamond.png', 50.3, 56.9, 55.8], ['img/frame-crown.png', 53.5, 57.7, 53.2]];
+const framed = (inner, tier, size) => { const [src, x, y, w] = FRAMES[tier]; return `<span class="framed" style="width:${size}px;height:${size}px"><span class="fr-hole" style="left:${x}%;top:${y}%;width:${w + 3}%;height:${w + 3}%">${inner}</span><img src="${src}" alt="" draggable="false"></span>`; };
+const photoIn = ph => `<i style="background-image:url('${ph}')"></i>`;
+const STORY_TIERS = [4, 2, 6, 3, 7];
+const storyRings = (big) => `<div class="srings ${big ? 'big' : ''}"><button class="sring you" data-go="#/stories">${framed(avatar(S.user.name), tierOf(totalGiven()).i, big ? 78 : 70)}<i class="plus">${ic('plus')}</i><span>You</span></button>${STORY_USERS.map(([n, ph], i) => `<button class="sring" data-act="openStory" data-v="${i}">${framed(photoIn(ph), STORY_TIERS[i % STORY_TIERS.length], big ? 78 : 70)}<span>${esc(n.split(' ')[0])}</span></button>`).join('')}</div>`;
 const storiesBlock = () => `<section class="home-sec">${secTitle('Donor stories', '', `<button class="text-link small" data-go="#/stories">Open ${ic('right')}</button>`)}${storyRings()}</section>`;
 
 V.stories = () => {

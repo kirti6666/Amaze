@@ -4,9 +4,9 @@ import { readFileSync, writeFileSync } from 'node:fs';
 const read = p => readFileSync(new URL(p, import.meta.url), 'utf8');
 const css = read('./www/app.css');
 // the preview is one self-contained file, so the sample photos are inlined as data URIs
-const MIME = { jpg: 'image/jpeg', mp4: 'video/mp4' };
+const MIME = { jpg: 'image/jpeg', png: 'image/png', mp4: 'video/mp4' };
 const inline = f => `data:${MIME[f.split('.').pop()]};base64,${readFileSync(new URL('./www/' + f, import.meta.url)).toString('base64')}`;
-const js = read('./www/app.js').replace(/'(img\/[\w-]+\.jpg)'/g, (_, f) => `'${inline(f)}'`).replace(/"(img\/[\w-]+\.(?:jpg|mp4))"/g, (_, f) => `"${inline(f)}"`);
+const js = read('./www/app.js').replace(/'(img\/[\w-]+\.(?:jpg|png))'/g, (_, f) => `'${inline(f)}'`).replace(/"(img\/[\w-]+\.(?:jpg|mp4))"/g, (_, f) => `"${inline(f)}"`);
 // the app is embedded inside <script type="text/plain"> blocks, so it must never close a script tag itself
 if (/<\/script/i.test(css + js)) throw new Error('www/ contains "</script", which would break the preview embed');
 
