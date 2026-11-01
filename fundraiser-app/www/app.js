@@ -373,6 +373,8 @@ CLIENT_THEMES.forEach(([name, sub, , dark, a, g, acc], i) => {
     : T('c' + i, name, '', sub, 'palette', false, { brand: fitC(a), 'brand-2': g, 'brand-3': fitC(a), 'brand-ink': mixC(fitC(a), '#000000', .8), 'brand-soft': mixC(a, '#ffffff', .1), gold: acc, line: mixC(a, '#ffffff', .1), bg: mixC(a, '#ffffff', .035), chip: mixC(a, '#ffffff', .08), soft: mixC(a, '#ffffff', .05), 'soft-line': mixC(a, '#ffffff', .25), page: mixC(a, '#ffffff', .15), 'hero-1': g, 'hero-2': fitC(a) });
   THEMES.push(t);
 });
+// deep shades of each theme's colour for the dark premium boxes (contest card, VIP, trophy stage)
+THEMES.forEach(t => { const base = t.dark ? t.c['hero-1'] : fitC(t.c.brand); Object.assign(t.c, { 'deep-1': mixC(base, '#ffffff', .92), 'deep-2': mixC(base, '#000000', .75), 'deep-3': mixC(base, '#000000', .45) }); });
 const theme = () => THEMES.find(t => t.id === S.theme) || THEMES[0];
 function applyTheme(id) {
   const t = THEMES.find(x => x.id === id) || THEMES[0];
@@ -1106,7 +1108,7 @@ const daysTo = d => Math.max(0, Math.ceil((new Date(d + 'T23:59:59') - Date.now(
 const pollWhen = p => p.status === 'live' ? `${daysTo(p.end)} days left` : p.status === 'upcoming' ? `Starts ${new Date(p.start).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}` : 'Contest closed';
 const leader = p => p.votes.indexOf(Math.max(...p.votes));
 const roseCount = n => `${n.toLocaleString('en-IN')} ${n === 1 ? 'rose' : 'roses'}`;
-const pollBanner = (p, cls = '') => `<span class="vban ${cls}" style="background:linear-gradient(135deg, ${p.color}, #062a1f)"><span class="vpill ${p.status}">${p.status === 'live' ? '● LIVE' : p.status === 'upcoming' ? 'COMING SOON' : 'WINNER CHOSEN'}</span>${ic(p.icon)}</span>`;
+const pollBanner = (p, cls = '') => `<span class="vban ${cls}" style="background:linear-gradient(135deg, ${p.color}, var(--deep-3))"><span class="vpill ${p.status}">${p.status === 'live' ? '● LIVE' : p.status === 'upcoming' ? 'COMING SOON' : 'WINNER CHOSEN'}</span>${ic(p.icon)}</span>`;
 const pollCard = p => { const w = leader(p), tot = pollTotal(p), live = p.status === 'live'; return `<button class="pcard2" data-go="#/poll/${p.id}">
   <span class="pc2-top"><span class="pc2-img" style="background-image:url('${p.photo}')"><span class="pc2-pill ${p.status}">${live ? '● Live' : p.status === 'upcoming' ? 'Soon' : 'Winner'}</span></span>
   <span class="pc2-text"><span class="pc2-cat">${p.cat}</span><b class="pc2-title">${esc(p.title)}</b>

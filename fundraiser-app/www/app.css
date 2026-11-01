@@ -23,6 +23,9 @@
   --on-brand: #ffffff;
   --hero-1: #1a7f55;
   --hero-2: #0b5d3b;
+  --deep-1: #1a6b4a;
+  --deep-2: #084630;
+  --deep-3: #052a1b;
   --hero-ink: #ffffff;
   --violet: #8a4fd8;
   --danger: #d9434b;
@@ -842,9 +845,9 @@ a.btn { text-decoration: none; }
 .lv-all { height: 36px; padding: 0 16px; border-radius: 99px; border: 1.5px solid var(--brand); color: var(--brand); font-weight: 700; font-size: 13px; background: var(--card); }
 .vrings { gap: 16px; padding: 4px 4px 12px; }
 .vring { width: 76px; font-size: 12px; font-weight: 700; color: var(--ink); }
-.vring i { width: 64px; height: 64px; font-style: normal; font-size: 28px; background: radial-gradient(circle at 50% 40%, #13744b, #062a1f); box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px var(--gold), 0 6px 14px rgb(0 0 0 / 0.18); }
+.vring i { width: 64px; height: 64px; font-style: normal; font-size: 28px; background: radial-gradient(circle at 50% 40%, var(--deep-1), var(--deep-3)); box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px var(--gold), 0 6px 14px rgb(0 0 0 / 0.18); }
 /* foundation banner: looping video with the two main actions on top */
-.banner-card { position: relative; margin: 10px 10px 0; border-radius: 20px; overflow: hidden; aspect-ratio: 640 / 258; max-width: 100%; background: #0b2a1c; }
+.banner-card { position: relative; margin: 10px 10px 0; border-radius: 20px; overflow: hidden; aspect-ratio: 640 / 258; max-width: 100%; background: var(--deep-3); }
 .banner-card video { position: absolute; left: 0; bottom: 0; width: 100%; height: auto; aspect-ratio: 640 / 280; display: block; }
 .banner-card::after { content: ""; position: absolute; inset: 62% 0 0; background: linear-gradient(transparent, rgb(4 22 14 / 0.82)); pointer-events: none; }
 .banner-actions { position: absolute; left: 10px; right: 10px; bottom: 10px; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
@@ -1100,7 +1103,7 @@ a.btn { text-decoration: none; }
 :root.saver .bismillah { clip-path: none; } :root.saver .bis-en, :root.saver .sp-logo, :root.saver .ta-steps li { opacity: 1; } :root.saver .r-fg { stroke-dashoffset: 60; }
 /* trophy page */
 .trophy-art { width: auto; display: block; border-radius: 10px; }
-.tstage { position: relative; overflow: hidden; display: grid; justify-items: center; gap: 6px; text-align: center; padding: 18px 16px 18px; border-radius: 24px; color: #fff; background: radial-gradient(circle at 50% 30%, #157a50 0%, #0b4a31 55%, #062a1d 100%); box-shadow: inset 0 0 0 1.5px rgb(233 181 44 / 0.65), var(--card-shadow); }
+.tstage { position: relative; overflow: hidden; display: grid; justify-items: center; gap: 6px; text-align: center; padding: 18px 16px 18px; border-radius: 24px; color: #fff; background: radial-gradient(circle at 50% 30%, var(--deep-1) 0%, var(--deep-2) 55%, var(--deep-3) 100%); box-shadow: inset 0 0 0 1.5px rgb(233 181 44 / 0.65), var(--card-shadow); }
 .tstage .pattern { position: absolute; inset: 0; opacity: .1; }
 .tst-photo { position: relative; width: 62%; max-width: 230px; border-radius: 18px; padding: 3px; background: linear-gradient(140deg, #f6dc8a, #c8901c 50%, #f6dc8a); box-shadow: 0 18px 36px rgb(0 0 0 / 0.35); animation: floaty 5s ease-in-out infinite; }
 .tst-photo img { display: block; width: 100%; height: auto; aspect-ratio: 458 / 680; object-fit: cover; object-position: center 30%; border-radius: 15px; }
@@ -1116,7 +1119,7 @@ a.btn { text-decoration: none; }
 .tpills { margin-top: 0; }
 .tpills button.on { background: linear-gradient(90deg, #f6dc8a, #e0a52a); color: #2a1d02; }
 .tladder { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.tlc { display: grid; gap: 4px; padding: 6px 6px 10px; border-radius: 18px; background: #0b4a31; color: #fff; text-align: center; box-shadow: var(--card-shadow); border: 2px solid transparent; }
+.tlc { display: grid; gap: 4px; padding: 6px 6px 10px; border-radius: 18px; background: var(--deep-2); color: #fff; text-align: center; box-shadow: var(--card-shadow); border: 2px solid transparent; }
 .tlc.on { border-color: #e9b52c; }
 .tl-photo { position: relative; display: block; border-radius: 13px; overflow: hidden; }
 .tl-photo img { display: block; width: 100%; aspect-ratio: 1 / 1.05; object-fit: cover; object-position: center 22%; }
@@ -1145,7 +1148,7 @@ a.btn { text-decoration: none; }
 .quick-item { width: 86%; display: grid; gap: 6px; }
 .qi-title { font-size: 14px; padding: 0 4px; }
 /* Aaj ki khaas baat */
-.khaas { position: relative; overflow: hidden; border-radius: 22px; padding: 18px 18px 14px; color: #fff; background: linear-gradient(140deg, #0e6b45, #0b4a31 60%, #08331f); box-shadow: var(--card-shadow); }
+.khaas { position: relative; overflow: hidden; border-radius: 22px; padding: 18px 18px 14px; color: #fff; background: linear-gradient(140deg, var(--deep-1), var(--deep-2) 60%, var(--deep-3)); box-shadow: var(--card-shadow); }
 .khaas .pattern { position: absolute; inset: 0; opacity: .1; }
 .kh-moon { position: absolute; right: -18px; top: -18px; width: 110px; height: 110px; fill: rgb(243 210 122 / 0.16); }
 .kh-top { position: relative; display: flex; align-items: baseline; gap: 8px; }
@@ -1169,10 +1172,10 @@ a.btn { text-decoration: none; }
 .tr-pic i svg.i { width: 12px; height: 12px; }
 .trophy-row button > span:last-child { font-size: 10.5px; line-height: 1.2; text-align: center; }
 /* premium rose-contest card */
-.pcard2 { position: relative; overflow: hidden; width: 286px; display: grid; grid-template-columns: 52px minmax(0, 1fr); grid-template-areas: "medal body" "cta cta"; gap: 10px 12px; padding: 14px; border-radius: 20px; text-align: left; color: #fff; background: linear-gradient(145deg, #11704a, #0a4630 55%, #062a1d); box-shadow: inset 0 0 0 1px rgb(233 181 44 / 0.35), 0 8px 20px rgb(6 42 29 / 0.22); }
+.pcard2 { position: relative; overflow: hidden; width: 286px; display: grid; grid-template-columns: 52px minmax(0, 1fr); grid-template-areas: "medal body" "cta cta"; gap: 10px 12px; padding: 14px; border-radius: 20px; text-align: left; color: #fff; background: linear-gradient(145deg, var(--deep-1), var(--deep-2) 55%, var(--deep-3)); box-shadow: inset 0 0 0 1px rgb(233 181 44 / 0.35), 0 8px 20px rgb(6 42 29 / 0.22); }
 .wrap > .pcard2 { width: 100%; }
 .pcard2 .pattern { position: absolute; inset: 0; opacity: .08; }
-.pc2-medal { grid-area: medal; position: relative; width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; color: #f3d27a; background: radial-gradient(circle at 40% 35%, #1c8a5c, #0a4630); box-shadow: 0 0 0 2px #e9b52c, 0 0 0 5px rgb(233 181 44 / 0.18); }
+.pc2-medal { grid-area: medal; position: relative; width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; color: #f3d27a; background: radial-gradient(circle at 40% 35%, var(--deep-1), var(--deep-2)); box-shadow: 0 0 0 2px #e9b52c, 0 0 0 5px rgb(233 181 44 / 0.18); }
 .pc2-medal svg.i { width: 24px; height: 24px; }
 .pc2-body { grid-area: body; position: relative; display: grid; gap: 4px; min-width: 0; }
 .pc2-meta { display: flex; align-items: center; gap: 6px; font-size: 11px; color: rgb(255 255 255 / 0.7); white-space: nowrap; overflow: hidden; }
@@ -1248,7 +1251,7 @@ body::before { background: var(--bg); }
 .pkg-list { margin-top: 12px; }
 .pkg { position: relative; display: grid; gap: 8px; padding: 16px; border-radius: 20px; background: var(--card); border: 1.5px solid var(--line); box-shadow: var(--card-shadow); }
 .pkg.premium { border-color: var(--brand); }
-.pkg.vip { color: #fff; border: 0; background: linear-gradient(145deg, #11704a, #0a4630 55%, #062a1d); box-shadow: inset 0 0 0 1.5px rgb(233 181 44 / 0.6), 0 10px 24px rgb(6 42 29 / 0.25); }
+.pkg.vip { color: #fff; border: 0; background: linear-gradient(145deg, var(--deep-1), var(--deep-2) 55%, var(--deep-3)); box-shadow: inset 0 0 0 1.5px rgb(233 181 44 / 0.6), 0 10px 24px rgb(6 42 29 / 0.25); }
 .pkg-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .pkg-name { display: inline-flex; align-items: center; gap: 6px; font-size: 16px; font-weight: 800; }
 .pkg-name svg.i { width: 18px; height: 18px; }
