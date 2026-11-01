@@ -1092,11 +1092,10 @@ const pollWhen = p => p.status === 'live' ? `${daysTo(p.end)} days left` : p.sta
 const leader = p => p.votes.indexOf(Math.max(...p.votes));
 const roseCount = n => `${n.toLocaleString('en-IN')} ${n === 1 ? 'rose' : 'roses'}`;
 const pollBanner = (p, cls = '') => `<span class="vban ${cls}" style="background:linear-gradient(135deg, ${p.color}, #062a1f)"><span class="vpill ${p.status}">${p.status === 'live' ? '● LIVE' : p.status === 'upcoming' ? 'COMING SOON' : 'WINNER CHOSEN'}</span>${ic(p.icon)}</span>`;
-const pollCard = p => { const w = leader(p), tot = pollTotal(p), live = p.status === 'live'; return `<button class="pcard2" data-go="#/poll/${p.id}"><div class="pattern"></div>
-  <span class="pc2-medal">${ic(p.icon)}</span>
-  <span class="pc2-body"><span class="pc2-meta"><span class="pc2-pill ${p.status}">${live ? '● Live' : p.status === 'upcoming' ? 'Soon' : 'Winner'}</span>${p.cat} · ${tot ? roseCount(tot) : pollWhen(p)}</span>
-    <b>${esc(p.title)}</b>
-    ${tot ? `<span class="pc2-lead">${ROSE(15)}<span>${p.status === 'closed' ? 'Winner' : 'Leading'} <b>${esc(p.cand[w][0])}</b></span></span>` : `<span class="pc2-lead"><span>${p.cand.length} options · first rose free</span></span>`}</span>
+const pollCard = p => { const w = leader(p), tot = pollTotal(p), live = p.status === 'live'; return `<button class="pcard2" data-go="#/poll/${p.id}">
+  <span class="pc2-meta"><span class="pc2-pill ${p.status}">${live ? '● Live' : p.status === 'upcoming' ? 'Soon' : 'Winner'}</span><span class="pc2-cat">${p.cat}</span><span class="pc2-ic">${ic(p.icon)}</span></span>
+  <b class="pc2-title">${esc(p.title)}</b>
+  <span class="pc2-lead">${tot ? `${ROSE(14)}<span>${p.status === 'closed' ? 'Winner' : 'Leading'} <b>${esc(p.cand[w][0])}</b> · ${roseCount(tot)}</span>` : `<span>${p.cand.length} options · ${pollWhen(p)}</span>`}</span>
   <span class="pc2-cta">${live ? `${ROSE(15)} Send roses` : 'See results'}</span></button>`; };
 const pollRing = p => `<button class="vring" data-go="#/poll/${p.id}"><i>${p.emoji}</i>${p.cat}</button>`;
 const liveVotingBlock = () => { const L = POLLS.filter(p => p.status === 'live'); return L.length ? `<section class="home-sec"><div class="lv-head"><h2>${ROSE(20)}Rose contests</h2><button class="lv-all" data-go="#/vote">View all</button></div>

@@ -1400,6 +1400,17 @@ a.btn { text-decoration: none; }
 .k2-foot a, .k2-foot button { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; color: var(--muted); }
 .k2-foot svg.i { width: 18px; height: 18px; }
 .k2-foot a:active, .k2-foot button:active { background: var(--soft); color: var(--brand); }
+/* contest card: one column, one left edge */
+.pcard2 { grid-template-columns: minmax(0, 1fr); grid-template-areas: none; gap: 8px; padding: 14px 14px 12px; width: 270px; }
+.pc2-meta { display: flex; align-items: center; gap: 8px; font-size: 11.5px; color: rgb(255 255 255 / 0.72); }
+.pc2-cat { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pc2-ic { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; color: #f3d27a; background: rgb(233 181 44 / 0.14); box-shadow: inset 0 0 0 1px rgb(233 181 44 / 0.5); flex: none; }
+.pc2-ic svg.i { width: 15px; height: 15px; }
+.pc2-title { font-size: 15.5px; line-height: 1.3; min-height: 2.6em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.pc2-lead { display: flex; align-items: center; gap: 5px; font-size: 12px; color: rgb(255 255 255 / 0.78); }
+.pc2-lead > span { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pc2-cta { grid-area: auto; margin-top: 4px; }
+.wrap > .pcard2 .pc2-title { min-height: 0; }
 </script>
 <script type="text/plain" id="app-js">/* Muslim Life Pro: clickable Android UI demo for a donation / fundraising platform.
    Everything is in-memory sample data; no backend calls. Hash routes give the Android back button for free. */
@@ -2495,11 +2506,10 @@ const pollWhen = p => p.status === 'live' ? `${daysTo(p.end)} days left` : p.sta
 const leader = p => p.votes.indexOf(Math.max(...p.votes));
 const roseCount = n => `${n.toLocaleString('en-IN')} ${n === 1 ? 'rose' : 'roses'}`;
 const pollBanner = (p, cls = '') => `<span class="vban ${cls}" style="background:linear-gradient(135deg, ${p.color}, #062a1f)"><span class="vpill ${p.status}">${p.status === 'live' ? '● LIVE' : p.status === 'upcoming' ? 'COMING SOON' : 'WINNER CHOSEN'}</span>${ic(p.icon)}</span>`;
-const pollCard = p => { const w = leader(p), tot = pollTotal(p), live = p.status === 'live'; return `<button class="pcard2" data-go="#/poll/${p.id}"><div class="pattern"></div>
-  <span class="pc2-medal">${ic(p.icon)}</span>
-  <span class="pc2-body"><span class="pc2-meta"><span class="pc2-pill ${p.status}">${live ? '● Live' : p.status === 'upcoming' ? 'Soon' : 'Winner'}</span>${p.cat} · ${tot ? roseCount(tot) : pollWhen(p)}</span>
-    <b>${esc(p.title)}</b>
-    ${tot ? `<span class="pc2-lead">${ROSE(15)}<span>${p.status === 'closed' ? 'Winner' : 'Leading'} <b>${esc(p.cand[w][0])}</b></span></span>` : `<span class="pc2-lead"><span>${p.cand.length} options · first rose free</span></span>`}</span>
+const pollCard = p => { const w = leader(p), tot = pollTotal(p), live = p.status === 'live'; return `<button class="pcard2" data-go="#/poll/${p.id}">
+  <span class="pc2-meta"><span class="pc2-pill ${p.status}">${live ? '● Live' : p.status === 'upcoming' ? 'Soon' : 'Winner'}</span><span class="pc2-cat">${p.cat}</span><span class="pc2-ic">${ic(p.icon)}</span></span>
+  <b class="pc2-title">${esc(p.title)}</b>
+  <span class="pc2-lead">${tot ? `${ROSE(14)}<span>${p.status === 'closed' ? 'Winner' : 'Leading'} <b>${esc(p.cand[w][0])}</b> · ${roseCount(tot)}</span>` : `<span>${p.cand.length} options · ${pollWhen(p)}</span>`}</span>
   <span class="pc2-cta">${live ? `${ROSE(15)} Send roses` : 'See results'}</span></button>`; };
 const pollRing = p => `<button class="vring" data-go="#/poll/${p.id}"><i>${p.emoji}</i>${p.cat}</button>`;
 const liveVotingBlock = () => { const L = POLLS.filter(p => p.status === 'live'); return L.length ? `<section class="home-sec"><div class="lv-head"><h2>${ROSE(20)}Rose contests</h2><button class="lv-all" data-go="#/vote">View all</button></div>
