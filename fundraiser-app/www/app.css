@@ -976,3 +976,53 @@ a.btn { text-decoration: none; }
 .logout-btn svg.i { width: 18px; height: 18px; }
 .sring .plus { top: auto; bottom: 20px; right: 4px; }
 .sring.you .fr-hole .av, .srings.big .sring.you .fr-hole .av { width: 100%; height: 100%; box-shadow: none; font-size: 14px; }
+/* rose contests */
+.rose { flex: none; vertical-align: middle; }
+.rose-fab { position: fixed; z-index: 31; right: max(14px, calc(50% - var(--col) / 2 + 14px)); bottom: calc(78px + var(--sab)); width: 50px; height: 50px; border-radius: 50%; background: var(--card); display: grid; place-items: center; box-shadow: 0 6px 18px rgb(214 40 59 / 0.28), 0 0 0 1.5px #f6c9cf; }
+.rose-fab:active { transform: scale(.94); }
+.rose-hero { display: flex; gap: 12px; align-items: center; margin: 10px 10px 0; padding: 14px; border-radius: 20px; background: linear-gradient(120deg, #fff0f2, var(--card)); box-shadow: var(--card-shadow); }
+.rose-hero > div { display: grid; gap: 2px; }
+.rose-hero b { font-size: 15px; }
+.rose-hero span { font-size: 12.5px; color: var(--muted); }
+.lv-head h2 { gap: 6px; text-transform: none; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
+.vlead { display: flex; align-items: center; gap: 5px; font-size: 12.5px; color: var(--ink-2); margin-top: 2px; }
+.vlead b { min-height: 0; font-size: 12.5px; }
+.vgo { gap: 6px; }
+.cand2 { display: flex; align-items: center; gap: 10px; padding: 10px; border: 1.5px solid var(--line); border-radius: 16px; width: 100%; text-align: left; background: var(--card); }
+.cand2.on { border-color: #d6283b; background: #fff6f7; }
+.cand2 .who { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.cand2 .who b { font-size: 14.5px; }
+.cand2 .who > span:not(.rbar) { font-size: 11.5px; color: var(--muted); }
+.rbar { height: 4px; border-radius: 4px; background: var(--chip); overflow: hidden; margin-top: 4px; }
+.rbar i { display: block; height: 100%; background: linear-gradient(90deg, #ee4a5c, #d6283b); border-radius: 4px; }
+.rk2 { width: 24px; flex: none; text-align: center; font-weight: 700; color: var(--muted); font-size: 13px; }
+.rk2.first { color: var(--gold); }
+.rk2 svg.i { width: 20px; height: 20px; }
+.rcount { display: flex; align-items: center; gap: 3px; flex: none; }
+.rcount b { font-size: 14px; }
+.send-bar { display: grid; gap: 8px; width: 100%; }
+.rose-qty { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.rose-qty button { height: 34px; border-radius: 99px; background: var(--soft); font-weight: 700; font-size: 13.5px; }
+.rose-qty button.on { background: #fde8eb; color: #c21f33; box-shadow: inset 0 0 0 1.5px #d6283b; }
+.send-btn { width: 100%; background: #d6283b; gap: 6px; }
+.send-btn .rose path:nth-child(4), .send-btn .rose path:nth-child(5), .send-btn .rose path:nth-child(6) { fill: #fff; }
+.winner { display: grid; justify-items: center; gap: 2px; padding: 16px; border-radius: 20px; background: linear-gradient(140deg, var(--gold-soft), var(--card)); box-shadow: var(--card-shadow); text-align: center; }
+.winner > svg.i { width: 30px; height: 30px; color: var(--gold); }
+.winner b { font-size: 19px; }
+.winner .num { font-size: 13px; color: var(--muted); }
+.rosechip { color: #c21f33; background: #fdeef0; }
+.rose-ic { background: #fdeef0; }
+/* Instagram-tight top: header, story title and rings close together */
+.top { padding-bottom: 0; }
+.top .top-row { min-height: 50px; }
+.stories-band { padding: 0 6px 6px; }
+.stories-band .sec-title { padding: 2px 6px 0; }
+.stories-band .sec-title h2 { font-size: 15px; }
+.stories-band .srings { padding-top: 0; }
+.stories-band .sring { gap: 0; }
+/* profile header: framed photo, then name block aligned to its centre */
+.pc-top { gap: 10px; }
+.pc-top .framed { margin: -4px 0 -4px -6px; }
+.pc-id span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pc-id h1 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rose-fab { bottom: calc(86px + var(--sab)); width: 46px; height: 46px; }
