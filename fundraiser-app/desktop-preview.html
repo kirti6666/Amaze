@@ -198,28 +198,28 @@ td .sub { display: block; color: var(--muted); font-size: 12px; }
 
 <script type="text/plain" id="app-css">/* Layout: one phone-width column; tabs scroll the body, bottom nav and CTA bars are fixed to the column. Light-only on purpose (mirrors the Android app). */
 :root {
-  --brand: #0a9b3c;
-  --brand-2: #3ddbbd;
-  --brand-3: #1fc95c;
-  --brand-ink: #087a30;
-  --brand-soft: #dcf7ea;
-  --raised: #0a9b3c;
-  --gold: #e9b52c;
-  --gold-soft: #fff5d6;
-  --ink: #15151f;
-  --ink-2: #3d3d4a;
-  --muted: #8a8a96;
-  --line: #ebebf0;
-  --bg: #f1f1f5;
+  --brand: #0b5d3b;
+  --brand-2: #3faf7f;
+  --brand-3: #0e6e47;
+  --brand-ink: #0a4d31;
+  --brand-soft: #e3f1ea;
+  --raised: #0b5d3b;
+  --gold: #c9a227;
+  --gold-soft: #fbf3dc;
+  --ink: #14201a;
+  --ink-2: #38463f;
+  --muted: #84918a;
+  --line: #e3e9e5;
+  --bg: #f1f4f2;
   --card: #ffffff;
-  --chip: #e8eaf0;
-  --soft: #f2f5f3;
-  --soft-line: #c9d4cf;
-  --gold-ink: #7a4d00;
-  --page: #dcdce3;
+  --chip: #e6ece9;
+  --soft: #eef4f1;
+  --soft-line: #c5d3cb;
+  --gold-ink: #6e5410;
+  --page: #d7e0db;
   --on-brand: #ffffff;
-  --hero-1: #3ddbbd;
-  --hero-2: #1fc95c;
+  --hero-1: #1a7f55;
+  --hero-2: #0b5d3b;
   --hero-ink: #ffffff;
   --violet: #8a4fd8;
   --danger: #d9434b;
@@ -1332,11 +1332,11 @@ const withdrawn = () => S.withdrawals.reduce((a, w) => a + w.amt, 0);
 
 /* ---------- themes ---------- */
 // every colour in app.css reads these tokens, so a theme is just a token set
-const BASE_TOKENS = { brand: '#0a9b3c', 'brand-2': '#3ddbbd', 'brand-3': '#1fc95c', 'brand-ink': '#087a30', 'brand-soft': '#dcf7ea', gold: '#e9b52c', 'gold-soft': '#fff5d6', 'gold-ink': '#7a4d00', ink: '#15151f', 'ink-2': '#3d3d4a', muted: '#8a8a96', line: '#ebebf0', bg: '#f1f1f5', card: '#ffffff', chip: '#e8eaf0', soft: '#f2f5f3', 'soft-line': '#c9d4cf', page: '#dcdce3', 'on-brand': '#ffffff' };
+const BASE_TOKENS = { brand: '#0b5d3b', 'brand-2': '#3faf7f', 'brand-3': '#0e6e47', 'brand-ink': '#0a4d31', 'brand-soft': '#e3f1ea', gold: '#c9a227', 'gold-soft': '#fbf3dc', 'gold-ink': '#6e5410', ink: '#14201a', 'ink-2': '#38463f', muted: '#84918a', line: '#e3e9e5', bg: '#f1f4f2', card: '#ffffff', chip: '#e6ece9', soft: '#eef4f1', 'soft-line': '#c5d3cb', page: '#d7e0db', 'on-brand': '#ffffff', 'hero-1': '#1a7f55', 'hero-2': '#0b5d3b', 'hero-ink': '#ffffff' };
 const DARK = { 'gold-soft': '#2c2716', 'gold-ink': '#f1d58b', ink: '#f2f2f5', 'ink-2': '#cfd0d8', muted: '#8f93a3', 'on-brand': '#14110a' };
 const T = (id, name, hi, desc, icon, dark, c, banner) => ({ id, name, hi, desc, icon, dark, banner, c: { ...BASE_TOKENS, ...(dark ? DARK : {}), 'hero-1': c['brand-2'] || BASE_TOKENS['brand-2'], 'hero-2': c['brand-3'] || BASE_TOKENS['brand-3'], 'hero-ink': c['on-brand'] || (dark ? DARK['on-brand'] : '#ffffff'), ...c, raised: c.brand || BASE_TOKENS.brand } });
 const THEMES = [
-  T('classic', 'Classic Green', 'हरा-भरा', 'Fresh green on clean white', 'sprout', false, {}),
+  T('classic', 'Classic Green', 'हरा-भरा', 'Foundation green with gold', 'sprout', false, { 'hero-1': '#1a7f55', 'hero-2': '#0b5d3b' }),
   T('ocean', 'Ocean Teal', 'समंदर', 'Calm teal and sky blue', 'droplet', false, { brand: '#0e8f9e', 'brand-2': '#5fd3e0', 'brand-3': '#149fb0', 'brand-ink': '#0b6f7a', 'brand-soft': '#dff4f6', bg: '#eef4f6', chip: '#e2eaee', soft: '#eef5f7', line: '#e3ebee', 'soft-line': '#c2d3d8', page: '#d5e1e5' }),
   T('iznik', 'Iznik Blue', 'इज़निक', 'Tile blue with turquoise', 'globe', false, { brand: '#1f4fbf', 'brand-2': '#46c6d8', 'brand-3': '#2f6fe0', 'brand-ink': '#183f99', 'brand-soft': '#e3ebfc', bg: '#f0f3fa', chip: '#e3e8f3', soft: '#eef2fb', line: '#e4e8f2', 'soft-line': '#c3cde3', page: '#d7deee' }),
   T('sandstone', 'Sandstone', 'रेगिस्तान', 'Warm sand and saffron', 'sun', false, { brand: '#c26a12', 'brand-2': '#f2b54a', 'brand-3': '#d9821c', 'brand-ink': '#8f4c06', 'brand-soft': '#fbeedb', bg: '#f6f1e8', card: '#fffdf9', chip: '#ece4d6', soft: '#f7f0e4', line: '#ece3d4', 'soft-line': '#d6c8b0', page: '#e3d9c7', ink: '#2a2118', 'ink-2': '#4a3f33', muted: '#8d8170' }),
