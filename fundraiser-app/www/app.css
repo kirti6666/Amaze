@@ -884,3 +884,15 @@ a.btn { text-decoration: none; }
 .srings { padding: 8px 8px 6px; margin: -4px -4px 0; }
 /* video back in a rounded card */
 .banner-card { margin: 10px 10px 0; border-radius: 20px; }
+/* no separator lines at the top */
+.top { border-bottom: 0; }
+/* fundraiser event card: the photo melts into the card on the right */
+.ev { position: relative; overflow: hidden; display: grid; grid-template-columns: 1fr; grid-template-areas: "main" "foot"; gap: 14px; padding: 16px; }
+.ev-photo { position: absolute; top: 0; right: 0; width: 56%; height: 168px; background-size: cover; background-position: center 18%; }
+.ev-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, var(--card) 0%, color-mix(in srgb, var(--card) 70%, transparent) 22%, transparent 60%), linear-gradient(0deg, var(--card) 0%, transparent 55%); }
+.ev-main { position: relative; z-index: 1; max-width: 62%; min-height: 120px; gap: 5px; }
+.ev-tag { font-size: 11.5px; font-weight: 600; color: var(--brand); }
+.ev-main b { font-size: 16.5px; -webkit-line-clamp: 3; }
+.ev-main p { -webkit-line-clamp: 2; }
+.ev-foot { position: relative; z-index: 1; }
+.ev-photo { background-size: 140% auto; background-position: 85% 14%; }
