@@ -1429,6 +1429,17 @@ body::before { background: var(--bg); }
 .vrings { gap: 18px; padding: 2px 4px 14px; }
 .vring i.more { background: var(--card); box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px var(--gold), 0 6px 14px rgb(0 0 0 / 0.12); }
 .vrings { padding-top: 8px; }
+/* compact, swipeable contest rings with the contest's own photo */
+.vrings2 { display: flex; gap: 14px; overflow-x: auto; padding: 6px 6px 12px; margin: 0 -4px; scrollbar-width: none; scroll-snap-type: x proximity; }
+.vrings2::-webkit-scrollbar { display: none; }
+.vring2 { flex: none; width: 62px; display: grid; justify-items: center; gap: 1px; scroll-snap-align: start; }
+.vring2 i { position: relative; width: 54px; height: 54px; border-radius: 50%; background-size: cover; background-position: center 25%; background-color: var(--soft); display: grid; place-items: center; box-shadow: 0 0 0 2.5px var(--bg), 0 0 0 4.5px var(--gold); margin-bottom: 5px; }
+.vring2.closed i { box-shadow: 0 0 0 2.5px var(--bg), 0 0 0 4.5px var(--soft-line); }
+.vring2.upcoming i { box-shadow: 0 0 0 2.5px var(--bg), 0 0 0 4.5px var(--brand-2); }
+.vring2 em { position: absolute; right: 1px; top: 2px; width: 12px; height: 12px; border-radius: 50%; background: #e0364a; box-shadow: 0 0 0 2px var(--bg); animation: pulse 1.6s ease-in-out infinite; }
+.vring2 span { font-size: 11.5px; font-weight: 700; color: var(--ink); line-height: 1.2; }
+.vring2 small { font-size: 10px; color: var(--muted); line-height: 1.2; }
+.vring2.all i { background: #fdeef0; }
 </script>
 <script type="text/plain" id="app-js">/* Muslim Life Pro: clickable Android UI demo for a donation / fundraising platform.
    Everything is in-memory sample data; no backend calls. Hash routes give the Android back button for free. */
@@ -2529,9 +2540,9 @@ const pollCard = p => { const w = leader(p), tot = pollTotal(p), live = p.status
   <span class="pc2-text"><span class="pc2-cat">${p.cat}</span><b class="pc2-title">${esc(p.title)}</b>
   <span class="pc2-lead">${tot ? `${ROSE(14)}<span>${p.status === 'closed' ? 'Winner' : 'Leading'} <b>${esc(p.cand[w][0])}</b></span>` : `<span>${pollWhen(p)}</span>`}</span>${tot ? `<span class="pc2-count num">${roseCount(tot)} · ${pollWhen(p)}</span>` : ''}</span></span>
   <span class="pc2-cta">${live ? `${ROSE(15)} Send roses` : 'See results'}</span></button>`; };
-const pollRing = p => `<button class="vring" data-go="#/poll/${p.id}"><i>${p.emoji}</i>${p.cat}</button>`;
+const pollRing = p => `<button class="vring2 ${p.status}" data-go="#/poll/${p.id}"><i style="background-image:url('${p.photo}')">${p.status === 'live' ? '<em></em>' : ''}</i><span>${p.cat.split(' ')[0]}</span><small>${p.status === 'live' ? `${(pollTotal(p) / 1000).toFixed(1)}k roses` : p.status === 'upcoming' ? 'Soon' : 'Winner'}</small></button>`;
 const liveVotingBlock = () => { const L = POLLS.filter(p => p.status === 'live'); return L.length ? `<section class="home-sec"><div class="lv-head"><h2>${ROSE(20)}Rose contests</h2><button class="lv-all" data-go="#/vote">View all</button></div>
-  <div class="vrings">${L.map(pollRing).join('')}<button class="vring" data-go="#/vote"><i class="more">${ROSE(26)}</i>All contests</button></div>
+  <div class="vrings2">${POLLS.map(pollRing).join('')}<button class="vring2 all" data-go="#/vote"><i>${ROSE(22)}</i><span>All</span><small>contests</small></button></div>
   <div class="hscroll">${L.map(pollCard).join('')}</div></section>` : ''; };
 
 V.vote = () => {

@@ -1097,9 +1097,9 @@ const pollCard = p => { const w = leader(p), tot = pollTotal(p), live = p.status
   <span class="pc2-text"><span class="pc2-cat">${p.cat}</span><b class="pc2-title">${esc(p.title)}</b>
   <span class="pc2-lead">${tot ? `${ROSE(14)}<span>${p.status === 'closed' ? 'Winner' : 'Leading'} <b>${esc(p.cand[w][0])}</b></span>` : `<span>${pollWhen(p)}</span>`}</span>${tot ? `<span class="pc2-count num">${roseCount(tot)} · ${pollWhen(p)}</span>` : ''}</span></span>
   <span class="pc2-cta">${live ? `${ROSE(15)} Send roses` : 'See results'}</span></button>`; };
-const pollRing = p => `<button class="vring" data-go="#/poll/${p.id}"><i>${p.emoji}</i>${p.cat}</button>`;
+const pollRing = p => `<button class="vring2 ${p.status}" data-go="#/poll/${p.id}"><i style="background-image:url('${p.photo}')">${p.status === 'live' ? '<em></em>' : ''}</i><span>${p.cat.split(' ')[0]}</span><small>${p.status === 'live' ? `${(pollTotal(p) / 1000).toFixed(1)}k roses` : p.status === 'upcoming' ? 'Soon' : 'Winner'}</small></button>`;
 const liveVotingBlock = () => { const L = POLLS.filter(p => p.status === 'live'); return L.length ? `<section class="home-sec"><div class="lv-head"><h2>${ROSE(20)}Rose contests</h2><button class="lv-all" data-go="#/vote">View all</button></div>
-  <div class="vrings">${L.map(pollRing).join('')}<button class="vring" data-go="#/vote"><i class="more">${ROSE(26)}</i>All contests</button></div>
+  <div class="vrings2">${POLLS.map(pollRing).join('')}<button class="vring2 all" data-go="#/vote"><i>${ROSE(22)}</i><span>All</span><small>contests</small></button></div>
   <div class="hscroll">${L.map(pollCard).join('')}</div></section>` : ''; };
 
 V.vote = () => {

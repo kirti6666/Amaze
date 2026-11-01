@@ -1228,3 +1228,14 @@ body::before { background: var(--bg); }
 .vrings { gap: 18px; padding: 2px 4px 14px; }
 .vring i.more { background: var(--card); box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px var(--gold), 0 6px 14px rgb(0 0 0 / 0.12); }
 .vrings { padding-top: 8px; }
+/* compact, swipeable contest rings with the contest's own photo */
+.vrings2 { display: flex; gap: 14px; overflow-x: auto; padding: 6px 6px 12px; margin: 0 -4px; scrollbar-width: none; scroll-snap-type: x proximity; }
+.vrings2::-webkit-scrollbar { display: none; }
+.vring2 { flex: none; width: 62px; display: grid; justify-items: center; gap: 1px; scroll-snap-align: start; }
+.vring2 i { position: relative; width: 54px; height: 54px; border-radius: 50%; background-size: cover; background-position: center 25%; background-color: var(--soft); display: grid; place-items: center; box-shadow: 0 0 0 2.5px var(--bg), 0 0 0 4.5px var(--gold); margin-bottom: 5px; }
+.vring2.closed i { box-shadow: 0 0 0 2.5px var(--bg), 0 0 0 4.5px var(--soft-line); }
+.vring2.upcoming i { box-shadow: 0 0 0 2.5px var(--bg), 0 0 0 4.5px var(--brand-2); }
+.vring2 em { position: absolute; right: 1px; top: 2px; width: 12px; height: 12px; border-radius: 50%; background: #e0364a; box-shadow: 0 0 0 2px var(--bg); animation: pulse 1.6s ease-in-out infinite; }
+.vring2 span { font-size: 11.5px; font-weight: 700; color: var(--ink); line-height: 1.2; }
+.vring2 small { font-size: 10px; color: var(--muted); line-height: 1.2; }
+.vring2.all i { background: #fdeef0; }
