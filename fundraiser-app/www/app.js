@@ -138,7 +138,7 @@ const CAMPAIGNS = [
     updates: [['3 days ago', 'Cycle 3 completed. Ayaan is responding well and his blood counts are improving.'], ['2 weeks ago', 'Hospital bill of ₹1,85,000 paid from the funds raised. Receipt uploaded.']],
   },
   {
-    id: 2, photo: PHOTO.family, pos: 'center', org: 'noor', cat: 'food', zakat: true, city: 'Mumbai, Maharashtra', days: 9,
+    id: 2, thumb: 'img/fx-ration.jpg', photo: PHOTO.family, pos: 'center', org: 'noor', cat: 'food', zakat: true, city: 'Mumbai, Maharashtra', days: 9,
     title: 'Give an Iftar to 1,000 families this Ramadan', caption: '₹100 feeds one fasting person',
     goal: 300000, raised: 241800, donors: 2106,
     unit: [100, 'iftar meal'],
@@ -158,7 +158,7 @@ const CAMPAIGNS = [
     updates: [['5 hours ago', 'Drilling started. We hit water at 240 ft.']],
   },
   {
-    id: 4, photo: PHOTO.school, pos: 'center', org: 'iqra', cat: 'education', zakat: true, featured: true, city: 'Malappuram, Kerala', days: 33,
+    id: 4, thumb: 'img/fx-schoolgirl.jpg', photo: PHOTO.school, pos: 'center', org: 'iqra', cat: 'education', zakat: true, featured: true, city: 'Malappuram, Kerala', days: 33,
     title: 'Sponsor school fees for 50 orphan girls', caption: '₹12,000 covers a full year',
     goal: 600000, raised: 133200, donors: 402,
     unit: [12000, 'year of school for one girl'],
@@ -178,7 +178,7 @@ const CAMPAIGNS = [
     updates: [['6 days ago', 'Campaign verified by the Muslim Life Pro team.']],
   },
   {
-    id: 5, photo: PHOTO.boy, pos: 'center 30%', org: 'ummeed', cat: 'emergency', zakat: true, city: 'Dhemaji, Assam', days: 4,
+    id: 5, thumb: 'img/fx-relief.jpg', photo: PHOTO.boy, pos: 'center 30%', org: 'ummeed', cat: 'emergency', zakat: true, city: 'Dhemaji, Assam', days: 4,
     title: 'Rebuild 40 homes after the Assam floods', caption: 'Families are living in relief camps',
     goal: 1200000, raised: 987000, donors: 3410,
     unit: [30000, 'home rebuilt'],
@@ -188,7 +188,7 @@ const CAMPAIGNS = [
     updates: [['Today', '12 homes complete. Families have moved back in.']],
   },
   {
-    id: 9, photo: PHOTO.school, pos: '70% center', org: 'iqra', cat: 'food', zakat: true, city: 'Across India', days: 14,
+    id: 9, thumb: 'img/fx-quran.jpg', photo: PHOTO.school, pos: '70% center', org: 'iqra', cat: 'food', zakat: true, city: 'Across India', days: 14,
     title: 'Daily meals for madrasa students', caption: '₹50 feeds a student for a day',
     goal: 350000, raised: 182600, donors: 2954,
     unit: [50, 'meal for a madrasa student'],
@@ -198,7 +198,7 @@ const CAMPAIGNS = [
     updates: [['2 days ago', 'Rations delivered to 6 madrasas in Bahraich.']],
   },
   {
-    id: 10, photo: PHOTO.family, pos: 'center', org: 'noor', cat: 'food', zakat: true, featured: true, city: 'Bhiwandi, Maharashtra', days: 18,
+    id: 10, thumb: 'img/fx-widow.jpg', photo: PHOTO.family, pos: 'center', org: 'noor', cat: 'food', zakat: true, featured: true, city: 'Bhiwandi, Maharashtra', days: 18,
     title: 'Be a support for widowed sisters', caption: 'Ration and shelter for widows',
     goal: 150000, raised: 96400, donors: 412, unit: [1500, 'month of ration for one family'],
     ben: { Beneficiary: '120 widows and their children', Covers: 'Monthly ration, rent support', Partner: 'Al-Noor volunteers', Location: 'Bhiwandi' },
@@ -206,7 +206,7 @@ const CAMPAIGNS = [
     story: ['Many widows in Bhiwandi raise their children alone on daily wages. A monthly ration kit means one less worry.', 'Kits include atta, rice, dal, oil, sugar and milk powder, delivered to the home.'], updates: [['4 days ago', 'October kits delivered to 118 families.']],
   },
   {
-    id: 11, photo: PHOTO.school, pos: '30% center', org: 'iqra', cat: 'orphans', zakat: true, city: 'Lucknow, Uttar Pradesh', days: 22,
+    id: 11, thumb: 'img/fx-nikah.jpg', photo: PHOTO.school, pos: '30% center', org: 'iqra', cat: 'orphans', zakat: true, city: 'Lucknow, Uttar Pradesh', days: 22,
     title: 'Nikah support for adult orphan girls', caption: 'Only for daughters above 18',
     goal: 200000, raised: 143000, donors: 520, unit: [25000, 'nikah arrangement'],
     ben: { Beneficiary: '8 orphan daughters, all above 18', Covers: 'Simple nikah, essentials, no dowry', Partner: 'Local masjid committee', Location: 'Lucknow' },
@@ -214,7 +214,7 @@ const CAMPAIGNS = [
     story: ['Every daughter deserves a dignified, simple nikah. Families of these orphan girls cannot afford even the basics.', 'Funds cover the nikah gathering and household essentials. No dowry is paid.'], updates: [],
   },
   {
-    id: 12, photo: PHOTO.water, pos: 'center', org: 'ummeed', cat: 'emergency', zakat: false, city: 'Delhi NCR', days: 12,
+    id: 12, thumb: 'img/fx-winter.jpg', photo: PHOTO.water, pos: 'center', org: 'ummeed', cat: 'emergency', zakat: false, city: 'Delhi NCR', days: 12,
     title: 'Stand with your own in winter', caption: 'Blankets, jackets and socks',
     goal: 250000, raised: 181500, donors: 760, unit: [600, 'winter kit'],
     ben: { Beneficiary: '400 street families', Covers: 'Blankets, jackets, shoes, socks', Partner: 'Ummeed night teams', Location: 'Delhi NCR' },
@@ -222,7 +222,7 @@ const CAMPAIGNS = [
     story: ['When night temperatures drop to 4°C, families on footpaths need more than one thin blanket.', 'Each ₹600 kit has a blanket, jacket, socks and a cap.'], updates: [['Yesterday', 'First 150 kits handed out near Jama Masjid.']],
   },
   {
-    id: 13, photo: PHOTO.hospital, pos: '60% center', org: 'shifa', cat: 'medical', zakat: true, city: 'Hyderabad, Telangana', days: 15,
+    id: 13, thumb: 'img/fx-doctor.jpg', photo: PHOTO.hospital, pos: '60% center', org: 'shifa', cat: 'medical', zakat: true, city: 'Hyderabad, Telangana', days: 15,
     title: 'Free eye check-ups and cataract surgery', caption: 'Give the gift of sight',
     goal: 150000, raised: 88500, donors: 372, unit: [3500, 'cataract surgery'],
     ben: { Beneficiary: 'Elderly patients from 9 villages', Covers: 'Check-ups, surgery, medicines', Hospital: 'Shifa Eye Centre', Location: 'Hyderabad' },
@@ -230,7 +230,7 @@ const CAMPAIGNS = [
     story: ['Cataract is the most common cause of blindness among the elderly, and it is curable.', 'A ₹3,500 surgery gives a grandparent their sight back in one day.'], updates: [],
   },
   {
-    id: 14, photo: PHOTO.boy, pos: 'center 30%', org: 'insaaf', cat: 'legal', zakat: true, city: 'Across India', days: 16,
+    id: 14, thumb: 'img/fx-legal.jpg', photo: PHOTO.boy, pos: 'center 30%', org: 'insaaf', cat: 'legal', zakat: true, city: 'Across India', days: 16,
     title: 'Free legal aid and help for bail', caption: 'A free advocate for those who cannot pay',
     goal: 100000, raised: 67300, donors: 310, unit: [2500, 'court hearing with a free advocate'],
     ben: { Beneficiary: 'Poor families facing court cases', Covers: 'Advocate fees, court costs, documents', Partner: 'Insaaf Legal Aid Cell', Location: 'Delhi, Lucknow, Mumbai' },
@@ -238,12 +238,28 @@ const CAMPAIGNS = [
     story: ['Many poor families cannot afford a lawyer, even for a simple bail hearing. The court decides bail; we make sure every person has a free advocate and proper legal advice.'], updates: [['1 week ago', '14 families given free advocates this month.']],
   },
   {
-    id: 15, photo: PHOTO.school, pos: 'center', org: 'iqra', cat: 'masjid', zakat: true, featured: true, city: 'UP & Bihar', days: 40,
+    id: 15, thumb: 'img/fx-madrasa.jpg', photo: PHOTO.school, pos: 'center', org: 'iqra', cat: 'masjid', zakat: true, featured: true, city: 'UP & Bihar', days: 40,
     title: 'Madrasa improvement campaign', caption: 'Better rooms, teachers and digital boards',
     goal: 500000, raised: 214000, donors: 603, unit: [15000, 'digital board for one classroom'],
     ben: { Beneficiary: '6 madrasas, 900 students', Covers: 'Classrooms, teachers, digital boards', Partner: 'Iqra Education Trust', Location: 'UP & Bihar' },
     docs: ['Madrasa list (verified)', 'Contractor estimate'],
     story: ['Madrasa students deserve the same good classrooms as any school. This campaign repairs rooms, trains teachers and adds digital boards.'], updates: [],
+  },
+  {
+    id: 16, thumb: 'img/fx-children.jpg', photo: 'img/poster-dua.jpg', pos: 'center 62%', org: 'iqra', cat: 'food', zakat: true, city: 'Across India', days: 90,
+    title: 'Dua program: food and gifts for 1 lakh children', caption: '₹200 per child: a meal and a gift',
+    goal: 2000000, raised: 480000, donors: 1200, unit: [200, 'meal and gift for one child'],
+    ben: { Beneficiary: '1,00,000 children in madrasas and orphanages', Covers: 'A meal (₹100) and a gift (₹100)', Partner: 'Iqra Education Trust', Location: 'Across India' },
+    docs: ['Madrasa and orphanage list', 'Food vendor quotation'],
+    story: ['A small gift can bring the dua of a child. This program gives one lakh children a good meal and a gift.', 'Your ₹200 covers one child. Photos from each distribution are shared in Updates.'], updates: [],
+  },
+  {
+    id: 17, thumb: 'img/fx-schoolboy.jpg', photo: 'img/poster-school.jpg', pos: 'center 62%', org: 'iqra', cat: 'education', zakat: true, city: 'Delhi NCR', days: 45,
+    title: 'School admission campaign: every child has the right to education', caption: '₹3,000 to ₹5,000 per child per year',
+    goal: 3000000, raised: 870000, donors: 300, unit: [3000, 'year of school for one child'],
+    ben: { Beneficiary: '300 children enrolled so far', Covers: 'Fees, books, uniform, essentials', School: 'New Future School', Location: 'Delhi NCR' },
+    docs: ['School fee structure', 'Enrolment list (verified)'],
+    story: ['Many children from poor families never get admission because of fees, books and uniforms.', 'Your support gives a child a full year at New Future School.'], updates: [],
   },
   {
     id: 7, photo: PHOTO.family, pos: 'center', org: 'noor', cat: 'food', zakat: false, done: true, city: 'Delhi', title: 'Winter blankets for 2,000 street families',
@@ -484,16 +500,16 @@ const heroBlock = () => `<section class="banner-card"><video src="img/banner.mp4
   <div class="banner-actions"><button class="btn btn-main" data-go="#/campaigns">${ic('heart')} Donate</button><button class="btn banner-ghost" data-go="#/help">Ask for help</button></div></section>`;
 const HOME_SERVICES = [['scale', 'Legal aid', '#2f3fa8', 'go:#/help'], ['school', 'School', '#4338ca', 'cat:education'], ['mosque', 'Madrasa upgrade', '#0b7a4c', 'camp:15'], ['ring', 'Orphan girls’ nikah', '#b0461f', 'camp:11'], ['pulse', 'Treatment', '#1d7cc4', 'cat:medical'], ['eye', 'Eye surgery', '#0e8fa6', 'camp:13'], ['utensils', 'Ration', '#c2410c', 'camp:10'], ['snow', 'Winter relief', '#2563eb', 'camp:12'], ['book', 'Education & clothes', '#6d28d9', 'cat:education'], ['buoy', 'Disaster relief', '#c33838', 'cat:emergency'], ['calc', 'Zakat calculator', '#0a9b3c', 'act:zakatCalc'], ['calendar', 'Qurbani', '#a16207', 'act:qurbani']];
 const servicesBlock = () => `<section class="home-sec">${secTitle('Our services', 'हमारी सेवाएँ')}<div class="svc-pills">${HOME_SERVICES.map(([i, l, c, a]) => `<button class="svc-pill" data-act="svc" data-v="${a}" style="--sc:${c}"><span>${l}</span><i>${ic(i)}</i></button>`).join('')}</div></section>`;
-const posterCard = c => `<button class="poster" data-go="#/c/${c.id}" style="background-image:url('${c.photo}');background-position:${c.pos || 'center'}"><span class="poster-shade"></span><span class="poster-top"><span class="ptag">${ic(CATS[c.cat].icon)}${CATS[c.cat].label}</span><span class="ptag">${c.days} days left</span></span><span class="poster-body"><b>${esc(c.title)}</b><span class="bar"><i style="width:${pct(c)}%"></i></span><span class="poster-meta"><span><b class="num">${inr(c.raised)}</b> raised</span><span class="num">${pct(c)}% of ${inr(c.goal)}</span></span><span class="btn btn-main poster-cta">${ic('heart')} Donate now</span></span></button>`;
-const featuredBlock = () => { const A = active(), r = A.reduce((a, c) => a + c.raised, 0), d = A.reduce((a, c) => a + c.donors, 0); return `<section class="home-sec">${secTitle('Featured campaigns', '', `<button class="text-link small" data-go="#/campaigns">See all ${ic('right')}</button>`)}<p class="fund-sum num">${inr(r)} raised · ${d.toLocaleString('en-IN')} donors · ${A.length} campaigns</p><div class="hscroll posters">${A.filter(c => c.featured).map(posterCard).join('')}</div></section>`; };
+const evCard = c => `<div class="ev"><div class="ev-main" data-go="#/c/${c.id}"><span class="ev-chip">${ic(CATS[c.cat].icon)}${CATS[c.cat].label}</span><b>${esc(c.title)}</b><p>${esc(c.caption)}</p></div>
+  <div class="ev-arch" data-go="#/c/${c.id}" style="background-image:url('${c.thumb || c.photo}')"><span>${c.days} days left</span></div>
+  <div class="ev-foot"><span class="bar"><i style="width:${pct(c)}%"></i></span><span class="ev-nums"><span><b class="num">${inr(c.raised)}</b> raised</span><span class="num">${pct(c)}% of ${inr(c.goal)}</span></span><button class="btn btn-main" data-go="#/donate/${c.id}">Donate</button></div></div>`;
+const eventsBlock = () => { const A = active().filter(c => c.thumb), r = A.reduce((a, c) => a + c.raised, 0), d = A.reduce((a, c) => a + c.donors, 0); return `<section class="home-sec">${secTitle('Fundraiser events', '', `<button class="text-link small" data-go="#/campaigns">See all ${ic('right')}</button>`)}<p class="fund-sum num">${inr(r)} raised · ${d.toLocaleString('en-IN')} donors · ${A.length} campaigns</p>
+  <div class="ev-track" id="ev-track">${A.map(evCard).join('')}</div><div class="ev-dots" id="ev-dots">${A.map((c, i) => `<i class="${i ? '' : 'on'}"></i>`).join('')}</div></section>`; };
+const POSTERS = [[16, 'img/poster-dua.jpg', 'Dua program: food and gifts for 1 lakh children'], [17, 'img/poster-school.jpg', 'School admission campaign']];
+const postersBlock = () => `<section class="home-sec">${secTitle('Featured campaigns')}<div class="hscroll posters2">${POSTERS.map(([id, src, alt]) => `<button class="poster2" data-go="#/c/${id}"><img src="${src}" alt="${esc(alt)}" loading="lazy"></button>`).join('')}</div></section>`;
 const trophyNudge = () => `<button class="creator-nudge" data-go="#/creator"><span class="cn-ic">${trophyArt(1, 26)}</span><span><b>Trophy & referral</b><span>Share your code. Every 500 people who join earn you a new trophy.</span></span>${ic('right')}</button>`;
 
-V.home = () => {
-  const more = active().filter(c => !c.featured).slice(0, 2);
-  return { nav: 'home', html: header() + heroBlock() + `<div class="home-stack">${seasonCard()}${liveVotingBlock()}${servicesBlock()}${featuredBlock()}${storiesBlock()}${duaBlock()}${hadithBlock()}
-    <section class="home-sec">${secTitle('More campaigns', '', `<button class="text-link small" data-go="#/campaigns">See all ${ic('right')}</button>`)}<div class="feed tight">${more.map(campaignCard).join('')}</div><button class="btn btn-line btn-block" data-go="#/campaigns">See all ${active().length} campaigns</button></section>
-    ${membersBlock()}${trophyNudge()}</div>` };
-};
+V.home = () => ({ nav: 'home', html: header() + heroBlock() + `<div class="home-stack">${seasonCard()}${storiesBlock()}${eventsBlock()}${postersBlock()}${liveVotingBlock()}${servicesBlock()}${duaBlock()}${hadithBlock()}${membersBlock()}${trophyNudge()}</div>` });
 
 V.campaigns = () => {
   const cats = [['all', 'All', 'heart'], ...Object.entries(CATS).map(([k, c]) => [k, c.label, c.icon])];
@@ -1093,8 +1109,7 @@ const BASE_POSTS = [
   { who: 'Mohammad Arif', t: '1d', txt: 'Visited the Sanawada well with my family. Alhamdulillah for this blessing.', photo: PHOTO.water, likes: 132 },
 ];
 const storyRings = (big) => `<div class="srings ${big ? 'big' : ''}"><button class="sring you" data-go="#/stories">${avatar(S.user.name)}<i class="plus">${ic('plus')}</i><span>Your story</span></button>${STORY_USERS.map(([n, ph], i) => `<button class="sring" data-act="openStory" data-v="${i}"><span class="sframe" style="background-image:url('${ph}')"></span><span>${esc(n.split(' ')[0])}</span></button>`).join('')}</div>`;
-const storiesBlock = () => `<section class="home-sec">${secTitle('Donor stories', '', `<button class="text-link small" data-go="#/stories">Open ${ic('right')}</button>`)}${storyRings()}
-  <button class="sponsor-strip" data-go="#/stories"><span class="eyebrow">Sponsored</span><b>Promote your business to the community</b>${ic('right')}</button></section>`;
+const storiesBlock = () => `<section class="home-sec">${secTitle('Donor stories', '', `<button class="text-link small" data-go="#/stories">Open ${ic('right')}</button>`)}${storyRings()}</section>`;
 
 V.stories = () => {
   const c = S.compose, fee = c.promo ? (c.kind === 'video' ? 100 : 50) : 0;
@@ -1167,6 +1182,20 @@ const badgesBlock = () => { const got = BADGES.filter(badgeUnlocked).length; ret
 const TROPHIES = [['Silver Pearl', ['#f4f6fa', '#9aa3b2']], ['Emerald Gold', ['#7fe0b0', '#0b7a4c']], ['Ruby Rose', ['#ffb3c2', '#b0123e']], ['Royal Black-Gold', ['#f3d27a', '#2a2418']]];
 const trophyName = n => TROPHIES[(n - 1) % 4][0] + (n > 4 ? ' II' : '');
 const trophyArt = (n, size) => { const [lt, dk] = TROPHIES[(n - 1) % 4][1]; const id = `tr${n}`; return `<svg class="trophy-art" viewBox="0 0 64 72" width="${size}" height="${size * 72 / 64}" aria-hidden="true"><defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${lt}"/><stop offset="1" stop-color="${dk}"/></linearGradient></defs><path d="M18 6h28v18a14 14 0 0 1-28 0Z" fill="url(#${id})" stroke="#fff" stroke-width="2"/><path d="M18 11H9a9 9 0 0 0 10 12M46 11h9a9 9 0 0 1-10 12" fill="none" stroke="url(#${id})" stroke-width="4"/><path d="M28 37h8v10h-8z" fill="url(#${id})"/><path d="M19 47h26l3 9H16Z" fill="url(#${id})" stroke="#fff" stroke-width="1.5"/><rect x="13" y="56" width="38" height="9" rx="2" fill="${dk}"/><path d="M32 12l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.6-4.8 2.6.9-5.4-3.9-3.8 5.4-.8Z" fill="#fff" opacity=".85"/><path d="M22 9h6l-4 16h-2Z" fill="#fff" opacity=".35"/></svg>`; };
+
+let evHold = 0;
+document.addEventListener('scroll', e => {
+  if (e.target.id !== 'ev-track') return;
+  const t = e.target, i = Math.round(t.scrollLeft / t.clientWidth);
+  [...document.getElementById('ev-dots').children].forEach((d, k) => d.classList.toggle('on', k === i));
+}, true);
+document.addEventListener('pointerdown', e => { if (e.target.closest('#ev-track')) evHold = Date.now(); });
+setInterval(() => {
+  const t = document.getElementById('ev-track');
+  if (!t || document.hidden || S.look.saver || Date.now() - evHold < 8000) return;
+  const n = t.children.length, i = Math.round(t.scrollLeft / t.clientWidth);
+  t.scrollTo({ left: ((i + 1) % n) * t.clientWidth, behavior: 'smooth' });
+}, 5000);
 
 /* ---------- router ---------- */
 const app = document.getElementById('app');
