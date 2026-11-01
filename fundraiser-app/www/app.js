@@ -503,11 +503,11 @@ const HADITH = [
 ];
 const todayHadith = () => HADITH[Math.floor(Date.now() / 864e5) % HADITH.length];
 const hadithBlock = () => { if (!HADITH.length) return ''; const n = HADITH.length, i = ((S.ui.hq ?? Math.floor(Date.now() / 864e5) % n) % n + n) % n, [q, src] = HADITH[i];
-  return `<section class="home-sec"><div class="khaas"><div class="pattern"></div><svg class="kh-moon" viewBox="0 0 24 24" aria-hidden="true">${P.moon}</svg>
-    <div class="kh-top"><span class="eyebrow">Aaj ki khaas baat</span><span lang="hi">आज की खास बात</span></div>
-    <p class="kh-q">${esc(q)}</p><span class="kh-src">${esc(src)}</span>
-    <div class="kh-foot"><a class="kh-btn" href="https://wa.me/?text=${encodeURIComponent(`“${q}” — ${src}\nShared from ${APP}`)}" target="_blank" rel="noopener">${ic('share')} Share</a><button class="kh-btn" data-act="copy" data-v="${esc(`“${q}” — ${src}`)}">${ic('link')} Copy</button>
-      <span class="spacer"></span><button class="kh-nav" data-act="hq" data-v="-1" aria-label="Previous">${ic('left')}</button><span class="kh-count num">${i + 1}/${n}</span><button class="kh-nav" data-act="hq" data-v="1" aria-label="Next">${ic('right')}</button></div></div></section>`; };
+  return `<section class="home-sec"><article class="khaas2">
+    <div class="k2-head"><span class="k2-av">${emblem()}</span><span class="k2-id"><b>Aaj ki khaas baat</b><span>${esc(src)}</span></span><span class="k2-count num">${i + 1}/${n}</span></div>
+    <p class="k2-q">${esc(q)}</p>
+    <div class="k2-foot"><a href="https://wa.me/?text=${encodeURIComponent(`“${q}” — ${src}\nShared from ${APP}`)}" target="_blank" rel="noopener" aria-label="Share">${ic('share')}</a><button data-act="copy" data-v="${esc(`“${q}” — ${src}`)}" aria-label="Copy">${ic('link')}</button><span class="spacer"></span><button data-act="hq" data-v="-1" aria-label="Previous">${ic('left')}</button><button data-act="hq" data-v="1" aria-label="Next">${ic('right')}</button></div>
+  </article></section>`; };
 const MEMBERS = [['Ayesha Khan', 'Diamond'], ['Rizwan Ahmed', 'Gold'], ['Fatima Noor', 'Platinum'], ['Imran Shaikh', 'Silver'], ['Zahra Ali', 'Royal Crown'], ['Bilal Qureshi', 'Starter'], ['Mariam Siddiqui', 'Supporter']];
 const membersBlock = () => `<section class="home-sec">${secTitle('Active members', '', `<button class="text-link small" data-go="#/rating">Leaderboard ${ic('right')}</button>`)}
   <div class="members">${MEMBERS.map(([n, l], i) => `<div class="member"><span class="mav">${avatar(n)}${i % 3 !== 2 ? '<i></i>' : ''}</span><b>${esc(n.split(' ')[0])}</b><span>${l}</span></div>`).join('')}</div></section>`;
@@ -1092,9 +1092,12 @@ const pollWhen = p => p.status === 'live' ? `${daysTo(p.end)} days left` : p.sta
 const leader = p => p.votes.indexOf(Math.max(...p.votes));
 const roseCount = n => `${n.toLocaleString('en-IN')} ${n === 1 ? 'rose' : 'roses'}`;
 const pollBanner = (p, cls = '') => `<span class="vban ${cls}" style="background:linear-gradient(135deg, ${p.color}, #062a1f)"><span class="vpill ${p.status}">${p.status === 'live' ? '● LIVE' : p.status === 'upcoming' ? 'COMING SOON' : 'WINNER CHOSEN'}</span>${ic(p.icon)}</span>`;
-const pollCard = p => { const w = leader(p), tot = pollTotal(p); return `<button class="vcard" data-go="#/poll/${p.id}">${pollBanner(p)}<span class="vbody"><small>${p.cat}</small><b>${esc(p.title)}</b>
-  ${tot ? `<span class="vlead">${ROSE(16)}<span>${p.status === 'closed' ? 'Winner' : 'Leading'}: <b>${esc(p.cand[w][0])}</b></span></span><small class="num">${roseCount(tot)} sent</small>` : `<small>${p.cand.length} options</small>`}
-  <small>${ic('clock')} ${pollWhen(p)}</small><span class="btn btn-main vgo">${p.status === 'live' ? `${ROSE(16)} Send roses` : 'See results'}</span></span></button>`; };
+const pollCard = p => { const w = leader(p), tot = pollTotal(p), live = p.status === 'live'; return `<button class="pcard2" data-go="#/poll/${p.id}"><div class="pattern"></div>
+  <span class="pc2-medal">${ic(p.icon)}</span>
+  <span class="pc2-body"><span class="pc2-meta"><span class="pc2-pill ${p.status}">${live ? '● Live' : p.status === 'upcoming' ? 'Soon' : 'Winner'}</span>${p.cat} · ${tot ? roseCount(tot) : pollWhen(p)}</span>
+    <b>${esc(p.title)}</b>
+    ${tot ? `<span class="pc2-lead">${ROSE(15)}<span>${p.status === 'closed' ? 'Winner' : 'Leading'} <b>${esc(p.cand[w][0])}</b></span></span>` : `<span class="pc2-lead"><span>${p.cand.length} options · first rose free</span></span>`}</span>
+  <span class="pc2-cta">${live ? `${ROSE(15)} Send roses` : 'See results'}</span></button>`; };
 const pollRing = p => `<button class="vring" data-go="#/poll/${p.id}"><i>${p.emoji}</i>${p.cat}</button>`;
 const liveVotingBlock = () => { const L = POLLS.filter(p => p.status === 'live'); return L.length ? `<section class="home-sec"><div class="lv-head"><h2>${ROSE(20)}Rose contests</h2><button class="lv-all" data-go="#/vote">View all</button></div>
   <div class="hscroll">${L.map(pollCard).join('')}</div></section>` : ''; };

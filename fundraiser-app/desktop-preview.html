@@ -1369,6 +1369,37 @@ a.btn { text-decoration: none; }
 .tr-pic i { position: absolute; right: -6px; bottom: -4px; width: 22px; height: 22px; border-radius: 50%; background: var(--card); color: var(--gold-ink); display: grid; place-items: center; box-shadow: 0 2px 6px rgb(0 0 0 / 0.2); }
 .tr-pic i svg.i { width: 12px; height: 12px; }
 .trophy-row button > span:last-child { font-size: 10.5px; line-height: 1.2; text-align: center; }
+/* premium rose-contest card */
+.pcard2 { position: relative; overflow: hidden; width: 286px; display: grid; grid-template-columns: 52px minmax(0, 1fr); grid-template-areas: "medal body" "cta cta"; gap: 10px 12px; padding: 14px; border-radius: 20px; text-align: left; color: #fff; background: linear-gradient(145deg, #11704a, #0a4630 55%, #062a1d); box-shadow: inset 0 0 0 1px rgb(233 181 44 / 0.35), 0 8px 20px rgb(6 42 29 / 0.22); }
+.wrap > .pcard2 { width: 100%; }
+.pcard2 .pattern { position: absolute; inset: 0; opacity: .08; }
+.pc2-medal { grid-area: medal; position: relative; width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; color: #f3d27a; background: radial-gradient(circle at 40% 35%, #1c8a5c, #0a4630); box-shadow: 0 0 0 2px #e9b52c, 0 0 0 5px rgb(233 181 44 / 0.18); }
+.pc2-medal svg.i { width: 24px; height: 24px; }
+.pc2-body { grid-area: body; position: relative; display: grid; gap: 4px; min-width: 0; }
+.pc2-meta { display: flex; align-items: center; gap: 6px; font-size: 11px; color: rgb(255 255 255 / 0.7); white-space: nowrap; overflow: hidden; }
+.pc2-pill { flex: none; height: 18px; padding: 0 7px; border-radius: 99px; display: inline-flex; align-items: center; font-size: 10px; font-weight: 800; letter-spacing: .03em; text-transform: uppercase; background: rgb(255 255 255 / 0.14); color: #fff; }
+.pc2-pill.live { background: #e0364a; }
+.pc2-pill.closed { background: #e9b52c; color: #2a1d02; }
+.pc2-body > b { font-size: 15px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.pc2-lead { display: flex; align-items: center; gap: 5px; font-size: 12px; color: rgb(255 255 255 / 0.8); }
+.pc2-lead > span:nth-child(2) { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pc2-lead b { color: #f3d27a; font-weight: 700; }
+.pc2-lead .num { font-weight: 700; color: #fff; }
+.pc2-cta { grid-area: cta; position: relative; display: flex; align-items: center; justify-content: center; gap: 6px; height: 38px; border-radius: 99px; background: linear-gradient(90deg, #f6dc8a, #e0a52a); color: #2a1d02; font-weight: 700; font-size: 13.5px; }
+/* Aaj ki khaas baat as a clean post */
+.khaas2 { background: var(--card); border-radius: 18px; padding: 14px 16px 8px; box-shadow: var(--card-shadow); }
+.k2-head { display: flex; align-items: center; gap: 10px; }
+.k2-av { width: 36px; height: 36px; border-radius: 50%; background: var(--brand); color: #fff; display: grid; place-items: center; flex: none; }
+.k2-av .emblem { width: 22px; height: 22px; }
+.k2-id { flex: 1; min-width: 0; display: grid; line-height: 1.25; }
+.k2-id b { font-size: 14.5px; }
+.k2-id span { font-size: 12.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.k2-count { font-size: 12px; color: var(--muted); }
+.k2-q { font-size: 16px; line-height: 1.5; margin: 10px 0 6px; color: var(--ink); }
+.k2-foot { display: flex; align-items: center; gap: 2px; margin: 0 -8px; }
+.k2-foot a, .k2-foot button { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; color: var(--muted); }
+.k2-foot svg.i { width: 18px; height: 18px; }
+.k2-foot a:active, .k2-foot button:active { background: var(--soft); color: var(--brand); }
 </script>
 <script type="text/plain" id="app-js">/* Muslim Life Pro: clickable Android UI demo for a donation / fundraising platform.
    Everything is in-memory sample data; no backend calls. Hash routes give the Android back button for free. */
@@ -1875,11 +1906,11 @@ const HADITH = [
 ];
 const todayHadith = () => HADITH[Math.floor(Date.now() / 864e5) % HADITH.length];
 const hadithBlock = () => { if (!HADITH.length) return ''; const n = HADITH.length, i = ((S.ui.hq ?? Math.floor(Date.now() / 864e5) % n) % n + n) % n, [q, src] = HADITH[i];
-  return `<section class="home-sec"><div class="khaas"><div class="pattern"></div><svg class="kh-moon" viewBox="0 0 24 24" aria-hidden="true">${P.moon}</svg>
-    <div class="kh-top"><span class="eyebrow">Aaj ki khaas baat</span><span lang="hi">आज की खास बात</span></div>
-    <p class="kh-q">${esc(q)}</p><span class="kh-src">${esc(src)}</span>
-    <div class="kh-foot"><a class="kh-btn" href="https://wa.me/?text=${encodeURIComponent(`“${q}” — ${src}\nShared from ${APP}`)}" target="_blank" rel="noopener">${ic('share')} Share</a><button class="kh-btn" data-act="copy" data-v="${esc(`“${q}” — ${src}`)}">${ic('link')} Copy</button>
-      <span class="spacer"></span><button class="kh-nav" data-act="hq" data-v="-1" aria-label="Previous">${ic('left')}</button><span class="kh-count num">${i + 1}/${n}</span><button class="kh-nav" data-act="hq" data-v="1" aria-label="Next">${ic('right')}</button></div></div></section>`; };
+  return `<section class="home-sec"><article class="khaas2">
+    <div class="k2-head"><span class="k2-av">${emblem()}</span><span class="k2-id"><b>Aaj ki khaas baat</b><span>${esc(src)}</span></span><span class="k2-count num">${i + 1}/${n}</span></div>
+    <p class="k2-q">${esc(q)}</p>
+    <div class="k2-foot"><a href="https://wa.me/?text=${encodeURIComponent(`“${q}” — ${src}\nShared from ${APP}`)}" target="_blank" rel="noopener" aria-label="Share">${ic('share')}</a><button data-act="copy" data-v="${esc(`“${q}” — ${src}`)}" aria-label="Copy">${ic('link')}</button><span class="spacer"></span><button data-act="hq" data-v="-1" aria-label="Previous">${ic('left')}</button><button data-act="hq" data-v="1" aria-label="Next">${ic('right')}</button></div>
+  </article></section>`; };
 const MEMBERS = [['Ayesha Khan', 'Diamond'], ['Rizwan Ahmed', 'Gold'], ['Fatima Noor', 'Platinum'], ['Imran Shaikh', 'Silver'], ['Zahra Ali', 'Royal Crown'], ['Bilal Qureshi', 'Starter'], ['Mariam Siddiqui', 'Supporter']];
 const membersBlock = () => `<section class="home-sec">${secTitle('Active members', '', `<button class="text-link small" data-go="#/rating">Leaderboard ${ic('right')}</button>`)}
   <div class="members">${MEMBERS.map(([n, l], i) => `<div class="member"><span class="mav">${avatar(n)}${i % 3 !== 2 ? '<i></i>' : ''}</span><b>${esc(n.split(' ')[0])}</b><span>${l}</span></div>`).join('')}</div></section>`;
@@ -2464,9 +2495,12 @@ const pollWhen = p => p.status === 'live' ? `${daysTo(p.end)} days left` : p.sta
 const leader = p => p.votes.indexOf(Math.max(...p.votes));
 const roseCount = n => `${n.toLocaleString('en-IN')} ${n === 1 ? 'rose' : 'roses'}`;
 const pollBanner = (p, cls = '') => `<span class="vban ${cls}" style="background:linear-gradient(135deg, ${p.color}, #062a1f)"><span class="vpill ${p.status}">${p.status === 'live' ? '● LIVE' : p.status === 'upcoming' ? 'COMING SOON' : 'WINNER CHOSEN'}</span>${ic(p.icon)}</span>`;
-const pollCard = p => { const w = leader(p), tot = pollTotal(p); return `<button class="vcard" data-go="#/poll/${p.id}">${pollBanner(p)}<span class="vbody"><small>${p.cat}</small><b>${esc(p.title)}</b>
-  ${tot ? `<span class="vlead">${ROSE(16)}<span>${p.status === 'closed' ? 'Winner' : 'Leading'}: <b>${esc(p.cand[w][0])}</b></span></span><small class="num">${roseCount(tot)} sent</small>` : `<small>${p.cand.length} options</small>`}
-  <small>${ic('clock')} ${pollWhen(p)}</small><span class="btn btn-main vgo">${p.status === 'live' ? `${ROSE(16)} Send roses` : 'See results'}</span></span></button>`; };
+const pollCard = p => { const w = leader(p), tot = pollTotal(p), live = p.status === 'live'; return `<button class="pcard2" data-go="#/poll/${p.id}"><div class="pattern"></div>
+  <span class="pc2-medal">${ic(p.icon)}</span>
+  <span class="pc2-body"><span class="pc2-meta"><span class="pc2-pill ${p.status}">${live ? '● Live' : p.status === 'upcoming' ? 'Soon' : 'Winner'}</span>${p.cat} · ${tot ? roseCount(tot) : pollWhen(p)}</span>
+    <b>${esc(p.title)}</b>
+    ${tot ? `<span class="pc2-lead">${ROSE(15)}<span>${p.status === 'closed' ? 'Winner' : 'Leading'} <b>${esc(p.cand[w][0])}</b></span></span>` : `<span class="pc2-lead"><span>${p.cand.length} options · first rose free</span></span>`}</span>
+  <span class="pc2-cta">${live ? `${ROSE(15)} Send roses` : 'See results'}</span></button>`; };
 const pollRing = p => `<button class="vring" data-go="#/poll/${p.id}"><i>${p.emoji}</i>${p.cat}</button>`;
 const liveVotingBlock = () => { const L = POLLS.filter(p => p.status === 'live'); return L.length ? `<section class="home-sec"><div class="lv-head"><h2>${ROSE(20)}Rose contests</h2><button class="lv-all" data-go="#/vote">View all</button></div>
   <div class="hscroll">${L.map(pollCard).join('')}</div></section>` : ''; };
