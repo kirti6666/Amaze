@@ -1129,3 +1129,4 @@ a.btn { text-decoration: none; }
 .cert-ph { width: 80px; height: 80px; border-radius: 50%; background-size: cover; background-position: center; box-shadow: 0 0 0 3px var(--gold); }
 .cert-ph.sm { width: 36px; height: 36px; box-shadow: none; flex: none; }
 .trophy-share { position: fixed; z-index: 29; left: 50%; transform: translateX(-50%); bottom: calc(76px + var(--sab)); width: min(calc(100% - 24px), calc(var(--col) - 24px)); }
+.comm-seg { margin-top: 6px; } .top .seg.comm-seg { margin-bottom: 8px; }

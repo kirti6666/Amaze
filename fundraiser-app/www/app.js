@@ -100,6 +100,8 @@ const NAV_ICONS = {
   campaigns: '<path d="M4 3h7a1.5 1.5 0 0 1 1.5 1.5v6A1.5 1.5 0 0 1 11 12H4a1.5 1.5 0 0 1-1.5-1.5v-6A1.5 1.5 0 0 1 4 3Z"/><path d="M13 13h7a1.5 1.5 0 0 1 1.5 1.5v5A1.5 1.5 0 0 1 20 21h-7a1.5 1.5 0 0 1-1.5-1.5v-5A1.5 1.5 0 0 1 13 13Z"/><path d="M15 3h5a1.5 1.5 0 0 1 1.5 1.5V9A1.5 1.5 0 0 1 20 10.5h-5A1.5 1.5 0 0 1 13.5 9V4.5A1.5 1.5 0 0 1 15 3ZM4 14h5a1.5 1.5 0 0 1 1.5 1.5v4A1.5 1.5 0 0 1 9 21H4a1.5 1.5 0 0 1-1.5-1.5v-4A1.5 1.5 0 0 1 4 14Z"/>'
 ,
   creator: '<path d="M6 2h12v7a6 6 0 0 1-12 0Z"/><path d="M6 4H3.5a1 1 0 0 0-1 1.2C3 8.5 4.6 10 6.5 10.4M18 4h2.5a1 1 0 0 1 1 1.2c-.5 3.3-2.1 4.8-4 5.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10.5 14.5h3v3.5h-3z"/><path d="M7 19.5h10V22H7z"/><path d="m12 4.6 1.1 2.2 2.4.3-1.8 1.7.5 2.4-2.2-1.2-2.2 1.2.5-2.4-1.8-1.7 2.4-.3Z" style="fill:var(--card)"/>'
+,
+  community: '<circle cx="8" cy="7" r="3.5"/><circle cx="16.5" cy="8" r="3"/><path d="M1.5 19a6.5 6.5 0 0 1 13 0v1.5h-13Z"/><path d="M15.5 20.5V19a8 8 0 0 0-1.7-5 5.5 5.5 0 0 1 8.7 4.5v2Z"/>'
 };
 
 // app emblem: dome with crescent finial, two minarets, open Quran as the base
@@ -462,8 +464,8 @@ const seg = (key, opts) => `<div class="seg" role="tablist">${opts.map(([v, l]) 
 const pageHead = (title, right = '') => `<header class="phead"><button class="icon-btn" data-act="back" aria-label="Back">${ic('left')}</button><h1>${title}</h1>${right}</header>`;
 
 function navBar(cur) {
-  const tabs = [['home', 'Home'], ['stories', 'Stories'], ['donations', 'Donate'], ['creator', 'Trophy'], ['profile', 'Profile']];
-  return `<nav class="nav fixed-col">${tabs.map(([k, l]) => k === 'donations' ? `<a href="#/donations" data-go="#/donations" class="nav-fab ${cur === k ? 'on' : ''}"><span class="fab">${ic('hands')}</span>${l}</a>` : `<a href="#/${k}" data-go="#/${k}" class="${cur === k ? 'on' : ''}"><svg class="i" viewBox="0 0 24 24" aria-hidden="true">${NAV_ICONS[k]}</svg>${l}</a>`).join('')}</nav>`;
+  const tabs = [['home', 'Home'], ['vote', 'Vote'], ['donations', 'Donate'], ['community', 'Community'], ['profile', 'Profile']];
+  return `<nav class="nav fixed-col">${tabs.map(([k, l]) => k === 'donations' ? `<a href="#/donations" data-go="#/donations" class="nav-fab ${cur === k ? 'on' : ''}"><span class="fab">${ic('hands')}</span>${l}</a>` : `<a href="#/${k === 'community' ? 'stories' : k}" data-go="#/${k === 'community' ? 'stories' : k}" class="${cur === k ? 'on' : ''}"><svg class="i" viewBox="0 0 24 24" aria-hidden="true">${NAV_ICONS[k]}</svg>${l}</a>`).join('')}</nav>`;
 }
 
 /* ---------- tab views ---------- */
@@ -920,9 +922,10 @@ V.donations = () => {
   </div>` };
 };
 
+const communitySwitch = cur => `<div class="seg comm-seg">${[['stories', 'Stories'], ['creator', 'Trophies']].map(([k, l]) => `<button class="${cur === k ? 'on' : ''}" data-go="#/${k}">${l}</button>`).join('')}</div>`;
 V.creator = () => {
   const cr = S.creator, joined = cr ? S.joins.filter(j => j.code === cr.code).length : 0, lv = Math.floor(joined / 500), next = Math.min(lv + 1, 8), sel = S.ui.trophy || next, got = lv >= sel;
-  return { nav: 'creator', html: `<header class="top"><div class="top-row"><div><h1 class="page-title">Trophies</h1><span class="small muted">Aapki mehnat · hamari tarakki · sabka saath</span></div><span class="spacer"></span><div class="hbtns"><button class="hbtn" data-act="trophyHelp" aria-label="How trophies work">${ic('info')}</button></div></div></header>
+  return { nav: 'community', html: `<header class="top"><div class="top-row"><h1 class="page-title">Community</h1><span class="spacer"></span><div class="hbtns"><button class="hbtn" data-act="trophyHelp" aria-label="How trophies work">${ic('info')}</button></div></div>${communitySwitch('creator')}</header>
   <div class="wrap">
     <section class="tstage"><div class="pattern"></div>${sparkles([[8, 14, 10, 0], [88, 20, 12, .8], [14, 70, 7, 1.6], [86, 64, 8, 2.2]])}
       <div class="tst-photo"><img src="${TROPHY_IMG[(sel - 1) % 4]}" alt="${trophyName(sel)} trophy"></div>
@@ -1095,7 +1098,7 @@ V.vote = () => {
   const list = tab === 'mine' ? [] : POLLS.filter(p => (tab === 'live' ? p.status === 'live' : tab === 'upcoming' ? p.status === 'upcoming' : p.status === 'closed'));
   const mine = POLLS.flatMap(p => myVotes(p.id).rec.map(r => ({ ...r, p })));
   const sent = mine.reduce((a, r) => a + r.n, 0);
-  return { html: `<header class="phead"><button class="icon-btn" data-act="back" aria-label="Back">${ic('left')}</button><h1>Rose contests</h1><button class="icon-btn" data-act="voteRules" aria-label="How roses work">${ic('info')}</button></header>
+  return { nav: 'vote', html: `<header class="top"><div class="top-row"><h1 class="page-title">Vote with roses</h1><span class="spacer"></span><div class="hbtns"><button class="hbtn" data-act="voteRules" aria-label="How roses work">${ic('info')}</button></div></div></header>
   <div class="rose-hero">${ROSE(34)}<div><b>Send a rose, choose the winner</b><span>Your first rose in every contest is free. The option with the most roses wins.</span></div></div>
   <div class="wrap" style="padding-top:0">${seg('vote', [['live', 'Live'], ['upcoming', 'Upcoming'], ['done', 'Winners'], ['mine', 'My roses']])}
   ${tab === 'mine'
@@ -1148,7 +1151,7 @@ const storiesBlock = () => `<section class="home-sec">${secTitle('Donor stories'
 
 V.stories = () => {
   const c = S.compose, fee = c.promo ? (c.kind === 'video' ? 100 : 50) : 0;
-  return { nav: 'stories', html: `<header class="top"><div class="top-row"><h1 class="page-title">Stories</h1><span class="spacer"></span><button class="wallet-chip" data-act="wallet">${ic('wallet')} <span class="num">${inr(S.wallet)}</span></button></div></header>
+  return { nav: 'community', html: `<header class="top"><div class="top-row"><h1 class="page-title">Community</h1><span class="spacer"></span><button class="wallet-chip" data-act="wallet">${ic('wallet')} <span class="num">${inr(S.wallet)}</span></button></div>${communitySwitch('stories')}</header>
   <div class="wrap">
     ${storyRings(true)}
     <section class="section compose">
@@ -1257,7 +1260,7 @@ function render() {
   currentView = view;
   app.className = view.nav ? '' : view.cta ? 'no-nav' : 'bare';
   // small floating rose button for the contests, bottom right above the tab bar
-  app.innerHTML = view.html + (view.nav ? navBar(view.nav) + `<button class="rose-fab" data-go="#/vote" aria-label="Rose contests">${ROSE(26)}</button>` : '') + (view.cta ? `<div class="fixed-col cta-bar">${view.cta}</div>` : '');
+  app.innerHTML = view.html + (view.nav ? navBar(view.nav) + (view.nav === 'vote' ? '' : `<button class="rose-fab" data-go="#/vote" aria-label="Rose contests">${ROSE(26)}</button>`) : '') + (view.cta ? `<div class="fixed-col cta-bar">${view.cta}</div>` : '');
   if (changed) window.scrollTo(0, 0);
   if (S.greet && name === 'home') { S.greet = false; setTimeout(greet, 500); }
 }
