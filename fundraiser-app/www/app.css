@@ -841,3 +841,8 @@ a.btn { text-decoration: none; }
 .vrings { gap: 16px; padding: 4px 4px 12px; }
 .vring { width: 76px; font-size: 12px; font-weight: 700; color: var(--ink); }
 .vring i { width: 64px; height: 64px; font-style: normal; font-size: 28px; background: radial-gradient(circle at 50% 40%, #13744b, #062a1f); box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px var(--gold), 0 6px 14px rgb(0 0 0 / 0.18); }
+/* foundation banner: looping video with the two main actions */
+.banner-card { margin: 10px 10px 0; background: var(--card); border-radius: 22px; padding: 8px; display: grid; gap: 8px; }
+.banner-vid { position: relative; border-radius: 16px; overflow: hidden; aspect-ratio: 640 / 280; max-width: 100%; background: #0b2a1c; }
+.banner-vid video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.banner-card .hero-actions { padding: 2px; }
