@@ -63,6 +63,31 @@ svg.i { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-widt
 .summary { display: flex; gap: 10px; align-items: center; background: var(--brand-soft); color: var(--brand-ink); border-radius: 14px; padding: 10px 12px; font-weight: 600; font-size: 13px; margin-bottom: 12px; }
 
 /* admin mode */
+:root { --a-line: #e7e8ec; --a-bg: #f6f7f9; }
+.side-group { display: block; font-size: 10.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #9a9ca5; padding: 14px 12px 6px; }
+.side-group:first-child { padding-top: 4px; }
+.tcur { display: flex; align-items: center; gap: 16px; background: var(--card); border: 1px solid var(--a-line); border-radius: 14px; padding: 14px; }
+.tcur .tmock { width: 120px; flex: none; }
+.tcur b { display: block; font-size: 17px; } .tcur span:not(.eyebrow) { color: var(--muted); font-size: 13px; }
+.tbar { display: grid; gap: 10px; }
+.tbar .input { max-width: 340px; }
+.tgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; }
+.tcard { background: var(--card); border: 1px solid var(--a-line); border-radius: 14px; padding: 10px; display: grid; gap: 8px; align-content: start; }
+.tcard.on { border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-soft); }
+.tcard .b, .tcard .pill { justify-self: start; }
+.tc-meta b { display: block; font-size: 13.5px; } .tc-meta span { font-size: 12px; color: var(--muted); }
+.tmock { display: grid; gap: 6px; padding: 8px; border-radius: 10px; height: 104px; align-content: start; border: 1px solid rgb(0 0 0 / .06); }
+.tm-bar { height: 14px; border-radius: 5px; border: 1px solid; display: flex; align-items: center; padding: 0 5px; }
+.tm-bar i { width: 30%; height: 5px; border-radius: 3px; }
+.tm-card { border-radius: 7px; border: 1px solid; padding: 6px; display: grid; gap: 4px; }
+.tm-card i { height: 6px; border-radius: 3px; }
+.tm-btn { height: 20px; border-radius: 99px; display: grid; place-items: center; font-size: 10px; font-weight: 700; }
+.bgal { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; }
+.bstyle { background: var(--card); border: 1px solid var(--a-line); border-radius: 14px; padding: 14px; display: grid; gap: 12px; }
+.bstyle.on { border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-soft); }
+.bs-head { display: flex; align-items: center; justify-content: space-between; }
+.bs-stack { display: grid; gap: 8px; padding: 12px; border-radius: 12px; background: #eef0ee; }
+.bs-stack span { display: grid; place-items: center; height: 38px; font-weight: 700; font-size: 13px; }
 .admin { display: grid; grid-template-columns: 232px minmax(0, 1fr); min-height: calc(100vh - 60px); }
 .side { background: var(--card); border-right: 1px solid var(--line); padding: 16px 12px; display: grid; align-content: start; gap: 2px; position: sticky; top: 60px; height: calc(100vh - 60px); }
 .side button { display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 12px; border-radius: 10px; font-weight: 500; color: var(--ink-2); text-align: left; }
@@ -174,6 +199,19 @@ td .sub { display: block; color: var(--muted); font-size: 12px; }
   .work { padding: 16px; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+.admin { background: var(--a-bg); }
+.side { background: #fff; border-right: 1px solid var(--a-line); padding: 12px 10px; gap: 1px; overflow-y: auto; }
+.side button { height: 36px; border-radius: 8px; font-size: 13.5px; }
+.side button.on { background: #eef6f1; }
+.work { padding: 22px 28px 40px; gap: 16px; }
+.work-head h1 { font-size: 21px; font-weight: 700; }
+.work-head p { font-size: 13.5px; }
+.kpi, .card, .q { border: 1px solid var(--a-line); border-radius: 14px; box-shadow: none; }
+.kpi b { font-size: 22px; }
+.b { border-radius: 8px; }
+.filters button { height: 30px; font-size: 12.5px; }
+th { font-size: 11px; }
 </style>
 </head>
 <body>
@@ -260,7 +298,7 @@ const FEATURES = [
   ['3. Fundraiser creation & management', [['Title, category, story and target amount', '#/start'], ['Beneficiary details, images and documents', 'step2'], ['Submit for admin review', '#/submitted'], ['Publish campaign updates', 'update'], ['Share on WhatsApp and social media', 'share']]],
   ['4. Donations & payments', [['UPI, cards and net banking', '#/donate/1'], ['Confirmation, receipt and acknowledgement', 'success'], ['Campaign donation records', 'donors'], ['Optional platform tip / voluntary contribution', '#/donate/1']]],
   ['5. Verification & withdrawals', [['KYC and supporting documents', '#/kyc'], ['Beneficiary bank account', '#/kyc'], ['Admin verification of campaigns and recipients', 'admin:verification'], ['Withdrawal requests with approval and payment status', '#/withdraw']]],
-  ['6. Admin panel', [['Manage users', 'admin:users'], ['Manage fundraisers: approve, reject, suspend', 'admin:campaigns'], ['Categories and website content', 'admin:categories'], ['Review documents and withdrawals', 'admin:withdrawals'], ['Donations, transactions and reports', 'admin:donations'], ['Platform fee and voluntary contribution settings', 'admin:settings'], ['Themes, button style and text size', 'admin:appearance'], ['Home one-tap campaigns', 'admin:quick'], ['Aaj ki khaas baat messages', 'admin:khaas']]],
+  ['6. Admin panel', [['Manage users', 'admin:users'], ['Manage fundraisers: approve, reject, suspend', 'admin:campaigns'], ['Categories and website content', 'admin:categories'], ['Review documents and withdrawals', 'admin:withdrawals'], ['Donations, transactions and reports', 'admin:donations'], ['Platform fee and voluntary contribution settings', 'admin:settings'], ['Themes (110) for everyone', 'admin:themes'], ['Button gallery (8 styles) and text size', 'admin:buttons'], ['Home one-tap campaigns', 'admin:quick'], ['Aaj ki khaas baat messages', 'admin:khaas']]],
   ['7. Supporting pages & notifications', [['About, How it works, FAQs, Contact', '#/info/about'], ['Privacy, Terms and Refund policy pages', '#/info/privacy'], ['Email notification preferences', '#/settings'], ['In-app notifications', '#/news/notifications']]],
 ];
 const total = FEATURES.reduce((a, [, f]) => a + f.length, 0);
@@ -284,7 +322,7 @@ function setMode(m) {
 const AV = ['#1d63b0', '#0a8a52', '#e0602a', '#5634c0', '#cf4778', '#0e8fa6', '#b5651d'];
 const avatar = n => `<span class="av" style="background:${AV[[...n].reduce((a, c) => a + c.charCodeAt(0), 0) % AV.length]}">${esc(n.split(' ').map(w => w[0]).join('').slice(0, 2))}</span>`;
 const DB = {
-  section: 'overview', campFilter: 'all', themeDefault: 'classic', autoRamzan: true, autoEid: true, look: { btn: 'classic', text: 'm', saver: false },
+  section: 'overview', campFilter: 'all', themeCat: 'all', themeQ: '', themeDefault: 'classic', autoRamzan: true, autoEid: true, look: { btn: 'classic', text: 'm', saver: false },
   campaigns: [
     { id: 9, title: 'Help my neighbour Salma with eye surgery', org: 'Ayesha Khan', cat: 'Medical', goal: 150000, raised: 0, status: 'review', submitted: 'Today' },
     { id: 10, title: 'Ration kits for 200 widows in Bhiwandi', org: 'Al-Noor Welfare Society', cat: 'Food & Iftar', goal: 400000, raised: 0, status: 'review', submitted: 'Yesterday' },
@@ -325,7 +363,7 @@ const DB = {
   settings: { fee: 0, tips: true, tipDefault: 5, upi: true, card: true, nb: true, intl: false, mReceipt: true, mStatus: true, mWithdraw: true, mWeekly: false },
 };
 const pending = () => ({ campaigns: DB.campaigns.filter(c => c.status === 'review').length, verification: DB.verify.filter(v => v.status === 'pending').length, withdrawals: DB.withdrawals.filter(w => w.status === 'requested').length });
-const NAV = [['overview', 'Overview', 'grid'], ['campaigns', 'Fundraisers', 'flag'], ['verification', 'Verification', 'shield'], ['withdrawals', 'Withdrawals', 'wallet'], ['donations', 'Donations & reports', 'chart'], ['users', 'Users', 'users'], ['categories', 'Categories', 'tag'], ['content', 'Website content', 'file'], ['appearance', 'Look & feel', 'palette'], ['quick', 'Home campaigns', 'flag'], ['khaas', 'Aaj ki khaas baat', 'file'], ['settings', 'Fees & settings', 'sliders']];
+const NAV = [['Operations'], ['overview', 'Overview', 'grid'], ['campaigns', 'Fundraisers', 'flag'], ['verification', 'Verification', 'shield'], ['withdrawals', 'Withdrawals', 'wallet'], ['donations', 'Donations & reports', 'chart'], ['users', 'Users', 'users'], ['App content'], ['quick', 'Home campaigns', 'flag'], ['khaas', 'Aaj ki khaas baat', 'file'], ['categories', 'Categories', 'tag'], ['content', 'Website pages', 'file'], ['Design'], ['themes', 'Themes', 'palette'], ['buttons', 'Buttons & text', 'sliders'], ['Settings'], ['settings', 'Fees & payments', 'sliders']];
 const pill = s => `<span class="pill p-${s}">${{ review: 'Pending review', live: 'Live', suspended: 'Suspended', completed: 'Completed', rejected: 'Rejected', pending: 'Pending', approved: 'Approved', requested: 'Requested', paid: 'Paid', active: 'Active', blocked: 'Blocked', verified: 'Verified' }[s] || s}</span>`;
 const head = (t, d, right = '') => `<div class="work-head"><h1>${t}</h1><span style="margin-left:auto;display:flex;gap:8px">${right}</span><p>${d}</p></div>`;
 
@@ -375,19 +413,26 @@ const ADMIN = {
   content: () => head('Website content', 'Pages shown in the app and on the website. Policy pages wait for the approved text.') + `<div class="card"><div class="table-wrap"><table><thead><tr><th>Page</th><th>Last updated</th><th class="r">Actions</th></tr></thead><tbody>
     ${DB.pages.map((p, i) => `<tr><td><b>${p[0]}</b></td><td class="${p[1].startsWith('Awaiting') ? '' : 'num'}">${p[1].startsWith('Awaiting') ? pill('pending').replace('Pending', p[1]) : p[1]}</td><td><div class="acts"><button class="b b-soft" data-a="edit" data-v="${i}">Edit</button></div></td></tr>`).join('')}
     </tbody></table></div></div>`,
-  appearance: () => {
+  themes: () => {
     let themes = [];
     try { themes = win().eval('THEMES'); } catch { /* app frame not ready */ }
-    const sw = (k, t, d) => `<div class="toggle-row"><span class="t"><b>${t}</b><span>${d}</span></span><button class="sw ${DB[k] ? 'on' : ''}" data-a="themeOpt" data-v="${k}" role="switch" aria-checked="${DB[k]}" aria-label="${t}"></button></div>`;
-    return head('Look & feel', 'Theme, button style and text size for everyone. Changes apply to the app instantly; people can only switch light or dark.') + `
-    <div class="theme-grid">${themes.map(t => { const on = t.id === DB.themeDefault; return `<div class="th-admin ${on ? 'on' : ''}" style="background:${t.c.card};color:${t.c.ink};border-color:${on ? t.c.brand : t.c.line}">
-      <div class="th-prev" style="background:${t.c.bg}"><span style="background:${t.c.brand}"></span><span style="background:${t.c.card}"></span><span style="background:${t.c.gold}"></span></div>
-      <b>${esc(t.name)}</b><span style="color:${t.c.muted}">${esc(t.desc)}${t.dark ? ' · dark' : ''}${t.banner ? ' · seasonal card' : ''}</span>
-      ${on ? `<span class="pill p-live">Default for everyone</span>` : `<button class="b b-soft" data-a="setTheme" data-v="${t.id}">Set as default</button>`}</div>`; }).join('')}</div>
-    <div class="cols"><div class="card"><h2>Button style</h2><p class="hint" style="margin:-4px 0 10px;color:var(--muted)">Applies to every button in the app.</p><div class="bs-admin">${BTN.map(([k, l, css]) => `<button class="bsa ${DB.look.btn === k ? 'on' : ''}" data-a="look" data-v="btn:${k}"><span style="${css}">Donate</span>${l}</button>`).join('')}</div>
-      <h2 style="margin-top:16px">Text size</h2><div class="filters">${[['s', 'Small'], ['m', 'Default'], ['l', 'Large']].map(([k, l]) => `<button class="${DB.look.text === k ? 'on' : ''}" data-a="look" data-v="text:${k}">${l}</button>`).join('')}</div>
-      <div class="toggle-row" style="margin-top:10px"><span class="t"><b>Battery saver for everyone</b><span>Stops animations and blur effects</span></span><button class="sw ${DB.look.saver ? 'on' : ''}" data-a="look" data-v="saver:${!DB.look.saver}" role="switch" aria-checked="${DB.look.saver}" aria-label="Battery saver"></button></div></div>
-    <div class="card"><h2>Rules</h2><p class="hint" style="margin:-4px 0 10px;color:var(--muted)">People can only switch between light and dark in the app.</p>${sw('autoRamzan', 'Switch to Ramzan during Ramadan', 'Turns on at the start of Ramadan and back after Eid')}${sw('autoEid', 'Switch to Eid Mubarak on Eid days', 'Eid al-Fitr and Eid al-Adha')}</div></div>`; },
+    const cats = [['all', 'All'], ['curated', 'Curated'], ...Object.entries({ l: 'Foundation icons', n: 'Button-style', w: 'Festival wallpapers', m: 'Muslim festivals', r: 'Spiritual', o: 'Other festivals', d: 'Prayer & Namaz', h: 'Hajj & Kaaba', s: 'Mosque & school', c: 'Classic' })];
+    const q = DB.themeQ.trim().toLowerCase();
+    const list = themes.filter(t => (DB.themeCat === 'all' || (DB.themeCat === 'curated' ? !t.cat : t.cat === DB.themeCat)) && (!q || (t.name + ' ' + t.desc).toLowerCase().includes(q)));
+    const cur = themes.find(t => t.id === DB.themeDefault);
+    const mock = t => `<span class="tmock" style="background:${t.c.bg}"><span class="tm-bar" style="background:${t.c.card};border-color:${t.c.line}"><i style="background:${t.c.brand}"></i></span><span class="tm-card" style="background:${t.c.card};border-color:${t.c.line}"><i style="background:${t.c.chip}"></i><i style="background:${t.c.chip};width:60%"></i></span><span class="tm-btn" style="background:${t.c.brand};color:${t.c['on-brand']}">Donate</span></span>`;
+    return head('Themes', `${themes.length} themes. The one you apply is what everyone sees; people can only switch between light and dark.`) + `
+    ${cur ? `<div class="tcur">${mock(cur)}<div><span class="eyebrow">Live for everyone</span><b>${esc(cur.name)}</b><span>${esc(cur.desc)}${cur.dark ? ' · dark' : ''}</span></div></div>` : ''}
+    <div class="tbar"><input class="input" placeholder="Search themes" value="${esc(DB.themeQ)}" data-a-input="themeQ" aria-label="Search themes"><div class="filters">${cats.map(([k, l]) => `<button class="${DB.themeCat === k ? 'on' : ''}" data-a="themeCat" data-v="${k}">${l}</button>`).join('')}</div></div>
+    <div class="tgrid">${list.map(t => { const on = t.id === DB.themeDefault; return `<div class="tcard ${on ? 'on' : ''}">${mock(t)}<div class="tc-meta"><b>${esc(t.name)}</b><span>${esc(t.desc)}${t.dark ? ' · dark' : ''}</span></div>${on ? '<span class="pill p-live">Applied</span>' : `<button class="b b-soft" data-a="setTheme" data-v="${t.id}">Apply</button>`}</div>`; }).join('') || '<p class="hint">No theme matches that search.</p>'}</div>
+    <div class="card" style="max-width:640px"><h2>Automatic seasons</h2>${['autoRamzan', 'autoEid'].map(k => `<div class="toggle-row"><span class="t"><b>${k === 'autoRamzan' ? 'Switch to Ramzan during Ramadan' : 'Switch to Eid Mubarak on Eid days'}</b><span>${k === 'autoRamzan' ? 'Back to your theme after Eid' : 'Eid al-Fitr and Eid al-Adha'}</span></span><button class="sw ${DB[k] ? 'on' : ''}" data-a="themeOpt" data-v="${k}" role="switch" aria-checked="${DB[k]}" aria-label="${k}"></button></div>`).join('')}</div>`; },
+  buttons: () => {
+    const samples = [['Donate', '#1fa38b'], ['Meet a lawyer', '#3b4a9a'], ['Support a school', '#e8452c'], ['Help orphan girls', '#ef6f62'], ['Help with treatment', '#f4f4f2']];
+    return head('Buttons & text', 'The button style applies to every button in the app, in every theme.') + `
+    <div class="bgal">${BTN.map(([k, l, css]) => `<div class="bstyle ${DB.look.btn === k ? 'on' : ''}"><div class="bs-head"><b>${l}</b>${DB.look.btn === k ? '<span class="pill p-live">Applied</span>' : `<button class="b b-soft" data-a="look" data-v="btn:${k}">Apply</button>`}</div>
+      <div class="bs-stack">${samples.map(([t, c]) => `<span style="${css.replace(/#0b5d3b/g, c).replace(/#3faf7f/g, c)};${c === '#f4f4f2' ? 'color:#222' : ''}">${t}</span>`).join('')}</div></div>`).join('')}</div>
+    <div class="cols"><div class="card"><h2>Text size</h2><div class="filters">${[['s', 'Small'], ['m', 'Default'], ['l', 'Large']].map(([k, l]) => `<button class="${DB.look.text === k ? 'on' : ''}" data-a="look" data-v="text:${k}">${l}</button>`).join('')}</div></div>
+    <div class="card"><h2>Battery saver</h2><div class="toggle-row"><span class="t"><b>Battery saver for everyone</b><span>Stops animations and blur effects</span></span><button class="sw ${DB.look.saver ? 'on' : ''}" data-a="look" data-v="saver:${!DB.look.saver}" role="switch" aria-checked="${DB.look.saver}" aria-label="Battery saver"></button></div></div></div>`; },
   quick: () => {
     let list = [], camps = [];
     try { list = win().eval('QUICK'); camps = win().eval('active()').map(c => [c.id, c.title]); } catch { /* app frame not ready */ }
@@ -426,15 +471,16 @@ function donTable(rows, compact) {
   if (compact) return `<table><thead><tr><th>Donor</th><th>Fundraiser</th><th class="r">Amount</th><th>Time</th></tr></thead><tbody>${rows.map(r => `<tr><td style="white-space:nowrap">${esc(r[1])}<span class="sub">${r[4]} · ${r[5]}</span></td><td><span class="clip">${esc(r[2])}</span></td><td class="r num"><b>${inr(r[3])}</b></td><td class="num" style="white-space:nowrap">${r[6].split(', ')[1]}</td></tr>`).join('')}</tbody></table>`; return `<table><thead><tr><th>Transaction</th><th>Donor</th><th>Fundraiser</th><th class="r">Amount</th><th>Type</th><th>Method</th><th>Time</th></tr></thead><tbody>${rows.map(r => `<tr><td class="num">${r[0]}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td class="r num"><b>${inr(r[3])}</b></td><td>${r[4]}</td><td>${r[5]}</td><td class="num" style="white-space:nowrap">${r[6]}</td></tr>`).join('')}</tbody></table>`; }
 function renderAdmin() {
   const p = pending();
-  $('#admin-nav').innerHTML = NAV.map(([k, l, i]) => `<button class="${DB.section === k ? 'on' : ''}" data-a="nav" data-v="${k}">${ic(i)}${l}${p[k] ? `<span class="count">${p[k]}</span>` : ''}</button>`).join('');
+  $('#admin-nav').innerHTML = NAV.map(([k, l, i]) => !l ? `<span class="side-group">${k}</span>` : `<button class="${DB.section === k ? 'on' : ''}" data-a="nav" data-v="${k}">${ic(i)}${l}${p[k] ? `<span class="count">${p[k]}</span>` : ''}</button>`).join('');
   $('#admin-work').innerHTML = ADMIN[DB.section]();
 }
 function adminGo(s) { DB.section = s; renderAdmin(); window.scrollTo(0, 0); }
 function modal(html) { const m = document.createElement('div'); m.className = 'modal-scrim'; m.innerHTML = `<div class="modal" role="dialog" aria-modal="true">${html}</div>`; m.addEventListener('click', e => { if (e.target === m || e.target.closest('[data-close]')) m.remove(); }); document.body.appendChild(m); return m; }
 const pushTheme = () => { try { win().adminTheme(DB.themeDefault); } catch { /* app frame not ready */ } };
-const BTN = [['classic', 'Classic', 'background:#0b5d3b;color:#fff;border-radius:99px'], ['clay', 'Clay', 'background:#0b5d3b;color:#fff;border-radius:16px;box-shadow:inset 0 -4px 0 rgb(0 0 0 / .2),inset 0 3px 0 rgb(255 255 255 / .3)'], ['glass', '3D glass', 'background:linear-gradient(180deg,#5aa386,#0b5d3b 55%,#073d27);color:#fff;border-radius:99px;box-shadow:inset 0 1px 0 rgb(255 255 255 / .6)'], ['neu', 'Neumorphic', 'background:#fff;color:#0b5d3b;border-radius:99px;box-shadow:4px 4px 10px rgb(0 0 0 / .14),-4px -4px 10px #fff'], ['capsule', 'Capsule', 'background:linear-gradient(90deg,#3faf7f,#0b5d3b);color:#fff;border-radius:99px']];
+const BTN = [['classic', 'Classic', 'background:#0b5d3b;color:#fff;border-radius:99px'], ['clay', 'Clay', 'background:#0b5d3b;color:#fff;border-radius:18px;box-shadow:inset 0 -5px 0 rgb(0 0 0 / .18),inset 0 4px 0 rgb(255 255 255 / .3),0 8px 14px -8px rgb(0 0 0 / .4)'], ['glass', '3D glass', 'background:linear-gradient(180deg,color-mix(in srgb,#0b5d3b 55%,white),#0b5d3b 55%,color-mix(in srgb,#0b5d3b 80%,black));color:#fff;border-radius:99px;box-shadow:inset 0 1px 0 rgb(255 255 255 / .6),0 8px 14px -8px rgb(0 0 0 / .4)'], ['neu', 'Neumorphic', 'background:#f3f3f1;color:#0b5d3b;border-radius:99px;box-shadow:5px 5px 12px rgb(0 0 0 / .14),-5px -5px 12px #fff'], ['frost', 'Glass', 'background:color-mix(in srgb,#0b5d3b 75%,transparent);color:#fff;border-radius:99px;border:1px solid rgb(255 255 255 / .5);box-shadow:inset 0 1px 0 rgb(255 255 255 / .4)'], ['skeu', 'Real 3D', 'background:linear-gradient(180deg,color-mix(in srgb,#0b5d3b 70%,white),#0b5d3b 45%,color-mix(in srgb,#0b5d3b 80%,black));color:#fff;border-radius:14px;box-shadow:0 4px 0 color-mix(in srgb,#0b5d3b 60%,black),0 8px 14px -6px rgb(0 0 0 / .35)'], ['capsule', 'Capsule pill', 'background:linear-gradient(90deg,#3faf7f,#0b5d3b);color:#fff;border-radius:99px'], ['gbar', 'Glass gradient pill', 'background:linear-gradient(90deg,#3faf7f,#0b5d3b 55%,#0b5d3b);color:#fff;border-radius:99px;box-shadow:inset 0 12px 14px -10px rgb(255 255 255 / .55)']];
 const ACT = {
   setTheme: v => { DB.themeDefault = v; pushTheme(); toast('Default theme updated for everyone'); renderAdmin(); },
+  themeCat: v => { DB.themeCat = v; renderAdmin(); },
   themeOpt: v => { DB[v] = !DB[v]; renderAdmin(); },
   look: v => { const [k, x] = v.split(':'); DB.look[k] = k === 'saver' ? x === 'true' : x; try { win().adminLook(DB.look); } catch { /* app frame not ready */ } toast('Applied to the app for everyone'); renderAdmin(); },
   quickDel: v => { try { const l = win().eval('QUICK').slice(); l.splice(Number(v), 1); win().adminQuick(l); } catch { /* app frame not ready */ } toast('Removed from Home'); renderAdmin(); },
@@ -458,6 +504,7 @@ const ACT = {
   },
 };
 document.addEventListener('click', e => { const el = e.target.closest('[data-a]'); if (el && ACT[el.dataset.a]) { e.preventDefault(); ACT[el.dataset.a](el.dataset.v, el); } });
+document.addEventListener('input', e => { if (e.target.dataset.aInput === 'themeQ') { DB.themeQ = e.target.value; const pos = e.target.selectionStart; renderAdmin(); const el = document.querySelector('[data-a-input=themeQ]'); el.focus(); el.setSelectionRange(pos, pos); } });
 document.addEventListener('submit', e => {
   e.preventDefault(); const f = e.target;
   if (f.dataset.f === 'cat') { DB.cats.push([f.querySelector('input').value.trim(), '#3d3d4a', 0, true]); toast('Category added'); renderAdmin(); }
