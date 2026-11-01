@@ -427,10 +427,10 @@ const creatorNudge = () => S.creator ? '' : `<button class="creator-nudge" data-
 function header(seg) {
   return `<header class="top">
     <div class="top-row">
-      <div class="brandblock"><div class="logo">${LOGO}${APP}</div><div class="helped"><i></i><b class="num">2,481</b> helped today</div></div>
+      <div class="logo">${LOGO}${APP}</div>
       <span class="spacer"></span>
       <div class="hbtns">
-        <button class="hbtn primary" data-go="#/start" aria-label="Start a fundraiser">${ic('plus')}</button>
+        <button class="hbtn" data-go="#/start" aria-label="Start a fundraiser">${ic('plus')}</button>
         <button class="hbtn" data-go="#/news" aria-label="News and notifications">${ic('bell')}${S.notifs.some(n => n.unread) ? '<span class="dot-badge"></span>' : ''}</button>
         <button class="hbtn" data-go="#/search" aria-label="Search">${ic('search')}</button>
       </div>
@@ -479,12 +479,11 @@ const membersBlock = () => `<section class="home-sec">${secTitle('Active members
   <div class="members">${MEMBERS.map(([n, l], i) => `<div class="member"><span class="mav">${avatar(n)}${i % 3 !== 2 ? '<i></i>' : ''}</span><b>${esc(n.split(' ')[0])}</b><span>${l}</span></div>`).join('')}</div></section>`;
 
 const DONOR_ID = 'MLP-104582';
-const heroBlock = () => { const t = totalGiven(), tr = tierOf(t), pb = S.profileBadge != null ? BADGES[S.profileBadge] : null; return `<section class="home-hero"><div class="pattern"></div>${sparkles([[8, 22, 9, 0], [24, 64, 6, 1.2], [84, 16, 10, .6], [70, 60, 7, 1.8], [52, 12, 6, 2.4]])}<span class="hero-emblem">${emblem()}</span>
-    <p class="hero-greet">Assalamu alaikum, ${esc(S.user.first)}</p><p class="hero-date">${hijri()}</p></section>
+const heroBlock = () => { const t = totalGiven(), tr = tierOf(t), pb = S.profileBadge != null ? BADGES[S.profileBadge] : null; return `<section class="greet-block">
+    <div class="gb-text"><span class="gb-meta">${hijri()} · <i class="live"></i><b class="num">2,481</b> helped today</span><h1>Assalamu alaikum, ${esc(S.user.first)}</h1></div>
+    <button class="pc-av ${pb ? 'framed' : ''}" style="${pb ? `--f1:${pb[5][0]};--f2:${pb[5][1]}` : ''}" data-go="#/profile" aria-label="Profile">${avatar(S.user.name)}</button></section>
   <div class="profile-card">
-    <div class="pc-row"><span class="pc-av ${pb ? 'framed' : ''}" style="${pb ? `--f1:${pb[5][0]};--f2:${pb[5][1]}` : ''}">${avatar(S.user.name)}</span>
-      <div class="pc-body"><b>${esc(S.user.name)}</b><span class="num">Donor ID · ${DONOR_ID}</span></div><span class="verified-pill">${ic('verified')} Verified</span></div>
-    <button class="pc-tier" data-go="#/donations"><span class="ts-badge" style="--tc:${TIERS[tr.i][2][0]}">${tierBadge(tr.i, 30)}</span><span class="ts-body"><span class="eyebrow">${tr.name} member · <span class="num">${inr(t)}</span> donated</span><span class="bar"><i style="width:${tierProgress(t)}%"></i></span><span class="ts-next">${tr.next ? `${inr(tr.next[1] - t)} more to reach <b>${tr.next[0]}</b>` : 'Highest badge reached'}</span></span>${ic('right')}</button>
+    <button class="pc-tier" data-go="#/donations">${tierBadge(tr.i, 30)}<span class="ts-body"><span class="pc-line"><b>${tr.name} member</b><span class="num">${inr(t)} donated</span></span><span class="bar"><i style="width:${tierProgress(t)}%"></i></span><span class="ts-next">${tr.next ? `${inr(tr.next[1] - t)} more to reach ${tr.next[0]}` : 'Highest badge reached'}</span></span></button>
     <div class="hero-actions"><button class="btn btn-main" data-go="#/campaigns">${ic('heart')} Donate</button><button class="btn btn-soft" data-go="#/help">${ic('hands')} Ask for help</button></div>
   </div>`; };
 const HOME_SERVICES = [['scale', 'Legal aid', '#2f3fa8', 'go:#/help'], ['school', 'School', '#4338ca', 'cat:education'], ['mosque', 'Madrasa upgrade', '#0b7a4c', 'camp:15'], ['ring', 'Orphan girls’ nikah', '#b0461f', 'camp:11'], ['pulse', 'Treatment', '#1d7cc4', 'cat:medical'], ['eye', 'Eye surgery', '#0e8fa6', 'camp:13'], ['utensils', 'Ration', '#c2410c', 'camp:10'], ['snow', 'Winter relief', '#2563eb', 'camp:12'], ['book', 'Education & clothes', '#6d28d9', 'cat:education'], ['buoy', 'Disaster relief', '#c33838', 'cat:emergency'], ['calc', 'Zakat calculator', '#0a9b3c', 'act:zakatCalc'], ['calendar', 'Qurbani', '#a16207', 'act:qurbani']];
