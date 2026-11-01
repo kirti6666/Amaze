@@ -98,6 +98,8 @@ const NAV_ICONS = {
   stories: '<path d="M12 1.5a10.5 10.5 0 1 1 0 21 10.5 10.5 0 0 1 0-21Z"/><path d="M10 8.2v7.6l6.2-3.8Z" style="fill:var(--card)"/>'
 ,
   campaigns: '<path d="M4 3h7a1.5 1.5 0 0 1 1.5 1.5v6A1.5 1.5 0 0 1 11 12H4a1.5 1.5 0 0 1-1.5-1.5v-6A1.5 1.5 0 0 1 4 3Z"/><path d="M13 13h7a1.5 1.5 0 0 1 1.5 1.5v5A1.5 1.5 0 0 1 20 21h-7a1.5 1.5 0 0 1-1.5-1.5v-5A1.5 1.5 0 0 1 13 13Z"/><path d="M15 3h5a1.5 1.5 0 0 1 1.5 1.5V9A1.5 1.5 0 0 1 20 10.5h-5A1.5 1.5 0 0 1 13.5 9V4.5A1.5 1.5 0 0 1 15 3ZM4 14h5a1.5 1.5 0 0 1 1.5 1.5v4A1.5 1.5 0 0 1 9 21H4a1.5 1.5 0 0 1-1.5-1.5v-4A1.5 1.5 0 0 1 4 14Z"/>'
+,
+  creator: '<path d="M6 2h12v7a6 6 0 0 1-12 0Z"/><path d="M6 4H3.5a1 1 0 0 0-1 1.2C3 8.5 4.6 10 6.5 10.4M18 4h2.5a1 1 0 0 1 1 1.2c-.5 3.3-2.1 4.8-4 5.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10.5 14.5h3v3.5h-3z"/><path d="M7 19.5h10V22H7z"/><path d="m12 4.6 1.1 2.2 2.4.3-1.8 1.7.5 2.4-2.2-1.2-2.2 1.2.5-2.4-1.8-1.7 2.4-.3Z" style="fill:var(--card)"/>'
 };
 
 // app emblem: dome with crescent finial, two minarets, open Quran as the base
@@ -460,7 +462,7 @@ const seg = (key, opts) => `<div class="seg" role="tablist">${opts.map(([v, l]) 
 const pageHead = (title, right = '') => `<header class="phead"><button class="icon-btn" data-act="back" aria-label="Back">${ic('left')}</button><h1>${title}</h1>${right}</header>`;
 
 function navBar(cur) {
-  const tabs = [['home', 'Home'], ['campaigns', 'Campaigns'], ['donations', 'Donate'], ['stories', 'Stories'], ['profile', 'Profile']];
+  const tabs = [['home', 'Home'], ['stories', 'Stories'], ['donations', 'Donate'], ['creator', 'Trophy'], ['profile', 'Profile']];
   return `<nav class="nav fixed-col">${tabs.map(([k, l]) => k === 'donations' ? `<a href="#/donations" data-go="#/donations" class="nav-fab ${cur === k ? 'on' : ''}"><span class="fab">${ic('hands')}</span>${l}</a>` : `<a href="#/${k}" data-go="#/${k}" class="${cur === k ? 'on' : ''}"><svg class="i" viewBox="0 0 24 24" aria-hidden="true">${NAV_ICONS[k]}</svg>${l}</a>`).join('')}</nav>`;
 }
 
@@ -520,7 +522,7 @@ V.home = () => ({ nav: 'home', html: header() + `<div class="stories-band">${sto
 V.campaigns = () => {
   const cats = [['all', 'All', 'heart'], ...Object.entries(CATS).map(([k, c]) => [k, c.label, c.icon])];
   const list = S.ui.home === 'fav' ? CAMPAIGNS.filter(c => S.saved.has(c.id)) : active().filter(c => S.ui.cat === 'all' || c.cat === S.ui.cat).sort((a, b) => !!b.featured - !!a.featured);
-  return { nav: 'campaigns', html: `<header class="top"><div class="top-row"><h1 class="page-title" style="font-size:20px">Campaigns</h1><span class="spacer"></span><div class="hbtns"><button class="hbtn" data-go="#/completed" aria-label="Completed campaigns">${ic('check')}</button><button class="hbtn" data-go="#/search" aria-label="Search">${ic('search')}</button></div></div>${seg('home', [['all', 'All campaigns'], ['fav', 'My favorites']])}</header>` +
+  return { nav: 'home', html: `<header class="top"><div class="top-row"><button class="hbtn" data-act="back" aria-label="Back">${ic('left')}</button><h1 class="page-title" style="font-size:20px">Campaigns</h1><span class="spacer"></span><div class="hbtns"><button class="hbtn" data-go="#/completed" aria-label="Completed campaigns">${ic('check')}</button><button class="hbtn" data-go="#/search" aria-label="Search">${ic('search')}</button></div></div>${seg('home', [['all', 'All campaigns'], ['fav', 'My favorites']])}</header>` +
     (S.ui.home === 'all' ? (() => { const A = active(), r = A.reduce((x, c) => x + c.raised, 0), d = A.reduce((x, c) => x + c.donors, 0); return `<div class="fund-stats list-stats"><span><b class="num">${inr(r)}</b>raised</span><span><b class="num">${d.toLocaleString('en-IN')}</b>donors</span><span><b class="num">${A.length}</b>campaigns</span></div>`; })() : '') +
     (S.ui.home === 'all' ? `<div class="chips">${cats.map(([k, l, i]) => `<button class="chip ${S.ui.cat === k ? 'on' : ''}" data-act="ui" data-k="cat" data-v="${k}">${ic(i)}${l}</button>`).join('')}</div>` : '') +
     `<div class="feed">${list.map(campaignCard).join('') || `<div class="empty">${ic('bookmark')}<p>${S.ui.home === 'fav' ? 'Tap the bookmark on any campaign to keep it here.' : 'No campaigns in this cause yet.'}</p><button class="btn btn-soft" data-act="ui" data-k="home" data-v="all">Browse campaigns</button></div>`}</div>` };
@@ -615,11 +617,11 @@ V.profile = () => {
       <div class="pc-prog"><span class="bar"><i style="width:${tierProgress(t)}%"></i></span><span class="small muted">${tr.next ? `${inr(tr.next[1] - t)} more to reach <b>${tr.next[0]}</b>` : 'Highest level reached'}</span></div>
       <div class="pstats"><button data-go="#/donations"><b class="num">${inr(t)}</b><span>Donated</span></button><button data-go="#/my"><b class="num">${inr(myRaised())}</b><span>Raised</span></button><button data-go="#/creator"><b class="num">${got}/${BADGES.length}</b><span>Badges</span></button></div>
     </section>
-    <div class="pquick">${[['receipt', 'History', '#/history'], ['wallet', 'Fundraisers', '#/my'], ['medal', 'Trophy', '#/creator'], ['scale', 'Get help', '#/help']].map(([i, l, h]) => `<button data-go="${h}"><i>${ic(i)}</i><span>${l}</span></button>`).join('')}</div>
+    <div class="pquick">${[['receipt', 'History', '#/history'], ['wallet', 'Fundraisers', '#/my'], ['check', 'Completed', '#/completed'], ['scale', 'Get help', '#/help']].map(([i, l, h]) => `<button data-go="${h}"><i>${ic(i)}</i><span>${l}</span></button>`).join('')}</div>
     <section class="section"><div class="sec-head"><h2>Badges</h2><span class="small muted">${got} of ${BADGES.length} earned</span></div>
       <div class="badge-row">${BADGES.map((b, i) => { const ok = badgeUnlocked(b); return `<button class="bdg2 ${ok ? '' : 'off'}" ${ok ? `data-act="setBadge" data-v="${i}"` : 'disabled'}>${badgeArt(b, 48, !ok)}<span>${b[0]}</span>${S.profileBadge === i ? '<em>On profile</em>' : ''}</button>`; }).join('')}</div></section>
     ${menu('Account', [['user', 'Settings & appearance', '#/settings', theme().name], ['shield', 'KYC & bank account', '#/kyc', 'Verified'], ['card', 'Payment methods', 'payments'], ['calendar', 'Monthly giving', 'monthly'], ['globe', 'Language', 'region', 'English']])}
-    ${menu('Activity', [['trophy', 'Rating & leaderboard', '#/rating'], ['heart', 'Rose contests', '#/vote'], ['check', 'Completed campaigns', '#/completed'], ['bookmark', 'Favorites', 'favs'], ['bell', 'News & notifications', '#/news'], ['hands', 'Verified NGOs', '#/ngos']])}
+    ${menu('Activity', [['trophy', 'Rating & leaderboard', '#/rating'], ['heart', 'Rose contests', '#/vote'], ['search', 'All campaigns', '#/campaigns'], ['bookmark', 'Favorites', 'favs'], ['bell', 'News & notifications', '#/news'], ['hands', 'Verified NGOs', '#/ngos']])}
     ${menu('Help', [['headset', 'Contact support', '#/info/contact'], ['info', 'About, FAQs & how it works', '#/info/faq'], ['file', 'Terms, privacy & refunds', '#/info/terms']])}
     <button class="logout-btn" data-act="logout">${ic('logout')} Log out</button>
     <p class="center small muted">${APP} · demo build 0.3</p>
@@ -919,22 +921,34 @@ V.donations = () => {
 };
 
 V.creator = () => {
-  const cr = S.creator, joined = cr ? S.joins.filter(j => j.code === cr.code).length : 0, lv = Math.floor(joined / 500), next = Math.min(lv + 1, 8), sel = S.ui.trophy || next;
-  return { html: `<header class="phead"><button class="icon-btn" data-act="back" aria-label="Back">${ic('left')}</button><div style="flex:1;min-width:0"><h1>Trophy & referral</h1><span class="small muted">Aapki mehnat · hamari tarakki · sabka saath</span></div></header>
+  const cr = S.creator, joined = cr ? S.joins.filter(j => j.code === cr.code).length : 0, lv = Math.floor(joined / 500), next = Math.min(lv + 1, 8), sel = S.ui.trophy || next, got = lv >= sel;
+  return { nav: 'creator', html: `<header class="top"><div class="top-row"><div><h1 class="page-title">Trophies</h1><span class="small muted">Aapki mehnat · hamari tarakki · sabka saath</span></div><span class="spacer"></span><div class="hbtns"><button class="hbtn" data-act="trophyHelp" aria-label="How trophies work">${ic('info')}</button></div></div></header>
   <div class="wrap">
-    <section class="creator-hero"><div class="pattern"></div>${sparkles([[70, 18, 12, 0], [84, 52, 8, 1], [62, 74, 7, 1.8], [92, 22, 6, .5]])}${ic('megaphone')}<h2>Share good, earn trophies</h2><p>Join the foundation, share your code and bring people to the app. Every 500 people who join earn you a new trophy.</p></section>
-    <section class="section trophy-stage"><div class="ts-art">${trophyArt(sel, 120)}</div><b class="ts-name">${trophyName(sel)} trophy</b><span class="muted small">When ${(sel * 500).toLocaleString('en-IN')} people join with your code</span><span class="status ${lv >= sel ? 'st-live' : 'st-review'}">${lv >= sel ? 'Earned' : `${ic('lock')} Locked`}</span>
-      <div class="pills-row">${[1, 2, 3, 4, 5, 6, 7, 8].map(n => `<button class="${n === sel ? 'on' : ''}" data-act="pickTrophy" data-v="${n}">${(n * 500).toLocaleString('en-IN')}</button>`).join('')}</div></section>
-    <div class="trophy-grid">${[1, 2, 3, 4, 5, 6, 7, 8].map(n => `<button class="tg ${n === sel ? 'on' : ''} ${lv >= n ? 'got' : ''}" data-act="pickTrophy" data-v="${n}">${trophyArt(n, 54)}<b>${trophyName(n)}</b><span class="num">${(n * 500).toLocaleString('en-IN')} people${lv >= n ? ' ✓' : ''}</span></button>`).join('')}</div>
+    <section class="tstage"><div class="pattern"></div>${sparkles([[8, 14, 10, 0], [88, 20, 12, .8], [14, 70, 7, 1.6], [86, 64, 8, 2.2]])}
+      <div class="tst-photo"><img src="${TROPHY_IMG[(sel - 1) % 4]}" alt="${trophyName(sel)} trophy"></div>
+      <b class="tst-name">${trophyName(sel)} trophy</b><span class="tst-when">When ${(sel * 500).toLocaleString('en-IN')} people join with your code</span>
+      <span class="tst-chip ${got ? 'on' : ''}">${got ? `${ic('check')} Earned` : `${ic('lock')} Locked`}</span>
+      ${cr ? `<div class="tst-prog"><span class="bar"><i style="width:${Math.min(100, joined / (sel * 500) * 100)}%"></i></span><span>${joined.toLocaleString('en-IN')} of ${(sel * 500).toLocaleString('en-IN')} joined</span></div>`
+        : `<button class="btn tst-btn" data-act="toRegister">Apply for this trophy</button>`}
+    </section>
+    <div class="pills-row tpills">${[1, 2, 3, 4, 5, 6, 7, 8].map(n => `<button class="${n === sel ? 'on' : ''}" data-act="pickTrophy" data-v="${n}">${(n * 500).toLocaleString('en-IN')}</button>`).join('')}</div>
+    ${secTitle('Trophy ladder', 'ट्रॉफी की सीढ़ी')}
+    <div class="tladder">${[1, 2, 3, 4, 5, 6, 7, 8].map(n => `<button class="tlc ${n === sel ? 'on' : ''} ${lv >= n ? 'got' : ''}" data-act="pickTrophy" data-v="${n}"><span class="tl-photo"><img src="${TROPHY_IMG[(n - 1) % 4]}" alt="" loading="lazy">${lv >= n ? '' : `<i>${ic('lock')}</i>`}</span><b>${trophyName(n)}</b><span class="num">${(n * 500).toLocaleString('en-IN')} people</span></button>`).join('')}</div>
     ${cr ? `<section class="section"><div class="sec-head"><h2>Your referral code</h2><span class="status st-live">Active</span></div>
       <div class="code-box"><b class="num">${cr.code}</b><button class="btn btn-soft" data-act="copy" data-v="${cr.code}">${ic('link')} Copy</button></div>
+      <a class="btn btn-wa btn-block" style="margin-top:10px" href="https://wa.me/?text=${encodeURIComponent(`Download ${APP} and join with my code ${cr.code}: ${SITE}/join?ref=${cr.code}`)}" target="_blank" rel="noopener">${ic('share')} Share my code on WhatsApp</a>
       <div class="stats3"><div><b class="num">${joined}</b><span>people joined</span></div><div><b class="num">${500 - (joined % 500)}</b><span>to next trophy</span></div><div><b class="num">${lv}</b><span>trophies</span></div></div></section>
-      <section class="cert"><span class="eyebrow">${APP}</span><h3>Certificate of appreciation</h3>${avatar(S.user.name, 'big')}<b>${esc(cr.name || S.user.name)}</b><span class="muted small">Honoured member for spreading the foundation’s work and serving the community</span><span class="muted small">${cr.date}</span></section>`
-    : `<section class="section"><div class="sec-head"><h2>Register for trophies</h2></div><p class="small muted">Get your own code to share with family and friends.</p><button class="btn btn-main btn-block" style="margin-top:10px" data-act="joinCreator">${ic('star')} Register and get my code</button></section>`}
-    <form class="section" data-form="joinCode" style="display:grid;gap:10px"><div class="sec-head" style="margin:0"><h2>Joined with someone’s code?</h2></div>
-      <input class="input" name="name" placeholder="Your name" required><input class="input num" name="phone" inputmode="numeric" maxlength="10" placeholder="Mobile number" required><input class="input" name="code" placeholder="Referral code (MLP-XXXXXX)" required style="text-transform:uppercase">
+      <section class="cert"><span class="eyebrow">${APP}</span><h3>Certificate of appreciation</h3>${S.crPhoto ? `<span class="cert-ph" style="background-image:url('${S.crPhoto}')"></span>` : avatar(cr.name || S.user.name, 'big')}<b>${esc(cr.name || S.user.name)}</b><span class="muted small">${esc(cr.city || '')}</span><span class="muted small">Honoured member for spreading the foundation’s work and serving the community</span><span class="muted small">${cr.date}</span></section>`
+    : `<form class="section tform" data-form="creator" id="reg-form"><div class="sec-head" style="margin:0"><h2>Register for trophies</h2></div><p class="small muted">Get your own code. Every person who joins with it brings you closer to the next trophy.</p>
+      <input class="input" name="name" placeholder="Full name" required value="${esc(S.user.name)}" aria-label="Full name">
+      <input class="input" name="city" placeholder="City and address" required aria-label="City and address">
+      <input class="input num" name="phone" inputmode="numeric" maxlength="10" placeholder="Mobile number (10 digits)" required aria-label="Mobile number">
+      <label class="doc-up ${S.crPhoto ? 'done' : ''}" for="cr-photo">${S.crPhoto ? `<span class="cert-ph sm" style="background-image:url('${S.crPhoto}')"></span>` : ic('camera')}<span class="txt"><b>Your photo</b><span>${S.crPhoto ? 'Added · shown on your certificate' : 'Optional · shown on your certificate'}</span></span><input type="file" id="cr-photo" accept="image/*" hidden></label>
+      <span class="err" id="cr-err"></span><button class="btn btn-main">Register and get my code</button></form>`}
+    <form class="section tform" data-form="joinCode"><div class="sec-head" style="margin:0"><h2>Joined with someone’s code?</h2></div>
+      <input class="input" name="name" placeholder="Your name" required aria-label="Your name"><input class="input num" name="phone" inputmode="numeric" maxlength="10" placeholder="Mobile number" required aria-label="Mobile number"><input class="input" name="code" placeholder="Referral code (MLP-XXXXXX)" required style="text-transform:uppercase" aria-label="Referral code">
       <span class="err" id="join-err"></span><button class="btn btn-soft">Join with this code</button></form>
-  </div>`, cta: cr ? `<a class="btn btn-wa btn-block" href="https://wa.me/?text=${encodeURIComponent(`Download ${APP} and join with my code ${cr.code}: ${SITE}/join?ref=${cr.code}`)}" target="_blank" rel="noopener">${ic('share')} Share my code on WhatsApp</a>` : undefined };
+  </div>` };
 };
 
 V.history = () => {
@@ -1202,7 +1216,8 @@ const badgesBlock = () => { const got = BADGES.filter(badgeUnlocked).length; ret
 /* ---------- trophy & referral ---------- */
 const TROPHIES = [['Silver Pearl', ['#f4f6fa', '#9aa3b2']], ['Emerald Gold', ['#7fe0b0', '#0b7a4c']], ['Ruby Rose', ['#ffb3c2', '#b0123e']], ['Royal Black-Gold', ['#f3d27a', '#2a2418']]];
 const trophyName = n => TROPHIES[(n - 1) % 4][0] + (n > 4 ? ' II' : '');
-const trophyArt = (n, size) => { const [lt, dk] = TROPHIES[(n - 1) % 4][1]; const id = `tr${n}`; return `<svg class="trophy-art" viewBox="0 0 64 72" width="${size}" height="${size * 72 / 64}" aria-hidden="true"><defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${lt}"/><stop offset="1" stop-color="${dk}"/></linearGradient></defs><path d="M18 6h28v18a14 14 0 0 1-28 0Z" fill="url(#${id})" stroke="#fff" stroke-width="2"/><path d="M18 11H9a9 9 0 0 0 10 12M46 11h9a9 9 0 0 1-10 12" fill="none" stroke="url(#${id})" stroke-width="4"/><path d="M28 37h8v10h-8z" fill="url(#${id})"/><path d="M19 47h26l3 9H16Z" fill="url(#${id})" stroke="#fff" stroke-width="1.5"/><rect x="13" y="56" width="38" height="9" rx="2" fill="${dk}"/><path d="M32 12l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.6-4.8 2.6.9-5.4-3.9-3.8 5.4-.8Z" fill="#fff" opacity=".85"/><path d="M22 9h6l-4 16h-2Z" fill="#fff" opacity=".35"/></svg>`; };
+const TROPHY_IMG = ['img/trophy-silver.jpg', 'img/trophy-emerald.jpg', 'img/trophy-ruby.jpg', 'img/trophy-black-gold.jpg'];
+const trophyArt = (n, size) => `<img class="trophy-art" src="${TROPHY_IMG[(n - 1) % 4]}" alt="${trophyName(n)} trophy" style="height:${Math.round(size * 1.3)}px" loading="lazy">`;
 
 let evHold = 0;
 document.addEventListener('scroll', e => {
@@ -1420,6 +1435,8 @@ const A = {
       <button class="btn btn-main">Request appointment</button></form>`); },
   setBadge: el => { S.profileBadge = Number(el.dataset.v); toast(BADGES[S.profileBadge][0] + ' badge set on your profile'); rerender(); },
   setLook: el => { const k = el.dataset.k, v = el.dataset.v; S.look[k] = k === 'saver' ? v === 'true' : v; applyLook(); rerender(); },
+  toRegister: () => document.getElementById('reg-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
+  trophyHelp: () => sheet(`<h2>How trophies work</h2><div class="rules" style="margin-top:10px"><span>Register and get your own referral code.</span><span>Share it with family and friends. They enter it when they join the app.</span><span>Every 500 people who join with your code earn you the next trophy and a certificate.</span><span>Trophies are permanent and shown on your profile.</span></div><button class="btn btn-soft btn-block" style="margin-top:14px" data-close>Got it</button>`),
   pickTrophy: el => { S.ui.trophy = Number(el.dataset.v); rerender(); },
   pickTheme: el => { S.userTheme = el.dataset.v; applyTheme(el.dataset.v); try { localStorage.setItem('mlp-theme', el.dataset.v); } catch { /* storage blocked: theme lasts for this session */ } toast(theme().name + ' theme on'); rerender(); },
   joinCreator: () => sheet(`<h2>Register for trophies</h2><p class="muted small">Your code lets us count everyone who joins through you.</p>
@@ -1503,6 +1520,7 @@ document.addEventListener('change', e => {
   const el = e.target;
   if (el.dataset.model && el.tagName === 'SELECT') setPath(el.dataset.model, el.value);
   if (el.type !== 'file' || !el.files.length) return;
+  if (el.id === 'cr-photo') { const r = new FileReader(); r.onload = () => { S.crPhoto = r.result; rerender(); }; r.readAsDataURL(el.files[0]); return; }
   if (el.id === 'post-photo' || el.id === 'post-video') {
     const f = el.files[0]; Object.assign(S.compose, { file: f.name, kind: el.id === 'post-video' ? 'video' : 'image', data: '' });
     if (S.compose.kind === 'image') { const r = new FileReader(); r.onload = () => { S.compose.data = r.result; rerender(); }; r.readAsDataURL(f); } else rerender();
@@ -1534,7 +1552,7 @@ document.addEventListener('submit', e => {
     if (!/^[6-9]\d{9}$/.test(f.phone.value.replace(/\D/g, ''))) { f.querySelector('#cr-err').textContent = 'Enter a valid 10-digit mobile number.'; return; }
     const A = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
     S.creator = { code: 'MLP-' + Array.from({ length: 6 }, () => A[Math.floor(Math.random() * A.length)]).join(''), name: f.name.value.trim(), city: f.city.value.trim(), date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) };
-    f.closest('.scrim').remove(); toast('Your referral code is ready'); rerender();
+    f.closest('.scrim')?.remove(); toast('Your referral code is ready'); rerender(); window.scrollTo(0, 0);
   } else if (kind === 'joinCode') {
     const ph = f.phone.value.replace(/\D/g, ''), code = f.code.value.trim().toUpperCase(), err = t => { f.querySelector('#join-err').textContent = t; };
     const known = [S.creator?.code, 'MLP-RIZWAN', 'MLP-SALMA2'].filter(Boolean);

@@ -1098,3 +1098,34 @@ a.btn { text-decoration: none; }
 .onb-body > * { animation: fadeup .5s ease both; }
 @media (prefers-reduced-motion: reduce) { .bismillah { clip-path: none; } .bis-en, .sp-logo, .ta-steps li { opacity: 1; } .r-fg { stroke-dashoffset: 60; } }
 :root.saver .bismillah { clip-path: none; } :root.saver .bis-en, :root.saver .sp-logo, :root.saver .ta-steps li { opacity: 1; } :root.saver .r-fg { stroke-dashoffset: 60; }
+/* trophy page */
+.trophy-art { width: auto; display: block; border-radius: 10px; }
+.tstage { position: relative; overflow: hidden; display: grid; justify-items: center; gap: 6px; text-align: center; padding: 18px 16px 18px; border-radius: 24px; color: #fff; background: radial-gradient(circle at 50% 30%, #157a50 0%, #0b4a31 55%, #062a1d 100%); box-shadow: inset 0 0 0 1.5px rgb(233 181 44 / 0.65), var(--card-shadow); }
+.tstage .pattern { position: absolute; inset: 0; opacity: .1; }
+.tst-photo { position: relative; width: 62%; max-width: 230px; border-radius: 18px; padding: 3px; background: linear-gradient(140deg, #f6dc8a, #c8901c 50%, #f6dc8a); box-shadow: 0 18px 36px rgb(0 0 0 / 0.35); animation: floaty 5s ease-in-out infinite; }
+.tst-photo img { display: block; width: 100%; height: auto; aspect-ratio: 458 / 680; object-fit: cover; object-position: center 30%; border-radius: 15px; }
+.tst-name { position: relative; margin-top: 10px; font-size: 21px; color: #f3d27a; }
+.tst-when { position: relative; font-size: 13px; opacity: .85; }
+.tst-chip { position: relative; display: inline-flex; align-items: center; gap: 5px; height: 28px; padding: 0 12px; border-radius: 99px; background: rgb(255 255 255 / 0.12); font-size: 12.5px; font-weight: 700; margin-top: 4px; }
+.tst-chip.on { background: #f3d27a; color: #3a2a05; }
+.tst-chip svg.i { width: 14px; height: 14px; }
+.tst-btn { position: relative; width: 100%; margin-top: 8px; background: linear-gradient(90deg, #f6dc8a, #e0a52a); color: #2a1d02; font-weight: 700; }
+.tst-prog { position: relative; width: 100%; display: grid; gap: 6px; margin-top: 8px; font-size: 12.5px; opacity: .9; }
+.tst-prog .bar { margin: 0; background: rgb(255 255 255 / 0.18); }
+.tst-prog .bar i { background: linear-gradient(90deg, #f6dc8a, #e0a52a); }
+.tpills { margin-top: 0; }
+.tpills button.on { background: linear-gradient(90deg, #f6dc8a, #e0a52a); color: #2a1d02; }
+.tladder { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.tlc { display: grid; gap: 4px; padding: 6px 6px 10px; border-radius: 18px; background: #0b4a31; color: #fff; text-align: center; box-shadow: var(--card-shadow); border: 2px solid transparent; }
+.tlc.on { border-color: #e9b52c; }
+.tl-photo { position: relative; display: block; border-radius: 13px; overflow: hidden; }
+.tl-photo img { display: block; width: 100%; aspect-ratio: 1 / 1.05; object-fit: cover; object-position: center 22%; }
+.tlc:not(.got) .tl-photo img { filter: saturate(.75) brightness(.92); }
+.tl-photo i { position: absolute; top: 6px; right: 6px; width: 26px; height: 26px; border-radius: 50%; background: rgb(0 0 0 / 0.45); display: grid; place-items: center; backdrop-filter: blur(4px); }
+.tl-photo i svg.i { width: 13px; height: 13px; color: #fff; }
+.tlc b { font-size: 13.5px; color: #f3d27a; margin-top: 4px; }
+.tlc span.num { font-size: 11.5px; opacity: .8; }
+.tform { display: grid; gap: 10px; }
+.cert-ph { width: 80px; height: 80px; border-radius: 50%; background-size: cover; background-position: center; box-shadow: 0 0 0 3px var(--gold); }
+.cert-ph.sm { width: 36px; height: 36px; box-shadow: none; flex: none; }
+.trophy-share { position: fixed; z-index: 29; left: 50%; transform: translateX(-50%); bottom: calc(76px + var(--sab)); width: min(calc(100% - 24px), calc(var(--col) - 24px)); }
