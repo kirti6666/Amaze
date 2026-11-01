@@ -981,7 +981,7 @@ function seasonGreeting() {
 }
 
 V.splash = () => {
-  setTimeout(() => location.hash === '#/splash' && replaceRoute(S.signed ? '#/home' : '#/intro'), 3200);
+  setTimeout(() => location.hash === '#/splash' && replaceRoute(S.signed ? '#/home' : '#/intro'), S.signed ? 1600 : 3200);
   return { bare: true, html: `<button class="splash splash2" data-act="splashNext" aria-label="Continue"><div class="pattern"></div>${chandSitare()}
     <div class="sp-stack"><p class="bismillah" lang="ar" dir="rtl">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p><p class="bis-en">In the name of Allah, the Most Gracious, the Most Merciful</p>
     <div class="sp-logo">${emblem()}<b>${APP}</b><span>Together for a Better Muslim</span></div></div></button>` };
