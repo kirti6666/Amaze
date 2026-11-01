@@ -509,7 +509,7 @@ const POSTERS = [[16, 'img/poster-dua.jpg', 'Dua program: food and gifts for 1 l
 const postersBlock = () => `<section class="home-sec">${secTitle('Featured campaigns')}<div class="hscroll posters2">${POSTERS.map(([id, src, alt]) => `<button class="poster2" data-go="#/c/${id}"><img src="${src}" alt="${esc(alt)}" loading="lazy"></button>`).join('')}</div></section>`;
 const trophyNudge = () => `<button class="creator-nudge" data-go="#/creator"><span class="cn-ic">${trophyArt(1, 26)}</span><span><b>Trophy & referral</b><span>Share your code. Every 500 people who join earn you a new trophy.</span></span>${ic('right')}</button>`;
 
-V.home = () => ({ nav: 'home', html: header() + `<div class="stories-band">${storiesBlock()}</div>` + heroBlock() + `<div class="home-stack">${seasonCard()}${eventsBlock()}${postersBlock()}${liveVotingBlock()}${servicesBlock()}${duaBlock()}${hadithBlock()}${membersBlock()}${trophyNudge()}</div>` });
+V.home = () => ({ nav: 'home', html: header() + `<div class="stories-band">${storiesBlock()}</div>` + heroBlock() + `<div class="home-stack">${seasonCard()}${postersBlock()}${eventsBlock()}${liveVotingBlock()}${servicesBlock()}${duaBlock()}${hadithBlock()}${membersBlock()}${trophyNudge()}</div>` });
 
 V.campaigns = () => {
   const cats = [['all', 'All', 'heart'], ...Object.entries(CATS).map(([k, c]) => [k, c.label, c.icon])];

@@ -4,7 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Muslim Life Pro Desktop Preview</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
 <style>
 /* Layout: top bar with mode switch; "app" mode = screen list | phone | scope checklist, "admin" mode = sidebar + workspace. Light only, matching the app. */
 :root {
@@ -12,7 +11,7 @@
   --raised: #25cf98; --gold: #e9b52c; --gold-soft: #fff5d6; --ink: #15151f; --ink-2: #3d3d4a; --muted: #85858f;
   --line: #e6e6ec; --bg: #f1f1f5; --card: #ffffff; --chip: #ececf1; --danger: #d9434b; --danger-soft: #fdeaea;
   --amber: #8a5a00; --amber-soft: #fff1d6; --blue: #1f5fbf; --blue-soft: #e3eefc;
-  --font: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   color-scheme: light;
 }
 * { box-sizing: border-box; }
@@ -219,7 +218,7 @@ function toast(m) { document.querySelector('.toast')?.remove(); const t = docume
 
 /* ---------- mobile app in the phone frame ---------- */
 const frame = $('#app-frame');
-frame.srcdoc = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"><style>${$('#app-css').textContent}</style></head><body><div id="app"></div><script>${$('#app-js').textContent}<\/script></body></html>`;
+frame.srcdoc = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><style>${$('#app-css').textContent}</style></head><body><div id="app"></div><script>${$('#app-js').textContent}<\/script></body></html>`;
 const win = () => frame.contentWindow;
 const click = sel => setTimeout(() => win().document.querySelector(sel)?.click(), 120);
 const open = hash => { win().location.hash = hash; };

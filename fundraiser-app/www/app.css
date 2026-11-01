@@ -26,7 +26,8 @@
   --violet: #8a4fd8;
   --danger: #d9434b;
   --wa: #1fae55;
-  --font: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  /* the same system font stack Instagram uses: Roboto on Android, San Francisco on iPhone */
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --logo: var(--font);
   --col: 460px;
   --sat: var(--safe-area-inset-top, env(safe-area-inset-top, 0px));
@@ -879,3 +880,7 @@ a.btn { text-decoration: none; }
 .stories-band .home-sec { padding: 0; }
 .banner-card { margin: 0; border-radius: 0; }
 .stories-band { border-bottom: 0; }
+/* story rings need room for the gold ring and glow inside the scroll row */
+.srings { padding: 8px 8px 6px; margin: -4px -4px 0; }
+/* video back in a rounded card */
+.banner-card { margin: 10px 10px 0; border-radius: 20px; }
