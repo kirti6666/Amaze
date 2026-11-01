@@ -309,7 +309,7 @@ const S = {
   votes: {}, wallet: 500, posts: [], likedPosts: new Set(), compose: { txt: '', file: '', kind: '', promo: false },
   bookings: [], helpReqs: [], profileBadge: null, joins: [], look: { btn: 'classic', text: 'm', saver: false },
   ui: { vote: 'live', pollSel: {}, extra: 1, help: 'legal', lawyerQ: '', home: 'all', cat: 'all', comp: 'done', rate: 'league', rateSub: 'donors', news: 'news', dTab: 'story', q: '', sort: 'urgent', zakatOnly: false },
-  login: { stage: 'details', role: 'donor', name: '', email: '', phone: '', err: {} },
+  login: { stage: 'details', role: 'donor', name: '', email: '', phone: '', err: {}, lang: 'en', interests: ['zakat', 'education'] },
   donate: null,
   draft: null,
   mine: [{ id: 6, status: 'live' }],
@@ -505,7 +505,7 @@ const servicesBlock = () => `<section class="home-sec">${secTitle('Our services'
 const evCard = c => `<div class="ev"><div class="ev-photo" data-go="#/c/${c.id}" style="background-image:url('${c.thumb || c.photo}')"><span>${c.days} days left</span></div>
   <div class="ev-main" data-go="#/c/${c.id}"><span class="ev-tag">${CATS[c.cat].label}</span><b>${esc(c.title)}</b><p>${esc(c.caption)}</p></div>
   <div class="ev-foot"><span class="bar"><i style="width:${pct(c)}%"></i></span><span class="ev-nums"><span><b class="num">${inr(c.raised)}</b> raised</span><span class="num">${pct(c)}% of ${inr(c.goal)}</span></span><button class="btn btn-main" data-go="#/donate/${c.id}">Donate</button></div></div>`;
-const eventsBlock = () => { const A = active().filter(c => c.thumb); return `<section class="home-sec">${secTitle('Fundraiser events', '', `<button class="text-link small" data-go="#/campaigns">See all ${ic('right')}</button>`)}
+const eventsBlock = () => { const want = S.user.interests || [], score = c => (want.includes(c.cat) || (c.zakat && want.includes('zakat')) ? 1 : 0), A = active().filter(c => c.thumb).sort((a, b) => score(b) - score(a)); return `<section class="home-sec">${secTitle('Fundraiser events', '', `<button class="text-link small" data-go="#/campaigns">See all ${ic('right')}</button>`)}
   <div class="ev-track" id="ev-track">${A.map(evCard).join('')}</div><div class="ev-dots" id="ev-dots">${A.map((c, i) => `<i class="${i ? '' : 'on'}"></i>`).join('')}</div></section>`; };
 const POSTERS = [[16, 'img/poster-dua.jpg', 'Dua program: food and gifts for 1 lakh children'], [17, 'img/poster-school.jpg', 'School admission campaign']];
 const postersBlock = () => `<section class="home-sec">${secTitle('Featured campaigns')}<div class="hscroll posters2">${POSTERS.map(([id, src, alt]) => `<button class="poster2" data-go="#/c/${id}"><img src="${src}" alt="${esc(alt)}" loading="lazy"></button>`).join('')}</div></section>`;
@@ -968,17 +968,48 @@ const chandSitare = () => `<div class="decor" aria-hidden="true">${sparkles(SKY)
 
 const onbHero = cls => `<div class="onb-hero ${cls || ''}"><div class="pattern"></div>${chandSitare()}${WORDMARK}</div>`;
 
+// greeting that follows the Islamic calendar and the day of the week
+function seasonGreeting() {
+  let m = 0, d = 0;
+  try { const parts = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', { month: 'numeric', day: 'numeric' }).formatToParts(new Date()); m = +parts.find(x => x.type === 'month').value; d = +parts.find(x => x.type === 'day').value; } catch { /* no Islamic calendar support: plain greeting */ }
+  if (m === 9) return ['رمضان مبارك', 'Ramadan Mubarak'];
+  if (m === 10 && d <= 3) return ['عيد مبارك', 'Eid Mubarak'];
+  if (m === 12 && d >= 10 && d <= 13) return ['عيد الأضحى مبارك', 'Eid al-Adha Mubarak'];
+  if (m === 1 && d <= 10) return ['عام هجري سعيد', 'Happy Islamic New Year'];
+  if (new Date().getDay() === 5) return ['جمعة مباركة', 'Jumu‘ah Mubarak'];
+  return ['السلام عليكم', 'Assalamu alaikum'];
+}
+
 V.splash = () => {
-  setTimeout(() => location.hash === '#/splash' && replaceRoute(S.signed ? '#/home' : '#/intro'), 1400);
-  return { bare: true, html: `<button class="splash" data-act="splashNext" aria-label="Continue"><div class="pattern"></div>${chandSitare()}${WORDMARK}</button>` };
+  setTimeout(() => location.hash === '#/splash' && replaceRoute(S.signed ? '#/home' : '#/intro'), 3200);
+  return { bare: true, html: `<button class="splash splash2" data-act="splashNext" aria-label="Continue"><div class="pattern"></div>${chandSitare()}
+    <div class="sp-stack"><p class="bismillah" lang="ar" dir="rtl">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p><p class="bis-en">In the name of Allah, the Most Gracious, the Most Merciful</p>
+    <div class="sp-logo">${emblem()}<b>${APP}</b><span>Together for a Better Muslim</span></div></div></button>` };
 };
 
-V.intro = () => ({ bare: true, html: `<div class="onb">${onbHero()}<div class="onb-body">
-  <h1>Assalamu alaikum!</h1>
-  <p class="onb-text">Give Zakat and Sadaqah to verified causes and see where every rupee goes. By tapping “Let’s go” you accept the <a class="text-link" href="#/info/terms" data-go="#/info/terms">Terms of Use</a> and the <a class="text-link" href="#/info/privacy" data-go="#/info/privacy">Privacy Policy</a>.</p>
-  <button class="btn btn-main onb-cta" data-go="#/login">Let’s go</button>
-</div></div>` });
+// three-screen welcome tour; each screen has its own small animation
+const TOUR = [
+  { k: 'trust', t: 'Give Zakat & Sadaqah with trust', d: 'Every campaign and NGO is checked before it goes live. You get an 80G receipt for every gift.' },
+  { k: 'track', t: 'See where every rupee goes', d: 'Follow updates, photos and bills from the people you help, right up to the last rupee.' },
+  { k: 'roses', t: 'Send roses, earn trophies', d: 'Choose winners with roses, share your code and earn trophies as your community grows.' },
+];
+const tourArt = k => k === 'trust' ? `<div class="ta ta-trust"><div class="ta-card c1" style="background-image:url('${PHOTO.school}')"></div><div class="ta-card c2" style="background-image:url('img/fx-ration.jpg')"></div>
+    <span class="ta-badge b1">${ic('verified')} Verified</span><span class="ta-badge b2">${ic('receipt')} 80G receipt</span><span class="ta-heart">${emblem()}</span></div>`
+  : k === 'track' ? `<div class="ta ta-track"><svg class="ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" class="r-bg"/><circle cx="60" cy="60" r="50" class="r-fg"/></svg><b class="ring-n">81%</b><span class="ring-l">funded</span>
+    <ul class="ta-steps"><li>${ic('check')} ₹1,85,000 paid to hospital</li><li>${ic('check')} Bill uploaded</li><li>${ic('check')} Photo update shared</li></ul></div>`
+  : `<div class="ta ta-roses">${[0, 1, 2, 3, 4, 5].map(i => `<span class="fly f${i}">${ROSE(26)}</span>`).join('')}<span class="ta-trophy">${trophyArt(2, 92)}</span></div>`;
 
+V.intro = () => {
+  const i = S.ui.tour || 0, last = i === TOUR.length - 1, [ar, en] = seasonGreeting();
+  return { bare: true, html: `<div class="tour">
+    <div class="tour-top"><span class="greet-chip"><b lang="ar">${ar}</b> · ${en}</span><button class="text-link" data-go="#/login">Skip</button></div>
+    <div class="tour-track" id="tour-track">${TOUR.map((t, k) => `<section class="tour-slide ${k === i ? 'on' : ''}" aria-hidden="${k !== i}">${tourArt(t.k)}<h1>${t.t}</h1><p>${t.d}</p></section>`).join('')}</div>
+    <div class="tour-dots">${TOUR.map((t, k) => `<i class="${k === i ? 'on' : ''}"></i>`).join('')}</div>
+    <div class="tour-foot">${last ? `<button class="btn btn-main btn-block" data-go="#/login">Get started</button><p class="small muted center">By continuing you accept the <a class="text-link" href="#/info/terms" data-go="#/info/terms">Terms</a> and <a class="text-link" href="#/info/privacy" data-go="#/info/privacy">Privacy Policy</a>.</p>`
+      : `<button class="btn btn-main btn-block" data-act="tourNext">Next</button>`}</div></div>` };
+};
+
+const INTERESTS = [['zakat', 'Zakat', 'star'], ['education', 'Education', 'book'], ['masjid', 'Madrasa', 'mosque'], ['medical', 'Medical', 'pulse'], ['legal', 'Legal aid', 'scale'], ['food', 'Food & ration', 'utensils'], ['orphans', 'Orphans', 'baby']];
 V.login = () => {
   const l = S.login, e = l.err || {};
   const err = k => e[k] ? `<span class="err">${e[k]}</span>` : '';
@@ -989,6 +1020,8 @@ V.login = () => {
       <div class="field"><label for="l-name">Full name</label><input class="input ${e.name ? 'bad' : ''}" id="l-name" autocomplete="name" placeholder="Your name" value="${esc(l.name)}" data-model="login.name">${err('name')}</div>
       <div class="field"><label for="l-email">Email</label><input class="input ${e.email ? 'bad' : ''}" id="l-email" type="email" autocomplete="email" placeholder="you@example.com" value="${esc(l.email)}" data-model="login.email">${err('email')}</div>
       <div class="field"><label for="ph">Mobile number</label><div class="phone-in"><input class="input cc" value="+91" aria-label="Country code" readonly><input class="input num ${e.phone ? 'bad' : ''}" id="ph" inputmode="numeric" maxlength="10" autocomplete="tel-national" placeholder="98765 43210" value="${esc(l.phone)}" data-model="login.phone"></div>${err('phone')}</div>
+      <div class="field"><label>App language</label><div class="lang-row">${[['en', 'English'], ['hi', 'हिन्दी'], ['ur', 'اردو']].map(([k, t]) => `<button type="button" class="${l.lang === k ? 'on' : ''}" data-act="lset" data-k="lang" data-v="${k}">${t}</button>`).join('')}</div></div>
+      <div class="field"><label>Causes close to your heart</label><div class="int-row">${INTERESTS.map(([k, t, i]) => `<button type="button" class="${l.interests.includes(k) ? 'on' : ''}" data-act="toggleInterest" data-v="${k}">${ic(i)}${t}</button>`).join('')}</div><span class="hint">We show these first on your Home.</span></div>
     </div>
     <button class="btn btn-main onb-cta" data-act="otp">Continue</button>
     <div class="or">or continue with</div>
@@ -1185,6 +1218,16 @@ setInterval(() => {
   t.scrollTo({ left: ((i + 1) % n) * t.clientWidth, behavior: 'smooth' });
 }, 5000);
 
+// swipe left/right on the welcome tour
+let tourX = null;
+document.addEventListener('touchstart', e => { tourX = e.target.closest('#tour-track') ? e.touches[0].clientX : null; }, { passive: true });
+document.addEventListener('touchend', e => {
+  if (tourX == null) return;
+  const dx = e.changedTouches[0].clientX - tourX; tourX = null;
+  if (Math.abs(dx) < 45) return;
+  S.ui.tour = Math.max(0, Math.min(TOUR.length - 1, (S.ui.tour || 0) + (dx < 0 ? 1 : -1))); rerender();
+}, { passive: true });
+
 /* ---------- router ---------- */
 const app = document.getElementById('app');
 let lastRoute = '';
@@ -1327,6 +1370,8 @@ const A = {
   mylink: () => sheet(`<h2>Your personal link</h2><p class="muted small">Share it anywhere. Donations made through it count toward your Inspirer rank.</p><p style="margin-top:12px;font-weight:700;user-select:all">${SITE}/u/ayesha-khan</p><button class="btn btn-main btn-block" style="margin-top:14px" data-act="copy" data-v="${SITE}/u/ayesha-khan">${ic('link')} Copy link</button>`),
   logout: () => { S.signed = false; try { localStorage.removeItem('mlp-user'); } catch { /* nothing stored */ } S.login = { stage: 'details', role: 'donor', name: '', email: '', phone: '', err: {} }; replaceRoute('#/intro'); },
   splashNext: () => replaceRoute(S.signed ? '#/home' : '#/intro'),
+  tourNext: () => { S.ui.tour = Math.min(TOUR.length - 1, (S.ui.tour || 0) + 1); rerender(); },
+  toggleInterest: el => { const a = S.login.interests, k = el.dataset.v; a.includes(k) ? a.splice(a.indexOf(k), 1) : a.push(k); rerender(); },
   svc: el => { const [k, v] = el.dataset.v.split(/:(.+)/); if (k === 'go') go(v); else if (k === 'camp') go('#/c/' + v); else if (k === 'cat') { S.ui.cat = v; S.ui.home = 'all'; go('#/campaigns'); } else A[v](el); },
   pickCand: el => { S.ui.pollSel[el.dataset.p] = Number(el.dataset.v); rerender(); },
   roseQty: el => { S.ui.extra = Number(el.dataset.v); rerender(); },
@@ -1415,6 +1460,7 @@ const A = {
   enter: () => {
     const l = S.login;
     if (l.name.trim()) { S.user.name = l.name.trim(); S.user.first = S.user.name.split(' ')[0]; }
+    S.user.lang = l.lang; S.user.interests = l.interests.slice();
     if (l.email.trim()) S.user.email = l.email.trim();
     l.stage = 'details'; S.greet = true;
     S.signed = true;

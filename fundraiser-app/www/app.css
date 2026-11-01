@@ -1026,3 +1026,75 @@ a.btn { text-decoration: none; }
 .pc-id span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .pc-id h1 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .rose-fab { bottom: calc(86px + var(--sab)); width: 46px; height: 46px; }
+/* ---------- splash: Bismillah calligraphy, then the logo ---------- */
+.splash2 { color: #fff; }
+.sp-stack { position: relative; z-index: 1; display: grid; justify-items: center; gap: 8px; text-align: center; }
+.bismillah { font-family: "Noto Naskh Arabic", "Amiri", "Scheherazade New", "Traditional Arabic", "Geeza Pro", serif; font-size: 34px; line-height: 1.6; font-weight: 700;
+  background: linear-gradient(100deg, #f7e7a8 0%, #e9b52c 40%, #fff6cf 50%, #e9b52c 60%, #c8901c 100%); background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 0 10px rgb(233 181 44 / 0.45)); clip-path: inset(0 0 0 100%); animation: calli 1.5s cubic-bezier(.5,.1,.3,1) .15s forwards, shine 3s linear 1.6s infinite; }
+@keyframes calli { to { clip-path: inset(0 0 0 0); } }
+@keyframes shine { to { background-position: -150% 0; } }
+.bis-en { font-size: 12.5px; opacity: 0; animation: fadeup .7s ease 1.3s forwards; color: #f5e9c6; max-width: 30ch; }
+.sp-logo { display: grid; justify-items: center; gap: 2px; margin-top: 26px; opacity: 0; animation: logoin .8s cubic-bezier(.2,1.3,.4,1) 1.7s forwards; }
+.sp-logo .emblem { width: 64px; height: 64px; color: #fff; filter: drop-shadow(0 4px 10px rgb(0 40 20 / 0.4)); }
+.sp-logo b { font-size: 24px; font-weight: 800; letter-spacing: -0.02em; }
+.sp-logo span { font-size: 12.5px; opacity: .85; }
+@keyframes fadeup { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes logoin { from { opacity: 0; transform: scale(.7); } to { opacity: 1; transform: none; } }
+/* ---------- welcome tour ---------- */
+.tour { min-height: 100vh; display: flex; flex-direction: column; background: var(--card); padding: 12px 18px calc(18px + var(--sab)); }
+.tour-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.greet-chip { display: inline-flex; align-items: center; gap: 4px; height: 32px; padding: 0 12px; border-radius: 99px; background: var(--brand-soft); color: var(--brand-ink); font-size: 12.5px; font-weight: 600; white-space: nowrap; animation: fadeup .6s ease both; }
+.greet-chip b { font-family: "Noto Naskh Arabic", "Amiri", serif; font-size: 15px; }
+.tour-track { flex: 1; position: relative; margin-top: 8px; }
+.tour-slide { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; text-align: center; opacity: 0; transform: translateX(30px); transition: opacity .45s, transform .45s; pointer-events: none; }
+.tour-slide.on { position: relative; opacity: 1; transform: none; pointer-events: auto; }
+.tour-slide h1 { font-size: 24px; margin-top: 18px; max-width: 18ch; }
+.tour-slide p { color: var(--muted); margin-top: 8px; max-width: 32ch; font-size: 14.5px; line-height: 1.55; }
+.tour-dots { display: flex; justify-content: center; gap: 6px; margin: 14px 0; }
+.tour-dots i { width: 7px; height: 7px; border-radius: 99px; background: var(--soft-line); transition: width .3s; }
+.tour-dots i.on { width: 22px; background: var(--brand); }
+.tour-foot { display: grid; gap: 10px; }
+.ta { position: relative; width: 100%; max-width: 320px; height: 300px; margin-top: 10px; }
+/* slide 1: photo cards with verified and receipt badges popping in */
+.ta-card { position: absolute; width: 58%; aspect-ratio: 3 / 4; border-radius: 22px; background-size: cover; background-position: center; box-shadow: 0 14px 30px rgb(0 0 0 / 0.18); }
+.ta-card.c1 { left: 6%; top: 20px; transform: rotate(-7deg); animation: floaty 5s ease-in-out infinite; }
+.ta-card.c2 { right: 6%; top: 44px; transform: rotate(6deg); animation: floaty 5s ease-in-out -2.5s infinite; }
+@keyframes floaty { 50% { translate: 0 -8px; } }
+.ta-badge { position: absolute; display: inline-flex; align-items: center; gap: 5px; height: 34px; padding: 0 12px; border-radius: 99px; background: var(--card); color: var(--brand-ink); font-weight: 700; font-size: 13px; box-shadow: 0 8px 20px rgb(0 0 0 / 0.14); animation: pop .5s cubic-bezier(.2,1.4,.4,1) both; }
+.ta-badge svg.i { width: 16px; height: 16px; color: var(--brand); }
+.ta-badge.b1 { left: 0; bottom: 46px; animation-delay: .35s; }
+.ta-badge.b2 { right: 0; bottom: 6px; animation-delay: .65s; }
+.ta-heart { position: absolute; left: 50%; top: 4px; width: 56px; height: 56px; margin-left: -28px; border-radius: 50%; background: var(--brand); color: #fff; display: grid; place-items: center; box-shadow: 0 0 0 6px var(--brand-soft); animation: beat 1.6s ease-in-out infinite; z-index: 1; }
+.ta-heart .emblem { width: 32px; height: 32px; }
+@keyframes beat { 15% { transform: scale(1.1); } 30% { transform: scale(1); } 45% { transform: scale(1.06); } 60% { transform: scale(1); } }
+/* slide 2: progress ring fills, steps tick in */
+.ta-track { display: grid; justify-items: center; align-content: start; }
+.ring { width: 150px; height: 150px; transform: rotate(-90deg); }
+.r-bg { fill: none; stroke: var(--chip); stroke-width: 12; }
+.r-fg { fill: none; stroke: var(--brand); stroke-width: 12; stroke-linecap: round; stroke-dasharray: 314; stroke-dashoffset: 314; }
+.tour-slide.on .r-fg { animation: ringfill 1.4s cubic-bezier(.3,.1,.2,1) .2s forwards; }
+@keyframes ringfill { to { stroke-dashoffset: 60; } }
+.ring-n { position: absolute; top: 52px; font-size: 32px; font-weight: 800; color: var(--brand); }
+.ring-l { position: absolute; top: 92px; font-size: 12px; color: var(--muted); }
+.ta-steps { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 8px; text-align: left; }
+.ta-steps li { display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; background: var(--soft); border-radius: 12px; padding: 8px 12px; opacity: 0; }
+.ta-steps li svg.i { width: 16px; height: 16px; color: var(--brand); stroke-width: 3; }
+.tour-slide.on .ta-steps li { animation: fadeup .5s ease forwards; }
+.tour-slide.on .ta-steps li:nth-child(1) { animation-delay: .9s; } .tour-slide.on .ta-steps li:nth-child(2) { animation-delay: 1.2s; } .tour-slide.on .ta-steps li:nth-child(3) { animation-delay: 1.5s; }
+/* slide 3: roses float up around a bouncing trophy */
+.ta-trophy { position: absolute; left: 50%; top: 70px; margin-left: -46px; animation: bounce 2.2s ease-in-out infinite; filter: drop-shadow(0 14px 18px rgb(0 0 0 / 0.22)); }
+@keyframes bounce { 50% { transform: translateY(-12px); } }
+.fly { position: absolute; bottom: 0; opacity: 0; animation: rise 3.6s ease-in infinite; }
+.fly.f0 { left: 12%; animation-delay: 0s; } .fly.f1 { left: 30%; animation-delay: .6s; } .fly.f2 { left: 52%; animation-delay: 1.2s; } .fly.f3 { left: 72%; animation-delay: 1.8s; } .fly.f4 { left: 86%; animation-delay: 2.4s; } .fly.f5 { left: 44%; animation-delay: 3s; }
+@keyframes rise { 0% { opacity: 0; transform: translateY(0) rotate(-10deg) scale(.8); } 15% { opacity: 1; } 100% { opacity: 0; transform: translateY(-260px) rotate(20deg) scale(1.1); } }
+/* sign-up: language and causes */
+.lang-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.lang-row button, .int-row button { height: 38px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--card); font-weight: 600; font-size: 13.5px; }
+.lang-row button.on, .int-row button.on { border-color: var(--brand); background: var(--brand-soft); color: var(--brand-ink); }
+.int-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.int-row button { display: inline-flex; align-items: center; gap: 5px; padding: 0 12px; height: 34px; border-radius: 99px; font-size: 13px; }
+.int-row button svg.i { width: 15px; height: 15px; }
+.onb-body > * { animation: fadeup .5s ease both; }
+@media (prefers-reduced-motion: reduce) { .bismillah { clip-path: none; } .bis-en, .sp-logo, .ta-steps li { opacity: 1; } .r-fg { stroke-dashoffset: 60; } }
+:root.saver .bismillah { clip-path: none; } :root.saver .bis-en, :root.saver .sp-logo, :root.saver .ta-steps li { opacity: 1; } :root.saver .r-fg { stroke-dashoffset: 60; }
